@@ -45,7 +45,7 @@ onready var h_slider = $"%HSlider"
 onready var config_name = $"%ConfigName"
 onready var config_value = $"%ConfigValue"
 
-export(String, "amount", "width","height","steps", "cfg_scale") var config_setting := 'amount' setget set_config_name
+export(String, "amount", "width", "height","steps", "cfg_scale") var config_setting := 'amount' setget set_config_name
 
 func _ready():
 	_adapt_to_config_name()
@@ -60,15 +60,16 @@ func set_config_name(value) -> void:
 	_adapt_to_config_name()
 	
 func _adapt_to_config_name() -> void:
-	if Engine.editor_hint and get_child_count() > 0:
-		# Can't use the onready names as they're not set in the editor
-		$"%ConfigName".text = CONFIG[config_setting].label
-		$"%HSlider".min_value = CONFIG[config_setting].min
-		$"%HSlider".max_value = CONFIG[config_setting].max
-		$"%HSlider".step = CONFIG[config_setting].step
-		$"%HSlider".value = CONFIG[config_setting].default
-		$"%ConfigValue".text = str(CONFIG[config_setting].default)
+	if Engine.editor_hint and get_child_count() == 0:
+		return
+	# Can't use the onready names as they're not set in the editor
+	$"%ConfigName".text = CONFIG[config_setting].label
+	$"%HSlider".min_value = CONFIG[config_setting].min
+	$"%HSlider".max_value = CONFIG[config_setting].max
+	$"%HSlider".step = CONFIG[config_setting].step
+	$"%HSlider".value = CONFIG[config_setting].default
+	$"%ConfigValue".text = str(CONFIG[config_setting].default)
 	
 
 func _on_HSlider_value_changed(value):
-	config_value.text = str(h_slider.value)
+	config_value.text = str(value)

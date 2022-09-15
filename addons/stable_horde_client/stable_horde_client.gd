@@ -15,7 +15,7 @@ export(int) var amount := 1
 # For a server which can generate it
 # Try not to go lower than 512 on both sizes, as 512 is what the model has been trained on.
 export(int,64,1024,64) var width := 512
-export(int,64,1024,64) var length := 512
+export(int,64,1024,64) var height := 512
 # The steps correspond directly to the time it takes to get back your image.
 # Generally there's usually no reason to go above 50 unless you know what you're doing.
 export(int,1,200) var steps := 50
@@ -40,7 +40,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	var imgen_params = {
 		"n": amount,
 		"width": width,
-		"height": length,
+		"height": height,
 		"steps": steps,
 		"sampler_name": sampler_name,
 		"cfg_scale": cfg_scale,

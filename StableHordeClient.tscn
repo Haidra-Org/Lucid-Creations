@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
 [ext_resource path="res://theme/kenneyUI-green.tres" type="Theme" id=4]
 [ext_resource path="res://ConfigSlider.tscn" type="PackedScene" id=5]
 
@@ -16,99 +15,119 @@ script = ExtResource( 1 )
 unique_name_in_owner = true
 script = ExtResource( 2 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MC" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 8.0
 margin_right = -4.0
 margin_bottom = -4.0
-theme = ExtResource( 4 )
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
 
-[node name="Generate" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 1592.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MC"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 1577.0
+margin_bottom = 873.0
+theme = ExtResource( 4 )
+custom_constants/separation = 20
+
+[node name="Generate" type="HBoxContainer" parent="MC/VBoxContainer"]
+margin_right = 1562.0
 margin_bottom = 42.0
 
-[node name="PromptLine" type="LineEdit" parent="VBoxContainer/Generate"]
+[node name="PromptLine" type="LineEdit" parent="MC/VBoxContainer/Generate"]
 unique_name_in_owner = true
-margin_right = 1463.0
+margin_right = 1433.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 placeholder_text = "A horde of cute blue robots with gears on their head."
 
-[node name="GenerateButton" type="Button" parent="VBoxContainer/Generate"]
+[node name="GenerateButton" type="Button" parent="MC/VBoxContainer/Generate"]
 unique_name_in_owner = true
-margin_left = 1467.0
-margin_right = 1592.32
+margin_left = 1437.0
+margin_right = 1562.32
 margin_bottom = 42.251
 text = "Generate"
 
-[node name="MainArea" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 46.0
-margin_right = 1592.0
-margin_bottom = 888.0
+[node name="MainArea" type="HBoxContainer" parent="MC/VBoxContainer"]
+margin_top = 62.0
+margin_right = 1562.0
+margin_bottom = 858.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 20
 
-[node name="ControlsLeft" type="VBoxContainer" parent="VBoxContainer/MainArea"]
-margin_right = 392.0
-margin_bottom = 842.0
+[node name="ControlsLeft" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
+margin_right = 742.0
+margin_bottom = 796.0
 size_flags_horizontal = 3
+custom_constants/separation = 20
 
-[node name="Width" parent="VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
+[node name="Width" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_left = 0.0
-margin_right = 392.0
+margin_right = 742.0
 margin_bottom = 64.0
 config_setting = "width"
 
-[node name="Height" parent="VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
+[node name="Height" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_left = 0.0
-margin_top = 68.0
-margin_right = 392.0
-margin_bottom = 132.0
+margin_top = 84.0
+margin_right = 742.0
+margin_bottom = 148.0
 config_setting = "height"
 
-[node name="Amount" parent="VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
+[node name="ConfigSlider" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_left = 0.0
-margin_top = 136.0
-margin_right = 392.0
-margin_bottom = 200.0
+margin_top = 168.0
+margin_right = 742.0
+margin_bottom = 232.0
+config_setting = "steps"
 
-[node name="Seed" type="LineEdit" parent="VBoxContainer/MainArea/ControlsLeft"]
-margin_top = 204.0
-margin_right = 392.0
-margin_bottom = 243.434
-
-[node name="Display" type="VBoxContainer" parent="VBoxContainer/MainArea"]
+[node name="Amount" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_left = 396.0
-margin_right = 1196.0
-margin_bottom = 842.0
+margin_left = 0.0
+margin_top = 252.0
+margin_right = 742.0
+margin_bottom = 316.0
+
+[node name="SeedLabel" type="Label" parent="MC/VBoxContainer/MainArea/ControlsLeft"]
+margin_top = 336.0
+margin_right = 742.0
+margin_bottom = 354.0
+text = "Seed (blank to randomize)"
+autowrap = true
+
+[node name="Seed" type="LineEdit" parent="MC/VBoxContainer/MainArea/ControlsLeft"]
+unique_name_in_owner = true
+margin_top = 374.0
+margin_right = 742.0
+margin_bottom = 413.434
+
+[node name="Display" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
+unique_name_in_owner = true
+margin_left = 762.0
+margin_right = 1562.0
+margin_bottom = 796.0
 rect_min_size = Vector2( 800, 0 )
 
-[node name="Grid" type="GridContainer" parent="VBoxContainer/MainArea/Display"]
+[node name="Grid" type="GridContainer" parent="MC/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
 margin_right = 800.0
-margin_bottom = 842.0
+margin_bottom = 796.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-columns = 7
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MainArea/Display/Grid"]
-margin_right = 128.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 128, 128 )
-texture = ExtResource( 3 )
-expand = true
-stretch_mode = 6
-
-[node name="ControlsRight" type="VBoxContainer" parent="VBoxContainer/MainArea"]
-margin_left = 1200.0
+[node name="ControlsRight" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
+visible = false
+margin_left = 1216.0
 margin_right = 1592.0
-margin_bottom = 842.0
+margin_bottom = 826.0
 size_flags_horizontal = 3
-
-[connection signal="pressed" from="VBoxContainer/Generate/GenerateButton" to="VBoxContainer" method="_on_Button_pressed"]
+custom_constants/separation = 20
