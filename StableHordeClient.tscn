@@ -62,44 +62,40 @@ size_flags_vertical = 3
 custom_constants/separation = 20
 
 [node name="ControlsLeft" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
-margin_right = 742.0
+margin_right = 342.0
 margin_bottom = 796.0
 size_flags_horizontal = 3
 custom_constants/separation = 20
 
 [node name="Width" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_left = 0.0
-margin_right = 742.0
+margin_right = 342.0
 margin_bottom = 64.0
 config_setting = "width"
 
 [node name="Height" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_left = 0.0
 margin_top = 84.0
-margin_right = 742.0
+margin_right = 342.0
 margin_bottom = 148.0
 config_setting = "height"
 
 [node name="ConfigSlider" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_left = 0.0
 margin_top = 168.0
-margin_right = 742.0
+margin_right = 342.0
 margin_bottom = 232.0
 config_setting = "steps"
 
 [node name="Amount" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_left = 0.0
 margin_top = 252.0
-margin_right = 742.0
+margin_right = 342.0
 margin_bottom = 316.0
 
 [node name="SeedLabel" type="Label" parent="MC/VBoxContainer/MainArea/ControlsLeft"]
 margin_top = 336.0
-margin_right = 742.0
+margin_right = 342.0
 margin_bottom = 354.0
 text = "Seed (blank to randomize)"
 autowrap = true
@@ -107,19 +103,19 @@ autowrap = true
 [node name="Seed" type="LineEdit" parent="MC/VBoxContainer/MainArea/ControlsLeft"]
 unique_name_in_owner = true
 margin_top = 374.0
-margin_right = 742.0
+margin_right = 342.0
 margin_bottom = 413.434
 
 [node name="Display" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
 unique_name_in_owner = true
-margin_left = 762.0
+margin_left = 362.0
 margin_right = 1562.0
 margin_bottom = 796.0
-rect_min_size = Vector2( 800, 0 )
+rect_min_size = Vector2( 1200, 0 )
 
 [node name="Grid" type="GridContainer" parent="MC/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_right = 800.0
+margin_right = 1200.0
 margin_bottom = 796.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

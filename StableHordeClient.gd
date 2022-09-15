@@ -38,9 +38,8 @@ func _on_images_generated(textures_list):
 		grid.add_child(tr)
 
 func _on_viewport_resized() -> void:
-	display.rect_min_size.x = get_viewport().size.x * 0.75
+	display.rect_min_size.x = (get_viewport().size.x - 200) * 0.75
 	display.rect_min_size.y = get_viewport().size.y - 20
-	print([display.rect_min_size.x,display.rect_size.x,get_viewport().size.x,rect_size.x])
 	var grid_min_size = get_grid_min_size()
 	for tr in grid.get_children():
 		tr.rect_min_size = grid_min_size
