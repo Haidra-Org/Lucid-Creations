@@ -1,0 +1,8 @@
+
+# Godot-specific ignores
+.import/
+export.cfg
+*.TMP
+
+# Mono-specific ignores
+.mono/

@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ConfigSlider.gd" type="Script" id=1]
+
+[node name="ConfigSlider" type="VBoxContainer"]
+margin_left = 28.0
+margin_right = 28.0
+margin_bottom = 42.0
+script = ExtResource( 1 )
+
+[node name="Labels" type="HBoxContainer" parent="."]
+margin_right = 207.0
+margin_bottom = 14.0
+
+[node name="ConfigName" type="Label" parent="Labels"]
+unique_name_in_owner = true
+margin_right = 195.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Number of images to generate"
+
+[node name="ConfigValue" type="Label" parent="Labels"]
+unique_name_in_owner = true
+margin_left = 199.0
+margin_right = 207.0
+margin_bottom = 14.0
+text = "1"
+align = 2
+
+[node name="HSlider" type="HSlider" parent="."]
+unique_name_in_owner = true
+margin_top = 18.0
+margin_right = 207.0
+margin_bottom = 34.0
+min_value = 1.0
+max_value = 20.0
+value = 1.0
+
+[connection signal="drag_ended" from="HSlider" to="." method="_on_HSlider_drag_ended"]
+[connection signal="value_changed" from="HSlider" to="." method="_on_HSlider_value_changed"]
