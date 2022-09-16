@@ -3,6 +3,17 @@ extends HTTPRequest
 
 signal images_generated(texture_list)
 
+enum SamplerMethods {
+	k_lms = 0
+	k_heun
+	k_euler
+	k_euler_a
+	k_dpm_2
+	k_dpm_2_a
+	DDIM
+	PLMS
+}
+
 export(String) var prompt = "A horde of cute blue robots with gears on their head"
 # The API key you've generated from https://stablehorde.net/register
 # You can pass either your own key (make sure you encrypt your app)
@@ -81,3 +92,6 @@ func _on_request_completed(_result, response_code, _headers, body):
 		latest_image_textures.append(texture)
 		all_image_textures.append(texture)
 	emit_signal("images_generated",latest_image_textures)
+
+func get_sampler_method_id() -> String:
+	return(SamplerMethods[sampler_name])

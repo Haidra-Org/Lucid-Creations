@@ -10,35 +10,30 @@ const CONFIG := {
 		"min": 1,
 		"max": 20,
 		"step": 1,
-		"default": 1,
 	},
 	"width": {
 		"label": "Width",
 		"min": 64,
 		"max": 1024,
 		"step": 64,
-		"default": 512,
 	},
 	"height": {
 		"label": "Height",
 		"min": 64,
 		"max": 1024,
 		"step": 64,
-		"default": 512,
 	},
 	"steps": {
 		"label": "Sampling Steps",
 		"min": 1,
 		"max": 200,
 		"step": 1,
-		"default": 50,
 	},
 	"cfg_scale": {
 		"label": "Classifier Free Guidance Scale (how strongly the image should follow the prompt)",
 		"min": -40,
 		"max": 0.5,
 		"step": 0.5,
-		"default": 7.5,
 	},
 }
 onready var h_slider = $"%HSlider"
@@ -49,6 +44,10 @@ export(String, "amount", "width", "height","steps", "cfg_scale") var config_sett
 
 func _ready():
 	_adapt_to_config_name()
+
+func set_value(value) -> void:
+	$"%HSlider".value = value
+	$"%ConfigValue".text = str(value)
 
 func _on_HSlider_drag_ended(value_changed):
 	if not value_changed:
@@ -67,9 +66,7 @@ func _adapt_to_config_name() -> void:
 	$"%HSlider".min_value = CONFIG[config_setting].min
 	$"%HSlider".max_value = CONFIG[config_setting].max
 	$"%HSlider".step = CONFIG[config_setting].step
-	$"%HSlider".value = CONFIG[config_setting].default
-	$"%ConfigValue".text = str(CONFIG[config_setting].default)
-	
+
 
 func _on_HSlider_value_changed(value):
 	config_value.text = str(value)

@@ -24,6 +24,10 @@ config/name="Stable-horde-client"
 run/main_scene="res://StableHordeClient.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+globals="*res://globals.gd"
+
 [display]
 
 window/size/width=1600
