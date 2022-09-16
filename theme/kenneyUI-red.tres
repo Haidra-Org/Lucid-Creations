@@ -1,7 +1,12 @@
 [gd_resource type="Theme" load_steps=34 format=2]
 
-[ext_resource path="UIpack_vector.svg" type="Texture" id=1]
-[ext_resource path="kenvector_future.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://theme/UIpack_vector.svg" type="Texture" id=1]
+[ext_resource path="res://theme/gantari/Gantari[wght].ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=31]
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 1 )
@@ -173,11 +178,6 @@ region = Rect2( 1007, 630, 39, 31 )
 texture = ExtResource( 1 )
 region_rect = Rect2( 1051, 317, 4, 100 )
 
-[sub_resource type="DynamicFont" id=31]
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 2 )
-
 [resource]
 default_font = SubResource( 31 )
 Button/colors/font_color = Color( 0, 0, 0, 1 )
@@ -185,7 +185,7 @@ Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
 Button/colors/font_color_hover = Color( 0.34902, 0.34902, 0.34902, 1 )
 Button/colors/font_color_pressed = Color( 0.388235, 0.388235, 0.388235, 1 )
 Button/constants/hseparation = 2
-Button/fonts/font = null
+Button/fonts/font = SubResource( 31 )
 Button/styles/disabled = SubResource( 1 )
 Button/styles/focus = SubResource( 2 )
 Button/styles/hover = SubResource( 3 )
@@ -198,7 +198,7 @@ CheckBox/colors/font_color_hover_pressed = Color( 0.34902, 0.34902, 0.34902, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.388235, 0.388235, 0.388235, 1 )
 CheckBox/constants/check_vadjust = 0
 CheckBox/constants/hseparation = 4
-CheckBox/fonts/font = null
+CheckBox/fonts/font = SubResource( 31 )
 CheckBox/icons/checked = SubResource( 6 )
 CheckBox/icons/radio_checked = SubResource( 7 )
 CheckBox/icons/radio_unchecked = SubResource( 8 )
@@ -216,7 +216,7 @@ CheckButton/colors/font_color_hover_pressed = Color( 0.388235, 0.388235, 0.38823
 CheckButton/colors/font_color_pressed = Color( 0.388235, 0.388235, 0.388235, 1 )
 CheckButton/constants/check_vadjust = 0
 CheckButton/constants/hseparation = 4
-CheckButton/fonts/font = null
+CheckButton/fonts/font = SubResource( 31 )
 CheckButton/icons/off = SubResource( 14 )
 CheckButton/icons/off_disabled = SubResource( 14 )
 CheckButton/icons/on = SubResource( 15 )
@@ -242,7 +242,7 @@ LineEdit/colors/font_color_selected = Color( 0.894118, 0.894118, 0.894118, 1 )
 LineEdit/colors/font_color_uneditable = Color( 0.88, 0.88, 0.88, 0.5 )
 LineEdit/colors/selection_color = Color( 0.909804, 0.415686, 0.0901961, 1 )
 LineEdit/constants/minimum_spaces = 12
-LineEdit/fonts/font = null
+LineEdit/fonts/font = SubResource( 31 )
 LineEdit/icons/clear = null
 LineEdit/styles/focus = SubResource( 18 )
 LineEdit/styles/normal = SubResource( 19 )
@@ -253,7 +253,7 @@ OptionButton/colors/font_color_hover = Color( 0.34902, 0.34902, 0.34902, 1 )
 OptionButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
 OptionButton/constants/arrow_margin = 2
 OptionButton/constants/hseparation = 2
-OptionButton/fonts/font = null
+OptionButton/fonts/font = SubResource( 31 )
 OptionButton/icons/arrow = SubResource( 20 )
 OptionButton/styles/disabled = null
 OptionButton/styles/focus = null
@@ -267,7 +267,7 @@ PopupMenu/colors/font_color_disabled = Color( 0.4, 0.4, 0.4, 0.8 )
 PopupMenu/colors/font_color_hover = Color( 0.388235, 0.388235, 0.388235, 1 )
 PopupMenu/constants/hseparation = 4
 PopupMenu/constants/vseparation = 32
-PopupMenu/fonts/font = null
+PopupMenu/fonts/font = SubResource( 31 )
 PopupMenu/icons/checked = SubResource( 22 )
 PopupMenu/icons/radio_checked = SubResource( 23 )
 PopupMenu/icons/radio_unchecked = SubResource( 24 )
@@ -309,7 +309,7 @@ TextEdit/constants/completion_lines = 7
 TextEdit/constants/completion_max_width = 50
 TextEdit/constants/completion_scroll_width = 3
 TextEdit/constants/line_spacing = 4
-TextEdit/fonts/font = null
+TextEdit/fonts/font = SubResource( 31 )
 TextEdit/icons/fold = null
 TextEdit/icons/folded = null
 TextEdit/icons/space = null
