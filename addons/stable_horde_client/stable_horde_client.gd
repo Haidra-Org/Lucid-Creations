@@ -87,7 +87,11 @@ func _on_request_completed(_result, response_code, _headers, body):
 		if error != OK:
 			push_error("Couldn't load the image.")
 			return
-		var texture = ImageTexture.new()
+		var texture = AIImageTexture.new(
+			prompt,
+			img_dict["seed"],
+			sampler_name,
+			steps)
 		texture.create_from_image(image)
 		latest_image_textures.append(texture)
 		all_image_textures.append(texture)

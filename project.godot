@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "ImageTexture",
+"class": "AIImageTexture",
+"language": "GDScript",
+"path": "res://addons/stable_horde_client/AIImageTexture.gd"
+}, {
 "base": "HTTPRequest",
 "class": "StableHordeClient",
 "language": "GDScript",
 "path": "res://addons/stable_horde_client/stable_horde_client.gd"
 } ]
 _global_script_class_icons={
+"AIImageTexture": "",
 "StableHordeClient": ""
 }
 

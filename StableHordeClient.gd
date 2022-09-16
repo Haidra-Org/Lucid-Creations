@@ -13,6 +13,7 @@ onready var generate_button := $"%GenerateButton"
 onready var sampler_method := $"%SamplerMethod"
 onready var api_key := $"%APIKey"
 onready var api_key_label := $"%APIKeyLabel"
+onready var grid_scroll = $"%GridScroll"
 
 
 func _ready():
@@ -34,6 +35,8 @@ func _ready():
 	_on_viewport_resized()
 
 func _on_GenerateButton_pressed():
+	_on_images_generated(_get_test_images())
+	return
 	for slider_config in [width,height,config_slider,amount]:
 		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
 		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
@@ -49,26 +52,26 @@ func _on_GenerateButton_pressed():
 func _on_images_generated(textures_list):
 	for texture in textures_list:
 		var tr = TextureRect.new()
-		tr.rect_min_size = get_grid_min_size()
+		tr.rect_min_size = Vector2(128,128)
 		tr.expand = true
 		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		tr.texture = texture
 		grid.add_child(tr)
 
 func _on_viewport_resized() -> void:
-	display.rect_min_size.x = (get_viewport().size.x - 200) * 0.75
-	display.rect_min_size.y = get_viewport().size.y - 20
-	var grid_min_size = get_grid_min_size()
-	for tr in grid.get_children():
-		tr.rect_min_size = grid_min_size
-		tr.rect_size = grid_min_size
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - 200) * 0.75
+	grid_scroll.rect_min_size.y = get_viewport().size.y - 20
+#	var grid_min_size = get_grid_min_size()
+#	for tr in grid.get_children():
+#		tr.rect_min_size = grid_min_size
+#		tr.rect_size = grid_min_size
 
 func get_grid_min_size() -> Vector2:
 	var tr_min_size = Vector2(stable_horde_client.width,stable_horde_client.height)
-	if tr_min_size.x > display.rect_min_size.x:
-		tr_min_size.x = display.rect_min_size.x
-	if tr_min_size.y > display.rect_min_size.y:
-		tr_min_size.y = display.rect_min_size.y
+	if tr_min_size.x > grid_scroll.rect_min_size.x:
+		tr_min_size.x = grid_scroll.rect_min_size.x
+	if tr_min_size.y > grid_scroll.rect_min_size.y:
+		tr_min_size.y = grid_scroll.rect_min_size.y
 	return(tr_min_size)
 
 
@@ -86,3 +89,13 @@ func _on_APIKey_text_changed(_new_text):
 		api_key_label.bbcode_text = "API Key = Anonymous [url=register](Register)[/url]"
 	else:
 		api_key_label.bbcode_text = "API Key [url=anonymous](Anonymize?)[/url]"
+
+func _get_test_images(amount = 10) -> Array:
+	var test_array := []
+	for iter in range(amount):
+		var new_seed = str(rand_seed(iter)[0])
+		var new_texture := AIImageTexture.new('Test', new_seed, 'Test', 0)
+		var tex := preload("res://icon.png")
+		new_texture.create_from_image(tex.get_data())
+		test_array.append(new_texture)
+	return(test_array)

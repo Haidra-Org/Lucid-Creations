@@ -145,12 +145,46 @@ margin_right = 1562.0
 margin_bottom = 797.0
 rect_min_size = Vector2( 1200, 0 )
 
-[node name="Grid" type="GridContainer" parent="MC/VBoxContainer/MainArea/Display"]
+[node name="GridScroll" type="ScrollContainer" parent="MC/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
 margin_right = 1200.0
-margin_bottom = 797.0
+
+[node name="Grid" type="GridContainer" parent="MC/VBoxContainer/MainArea/Display/GridScroll"]
+unique_name_in_owner = true
+margin_right = 1200.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+columns = 9
+
+[node name="ImagePrompt" type="Label" parent="MC/VBoxContainer/MainArea/Display"]
+margin_top = 4.0
+margin_right = 1200.0
+margin_bottom = 21.0
+text = "Prompt:"
+autowrap = true
+
+[node name="ImageInfo" type="HBoxContainer" parent="MC/VBoxContainer/MainArea/Display"]
+margin_top = 25.0
+margin_right = 1200.0
+margin_bottom = 42.0
+custom_constants/separation = 50
+
+[node name="ImageSeed" type="Label" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
+margin_right = 35.0
+margin_bottom = 17.0
+text = "Seed"
+
+[node name="ImageWidth" type="Label" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
+margin_left = 85.0
+margin_right = 134.0
+margin_bottom = 17.0
+text = "Width: "
+
+[node name="ImageLength" type="Label" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
+margin_left = 184.0
+margin_right = 238.0
+margin_bottom = 17.0
+text = "Length:"
 
 [node name="ControlsRight" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
 visible = false
