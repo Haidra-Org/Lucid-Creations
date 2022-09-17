@@ -22,3 +22,6 @@ This software is based on the crowdsourced processing power. If you feel the gen
 
 Reminder that you will always have priority on your own GPU, and you will also be accumulating Kudos to give you more priority to the rest of the horde.
 
+# Community
+
+Join us on [Discord](https://discord.gg/3DxrhksKzn)
