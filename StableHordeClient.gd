@@ -26,6 +26,8 @@ onready var save_dir = $"%SaveDir"
 onready var save = $"%Save"
 onready var save_all = $"%SaveAll"
 onready var status_text = $"%StatusText"
+onready var controls_right := $"%ControlsRight"
+onready var controls_left := $"%ControlsLeft"
 
 var grid_textures_size := 128
 
@@ -39,6 +41,7 @@ func _ready():
 	save_all.connect("pressed", self, "_on_save_all_pressed")
 	# warning-ignore:return_value_discarded
 	generate_button.connect("pressed",self,"_on_GenerateButton_pressed")
+	_check_html5()
 	if globals.config.has_section("Parameters"):
 		for key in globals.config.get_section_keys("Parameters"):
 			# Fetch the data for each section.
@@ -214,3 +217,17 @@ func _on_request_failed(error_msg: String) -> void:
 	status_text.text = error_msg
 	status_text.modulate = Color(1,0,0)
 	generate_button.disabled = false
+
+func _check_html5() -> void:
+	if OS.get_name() != "HTML5":
+		return
+	save.hide()
+	save_all.hide()
+	save_dir.hide()
+	controls_right.hide()
+	$"%SaveDirLabel".hide()
+	controls_right.remove_child(status_text)
+	controls_left.add_child(status_text)
+	status_text.text = "Warning: Saving disabled in browser version due to sandboxing. Please download the local executable to save your generations!"
+	status_text.modulate = Color(1,1,0)
+	
