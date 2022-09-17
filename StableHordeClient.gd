@@ -32,6 +32,7 @@ var grid_textures_size := 128
 func _ready():
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("images_generated",self, "_on_images_generated")
+	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("request_failed",self, "_on_request_failed")
 	save_dir.connect("text_entered",self,"_on_savedir_entered")
 	save.connect("pressed", self, "_on_save_pressed")
@@ -70,7 +71,7 @@ func _on_GenerateButton_pressed():
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
 	stable_horde_client.set("sampler_name", sampler_name)
 	globals.set_setting("sampler_name", sampler_name)
-	stable_horde_client.set("api_key", api_key.text)
+	stable_horde_client.set("", api_key.text)
 	globals.set_setting("api_key", api_key.text)
 	if line_edit.text != '':
 		stable_horde_client.prompt = line_edit.text

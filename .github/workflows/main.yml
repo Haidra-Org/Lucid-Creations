@@ -1,0 +1,108 @@
+name: Prepare New Release
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  version_and_release:
+    runs-on: ubuntu-latest
+    name: Export Game
+    needs: ["GUT"]
+    steps:
+    - name: "✔️ Checkout"
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: "📣 Release on push"
+      id: release
+      uses: rymndhng/release-on-push-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        bump_version_scheme: norelease
+        use_github_release_notes: true
+      # Always include the checkout step so that
+      # your project is available for Godot to export
+    - name: "✏️ Generate release changelog"
+      if: ${{ steps.release.outputs.version != '' }}
+      uses: heinrichreimer/github-changelog-generator-action@v2.3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: "💾 Commit new version"
+      if: ${{ steps.release.outputs.version != '' }}
+      run: |
+          sed -i 's/VERSION := ".*"/VERSION := "${{ steps.release.outputs.version }}"/g' ./src/Consts.gd
+          sed -i 's/# Stable-Horde-Client \[.*\]/# Stable-Horde-Client [${{ steps.release.outputs.version }}]/g' README.md
+          git config user.email github-actions@github.com
+          git config user.name github-actions
+          git commit -am 'version incremented'
+          git push
+    - name: "🤖 Export game"
+      if: ${{ steps.release.outputs.version != '' }}
+      uses: firebelley/godot-export@v3.0.0
+      with:
+        godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/3.5/Godot_v3.5-stable_linux_headless.64.zip
+        godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/3.5/Godot_v3.5-stable_export_templates.tpz
+        relative_project_path: ./
+        base_version: "${{ steps.release.outputs.version }}"
+        create_release: false
+        archive_export_output: true
+        export_debug: true
+    - name: "🛠 Prepare files for publishing"
+      if: ${{ steps.release.outputs.version != '' }}
+      shell: bash
+      run: |
+          cp -v /home/runner/.local/share/godot/dist/* .
+          mkdir -p build/StandaloneWindows64
+          mkdir -p build/StandaloneLinux64
+          mkdir -p build/StandaloneMacOS
+          cp '/home/runner/.local/share/godot/builds/LinuxX11/stable-horde-client_Linux.x86_64' .
+          cp '/home/runner/.local/share/godot/builds/LinuxX11/stable-horde-client_Linux.x86_64' build/StandaloneLinux64/
+          cp '/home/runner/.local/share/godot/builds/Windows Desktop/stable-horde-client_Windows.exe' .
+          cp '/home/runner/.local/share/godot/builds/Windows Desktop/stable-horde-client_Windows.exe' build/StandaloneWindows64/
+          cp '/home/runner/.local/share/godot/builds/Mac OSX/stable-horde-client_MacOSX.zip' .
+          cp '/home/runner/.local/share/godot/builds/Mac OSX/stable-horde-client_MacOSX.zip' build/StandaloneMacOS/
+          ls -larth
+    - name: "☢ Upload Windows version to itch.io"
+      if: ${{ steps.release.outputs.version != '' }}
+      uses: josephbmanley/butler-publish-itchio-action@master
+      env:
+        BUTLER_CREDENTIALS: "${{ secrets.BUTLER_CREDENTIALS }}"
+        CHANNEL: windows
+        ITCH_GAME: stable-horde-client
+        ITCH_USER: dbzer0
+        PACKAGE: stable-horde-client_Windows.exe
+        VERSION: "${{ steps.release.outputs.version }}"
+    - name: "🐧 Upload Linux version to itch.io"
+      if: ${{ steps.release.outputs.version != '' }}
+      uses: josephbmanley/butler-publish-itchio-action@master
+      env:
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+        CHANNEL: linux
+        ITCH_GAME: stable-horde-client
+        ITCH_USER: dbzer0
+        PACKAGE: stable-horde-client_Linux.x86_64
+        VERSION: "${{ steps.release.outputs.version }}"
+    - name: "☣ Upload OSX version to itch.io"
+      if: ${{ steps.release.outputs.version != '' }}
+      uses: josephbmanley/butler-publish-itchio-action@master
+      env:
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+        CHANNEL: osx
+        ITCH_GAME: stable-horde-client
+        ITCH_USER: dbzer0
+        PACKAGE: stable-horde-client_MacOSX.zip
+        VERSION: "${{ steps.release.outputs.version }}"
+    - name: "🚀 Upload HTML5 version to itch.io"
+      if: ${{ steps.release.outputs.version != '' }}
+      uses: josephbmanley/butler-publish-itchio-action@master
+      env:
+        BUTLER_CREDENTIALS: "${{ secrets.BUTLER_CREDENTIALS }}"
+        CHANNEL: HTML5
+        ITCH_GAME: stable-horde-client
+        ITCH_USER: dbzer0
+        PACKAGE: HTML5.zip
+        VERSION: "${{ steps.release.outputs.version }}"

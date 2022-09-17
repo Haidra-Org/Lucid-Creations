@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "StableHordeClient",
 "language": "GDScript",
 "path": "res://addons/stable_horde_client/stable_horde_client.gd"
+}, {
+"base": "Reference",
+"class": "ToolConsts",
+"language": "GDScript",
+"path": "res://Consts.gd"
 } ]
 _global_script_class_icons={
 "AIImageTexture": "",
 "GridTextureRect": "",
-"StableHordeClient": ""
+"StableHordeClient": "",
+"ToolConsts": ""
 }
 
 [application]
