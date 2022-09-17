@@ -33,7 +33,7 @@ jobs:
     - name: "💾 Commit new version"
       if: ${{ steps.release.outputs.version != '' }}
       run: |
-          sed -i 's/VERSION := ".*"/VERSION := "${{ steps.release.outputs.version }}"/g' ./src/Consts.gd
+          sed -i 's/VERSION := ".*"/VERSION := "${{ steps.release.outputs.version }}"/g' ./Consts.gd
           sed -i 's/# Stable-Horde-Client \[.*\]/# Stable-Horde-Client [${{ steps.release.outputs.version }}]/g' README.md
           git config user.email github-actions@github.com
           git config user.name github-actions
