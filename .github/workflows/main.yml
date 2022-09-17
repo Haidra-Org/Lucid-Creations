@@ -10,10 +10,9 @@ jobs:
   version_and_release:
     runs-on: ubuntu-latest
     name: Export Game
-    needs: ["GUT"]
     steps:
     - name: "✔️ Checkout"
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: "📣 Release on push"
