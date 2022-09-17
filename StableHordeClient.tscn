@@ -23,11 +23,10 @@ unique_name_in_owner = true
 script = ExtResource( 2 )
 
 [node name="Text2Image" type="MarginContainer" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 27.0
+margin_top = 35.0
 margin_right = -4.0
 margin_bottom = -4.0
 custom_constants/margin_right = 15
@@ -39,7 +38,7 @@ custom_constants/margin_bottom = 15
 margin_left = 15.0
 margin_top = 15.0
 margin_right = 1593.0
-margin_bottom = 854.0
+margin_bottom = 846.0
 custom_constants/separation = 20
 
 [node name="Generate" type="HBoxContainer" parent="Text2Image/VBoxContainer"]
@@ -64,7 +63,7 @@ text = "Generate"
 [node name="MainArea" type="HBoxContainer" parent="Text2Image/VBoxContainer"]
 margin_top = 61.0
 margin_right = 1578.0
-margin_bottom = 839.0
+margin_bottom = 831.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 20
@@ -72,7 +71,7 @@ custom_constants/separation = 20
 [node name="ControlsLeft" type="VBoxContainer" parent="Text2Image/VBoxContainer/MainArea"]
 unique_name_in_owner = true
 margin_right = 192.0
-margin_bottom = 778.0
+margin_bottom = 770.0
 size_flags_horizontal = 3
 custom_constants/separation = 20
 
@@ -152,7 +151,7 @@ clear_button_enabled = true
 unique_name_in_owner = true
 margin_left = 212.0
 margin_right = 1412.0
-margin_bottom = 778.0
+margin_bottom = 770.0
 
 [node name="DisplayFocus" type="TextureRect" parent="Text2Image/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
@@ -166,32 +165,32 @@ stretch_mode = 4
 [node name="GridScroll" type="ScrollContainer" parent="Text2Image/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
 margin_right = 1200.0
-margin_bottom = 694.0
+margin_bottom = 686.0
 rect_min_size = Vector2( 1200, 600 )
 size_flags_vertical = 3
 
 [node name="Grid" type="GridContainer" parent="Text2Image/VBoxContainer/MainArea/Display/GridScroll"]
 unique_name_in_owner = true
 margin_right = 1200.0
-margin_bottom = 694.0
+margin_bottom = 686.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9
 
 [node name="ImagePrompt" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_top = 698.0
+margin_top = 690.0
 margin_right = 1200.0
-margin_bottom = 736.434
+margin_bottom = 728.434
 text = "Prompt:"
 editable = false
 expand_to_text_length = true
 
 [node name="ImageInfo" type="HBoxContainer" parent="Text2Image/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_top = 740.0
+margin_top = 732.0
 margin_right = 1200.0
-margin_bottom = 778.0
+margin_bottom = 770.0
 custom_constants/separation = 50
 
 [node name="ImageSeed" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
@@ -233,7 +232,7 @@ expand_to_text_length = true
 unique_name_in_owner = true
 margin_left = 1432.0
 margin_right = 1578.0
-margin_bottom = 778.0
+margin_bottom = 770.0
 size_flags_horizontal = 3
 custom_constants/separation = 20
 
@@ -279,6 +278,7 @@ margin_bottom = 173.0
 autowrap = true
 
 [node name="Information" type="MarginContainer" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -293,7 +293,7 @@ custom_constants/margin_bottom = 15
 [node name="VBoxContainer" type="VBoxContainer" parent="Information"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 1577.0
+margin_right = 1593.0
 margin_bottom = 846.0
 
 [node name="Version" type="Label" parent="Information/VBoxContainer"]
