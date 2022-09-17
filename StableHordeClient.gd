@@ -76,6 +76,7 @@ func _on_GenerateButton_pressed():
 	globals.set_setting("sampler_name", sampler_name)
 	stable_horde_client.set("", api_key.text)
 	globals.set_setting("api_key", api_key.text)
+	stable_horde_client.set("gen_seed", seed_edit.text)
 	if line_edit.text != '':
 		stable_horde_client.prompt = line_edit.text
 	else:
