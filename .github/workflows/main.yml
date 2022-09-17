@@ -34,8 +34,8 @@ jobs:
       if: ${{ steps.release.outputs.version != '' }}
       run: |
           sed -i 's/VERSION := ".*"/VERSION := "${{ steps.release.outputs.version }}"/g' ./Consts.gd
-          sed -i 's/application/file_version=".*"/application/file_version="${{ steps.release.outputs.version }}"/g' ./export_presets.cfg
-          sed -i 's/application/product_version=".*"/application/product_version="${{ steps.release.outputs.version }}"/g' ./export_presets.cfg
+          sed -i 's/application\/file_version=".*"/application\/file_version="${{ steps.release.outputs.version }}"/g' ./export_presets.cfg
+          sed -i 's/application\/product_version=".*"/application\/product_version="${{ steps.release.outputs.version }}"/g' ./export_presets.cfg
           sed -i 's/# Stable-Horde-Client \[.*\]/# Stable-Horde-Client [${{ steps.release.outputs.version }}]/g' README.md
           git config user.email github-actions@github.com
           git config user.name github-actions
