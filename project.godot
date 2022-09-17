@@ -51,6 +51,7 @@ globals="*res://globals.gd"
 
 window/size/width=1600
 window/size/height=900
+window/stretch/aspect="keep"
 
 [editor_plugins]
 
