@@ -2,6 +2,7 @@ class_name StableHordeClient
 extends HTTPRequest
 
 signal images_generated(texture_list)
+signal request_failed(error_msg)
 
 enum SamplerMethods {
 	k_lms = 0
@@ -42,11 +43,15 @@ export(String) var gen_seed := ''
 var all_image_textures := []
 var latest_image_textures := []
 
+
 func _ready():
 	# warning-ignore:return_value_discarded
 	connect("request_completed",self,"_on_request_completed")
 
 func generate(replacement_prompt := '', replacement_params := {}) -> void:
+	if not is_ready():
+		push_error("Client currently working. Cannot do more than 1 request at a time with the same Stable Horde Client.")
+		return
 	latest_image_textures.clear()
 	var imgen_params = {
 		"n": amount,
@@ -71,13 +76,25 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	var headers = ["Content-Type: application/json"]
 	var error = request("https://stablehorde.net/api/v1/generate/sync", headers, false, HTTPClient.METHOD_POST, body)
 	if error != OK:
-		push_error("Something went wrong when submitting the stable horde request")
+		var error_msg := "Something went wrong when initiating the stable horde request"
+		push_error(error_msg)
+		emit_signal("request_failed",error_msg)
 
 # warning-ignore:unused_argument
 func _on_request_completed(_result, response_code, _headers, body):
+	if response_code == 0:
+			var error_msg := "Stable Horde address cannot be resolved!"
+			push_error(error_msg)
+			emit_signal("request_failed",error_msg)
+			return
 	var json_ret = parse_json(body.get_string_from_utf8())
+	var json_error = json_ret
+	if typeof(json_ret) == TYPE_DICTIONARY:
+		json_error = str(json_ret['message'])
 	if response_code != 200 or typeof(json_ret) == TYPE_STRING:
-			push_error("Error received from the Stable Horde: " + json_ret)
+			var error_msg : String = "Error received from the Stable Horde: " +  json_error
+			push_error(error_msg)
+			emit_signal("request_failed",error_msg)
 			return
 	for img_dict in json_ret:
 		var b64img = img_dict["img"]
@@ -85,7 +102,9 @@ func _on_request_completed(_result, response_code, _headers, body):
 		var image = Image.new()
 		var error = image.load_webp_from_buffer(base64_bytes)
 		if error != OK:
-			push_error("Couldn't load the image.")
+			var error_msg := "Couldn't load the image."
+			push_error(error_msg)
+			emit_signal("request_failed",error_msg)
 			return
 		var texture = AIImageTexture.new(
 			prompt,
@@ -102,3 +121,6 @@ func _on_request_completed(_result, response_code, _headers, body):
 
 func get_sampler_method_id() -> String:
 	return(SamplerMethods[sampler_name])
+
+func is_ready() -> bool:
+	return(get_http_client_status() == HTTPClient.STATUS_DISCONNECTED)

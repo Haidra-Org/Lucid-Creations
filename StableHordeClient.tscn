@@ -44,6 +44,7 @@ unique_name_in_owner = true
 margin_right = 1485.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
+clear_button_enabled = true
 placeholder_text = "A horde of cute blue robots with gears on their head."
 
 [node name="GenerateButton" type="Button" parent="MC/VBoxContainer/Generate"]
@@ -138,6 +139,7 @@ unique_name_in_owner = true
 margin_top = 643.0
 margin_right = 192.0
 margin_bottom = 681.434
+clear_button_enabled = true
 
 [node name="Display" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
 unique_name_in_owner = true
@@ -157,59 +159,68 @@ stretch_mode = 4
 [node name="GridScroll" type="ScrollContainer" parent="MC/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
 margin_right = 1200.0
-margin_bottom = 755.0
+margin_bottom = 713.0
 rect_min_size = Vector2( 1200, 600 )
 size_flags_vertical = 3
 
 [node name="Grid" type="GridContainer" parent="MC/VBoxContainer/MainArea/Display/GridScroll"]
 unique_name_in_owner = true
 margin_right = 1200.0
-margin_bottom = 755.0
+margin_bottom = 713.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9
 
-[node name="ImagePrompt" type="Label" parent="MC/VBoxContainer/MainArea/Display"]
+[node name="ImagePrompt" type="LineEdit" parent="MC/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_top = 759.0
+margin_top = 717.0
 margin_right = 1200.0
-margin_bottom = 776.0
+margin_bottom = 755.434
 text = "Prompt:"
-autowrap = true
+editable = false
+expand_to_text_length = true
 
 [node name="ImageInfo" type="HBoxContainer" parent="MC/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_top = 780.0
+margin_top = 759.0
 margin_right = 1200.0
 margin_bottom = 797.0
 custom_constants/separation = 50
 
-[node name="ImageSeed" type="Label" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
+[node name="ImageSeed" type="LineEdit" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
-margin_right = 35.0
-margin_bottom = 17.0
+margin_right = 90.8655
+margin_bottom = 38.4343
 text = "Seed"
+editable = false
+expand_to_text_length = true
 
-[node name="ImageWidth" type="Label" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
+[node name="ImageWidth" type="LineEdit" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
-margin_left = 85.0
-margin_right = 134.0
-margin_bottom = 17.0
+margin_left = 140.0
+margin_right = 230.866
+margin_bottom = 38.4343
 text = "Width: "
+editable = false
+expand_to_text_length = true
 
-[node name="ImageLength" type="Label" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
+[node name="ImageLength" type="LineEdit" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
-margin_left = 184.0
-margin_right = 238.0
-margin_bottom = 17.0
+margin_left = 280.0
+margin_right = 370.866
+margin_bottom = 38.4343
 text = "Length:"
+editable = false
+expand_to_text_length = true
 
-[node name="ServerName" type="Label" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
+[node name="ServerName" type="LineEdit" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
-margin_left = 288.0
-margin_right = 388.0
-margin_bottom = 17.0
+margin_left = 420.0
+margin_right = 555.865
+margin_bottom = 38.4343
 text = "Server Name:"
+editable = false
+expand_to_text_length = true
 
 [node name="ControlsRight" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
 unique_name_in_owner = true
@@ -252,6 +263,13 @@ margin_right = 146.324
 margin_bottom = 41.251
 size_flags_horizontal = 3
 text = "Save All"
+
+[node name="StatusText" type="Label" parent="MC/VBoxContainer/MainArea/ControlsRight"]
+unique_name_in_owner = true
+margin_top = 156.0
+margin_right = 146.0
+margin_bottom = 173.0
+autowrap = true
 
 [connection signal="meta_clicked" from="MC/VBoxContainer/MainArea/ControlsLeft/APIKeyLabel" to="." method="_on_APIKeyLabel_meta_clicked"]
 [connection signal="text_changed" from="MC/VBoxContainer/MainArea/ControlsLeft/APIKey" to="." method="_on_APIKey_text_changed"]

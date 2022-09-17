@@ -25,12 +25,14 @@ onready var server_name = $"%ServerName"
 onready var save_dir = $"%SaveDir"
 onready var save = $"%Save"
 onready var save_all = $"%SaveAll"
+onready var status_text = $"%StatusText"
 
 var grid_textures_size := 128
 
 func _ready():
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("images_generated",self, "_on_images_generated")
+	stable_horde_client.connect("request_failed",self, "_on_request_failed")
 	save_dir.connect("text_entered",self,"_on_savedir_entered")
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
@@ -70,6 +72,10 @@ func _on_GenerateButton_pressed():
 	globals.set_setting("sampler_name", sampler_name)
 	stable_horde_client.set("api_key", api_key.text)
 	globals.set_setting("api_key", api_key.text)
+	if line_edit.text != '':
+		stable_horde_client.prompt = line_edit.text
+	else:
+		stable_horde_client.prompt = line_edit.placeholder_text
 	close_focus()
 	for child in grid.get_children():
 		child.queue_free()
@@ -77,9 +83,11 @@ func _on_GenerateButton_pressed():
 #	_on_images_generated(_get_test_images())
 #	return
 	## END DEBUG
+	generate_button.disabled = true
 	stable_horde_client.generate(line_edit.text)
 
 func _on_images_generated(textures_list):
+	generate_button.disabled = false
 	for texture in textures_list:
 		var tr := GRID_TEXTURE_RECT.instance()
 		tr.texture = texture
@@ -200,3 +208,8 @@ func _on_save_all_pressed() -> void:
 	var save_dir_path : String = globals.config.get_value("Config", "default_save_dir", "user://")
 	for imgtex in grid.get_children():
 		imgtex.texture.save_in_dir(save_dir_path)
+
+func _on_request_failed(error_msg: String) -> void:
+	status_text.text = error_msg
+	status_text.modulate = Color(1,0,0)
+	generate_button.disabled = false

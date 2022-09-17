@@ -18,6 +18,8 @@ var server_id: String
 # The server name which generated this image
 var server_name: String
 # We store the image data to be able to save it later
+# I can't figure how to get an Image back from an ImageTexture,
+# so I need to store it explicitly
 var image: Image
 
 func _init(

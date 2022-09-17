@@ -30,5 +30,4 @@ func _on_gui_input(event) -> void:
 			emit_signal("right_mouse_mouse_clicked")
 
 func is_highlighted() -> bool:
-	print_debug(highlight.visible)
 	return(highlight.visible)
