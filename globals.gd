@@ -10,8 +10,8 @@ func _ready() -> void:
 
 # Whenever a setting is changed via this function, it also stores it
 # permanently on-disk.
-func set_setting(config_name: String, value) -> void:
-	config.set_value("Parameters", config_name, value)
+func set_setting(config_name: String, value, section := "Parameters") -> void:
+	config.set_value(section, config_name, value)
 	config.save(CONFIG_FILENAME)
 
 # Initiates game_settings from the contents of CFConst.SETTINGS_FILENAME

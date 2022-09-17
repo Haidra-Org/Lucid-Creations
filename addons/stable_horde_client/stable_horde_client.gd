@@ -91,7 +91,10 @@ func _on_request_completed(_result, response_code, _headers, body):
 			prompt,
 			img_dict["seed"],
 			sampler_name,
-			steps)
+			img_dict["server_id"],
+			img_dict["server_name"],
+			steps,
+			image)
 		texture.create_from_image(image)
 		latest_image_textures.append(texture)
 		all_image_textures.append(texture)

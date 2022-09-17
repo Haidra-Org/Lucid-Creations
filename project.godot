@@ -32,7 +32,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Stable-horde-client"
+config/name="Stable Horde Client"
 run/main_scene="res://StableHordeClient.tscn"
 config/icon="res://icon.png"
 

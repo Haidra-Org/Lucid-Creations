@@ -21,12 +21,19 @@ onready var image_width = $"%ImageWidth"
 onready var image_length = $"%ImageLength"
 onready var image_prompt = $"%ImagePrompt"
 onready var image_info = $"%ImageInfo"
+onready var server_name = $"%ServerName"
+onready var save_dir = $"%SaveDir"
+onready var save = $"%Save"
+onready var save_all = $"%SaveAll"
 
 var grid_textures_size := 128
 
 func _ready():
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("images_generated",self, "_on_images_generated")
+	save_dir.connect("text_entered",self,"_on_savedir_entered")
+	save.connect("pressed", self, "_on_save_pressed")
+	save_all.connect("pressed", self, "_on_save_all_pressed")
 	# warning-ignore:return_value_discarded
 	generate_button.connect("pressed",self,"_on_GenerateButton_pressed")
 	if globals.config.has_section("Parameters"):
@@ -39,14 +46,22 @@ func _ready():
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
 	sampler_method.select(sampler_method_id)
 	api_key.text = stable_horde_client.api_key
+	var default_save_dir = globals.config.get_value("Config", "default_save_dir", "user://")
+	if default_save_dir == "user://":
+		match OS.get_name():
+			"Windows":
+				save_dir.text = '%APPDATA%\\Godot\\app_userdata\\Stable Horde Client\\'
+			"X11":
+				save_dir.text = '${HOME}/.local/share/godot/app_userdata/Stable Horde Client/'
+	else:
+		save_dir.text = default_save_dir
+
 	# warning-ignore:return_value_discarded
 	get_viewport().connect("size_changed", self, '_on_viewport_resized')
 	_on_APIKey_text_changed('')
 	_on_viewport_resized()
 
 func _on_GenerateButton_pressed():
-#	_on_images_generated(_get_test_images())
-#	return
 	for slider_config in [width,height,config_slider,amount]:
 		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
 		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
@@ -55,10 +70,14 @@ func _on_GenerateButton_pressed():
 	globals.set_setting("sampler_name", sampler_name)
 	stable_horde_client.set("api_key", api_key.text)
 	globals.set_setting("api_key", api_key.text)
-	stable_horde_client.generate(line_edit.text)
 	close_focus()
 	for child in grid.get_children():
 		child.queue_free()
+	## DEBUG
+#	_on_images_generated(_get_test_images())
+#	return
+	## END DEBUG
+	stable_horde_client.generate(line_edit.text)
 
 func _on_images_generated(textures_list):
 	for texture in textures_list:
@@ -78,7 +97,7 @@ func _on_viewport_resized() -> void:
 
 func _sets_size_without_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_EXPAND_FILL
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - 200) * 0.75
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - 500) * 0.75
 	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
 #	grid_scroll.rect_min_size.y = get_viewport().size.y - image_info.rect_size.y - 100
 	grid_scroll.rect_min_size.y = 0
@@ -88,9 +107,9 @@ func _sets_size_without_display_focus() -> void:
 	
 func _sets_size_with_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_FILL
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - 200) * 0.75
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - 500) * 0.75
 	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
-	grid_scroll.rect_min_size.y = 64
+	grid_scroll.rect_min_size.y = 140
 	for tr in grid.get_children():
 		tr.rect_min_size = Vector2(64,64)
 	grid.columns = int(grid_scroll.rect_min_size.x / 64)
@@ -124,9 +143,10 @@ func _get_test_images(n = 10) -> Array:
 	var test_array := []
 	for iter in range(n):
 		var new_seed = str(rand_seed(iter)[0])
-		var new_texture := AIImageTexture.new('Test', new_seed, 'Test', 0)
 		var tex := preload("res://icon.png")
-		new_texture.create_from_image(tex.get_data())
+		var img := tex.get_data()
+		var new_texture := AIImageTexture.new('Test', new_seed, 'Test', "0000", "Test Server", 0, img)
+		new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
 
@@ -135,8 +155,10 @@ func focus_on_image(imagetex: AIImageTexture) -> void:
 	display_focus.texture = imagetex
 	display_focus.show()
 	_fill_in_details(imagetex)
+	save.disabled = false
 
 func close_focus() -> void:
+	save.disabled = true
 	_sets_size_without_display_focus()
 	display_focus.hide()
 
@@ -158,3 +180,23 @@ func _fill_in_details(imagetex: AIImageTexture) -> void:
 	image_seed.text = "Seed: " + imagetex.gen_seed
 	image_width.text = "Width: " + str(imagetex.get_width())
 	image_length.text = "Height: " + str(imagetex.get_height())
+	server_name.text = "Server Name: " + str(imagetex.server_name)
+
+func _on_savedir_entered(path: String) -> void:
+	match path:
+		'%APPDATA%\\Godot\\app_userdata\\Stable Horde Client\\':
+			globals.set_setting('default_save_dir', "user://", "Config")
+		'${HOME}/.local/share/godot/app_userdata/Stable Horde Client/':
+			globals.set_setting('default_save_dir', "user://", "Config")
+		_:
+			globals.set_setting('default_save_dir', path, "Config")
+
+func _on_save_pressed() -> void:
+	_on_savedir_entered(save_dir.text)
+	var save_dir_path : String = globals.config.get_value("Config", "default_save_dir", "user://")
+	display_focus.texture.save_in_dir(save_dir_path)
+
+func _on_save_all_pressed() -> void:
+	var save_dir_path : String = globals.config.get_value("Config", "default_save_dir", "user://")
+	for imgtex in grid.get_children():
+		imgtex.texture.save_in_dir(save_dir_path)

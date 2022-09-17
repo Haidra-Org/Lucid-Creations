@@ -31,102 +31,103 @@ custom_constants/margin_bottom = 15
 [node name="VBoxContainer" type="VBoxContainer" parent="MC"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 1577.0
+margin_right = 1593.0
 margin_bottom = 873.0
 custom_constants/separation = 20
 
 [node name="Generate" type="HBoxContainer" parent="MC/VBoxContainer"]
-margin_right = 1562.0
+margin_right = 1578.0
 margin_bottom = 41.0
 
 [node name="PromptLine" type="LineEdit" parent="MC/VBoxContainer/Generate"]
 unique_name_in_owner = true
-margin_right = 1469.0
+margin_right = 1485.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 placeholder_text = "A horde of cute blue robots with gears on their head."
 
 [node name="GenerateButton" type="Button" parent="MC/VBoxContainer/Generate"]
 unique_name_in_owner = true
-margin_left = 1473.0
-margin_right = 1562.32
+margin_left = 1489.0
+margin_right = 1578.32
 margin_bottom = 41.251
 text = "Generate"
 
 [node name="MainArea" type="HBoxContainer" parent="MC/VBoxContainer"]
 margin_top = 61.0
-margin_right = 1562.0
+margin_right = 1578.0
 margin_bottom = 858.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 20
 
 [node name="ControlsLeft" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
-margin_right = 342.0
+unique_name_in_owner = true
+margin_right = 192.0
 margin_bottom = 797.0
 size_flags_horizontal = 3
 custom_constants/separation = 20
 
 [node name="Width" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_right = 342.0
+margin_right = 192.0
 margin_bottom = 63.0
 config_setting = "width"
 
 [node name="Height" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 83.0
-margin_right = 342.0
+margin_right = 192.0
 margin_bottom = 146.0
 config_setting = "height"
 
 [node name="ConfigSlider" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 166.0
-margin_right = 342.0
+margin_right = 192.0
 margin_bottom = 229.0
 config_setting = "steps"
 
 [node name="Amount" parent="MC/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 249.0
-margin_right = 342.0
-margin_bottom = 312.0
+margin_right = 192.0
+margin_bottom = 332.0
 
 [node name="SamplerMethodLabel" type="Label" parent="MC/VBoxContainer/MainArea/ControlsLeft"]
-margin_top = 332.0
-margin_right = 342.0
-margin_bottom = 369.0
+margin_top = 352.0
+margin_right = 192.0
+margin_bottom = 409.0
 text = "Sampling method (k_lms is default k-diffusion sampler)"
 autowrap = true
 
 [node name="SamplerMethod" type="OptionButton" parent="MC/VBoxContainer/MainArea/ControlsLeft"]
 unique_name_in_owner = true
-margin_top = 389.0
-margin_right = 342.0
-margin_bottom = 430.251
+margin_top = 429.0
+margin_right = 192.0
+margin_bottom = 470.251
 text = "k_lms"
 items = [ "k_lms", null, false, 0, null, "k_heun", null, false, 1, null, "k_euler", null, false, 2, null, "k_euler_a", null, false, 3, null, "k_dpm_2", null, false, 4, null, "k_dpm_2_a", null, false, 5, null, "DDIM", null, false, 6, null, "PLMS", null, false, 7, null ]
 selected = 0
 
 [node name="SeedLabel" type="Label" parent="MC/VBoxContainer/MainArea/ControlsLeft"]
-margin_top = 450.0
-margin_right = 342.0
-margin_bottom = 467.0
+margin_top = 490.0
+margin_right = 192.0
+margin_bottom = 527.0
 text = "Seed (blank to randomize)"
 autowrap = true
 
 [node name="Seed" type="LineEdit" parent="MC/VBoxContainer/MainArea/ControlsLeft"]
 unique_name_in_owner = true
-margin_top = 487.0
-margin_right = 342.0
-margin_bottom = 525.434
+margin_top = 547.0
+margin_right = 192.0
+margin_bottom = 585.434
 
 [node name="APIKeyLabel" type="RichTextLabel" parent="MC/VBoxContainer/MainArea/ControlsLeft"]
 unique_name_in_owner = true
-margin_top = 545.0
-margin_right = 342.0
-margin_bottom = 563.0
+margin_top = 605.0
+margin_right = 192.0
+margin_bottom = 623.0
 bbcode_enabled = true
 bbcode_text = "API Key [url=register](Register)[/url]"
 text = "API Key (Register)"
@@ -134,14 +135,14 @@ fit_content_height = true
 
 [node name="APIKey" type="LineEdit" parent="MC/VBoxContainer/MainArea/ControlsLeft"]
 unique_name_in_owner = true
-margin_top = 583.0
-margin_right = 342.0
-margin_bottom = 621.434
+margin_top = 643.0
+margin_right = 192.0
+margin_bottom = 681.434
 
 [node name="Display" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
 unique_name_in_owner = true
-margin_left = 362.0
-margin_right = 1562.0
+margin_left = 212.0
+margin_right = 1412.0
 margin_bottom = 797.0
 
 [node name="DisplayFocus" type="TextureRect" parent="MC/VBoxContainer/MainArea/Display"]
@@ -203,13 +204,54 @@ margin_right = 238.0
 margin_bottom = 17.0
 text = "Length:"
 
+[node name="ServerName" type="Label" parent="MC/VBoxContainer/MainArea/Display/ImageInfo"]
+unique_name_in_owner = true
+margin_left = 288.0
+margin_right = 388.0
+margin_bottom = 17.0
+text = "Server Name:"
+
 [node name="ControlsRight" type="VBoxContainer" parent="MC/VBoxContainer/MainArea"]
-visible = false
-margin_left = 1216.0
-margin_right = 1592.0
-margin_bottom = 826.0
+unique_name_in_owner = true
+margin_left = 1432.0
+margin_right = 1578.0
+margin_bottom = 797.0
 size_flags_horizontal = 3
 custom_constants/separation = 20
+
+[node name="SaveDirLabel" type="Label" parent="MC/VBoxContainer/MainArea/ControlsRight"]
+margin_right = 146.0
+margin_bottom = 17.0
+text = "Save Directory"
+autowrap = true
+
+[node name="SaveDir" type="LineEdit" parent="MC/VBoxContainer/MainArea/ControlsRight"]
+unique_name_in_owner = true
+margin_top = 37.0
+margin_right = 146.0
+margin_bottom = 75.4343
+
+[node name="SaveButtons" type="HBoxContainer" parent="MC/VBoxContainer/MainArea/ControlsRight"]
+margin_top = 95.0
+margin_right = 146.0
+margin_bottom = 136.0
+custom_constants/separation = 10
+
+[node name="Save" type="Button" parent="MC/VBoxContainer/MainArea/ControlsRight/SaveButtons"]
+unique_name_in_owner = true
+margin_right = 56.3241
+margin_bottom = 41.251
+size_flags_horizontal = 3
+disabled = true
+text = "Save"
+
+[node name="SaveAll" type="Button" parent="MC/VBoxContainer/MainArea/ControlsRight/SaveButtons"]
+unique_name_in_owner = true
+margin_left = 66.0
+margin_right = 146.324
+margin_bottom = 41.251
+size_flags_horizontal = 3
+text = "Save All"
 
 [connection signal="meta_clicked" from="MC/VBoxContainer/MainArea/ControlsLeft/APIKeyLabel" to="." method="_on_APIKeyLabel_meta_clicked"]
 [connection signal="text_changed" from="MC/VBoxContainer/MainArea/ControlsLeft/APIKey" to="." method="_on_APIKey_text_changed"]
