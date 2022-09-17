@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.3.1](https://github.com/db0/Stable-Horde-Client/tree/v0.3.1) (2022-09-17)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.3.0...v0.3.1)
+
+**Merged pull requests:**
+
+- feat: Added infodump [\#10](https://github.com/db0/Stable-Horde-Client/pull/10) ([db0](https://github.com/db0))
+
 ## [v0.3.0](https://github.com/db0/Stable-Horde-Client/tree/v0.3.0) (2022-09-17)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.2.5...v0.3.0)
