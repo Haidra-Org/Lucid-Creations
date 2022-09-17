@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.3.3](https://github.com/db0/Stable-Horde-Client/tree/v0.3.3) (2022-09-17)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.3.2...v0.3.3)
+
+**Merged pull requests:**
+
+- fix: forgot to pass seed [\#12](https://github.com/db0/Stable-Horde-Client/pull/12) ([db0](https://github.com/db0))
+
 ## [v0.3.2](https://github.com/db0/Stable-Horde-Client/tree/v0.3.2) (2022-09-17)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.3.1...v0.3.2)
