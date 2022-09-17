@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.3.0](https://github.com/db0/Stable-Horde-Client/tree/v0.3.0) (2022-09-17)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.2.5...v0.3.0)
+
+**Merged pull requests:**
+
+- Cannot save in browser [\#9](https://github.com/db0/Stable-Horde-Client/pull/9) ([db0](https://github.com/db0))
+
 ## [v0.2.5](https://github.com/db0/Stable-Horde-Client/tree/v0.2.5) (2022-09-17)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.2.4...v0.2.5)
