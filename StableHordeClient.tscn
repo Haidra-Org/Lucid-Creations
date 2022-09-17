@@ -237,6 +237,7 @@ size_flags_horizontal = 3
 custom_constants/separation = 20
 
 [node name="SaveDirLabel" type="Label" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
+unique_name_in_owner = true
 margin_right = 146.0
 margin_bottom = 17.0
 text = "Save Directory"
