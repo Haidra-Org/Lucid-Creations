@@ -1,5 +1,6 @@
 extends TabContainer
 
+const GRID_TEXTURE_RECT = preload("res://GridTextureRect.tscn")
 onready var stable_horde_client := $"%StableHordeClient"
 onready var grid := $"%Grid"
 onready var line_edit := $"%PromptLine"
@@ -14,16 +15,25 @@ onready var sampler_method := $"%SamplerMethod"
 onready var api_key := $"%APIKey"
 onready var api_key_label := $"%APIKeyLabel"
 onready var grid_scroll = $"%GridScroll"
+onready var display_focus = $"%DisplayFocus"
+onready var image_seed = $"%ImageSeed"
+onready var image_width = $"%ImageWidth"
+onready var image_length = $"%ImageLength"
+onready var image_prompt = $"%ImagePrompt"
+onready var image_info = $"%ImageInfo"
 
+var grid_textures_size := 128
 
 func _ready():
+	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("images_generated",self, "_on_images_generated")
+	# warning-ignore:return_value_discarded
 	generate_button.connect("pressed",self,"_on_GenerateButton_pressed")
 	if globals.config.has_section("Parameters"):
 		for key in globals.config.get_section_keys("Parameters"):
 			# Fetch the data for each section.
 			stable_horde_client.set(key, globals.config.get_value("Parameters", key))
-		stable_horde_client.set("sampler_method", globals.config.get_value("Parameters", "sampler_method"))
+		stable_horde_client.set("sampler_name", globals.config.get_value("Parameters", "sampler_name"))
 	for slider_config in [width,height,config_slider,amount]:
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
@@ -35,8 +45,8 @@ func _ready():
 	_on_viewport_resized()
 
 func _on_GenerateButton_pressed():
-	_on_images_generated(_get_test_images())
-	return
+#	_on_images_generated(_get_test_images())
+#	return
 	for slider_config in [width,height,config_slider,amount]:
 		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
 		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
@@ -46,26 +56,45 @@ func _on_GenerateButton_pressed():
 	stable_horde_client.set("api_key", api_key.text)
 	globals.set_setting("api_key", api_key.text)
 	stable_horde_client.generate(line_edit.text)
+	close_focus()
 	for child in grid.get_children():
 		child.queue_free()
 
 func _on_images_generated(textures_list):
 	for texture in textures_list:
-		var tr = TextureRect.new()
-		tr.rect_min_size = Vector2(128,128)
-		tr.expand = true
-		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		var tr := GRID_TEXTURE_RECT.instance()
 		tr.texture = texture
+		# warning-ignore:return_value_discarded
+		tr.connect("left_mouse_mouse_clicked", self, "_on_grid_texture_left_clicked", [tr])
+#		tr.connect("right_mouse_mouse_clicked", self, "_on_grid_texture_right_clicked", [tr])
 		grid.add_child(tr)
 
 func _on_viewport_resized() -> void:
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - 200) * 0.75
-	grid_scroll.rect_min_size.y = get_viewport().size.y - 20
-#	var grid_min_size = get_grid_min_size()
-#	for tr in grid.get_children():
-#		tr.rect_min_size = grid_min_size
-#		tr.rect_size = grid_min_size
+	if not display_focus.visible:
+		_sets_size_without_display_focus()
+	else:
+		_sets_size_with_display_focus()
 
+
+func _sets_size_without_display_focus() -> void:
+	grid_scroll.size_flags_vertical = SIZE_EXPAND_FILL
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - 200) * 0.75
+	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
+#	grid_scroll.rect_min_size.y = get_viewport().size.y - image_info.rect_size.y - 100
+	grid_scroll.rect_min_size.y = 0
+	for tr in grid.get_children():
+		tr.rect_min_size = Vector2(128,128)
+	grid.columns = int(grid_scroll.rect_min_size.x / 128)
+	
+func _sets_size_with_display_focus() -> void:
+	grid_scroll.size_flags_vertical = SIZE_FILL
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - 200) * 0.75
+	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
+	grid_scroll.rect_min_size.y = 64
+	for tr in grid.get_children():
+		tr.rect_min_size = Vector2(64,64)
+	grid.columns = int(grid_scroll.rect_min_size.x / 64)
+	
 func get_grid_min_size() -> Vector2:
 	var tr_min_size = Vector2(stable_horde_client.width,stable_horde_client.height)
 	if tr_min_size.x > grid_scroll.rect_min_size.x:
@@ -78,6 +107,7 @@ func get_grid_min_size() -> Vector2:
 func _on_APIKeyLabel_meta_clicked(meta):
 	match meta:
 		"register":
+			# warning-ignore:return_value_discarded
 			OS.shell_open("https://stablehorde.net/register")
 		"anonymous":
 			api_key.text = "0000000000"
@@ -90,12 +120,41 @@ func _on_APIKey_text_changed(_new_text):
 	else:
 		api_key_label.bbcode_text = "API Key [url=anonymous](Anonymize?)[/url]"
 
-func _get_test_images(amount = 10) -> Array:
+func _get_test_images(n = 10) -> Array:
 	var test_array := []
-	for iter in range(amount):
+	for iter in range(n):
 		var new_seed = str(rand_seed(iter)[0])
 		var new_texture := AIImageTexture.new('Test', new_seed, 'Test', 0)
 		var tex := preload("res://icon.png")
 		new_texture.create_from_image(tex.get_data())
 		test_array.append(new_texture)
 	return(test_array)
+
+func focus_on_image(imagetex: AIImageTexture) -> void:
+	_sets_size_with_display_focus()
+	display_focus.texture = imagetex
+	display_focus.show()
+	_fill_in_details(imagetex)
+
+func close_focus() -> void:
+	_sets_size_without_display_focus()
+	display_focus.hide()
+
+func _on_grid_texture_left_clicked(tr: GridTextureRect) -> void:
+	if tr.is_highlighted():
+		close_focus()
+		return
+	focus_on_image(tr.texture)
+	clear_all_highlights_except(tr)
+
+func clear_all_highlights_except(exception:GridTextureRect = null) -> void:
+	for tr in grid.get_children():
+		if tr != exception:
+			tr.clear_highlight()
+			print(tr)
+
+func _fill_in_details(imagetex: AIImageTexture) -> void:
+	image_prompt.text = "Prompt: " + imagetex.prompt
+	image_seed.text = "Seed: " + imagetex.gen_seed
+	image_width.text = "Width: " + str(imagetex.get_width())
+	image_length.text = "Height: " + str(imagetex.get_height())
