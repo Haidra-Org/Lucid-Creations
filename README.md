@@ -1,23 +1,19 @@
-# Stable-Horde-Client-Addon
+# Stable-Horde-Client [v0.5.0](CHANGELOG.md)
 
-A Godot addon for using the [Stable Horde](https://stablehorde.net/) from Godot. It allows games to utilize free dynamic image generations using Stable Diffusion on a crowdsourced cluster.
-
-Adding this Plugin will provide you with a StableHordeClient Node and class. This Node provides exported variables to fill in with the kind of generation you want to achieve from Stable Diffusion
+Generate images using the Stable Diffusion AI. This godot program is using the [Godot Stable Horde Client Addon](https://github.com/db0/Stable-Horde-Client-Addon) to take advantage of the [Stable Horde](https://stablehorde.net/).
 
 # API Key
 
-While you can use this plugin anonymously, by using the api_key '0000000000', depending on the load on the horde, this can take a while. If you [generate a unique api_key for yourself](https://stablehorde.net/register) you can use it to join the horde with your own PC and receive kudos for generating for others, which will increase your priority on the horde.
+While you can use this software anonymously, by using the api_key '0000000000', depending on the load on the horde, this can take a while. If you [generate a unique api_key for yourself](https://stablehorde.net/register) you can use it to join the horde with your own PC and receive kudos for generating for others, which will increase your priority on the horde.
 
 # Generating
 
-When you call the generate function, it will use the exported variables you've provided to send the generation to the Stable Horde and wait for the reply.
+Type your prompt on the top and press generate. If you're looking for ideas, take a look at [lexica.art](https://lexica.art/)
 
-You can also send an ad-hoc bypass prompt or parameters to the generate function, which will override the exported variables. When the generation is complete, The StableHordeClient will convert the image data into textures and send them with its `images_generated` signal. You can afterwards also find them again in its `latest_image_textures` and `all_image_textures` arrays.
+Adjust your Generation setting on the controls side to suit your requirements.
 
-# Demo
+# Contributing
 
-Run this project using the Demo scene. Press the button to keep generating new images into the grid
+This software is based on the crowdsourced processing power. If you feel the generations are taking too long, you can help make them faster by adding your own GPU to to the horde. [This process is more technical](https://github.com/db0/stable-diffusion-webui#installation-instructions-for-windows-linux-or-google-colab) and involves installing python and more steps, but it's certainly doable without too much hassle. 
 
-# To Do
-
-Add the rest of the options for the generations
+Reminder that you will always have priority on your own GPU, and you will also be accumulating Kudos to give you more priority to the rest of the horde.
