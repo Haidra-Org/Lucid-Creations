@@ -29,7 +29,7 @@ onready var status_text = $"%StatusText"
 onready var controls_right := $"%ControlsRight"
 onready var controls_left := $"%ControlsLeft"
 
-var grid_textures_size := 128
+var controls_width := 500
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -109,7 +109,7 @@ func _on_viewport_resized() -> void:
 
 func _sets_size_without_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_EXPAND_FILL
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - 500) * 0.75
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls_width) * 0.75
 	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
 #	grid_scroll.rect_min_size.y = get_viewport().size.y - image_info.rect_size.y - 100
 	grid_scroll.rect_min_size.y = 0
@@ -119,7 +119,7 @@ func _sets_size_without_display_focus() -> void:
 	
 func _sets_size_with_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_FILL
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - 500) * 0.75
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls_width) * 0.75
 	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
 	grid_scroll.rect_min_size.y = 140
 	for tr in grid.get_children():
@@ -221,6 +221,7 @@ func _on_request_failed(error_msg: String) -> void:
 func _check_html5() -> void:
 	if OS.get_name() != "HTML5":
 		return
+	controls_width = 200
 	save.hide()
 	save_all.hide()
 	save_dir.hide()

@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
 [ext_resource path="res://theme/kenneyUI-blue.tres" type="Theme" id=3]
+[ext_resource path="res://Infodump.gd" type="Script" id=4]
 [ext_resource path="res://ConfigSlider.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Credits.gd" type="Script" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Label
@@ -23,6 +25,7 @@ unique_name_in_owner = true
 script = ExtResource( 2 )
 
 [node name="Text2Image" type="MarginContainer" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -279,7 +282,6 @@ margin_bottom = 173.0
 autowrap = true
 
 [node name="Information" type="MarginContainer" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -294,14 +296,75 @@ custom_constants/margin_bottom = 15
 [node name="VBoxContainer" type="VBoxContainer" parent="Information"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 1593.0
+margin_right = 1577.0
 margin_bottom = 846.0
+custom_constants/separation = 10
 
-[node name="Version" type="Label" parent="Information/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Information/VBoxContainer"]
 margin_right = 1562.0
+margin_bottom = 17.0
+
+[node name="Title" type="Label" parent="Information/VBoxContainer/HBoxContainer"]
+margin_right = 142.0
+margin_bottom = 17.0
+text = "Stable Horde Client"
+
+[node name="Version" type="Label" parent="Information/VBoxContainer/HBoxContainer"]
+margin_left = 146.0
+margin_right = 207.0
 margin_bottom = 17.0
 text = "Version:"
 script = SubResource( 1 )
 
+[node name="HBC" type="HBoxContainer" parent="Information/VBoxContainer"]
+margin_top = 27.0
+margin_right = 1562.0
+margin_bottom = 831.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBC1" type="VBoxContainer" parent="Information/VBoxContainer/HBC"]
+margin_right = 800.0
+margin_bottom = 804.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Infodump" type="RichTextLabel" parent="Information/VBoxContainer/HBC/VBC1"]
+margin_right = 800.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 800, 0 )
+bbcode_enabled = true
+bbcode_text = "Welcome to Stable Diffusion on Godot!
+
+You can use this software to generate images using AI and then save them to your disk.
+
+Be aware that this software is relying on the Stable Horde crowdsourced cluster, and therefore your speed will depend on how many other people are using this service at the same time"
+text = "Welcome to Stable Diffusion on Godot!
+
+You can use this software to generate images using AI and then save them to your disk.
+
+Be aware that this software is relying on the Stable Horde crowdsourced cluster, and therefore your speed will depend on how many other people are using this service at the same time"
+fit_content_height = true
+scroll_active = false
+script = ExtResource( 4 )
+
+[node name="VBC2" type="VBoxContainer" parent="Information/VBoxContainer/HBC"]
+margin_left = 804.0
+margin_right = 1562.0
+margin_bottom = 804.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Credits" type="RichTextLabel" parent="Information/VBoxContainer/HBC/VBC2"]
+margin_right = 758.0
+margin_bottom = 18.0
+bbcode_enabled = true
+bbcode_text = "Contributors"
+text = "Contributors"
+fit_content_height = true
+script = ExtResource( 6 )
+
 [connection signal="meta_clicked" from="Text2Image/VBoxContainer/MainArea/ControlsLeft/APIKeyLabel" to="." method="_on_APIKeyLabel_meta_clicked"]
 [connection signal="text_changed" from="Text2Image/VBoxContainer/MainArea/ControlsLeft/APIKey" to="." method="_on_APIKey_text_changed"]
+[connection signal="meta_clicked" from="Information/VBoxContainer/HBC/VBC1/Infodump" to="Information/VBoxContainer/HBC/VBC1/Infodump" method="_on_Infodump_meta_clicked"]
+[connection signal="meta_clicked" from="Information/VBoxContainer/HBC/VBC2/Credits" to="Information/VBoxContainer/HBC/VBC2/Credits" method="_on_Credits_meta_clicked"]
