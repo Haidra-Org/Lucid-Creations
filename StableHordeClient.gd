@@ -28,6 +28,10 @@ onready var save_all = $"%SaveAll"
 onready var status_text = $"%StatusText"
 onready var controls_right := $"%ControlsRight"
 onready var controls_left := $"%ControlsLeft"
+onready var generations_processing = $"%GenerationsProcessing"
+onready var generations_done = $"%GenerationsDone"
+onready var eta = $"%ETA"
+onready var _tween = $"%Tween"
 
 var controls_width := 500
 
@@ -36,6 +40,8 @@ func _ready():
 	stable_horde_client.connect("images_generated",self, "_on_images_generated")
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("request_failed",self, "_on_request_failed")
+	# warning-ignore:return_value_discarded
+	stable_horde_client.connect("image_processing",self, "_on_image_process_update")
 	save_dir.connect("text_entered",self,"_on_savedir_entered")
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
@@ -66,7 +72,10 @@ func _ready():
 	get_viewport().connect("size_changed", self, '_on_viewport_resized')
 	_on_APIKey_text_changed('')
 	_on_viewport_resized()
-
+#	var tween2 = create_tween()
+#	print_debug(tween2)
+#	var t = tween2.tween_property(generations_processing, "value", 15, 2)
+#	print_debug(t)
 func _on_GenerateButton_pressed():
 	for slider_config in [width,height,config_slider,amount]:
 		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
@@ -88,11 +97,12 @@ func _on_GenerateButton_pressed():
 #	_on_images_generated(_get_test_images())
 #	return
 	## END DEBUG
-	generate_button.disabled = true
+	generate_button.visible = false
+	eta.visible = true
 	stable_horde_client.generate(line_edit.text)
 
 func _on_images_generated(textures_list):
-	generate_button.disabled = false
+	_reset_input()
 	for texture in textures_list:
 		var tr := GRID_TEXTURE_RECT.instance()
 		tr.texture = texture
@@ -100,6 +110,27 @@ func _on_images_generated(textures_list):
 		tr.connect("left_mouse_mouse_clicked", self, "_on_grid_texture_left_clicked", [tr])
 #		tr.connect("right_mouse_mouse_clicked", self, "_on_grid_texture_right_clicked", [tr])
 		grid.add_child(tr)
+
+func _on_image_process_update(stats: Dictionary) -> void:
+	print_debug(stats)
+	var total_images = stats.finished + stats.waiting + stats.processing
+	generations_processing.max_value = total_images
+	generations_done.max_value = total_images
+	# warning-ignore:return_value_discarded
+	_tween.interpolate_property(generations_processing, 'value', generations_processing.value, stats.finished + stats.processing, 0.9, Tween.TRANS_SINE, Tween.EASE_IN)
+	_tween.interpolate_property(generations_done, 'value', generations_done.value, stats.finished, 1, Tween.TRANS_SINE, Tween.EASE_IN)
+	# warning-ignore:return_value_discarded
+	_tween.start()
+#	if tween and not tween.is_valid():
+#		tween.stop()
+#	if not tween:
+#		tween = create_tween().set_parallel(true)
+#		print_debug(tween)
+#		tween.tween_property(generations_processing, "value", stats.finished + stats.processing, 0.8).set_trans(Tween.TRANS_SINE)
+#		tween.tween_property(generations_done, "value", stats.finished, 1).set_trans(Tween.TRANS_SINE)
+#	tween.set_trans(Tween.TRANS_SINE).start()
+	eta.text = "ETA: " + str(stats.wait_time) + " sec"
+
 
 func _on_viewport_resized() -> void:
 	if not display_focus.visible:
@@ -117,7 +148,7 @@ func _sets_size_without_display_focus() -> void:
 	for tr in grid.get_children():
 		tr.rect_min_size = Vector2(128,128)
 	grid.columns = int(grid_scroll.rect_min_size.x / 128)
-	
+
 func _sets_size_with_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_FILL
 	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls_width) * 0.75
@@ -126,7 +157,7 @@ func _sets_size_with_display_focus() -> void:
 	for tr in grid.get_children():
 		tr.rect_min_size = Vector2(64,64)
 	grid.columns = int(grid_scroll.rect_min_size.x / 64)
-	
+
 func get_grid_min_size() -> Vector2:
 	var tr_min_size = Vector2(stable_horde_client.width,stable_horde_client.height)
 	if tr_min_size.x > grid_scroll.rect_min_size.x:
@@ -217,7 +248,7 @@ func _on_save_all_pressed() -> void:
 func _on_request_failed(error_msg: String) -> void:
 	status_text.text = error_msg
 	status_text.modulate = Color(1,0,0)
-	generate_button.disabled = false
+	_reset_input()
 
 func _check_html5() -> void:
 	if OS.get_name() != "HTML5":
@@ -232,4 +263,14 @@ func _check_html5() -> void:
 	controls_left.add_child(status_text)
 	status_text.text = "Warning: Saving disabled in browser version due to sandboxing. Please download the local executable to save your generations!"
 	status_text.modulate = Color(1,1,0)
-	
+
+func _reset_input() -> void:
+	_tween.interpolate_property(generations_processing, 'value', generations_processing.value, 0, 1, Tween.TRANS_SINE, Tween.EASE_IN)
+	_tween.interpolate_property(generations_done, 'value', generations_done.value, 0, 0.9, Tween.TRANS_SINE, Tween.EASE_IN)
+	# warning-ignore:return_value_discarded
+	_tween.start()
+#	generations_processing.value = 0
+#	generations_done.value = 0
+	generate_button.visible = true
+	eta.visible = false
+	eta.text = "ETA: N/A"

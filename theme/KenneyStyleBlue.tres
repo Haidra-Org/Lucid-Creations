@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=2]
+
+[ext_resource path="res://theme/UIpack_vector.svg" type="Texture" id=1]
+
+[resource]
+texture = ExtResource( 1 )
+region_rect = Rect2( 231.561, 253.25, 160.461, 16.7646 )
+margin_left = 12.5436
+margin_right = 8.78053
+margin_top = 10.0349
+margin_bottom = 21.4009
