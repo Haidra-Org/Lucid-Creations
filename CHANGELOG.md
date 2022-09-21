@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.4.1](https://github.com/db0/Stable-Horde-Client/tree/v0.4.1) (2022-09-21)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.4.0...v0.4.1)
+
+**Merged pull requests:**
+
+- fix: Cannot type [\#14](https://github.com/db0/Stable-Horde-Client/pull/14) ([db0](https://github.com/db0))
+
 ## [v0.4.0](https://github.com/db0/Stable-Horde-Client/tree/v0.4.0) (2022-09-21)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.3.3...v0.4.0)
