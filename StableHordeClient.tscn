@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Infodump.gd" type="Script" id=4]
 [ext_resource path="res://ConfigSlider.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Credits.gd" type="Script" id=6]
+[ext_resource path="res://theme/components/blue_button05.png" type="Texture" id=7]
+[ext_resource path="res://theme/components/grey_button05.png" type="Texture" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Label
@@ -47,13 +49,49 @@ custom_constants/separation = 20
 margin_right = 1578.0
 margin_bottom = 41.0
 
-[node name="PromptLine" type="LineEdit" parent="Text2Image/VBoxContainer/Generate"]
+[node name="PromptCC" type="MarginContainer" parent="Text2Image/VBoxContainer/Generate"]
+unique_name_in_owner = true
+margin_right = 1485.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+
+[node name="PromptLine" type="LineEdit" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1485.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 clear_button_enabled = true
 placeholder_text = "A horde of cute blue robots with gears on their head."
+
+[node name="GenerationsProcessing" type="TextureProgress" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+unique_name_in_owner = true
+margin_right = 1485.0
+margin_bottom = 41.0
+max_value = 20.0
+step = 0.01
+texture_progress = ExtResource( 8 )
+tint_progress = Color( 0.572549, 0.941176, 1, 1 )
+nine_patch_stretch = true
+stretch_margin_left = 6
+stretch_margin_top = 6
+stretch_margin_right = 6
+stretch_margin_bottom = 6
+
+[node name="GenerationsDone" type="TextureProgress" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+unique_name_in_owner = true
+margin_right = 1485.0
+margin_bottom = 41.0
+max_value = 20.0
+step = 0.01
+texture_progress = ExtResource( 7 )
+nine_patch_stretch = true
+stretch_margin_left = 6
+stretch_margin_top = 6
+stretch_margin_right = 6
+stretch_margin_bottom = 6
+
+[node name="Tween" type="Tween" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+unique_name_in_owner = true
 
 [node name="GenerateButton" type="Button" parent="Text2Image/VBoxContainer/Generate"]
 unique_name_in_owner = true
@@ -147,6 +185,7 @@ unique_name_in_owner = true
 margin_top = 643.0
 margin_right = 192.0
 margin_bottom = 681.434
+secret = true
 clear_button_enabled = true
 
 [node name="Display" type="VBoxContainer" parent="Text2Image/VBoxContainer/MainArea"]
@@ -199,7 +238,7 @@ custom_constants/separation = 50
 unique_name_in_owner = true
 margin_right = 90.8655
 margin_bottom = 38.4343
-text = "Seed"
+text = "Seed:"
 editable = false
 expand_to_text_length = true
 
@@ -224,11 +263,11 @@ expand_to_text_length = true
 [node name="ServerName" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
 margin_left = 420.0
-margin_right = 555.865
+margin_right = 1200.0
 margin_bottom = 38.4343
+size_flags_horizontal = 3
 text = "Server Name:"
 editable = false
-expand_to_text_length = true
 
 [node name="ControlsRight" type="VBoxContainer" parent="Text2Image/VBoxContainer/MainArea"]
 unique_name_in_owner = true

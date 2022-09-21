@@ -3,6 +3,7 @@ extends HTTPRequest
 
 signal images_generated(texture_list)
 signal request_failed(error_msg)
+signal image_processing(stats)
 
 enum SamplerMethods {
 	k_lms = 0
@@ -42,6 +43,8 @@ export(String) var gen_seed := ''
 
 var all_image_textures := []
 var latest_image_textures := []
+# The open request UUID to track its status
+var async_request_id : String
 
 
 func _ready():
@@ -74,7 +77,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		submit_dict['prompt'] = replacement_prompt
 	var body = to_json(submit_dict)
 	var headers = ["Content-Type: application/json"]
-	var error = request("https://stablehorde.net/api/v1/generate/sync", headers, false, HTTPClient.METHOD_POST, body)
+	var error = request("https://stablehorde.net/api/latest/generate/async", headers, false, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
@@ -87,16 +90,55 @@ func _on_request_completed(_result, response_code, _headers, body):
 			push_error(error_msg)
 			emit_signal("request_failed",error_msg)
 			return
+	if response_code == 404:
+			var error_msg := "Bad URL. Please contact the developer of this addon"
+			push_error(error_msg)
+			emit_signal("request_failed",error_msg)
+			return
 	var json_ret = parse_json(body.get_string_from_utf8())
 	var json_error = json_ret
-	if typeof(json_ret) == TYPE_DICTIONARY:
+	if typeof(json_ret) == TYPE_DICTIONARY and 'message' in json_ret:
 		json_error = str(json_ret['message'])
+	if typeof(json_ret) == TYPE_NIL:
+		json_error = 'Connection Lost'
 	if response_code != 200 or typeof(json_ret) == TYPE_STRING:
 			var error_msg : String = "Error received from the Stable Horde: " +  json_error
 			push_error(error_msg)
 			emit_signal("request_failed",error_msg)
 			return
-	for img_dict in json_ret:
+	if typeof(json_ret) == TYPE_ARRAY:
+		_extract_images(json_ret)
+		return
+	if 'generations' in json_ret:
+		_extract_images(json_ret['generations'])
+		return
+	if 'id' in json_ret:
+		async_request_id = json_ret['id']
+		check_request_process()
+	if 'done' in json_ret:
+		var are_images_ready := false
+		if json_ret['done']:
+			are_images_ready = true
+		else:
+			emit_signal("image_processing", json_ret)
+		check_request_process(are_images_ready)
+
+func check_request_process(get_images := false) -> void:
+	# We do one check request per second
+	yield(get_tree().create_timer(1), "timeout")
+	var url = "https://stablehorde.net/api/latest/generate/check/" + async_request_id
+	if get_images:
+		url = "https://stablehorde.net/api/latest/generate/prompt/" + async_request_id
+	var error = request(url)
+	if error != OK:
+		var error_msg := "Something went wrong when checking the status of Stable Horde Request:" + async_request_id
+		push_error(error_msg)
+		emit_signal("request_failed",error_msg)
+	
+	
+
+func _extract_images(generations_array: Array) -> void:
+	for img_dict in generations_array:
 		var b64img = img_dict["img"]
 		var base64_bytes = Marshalls.base64_to_raw(b64img)
 		var image = Image.new()
@@ -118,6 +160,7 @@ func _on_request_completed(_result, response_code, _headers, body):
 		latest_image_textures.append(texture)
 		all_image_textures.append(texture)
 	emit_signal("images_generated",latest_image_textures)
+
 
 func get_sampler_method_id() -> String:
 	return(SamplerMethods[sampler_name])
