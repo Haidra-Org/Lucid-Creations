@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -8,6 +8,15 @@
 [ext_resource path="res://Credits.gd" type="Script" id=6]
 [ext_resource path="res://theme/components/blue_button05.png" type="Texture" id=7]
 [ext_resource path="res://theme/components/grey_button05.png" type="Texture" id=8]
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 8 )
+region_rect = Rect2( 0, 0, 195, 49 )
+margin_left = 7.44127
+margin_right = 9.57659
+margin_top = 9.05894
+margin_bottom = 8.60599
+modulate_color = Color( 0.25098, 0.25098, 0.25098, 1 )
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Label
@@ -51,13 +60,13 @@ margin_bottom = 41.0
 
 [node name="PromptCC" type="MarginContainer" parent="Text2Image/VBoxContainer/Generate"]
 unique_name_in_owner = true
-margin_right = 1485.0
+margin_right = 1454.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 
 [node name="PromptLine" type="LineEdit" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
-margin_right = 1485.0
+margin_right = 1454.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 clear_button_enabled = true
@@ -65,7 +74,7 @@ placeholder_text = "A horde of cute blue robots with gears on their head."
 
 [node name="GenerationsProcessing" type="TextureProgress" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
-margin_right = 1485.0
+margin_right = 1454.0
 margin_bottom = 41.0
 max_value = 20.0
 step = 0.01
@@ -79,7 +88,7 @@ stretch_margin_bottom = 6
 
 [node name="GenerationsDone" type="TextureProgress" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
-margin_right = 1485.0
+margin_right = 1454.0
 margin_bottom = 41.0
 max_value = 20.0
 step = 0.01
@@ -95,10 +104,23 @@ unique_name_in_owner = true
 
 [node name="GenerateButton" type="Button" parent="Text2Image/VBoxContainer/Generate"]
 unique_name_in_owner = true
-margin_left = 1489.0
-margin_right = 1578.32
+margin_left = 1458.0
+margin_right = 1578.0
 margin_bottom = 41.251
+rect_min_size = Vector2( 120, 0 )
 text = "Generate"
+
+[node name="ETA" type="Button" parent="Text2Image/VBoxContainer/Generate"]
+unique_name_in_owner = true
+visible = false
+margin_left = 1458.0
+margin_right = 1578.0
+margin_bottom = 41.251
+rect_min_size = Vector2( 120, 0 )
+custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
+custom_styles/disabled = SubResource( 2 )
+disabled = true
+text = "ETA: N/A"
 
 [node name="MainArea" type="HBoxContainer" parent="Text2Image/VBoxContainer"]
 margin_top = 61.0

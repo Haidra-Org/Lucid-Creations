@@ -30,7 +30,7 @@ onready var controls_right := $"%ControlsRight"
 onready var controls_left := $"%ControlsLeft"
 onready var generations_processing = $"%GenerationsProcessing"
 onready var generations_done = $"%GenerationsDone"
-onready var tween :SceneTreeTween
+onready var eta = $"%ETA"
 onready var _tween = $"%Tween"
 
 var controls_width := 500
@@ -97,7 +97,8 @@ func _on_GenerateButton_pressed():
 #	_on_images_generated(_get_test_images())
 #	return
 	## END DEBUG
-	generate_button.disabled = true
+	generate_button.visible = false
+	eta.visible = true
 	stable_horde_client.generate(line_edit.text)
 
 func _on_images_generated(textures_list):
@@ -128,7 +129,7 @@ func _on_image_process_update(stats: Dictionary) -> void:
 #		tween.tween_property(generations_processing, "value", stats.finished + stats.processing, 0.8).set_trans(Tween.TRANS_SINE)
 #		tween.tween_property(generations_done, "value", stats.finished, 1).set_trans(Tween.TRANS_SINE)
 #	tween.set_trans(Tween.TRANS_SINE).start()
-	generate_button.text = "ETA: " + str(stats.wait_time) + " sec"
+	eta.text = "ETA: " + str(stats.wait_time) + " sec"
 
 
 func _on_viewport_resized() -> void:
@@ -270,5 +271,6 @@ func _reset_input() -> void:
 	_tween.start()
 #	generations_processing.value = 0
 #	generations_done.value = 0
-	generate_button.disabled = false
-	generate_button.text = "Generate"
+	generate_button.visible = true
+	eta.visible = false
+	eta.text = "ETA: N/A"
