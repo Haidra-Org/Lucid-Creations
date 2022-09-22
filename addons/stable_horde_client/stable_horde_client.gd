@@ -77,7 +77,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		submit_dict['prompt'] = replacement_prompt
 	var body = to_json(submit_dict)
 	var headers = ["Content-Type: application/json"]
-	var error = request("https://stablehorde.net/api/latest/generate/async", headers, false, HTTPClient.METHOD_POST, body)
+	var error = request("https://stablehorde.net/api/v1/generate/async", headers, false, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
@@ -126,9 +126,9 @@ func _on_request_completed(_result, response_code, _headers, body):
 func check_request_process(get_images := false) -> void:
 	# We do one check request per second
 	yield(get_tree().create_timer(1), "timeout")
-	var url = "https://stablehorde.net/api/latest/generate/check/" + async_request_id
+	var url = "https://stablehorde.net/api/v1/generate/check/" + async_request_id
 	if get_images:
-		url = "https://stablehorde.net/api/latest/generate/prompt/" + async_request_id
+		url = "https://stablehorde.net/api/v1/generate/prompt/" + async_request_id
 	var error = request(url)
 	if error != OK:
 		var error_msg := "Something went wrong when checking the status of Stable Horde Request:" + async_request_id
