@@ -44,7 +44,8 @@ func get_filename() -> String:
 		"prompt": prompt,
 		"gen_seed": gen_seed
 	}
-	return(FILENAME_TEMPLATE.format(fmt))
+	var filename = sanitize_filename(FILENAME_TEMPLATE.format(fmt))
+	return(filename)
 
 func get_dirname() -> String:
 	var fmt := {
@@ -52,7 +53,8 @@ func get_dirname() -> String:
 		"sampler_name": sampler_name,
 		"steps": steps,
 	}
-	return(DIRECTORY_TEMPLATE.format(fmt))
+	var dirname = sanitize_filename(DIRECTORY_TEMPLATE.format(fmt))
+	return(dirname)
 
 func save_in_dir(save_dir_path: String) -> void:
 	var dir = Directory.new()
@@ -72,3 +74,26 @@ func save_in_dir(save_dir_path: String) -> void:
 	dir.make_dir(get_dirname())
 	error = image.save_png(filename)
 	
+static func sanitize_filename(filename: String) -> String:
+	var replace_chars = [
+		'/',
+		'\\',
+		'?',
+		'%',
+		'*',
+		'|',
+		'"',
+		"'",
+		'<',
+		'>',
+		'.',
+		',',
+		';',
+		'=',
+		'(',
+		')',
+		' ',
+	]
+	for c in replace_chars:
+		filename = filename.replace(c,'_')
+	return(filename)
