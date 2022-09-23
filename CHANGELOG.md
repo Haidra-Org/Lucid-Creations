@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.4.3](https://github.com/db0/Stable-Horde-Client/tree/v0.4.3) (2022-09-23)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.4.2...v0.4.3)
+
+**Merged pull requests:**
+
+- filename sanitize [\#17](https://github.com/db0/Stable-Horde-Client/pull/17) ([db0](https://github.com/db0))
+
 ## [v0.4.2](https://github.com/db0/Stable-Horde-Client/tree/v0.4.2) (2022-09-22)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.4.1...v0.4.2)
