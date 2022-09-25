@@ -4,7 +4,7 @@ Generate images using the Stable Diffusion AI. This godot program is using the [
 
 You can download executables or try a demo version on [itch.io](https://dbzer0.itch.io/stable-horde-client)
 
-![Stable Horde Client Preview image](screenshot.png "Stable Horde Client Screenshot 1")
+![Stable Horde Client Preview image](screenshot.png "Stable Horde Client Screenshot 1") 
 
 # API Key
 
