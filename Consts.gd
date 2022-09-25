@@ -1,4 +1,4 @@
 class_name ToolConsts
 extends Reference
 
-const VERSION := "v0.4.3"
+const VERSION := "v0.4.4"

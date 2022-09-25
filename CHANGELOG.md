@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.4.4](https://github.com/db0/Stable-Horde-Client/tree/v0.4.4) (2022-09-25)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.4.3...v0.4.4)
+
+**Merged pull requests:**
+
+- Avoid too long names preventing file saving [\#18](https://github.com/db0/Stable-Horde-Client/pull/18) ([db0](https://github.com/db0))
+
 ## [v0.4.3](https://github.com/db0/Stable-Horde-Client/tree/v0.4.3) (2022-09-23)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.4.2...v0.4.3)
