@@ -161,6 +161,13 @@ func _extract_images(generations_array: Array) -> void:
 		all_image_textures.append(texture)
 	emit_signal("images_generated",latest_image_textures)
 
+#TODO
+func get_generation_properties() -> Dictionary:
+	return({})
+#TODO
+func save_generation_properties_to_file(filepath:String) -> void:
+	pass
+
 
 func get_sampler_method_id() -> String:
 	return(SamplerMethods[sampler_name])

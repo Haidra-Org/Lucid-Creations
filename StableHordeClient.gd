@@ -112,7 +112,7 @@ func _on_images_generated(textures_list):
 		grid.add_child(tr)
 
 func _on_image_process_update(stats: Dictionary) -> void:
-	print_debug(stats)
+#	print_debug(stats)
 	var total_images = stats.finished + stats.waiting + stats.processing
 	generations_processing.max_value = total_images
 	generations_done.max_value = total_images

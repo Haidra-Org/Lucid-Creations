@@ -2,8 +2,8 @@
 class_name AIImageTexture
 extends ImageTexture
 
-const FILENAME_TEMPLATE := "{prompt}_{gen_seed}"
-const DIRECTORY_TEMPLATE := "{prompt}_{sampler_name}_{steps}"
+const FILENAME_TEMPLATE := "{gen_seed}_{prompt}"
+const DIRECTORY_TEMPLATE := "{sampler_name}_{steps}_{prompt}"
 
 # The prompt which generated this image
 var prompt: String
@@ -42,9 +42,9 @@ func _init(
 func get_filename() -> String:
 	var fmt := {
 		"prompt": prompt,
-		"gen_seed": gen_seed
+		"gen_seed": gen_seed,
 	}
-	var filename = sanitize_filename(FILENAME_TEMPLATE.format(fmt))
+	var filename = sanitize_filename(FILENAME_TEMPLATE.format(fmt)).substr(0,100)
 	return(filename)
 
 func get_dirname() -> String:
@@ -53,8 +53,25 @@ func get_dirname() -> String:
 		"sampler_name": sampler_name,
 		"steps": steps,
 	}
-	var dirname = sanitize_filename(DIRECTORY_TEMPLATE.format(fmt))
+	var dirname = sanitize_filename(DIRECTORY_TEMPLATE.format(fmt)).substr(0,100)
 	return(dirname)
+
+func get_full_save_dir_path(save_dir_path: String) -> String:
+	var fmt = {
+		"save_dir_path": save_dir_path,
+		"relative_dir": get_dirname(),
+	}
+	var dirname = "{save_dir_path}/{relative_dir}".format(fmt)
+	return(dirname)
+
+func get_full_filename_path(save_dir_path: String) -> String:
+	var fmt = {
+		"save_dir_path": save_dir_path,
+		"relative_dir": get_dirname(),
+		"filename": get_filename()
+	}
+	var filename = "{save_dir_path}/{relative_dir}/{filename}.png".format(fmt)
+	return(filename)
 
 func save_in_dir(save_dir_path: String) -> void:
 	var dir = Directory.new()
@@ -65,12 +82,7 @@ func save_in_dir(save_dir_path: String) -> void:
 	if error != OK:
 		push_error("Could not create directory: " + save_dir_path)
 		return
-	var fmt = {
-		"save_dir_path": save_dir_path,
-		"relative_dir": get_dirname(),
-		"filename": get_filename()
-	}
-	var filename = "{save_dir_path}/{relative_dir}/{filename}.png".format(fmt)
+	var filename = get_full_filename_path(save_dir_path)
 	dir.make_dir(get_dirname())
 	error = image.save_png(filename)
 	
