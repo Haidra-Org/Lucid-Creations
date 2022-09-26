@@ -25,7 +25,7 @@ export(String) var api_key := '0000000000'
 # How many images following the same prompt to do
 export(int) var amount := 1
 # The exact size of the image to generate. If you put too high, you might have to wait longer
-# For a server which can generate it
+# For a worker which can generate it
 # Try not to go lower than 512 on both sizes, as 512 is what the model has been trained on.
 export(int,64,1024,64) var width := 512
 export(int,64,1024,64) var height := 512
@@ -70,14 +70,13 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		imgen_params[param] = replacement_params[param]
 	var submit_dict = {
 		"prompt": prompt,
-		"api_key": api_key,
 		"params": imgen_params
 	}
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
 	var body = to_json(submit_dict)
-	var headers = ["Content-Type: application/json"]
-	var error = request("https://stablehorde.net/api/v1/generate/async", headers, false, HTTPClient.METHOD_POST, body)
+	var headers = ["Content-Type: application/json", "apikey: " + api_key]
+	var error = request("https://stablehorde.net/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
@@ -101,7 +100,7 @@ func _on_request_completed(_result, response_code, _headers, body):
 		json_error = str(json_ret['message'])
 	if typeof(json_ret) == TYPE_NIL:
 		json_error = 'Connection Lost'
-	if response_code != 200 or typeof(json_ret) == TYPE_STRING:
+	if not response_code in [200, 202] or typeof(json_ret) == TYPE_STRING:
 			var error_msg : String = "Error received from the Stable Horde: " +  json_error
 			push_error(error_msg)
 			emit_signal("request_failed",error_msg)
@@ -126,9 +125,9 @@ func _on_request_completed(_result, response_code, _headers, body):
 func check_request_process(get_images := false) -> void:
 	# We do one check request per second
 	yield(get_tree().create_timer(1), "timeout")
-	var url = "https://stablehorde.net/api/v1/generate/check/" + async_request_id
+	var url = "https://stablehorde.net/api/v2/generate/check/" + async_request_id
 	if get_images:
-		url = "https://stablehorde.net/api/v1/generate/prompt/" + async_request_id
+		url = "https://stablehorde.net/api/v2/generate/status/" + async_request_id
 	var error = request(url)
 	if error != OK:
 		var error_msg := "Something went wrong when checking the status of Stable Horde Request:" + async_request_id
@@ -152,8 +151,8 @@ func _extract_images(generations_array: Array) -> void:
 			prompt,
 			img_dict["seed"],
 			sampler_name,
-			img_dict["server_id"],
-			img_dict["server_name"],
+			img_dict["worker_id"],
+			img_dict["worker_name"],
 			steps,
 			image)
 		texture.create_from_image(image)
