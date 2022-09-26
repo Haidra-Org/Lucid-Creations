@@ -13,10 +13,10 @@ var gen_seed : String
 var sampler_name: String
 # The amount of steps used to generate this image
 var steps: int
-# The server ID which generared this image
-var server_id: String
-# The server name which generated this image
-var server_name: String
+# The worker ID which generared this image
+var worker_id: String
+# The worker name which generated this image
+var worker_name: String
 # We store the image data to be able to save it later
 # I can't figure how to get an Image back from an ImageTexture,
 # so I need to store it explicitly
@@ -26,8 +26,8 @@ func _init(
 		_prompt: String, 
 		_gen_seed: String, 
 		_sampler_name: String, 
-		_server_id: String, 
-		_server_name: String, 
+		_worker_id: String, 
+		_worker_name: String, 
 		_steps: int,
 		_image: Image) -> void:
 	._init()
@@ -35,8 +35,8 @@ func _init(
 	gen_seed = _gen_seed
 	sampler_name = _sampler_name
 	steps = _steps
-	server_name = _server_name
-	server_id = _server_id
+	worker_name = _worker_name
+	worker_id = _worker_id
 	image = _image
 
 func get_filename() -> String:

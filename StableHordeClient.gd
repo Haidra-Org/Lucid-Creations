@@ -21,7 +21,7 @@ onready var image_width = $"%ImageWidth"
 onready var image_length = $"%ImageLength"
 onready var image_prompt = $"%ImagePrompt"
 onready var image_info = $"%ImageInfo"
-onready var server_name = $"%ServerName"
+onready var worker_name = $"%WorkerName"
 onready var save_dir = $"%SaveDir"
 onready var save = $"%Save"
 onready var save_all = $"%SaveAll"
@@ -189,7 +189,7 @@ func _get_test_images(n = 10) -> Array:
 		var new_seed = str(rand_seed(iter)[0])
 		var tex := preload("res://icon.png")
 		var img := tex.get_data()
-		var new_texture := AIImageTexture.new('Test', new_seed, 'Test', "0000", "Test Server", 0, img)
+		var new_texture := AIImageTexture.new('Test', new_seed, 'Test', "0000", "Test worker", 0, img)
 		new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
@@ -224,7 +224,7 @@ func _fill_in_details(imagetex: AIImageTexture) -> void:
 	image_seed.text = "Seed: " + imagetex.gen_seed
 	image_width.text = "Width: " + str(imagetex.get_width())
 	image_length.text = "Height: " + str(imagetex.get_height())
-	server_name.text = "Server Name: " + str(imagetex.server_name)
+	worker_name.text = "Worker Name: " + str(imagetex.worker_name)
 
 func _on_savedir_entered(path: String) -> void:
 	match path:

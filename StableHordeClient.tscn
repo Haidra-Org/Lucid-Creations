@@ -284,7 +284,7 @@ text = "Length:"
 editable = false
 expand_to_text_length = true
 
-[node name="ServerName" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
+[node name="WorkerName" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
 margin_left = 420.0
 margin_right = 1200.0
