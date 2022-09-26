@@ -45,7 +45,9 @@ var all_image_textures := []
 var latest_image_textures := []
 # The open request UUID to track its status
 var async_request_id : String
-
+# We store the params sent to the current generation, then pass them to the AIImageTexture to remember them
+# They are replaced every time a new generation begins
+var imgen_params : Dictionary
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -56,7 +58,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		push_error("Client currently working. Cannot do more than 1 request at a time with the same Stable Horde Client.")
 		return
 	latest_image_textures.clear()
-	var imgen_params = {
+	imgen_params = {
 		"n": amount,
 		"width": width,
 		"height": height,
@@ -149,24 +151,15 @@ func _extract_images(generations_array: Array) -> void:
 			return
 		var texture = AIImageTexture.new(
 			prompt,
+			imgen_params,
 			img_dict["seed"],
-			sampler_name,
 			img_dict["worker_id"],
 			img_dict["worker_name"],
-			steps,
 			image)
 		texture.create_from_image(image)
 		latest_image_textures.append(texture)
 		all_image_textures.append(texture)
 	emit_signal("images_generated",latest_image_textures)
-
-#TODO
-func get_generation_properties() -> Dictionary:
-	return({})
-#TODO
-func save_generation_properties_to_file(filepath:String) -> void:
-	pass
-
 
 func get_sampler_method_id() -> String:
 	return(SamplerMethods[sampler_name])

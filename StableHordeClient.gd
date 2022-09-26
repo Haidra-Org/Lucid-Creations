@@ -189,7 +189,7 @@ func _get_test_images(n = 10) -> Array:
 		var new_seed = str(rand_seed(iter)[0])
 		var tex := preload("res://icon.png")
 		var img := tex.get_data()
-		var new_texture := AIImageTexture.new('Test', new_seed, 'Test', "0000", "Test worker", 0, img)
+		var new_texture := AIImageTexture.new('Test Prompt', {"sampler_name":"Test", "steps":0}, 'TestSeed', 'Test worker', 'Test worker ID', img)
 		new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
