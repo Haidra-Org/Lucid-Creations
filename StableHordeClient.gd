@@ -41,6 +41,8 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("request_failed",self, "_on_request_failed")
 	# warning-ignore:return_value_discarded
+	stable_horde_client.connect("request_warning",self, "_on_request_warning")
+	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("image_processing",self, "_on_image_process_update")
 	save_dir.connect("text_entered",self,"_on_savedir_entered")
 	save.connect("pressed", self, "_on_save_pressed")
@@ -77,6 +79,7 @@ func _ready():
 #	var t = tween2.tween_property(generations_processing, "value", 15, 2)
 #	print_debug(t)
 func _on_GenerateButton_pressed():
+	status_text.text = ''
 	for slider_config in [width,height,config_slider,amount]:
 		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
 		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
@@ -189,7 +192,7 @@ func _get_test_images(n = 10) -> Array:
 		var new_seed = str(rand_seed(iter)[0])
 		var tex := preload("res://icon.png")
 		var img := tex.get_data()
-		var new_texture := AIImageTexture.new('Test Prompt', {"sampler_name":"Test", "steps":0}, 'TestSeed', 'Test worker', 'Test worker ID', img)
+		var new_texture := AIImageTexture.new('Test Prompt', {"sampler_name":"Test", "steps":0}, new_seed, 'Test worker', 'Test worker ID', img)
 		new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
@@ -249,6 +252,10 @@ func _on_request_failed(error_msg: String) -> void:
 	status_text.text = error_msg
 	status_text.modulate = Color(1,0,0)
 	_reset_input()
+
+func _on_request_warning(warning_msg: String) -> void:
+	status_text.text = warning_msg
+	status_text.modulate = Color(0.84,0.47,0)
 
 func _check_html5() -> void:
 	if OS.get_name() != "HTML5":

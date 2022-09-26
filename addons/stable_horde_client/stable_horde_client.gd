@@ -3,6 +3,7 @@ extends HTTPRequest
 
 signal images_generated(texture_list)
 signal request_failed(error_msg)
+signal request_warning(warning_msg)
 signal image_processing(stats)
 
 enum SamplerMethods {
@@ -98,7 +99,7 @@ func _on_request_completed(_result, response_code, _headers, body):
 			return
 	var json_ret = parse_json(body.get_string_from_utf8())
 	var json_error = json_ret
-	if typeof(json_ret) == TYPE_DICTIONARY and 'message' in json_ret:
+	if typeof(json_ret) == TYPE_DICTIONARY and json_ret.has('message'):
 		json_error = str(json_ret['message'])
 	if typeof(json_ret) == TYPE_NIL:
 		json_error = 'Connection Lost'
@@ -107,6 +108,8 @@ func _on_request_completed(_result, response_code, _headers, body):
 			push_error(error_msg)
 			emit_signal("request_failed",error_msg)
 			return
+	if json_ret.has('message'):
+		emit_signal("request_warning", json_ret['message'])
 	if typeof(json_ret) == TYPE_ARRAY:
 		_extract_images(json_ret)
 		return
