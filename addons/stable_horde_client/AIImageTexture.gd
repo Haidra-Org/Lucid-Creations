@@ -21,22 +21,30 @@ var worker_name: String
 # I can't figure how to get an Image back from an ImageTexture,
 # so I need to store it explicitly
 var image: Image
+# The full information about this image
+# We use this to store them to a file
+var attributes: Dictionary
 
 func _init(
 		_prompt: String, 
-		_gen_seed: String, 
-		_sampler_name: String, 
+		_imgen_params: Dictionary, 
+		_gen_seed,
 		_worker_id: String, 
 		_worker_name: String, 
-		_steps: int,
 		_image: Image) -> void:
 	._init()
 	prompt = _prompt
+	attributes = _imgen_params
+	attributes.erase('n')
+	attributes['prompt'] = prompt
 	gen_seed = _gen_seed
-	sampler_name = _sampler_name
-	steps = _steps
+	attributes['seed'] = _gen_seed
+	sampler_name = attributes['sampler_name']
+	steps = attributes['steps']
 	worker_name = _worker_name
+	attributes['worker_name'] = worker_name
 	worker_id = _worker_id
+	attributes['worker_id'] = worker_id
 	image = _image
 
 func get_filename() -> String:
@@ -64,13 +72,14 @@ func get_full_save_dir_path(save_dir_path: String) -> String:
 	var dirname = "{save_dir_path}/{relative_dir}".format(fmt)
 	return(dirname)
 
-func get_full_filename_path(save_dir_path: String) -> String:
+func get_full_filename_path(save_dir_path: String, extension = "png") -> String:
 	var fmt = {
 		"save_dir_path": save_dir_path,
 		"relative_dir": get_dirname(),
-		"filename": get_filename()
+		"filename": get_filename(),
+		"extension": extension,
 	}
-	var filename = "{save_dir_path}/{relative_dir}/{filename}.png".format(fmt)
+	var filename = "{save_dir_path}/{relative_dir}/{filename}.{extension}".format(fmt)
 	return(filename)
 
 func save_in_dir(save_dir_path: String) -> void:
@@ -85,6 +94,14 @@ func save_in_dir(save_dir_path: String) -> void:
 	var filename = get_full_filename_path(save_dir_path)
 	dir.make_dir(get_dirname())
 	error = image.save_png(filename)
+	save_attributes_to_file(get_full_filename_path(save_dir_path, "json"))
+
+# This assumes the parent directory has been created already
+func save_attributes_to_file(filepath:String) -> void:
+	var file = File.new()
+	file.open(filepath, File.WRITE)
+	file.store_string(JSON.print(attributes, '\t'))
+	file.close()
 	
 static func sanitize_filename(filename: String) -> String:
 	var replace_chars = [
