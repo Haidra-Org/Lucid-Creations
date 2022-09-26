@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.5.0](https://github.com/db0/Stable-Horde-Client/tree/v0.5.0) (2022-09-26)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.4.5...v0.5.0)
+
+**Merged pull requests:**
+
+- now stores metadata along with each image [\#20](https://github.com/db0/Stable-Horde-Client/pull/20) ([db0](https://github.com/db0))
+
 ## [v0.4.5](https://github.com/db0/Stable-Horde-Client/tree/v0.4.5) (2022-09-26)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.4.4...v0.4.5)
