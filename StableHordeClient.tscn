@@ -16,7 +16,7 @@ margin_left = 7.44127
 margin_right = 9.57659
 margin_top = 9.05894
 margin_bottom = 8.60599
-modulate_color = Color( 0.25098, 0.25098, 0.25098, 1 )
+modulate_color = Color( 0.368627, 0, 0.137255, 1 )
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Label
@@ -72,6 +72,12 @@ size_flags_horizontal = 3
 clear_button_enabled = true
 placeholder_text = "A horde of cute blue robots with gears on their head."
 
+[node name="PromptCover" type="ColorRect" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+unique_name_in_owner = true
+visible = false
+margin_right = 1454.0
+margin_bottom = 41.0
+
 [node name="GenerationsProcessing" type="TextureProgress" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1454.0
@@ -101,6 +107,17 @@ stretch_margin_top = 6
 stretch_margin_right = 6
 stretch_margin_bottom = 6
 
+[node name="ProgressText" type="Label" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+unique_name_in_owner = true
+visible = false
+margin_top = 12.0
+margin_right = 1454.0
+margin_bottom = 29.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+text = "0 Done. 1 Processing. 3 Waiting. ETA 100 Sec"
+align = 1
+
 [node name="Tween" type="Tween" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 
@@ -112,7 +129,7 @@ margin_bottom = 41.251
 rect_min_size = Vector2( 120, 0 )
 text = "Generate"
 
-[node name="ETA" type="Button" parent="Text2Image/VBoxContainer/Generate"]
+[node name="CancelButton" type="Button" parent="Text2Image/VBoxContainer/Generate"]
 unique_name_in_owner = true
 visible = false
 margin_left = 1458.0
@@ -121,8 +138,7 @@ margin_bottom = 41.251
 rect_min_size = Vector2( 120, 0 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_styles/disabled = SubResource( 2 )
-disabled = true
-text = "ETA: N/A"
+text = "Cancel"
 
 [node name="MainArea" type="HBoxContainer" parent="Text2Image/VBoxContainer"]
 margin_top = 61.0

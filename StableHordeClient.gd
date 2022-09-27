@@ -30,8 +30,10 @@ onready var controls_right := $"%ControlsRight"
 onready var controls_left := $"%ControlsLeft"
 onready var generations_processing = $"%GenerationsProcessing"
 onready var generations_done = $"%GenerationsDone"
-onready var eta = $"%ETA"
+onready var cancel_button = $"%CancelButton"
 onready var _tween = $"%Tween"
+onready var progress_text = $"%ProgressText"
+onready var prompt_cover = $"%PromptCover"
 
 var controls_width := 500
 
@@ -41,12 +43,16 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("request_failed",self, "_on_request_failed")
 	# warning-ignore:return_value_discarded
+	stable_horde_client.connect("request_warning",self, "_on_request_warning")
+	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("image_processing",self, "_on_image_process_update")
 	save_dir.connect("text_entered",self,"_on_savedir_entered")
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
 	# warning-ignore:return_value_discarded
 	generate_button.connect("pressed",self,"_on_GenerateButton_pressed")
+	# warning-ignore:return_value_discarded
+	cancel_button.connect("pressed",self,"_on_CancelButton_pressed")
 	_check_html5()
 	if globals.config.has_section("Parameters"):
 		for key in globals.config.get_section_keys("Parameters"):
@@ -76,7 +82,10 @@ func _ready():
 #	print_debug(tween2)
 #	var t = tween2.tween_property(generations_processing, "value", 15, 2)
 #	print_debug(t)
+
+
 func _on_GenerateButton_pressed():
+	status_text.text = ''
 	for slider_config in [width,height,config_slider,amount]:
 		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
 		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
@@ -98,8 +107,15 @@ func _on_GenerateButton_pressed():
 #	return
 	## END DEBUG
 	generate_button.visible = false
-	eta.visible = true
+	cancel_button.visible = true
+	prompt_cover.visible = true
+	progress_text.visible = true
 	stable_horde_client.generate(line_edit.text)
+
+
+func _on_CancelButton_pressed():
+	progress_text.text = "Cancelling request..."
+	stable_horde_client.cancel_request()
 
 func _on_images_generated(textures_list):
 	_reset_input()
@@ -129,7 +145,13 @@ func _on_image_process_update(stats: Dictionary) -> void:
 #		tween.tween_property(generations_processing, "value", stats.finished + stats.processing, 0.8).set_trans(Tween.TRANS_SINE)
 #		tween.tween_property(generations_done, "value", stats.finished, 1).set_trans(Tween.TRANS_SINE)
 #	tween.set_trans(Tween.TRANS_SINE).start()
-	eta.text = "ETA: " + str(stats.wait_time) + " sec"
+	var stats_format = {
+		"waiting": stats.waiting,
+		"finished": stats.finished,
+		"processing":  + stats.processing,
+		"eta": str(stats.wait_time)
+	}
+	progress_text.text = " {waiting} Waiting. {processing} Processing. {finished} Finished. ETA {eta} sec".format(stats_format)
 
 
 func _on_viewport_resized() -> void:
@@ -189,7 +211,7 @@ func _get_test_images(n = 10) -> Array:
 		var new_seed = str(rand_seed(iter)[0])
 		var tex := preload("res://icon.png")
 		var img := tex.get_data()
-		var new_texture := AIImageTexture.new('Test Prompt', {"sampler_name":"Test", "steps":0}, 'TestSeed', 'Test worker', 'Test worker ID', img)
+		var new_texture := AIImageTexture.new('Test Prompt', {"sampler_name":"Test", "steps":0}, new_seed, 'Test worker', 'Test worker ID', img)
 		new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
@@ -250,6 +272,10 @@ func _on_request_failed(error_msg: String) -> void:
 	status_text.modulate = Color(1,0,0)
 	_reset_input()
 
+func _on_request_warning(warning_msg: String) -> void:
+	status_text.text = warning_msg
+	status_text.modulate = Color(0.84,0.47,0)
+
 func _check_html5() -> void:
 	if OS.get_name() != "HTML5":
 		return
@@ -272,5 +298,7 @@ func _reset_input() -> void:
 #	generations_processing.value = 0
 #	generations_done.value = 0
 	generate_button.visible = true
-	eta.visible = false
-	eta.text = "ETA: N/A"
+	cancel_button.visible = false
+	progress_text.visible = false
+	prompt_cover.visible = false
+	progress_text.text = "Request initiating..."
