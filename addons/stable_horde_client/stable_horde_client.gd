@@ -17,6 +17,18 @@ enum SamplerMethods {
 	PLMS
 }
 
+enum OngoingRequestOperations {
+	CHECK
+	GET
+	CANCEL
+}
+
+enum States {
+	READY
+	WORKING
+	CANCELLING
+}
+
 export(String) var prompt = "A horde of cute blue robots with gears on their head"
 # The API key you've generated from https://stablehorde.net/register
 # You can pass either your own key (make sure you encrypt your app)
@@ -49,15 +61,18 @@ var async_request_id : String
 # We store the params sent to the current generation, then pass them to the AIImageTexture to remember them
 # They are replaced every time a new generation begins
 var imgen_params : Dictionary
+# When set to true, we will abort the current generation and try to retrieve whatever images we can
+var state : int = States.READY
 
 func _ready():
 	# warning-ignore:return_value_discarded
 	connect("request_completed",self,"_on_request_completed")
 
 func generate(replacement_prompt := '', replacement_params := {}) -> void:
-	if not is_ready():
+	if state != States.READY:
 		push_error("Client currently working. Cannot do more than 1 request at a time with the same Stable Horde Client.")
 		return
+	state = States.WORKING
 	latest_image_textures.clear()
 	imgen_params = {
 		"n": amount,
@@ -116,30 +131,40 @@ func _on_request_completed(_result, response_code, _headers, body):
 	if 'generations' in json_ret:
 		_extract_images(json_ret['generations'])
 		return
+	if state ==States.CANCELLING:
+		check_request_process(OngoingRequestOperations.CANCEL)
 	if 'id' in json_ret:
 		async_request_id = json_ret['id']
-		check_request_process()
+		check_request_process(OngoingRequestOperations.CHECK)
 	if 'done' in json_ret:
-		var are_images_ready := false
+		var operation = OngoingRequestOperations.CHECK
 		if json_ret['done']:
-			are_images_ready = true
-		else:
+			operation = OngoingRequestOperations.GET
+		elif state == States.WORKING:
 			emit_signal("image_processing", json_ret)
-		check_request_process(are_images_ready)
+		check_request_process(operation)
 
-func check_request_process(get_images := false) -> void:
+
+func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 	# We do one check request per second
 	yield(get_tree().create_timer(1), "timeout")
 	var url = "https://stablehorde.net/api/v2/generate/check/" + async_request_id
-	if get_images:
+	var method = HTTPClient.METHOD_GET
+	if operation == OngoingRequestOperations.GET:
 		url = "https://stablehorde.net/api/v2/generate/status/" + async_request_id
-	var error = request(url)
-	if error != OK:
-		var error_msg := "Something went wrong when checking the status of Stable Horde Request:" + async_request_id
+	elif operation == OngoingRequestOperations.CANCEL:
+		url = "https://stablehorde.net/api/v2/generate/status/" + async_request_id
+		method = HTTPClient.METHOD_DELETE
+	var error = request(url, [], false, method)
+	if state == States.WORKING and error != OK:
+		var error_msg := "Something went wrong when checking the status of Stable Horde Request: " + async_request_id
 		push_error(error_msg)
 		emit_signal("request_failed",error_msg)
-	
-	
+	elif state == States.CANCELLING and not error in [ERR_BUSY, OK] :
+		var error_msg := "Something went wrong when cancelling the Stable Horde Request: " + async_request_id
+		push_error(error_msg)
+		emit_signal("request_failed",error_msg)
+
 
 func _extract_images(generations_array: Array) -> void:
 	for img_dict in generations_array:
@@ -163,9 +188,17 @@ func _extract_images(generations_array: Array) -> void:
 		latest_image_textures.append(texture)
 		all_image_textures.append(texture)
 	emit_signal("images_generated",latest_image_textures)
+	state = States.READY
+
 
 func get_sampler_method_id() -> String:
 	return(SamplerMethods[sampler_name])
 
+
 func is_ready() -> bool:
 	return(get_http_client_status() == HTTPClient.STATUS_DISCONNECTED)
+
+
+func cancel_request() -> void:
+	print_debug("Cancelling...")
+	state = States.CANCELLING

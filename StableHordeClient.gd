@@ -30,8 +30,10 @@ onready var controls_right := $"%ControlsRight"
 onready var controls_left := $"%ControlsLeft"
 onready var generations_processing = $"%GenerationsProcessing"
 onready var generations_done = $"%GenerationsDone"
-onready var eta = $"%ETA"
+onready var cancel_button = $"%CancelButton"
 onready var _tween = $"%Tween"
+onready var progress_text = $"%ProgressText"
+onready var prompt_cover = $"%PromptCover"
 
 var controls_width := 500
 
@@ -49,6 +51,8 @@ func _ready():
 	save_all.connect("pressed", self, "_on_save_all_pressed")
 	# warning-ignore:return_value_discarded
 	generate_button.connect("pressed",self,"_on_GenerateButton_pressed")
+	# warning-ignore:return_value_discarded
+	cancel_button.connect("pressed",self,"_on_CancelButton_pressed")
 	_check_html5()
 	if globals.config.has_section("Parameters"):
 		for key in globals.config.get_section_keys("Parameters"):
@@ -78,6 +82,8 @@ func _ready():
 #	print_debug(tween2)
 #	var t = tween2.tween_property(generations_processing, "value", 15, 2)
 #	print_debug(t)
+
+
 func _on_GenerateButton_pressed():
 	status_text.text = ''
 	for slider_config in [width,height,config_slider,amount]:
@@ -101,8 +107,15 @@ func _on_GenerateButton_pressed():
 #	return
 	## END DEBUG
 	generate_button.visible = false
-	eta.visible = true
+	cancel_button.visible = true
+	prompt_cover.visible = true
+	progress_text.visible = true
 	stable_horde_client.generate(line_edit.text)
+
+
+func _on_CancelButton_pressed():
+	progress_text.text = "Cancelling request..."
+	stable_horde_client.cancel_request()
 
 func _on_images_generated(textures_list):
 	_reset_input()
@@ -132,7 +145,13 @@ func _on_image_process_update(stats: Dictionary) -> void:
 #		tween.tween_property(generations_processing, "value", stats.finished + stats.processing, 0.8).set_trans(Tween.TRANS_SINE)
 #		tween.tween_property(generations_done, "value", stats.finished, 1).set_trans(Tween.TRANS_SINE)
 #	tween.set_trans(Tween.TRANS_SINE).start()
-	eta.text = "ETA: " + str(stats.wait_time) + " sec"
+	var stats_format = {
+		"waiting": stats.waiting,
+		"finished": stats.finished,
+		"processing":  + stats.processing,
+		"eta": str(stats.wait_time)
+	}
+	progress_text.text = " {waiting} Waiting. {processing} Processing. {finished} Finished. ETA {eta} sec".format(stats_format)
 
 
 func _on_viewport_resized() -> void:
@@ -279,5 +298,7 @@ func _reset_input() -> void:
 #	generations_processing.value = 0
 #	generations_done.value = 0
 	generate_button.visible = true
-	eta.visible = false
-	eta.text = "ETA: N/A"
+	cancel_button.visible = false
+	progress_text.visible = false
+	prompt_cover.visible = false
+	progress_text.text = "Request initiating..."
