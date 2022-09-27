@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.6.0](https://github.com/db0/Stable-Horde-Client/tree/v0.6.0) (2022-09-27)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.5.0...v0.6.0)
+
+**Merged pull requests:**
+
+- Added cancel button and warning when size is too big [\#21](https://github.com/db0/Stable-Horde-Client/pull/21) ([db0](https://github.com/db0))
+
 ## [v0.5.0](https://github.com/db0/Stable-Horde-Client/tree/v0.5.0) (2022-09-26)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.4.5...v0.5.0)
