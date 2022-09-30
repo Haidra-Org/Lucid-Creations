@@ -10,6 +10,7 @@ onready var height := $"%Height"
 onready var amount := $"%Amount"
 onready var seed_edit := $"%Seed"
 onready var config_slider := $"%ConfigSlider"
+onready var steps_slider := $"%StepsSlider"
 onready var generate_button := $"%GenerateButton"
 onready var sampler_method := $"%SamplerMethod"
 onready var api_key := $"%APIKey"
@@ -59,7 +60,7 @@ func _ready():
 			# Fetch the data for each section.
 			stable_horde_client.set(key, globals.config.get_value("Parameters", key))
 		stable_horde_client.set("sampler_name", globals.config.get_value("Parameters", "sampler_name"))
-	for slider_config in [width,height,config_slider,amount]:
+	for slider_config in [width,height,config_slider,steps_slider,amount]:
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
 	sampler_method.select(sampler_method_id)
@@ -86,7 +87,7 @@ func _ready():
 
 func _on_GenerateButton_pressed():
 	status_text.text = ''
-	for slider_config in [width,height,config_slider,amount]:
+	for slider_config in [width,height,config_slider,steps_slider,amount]:
 		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
 		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
