@@ -118,9 +118,9 @@ func _on_CancelButton_pressed():
 	progress_text.text = "Cancelling request..."
 	stable_horde_client.cancel_request()
 
-func _on_images_generated(textures_list):
+func _on_images_generated(completed_payload: Dictionary):
 	_reset_input()
-	for texture in textures_list:
+	for texture in completed_payload["image_textures"]:
 		var tr := GRID_TEXTURE_RECT.instance()
 		tr.texture = texture
 		# warning-ignore:return_value_discarded
@@ -150,9 +150,10 @@ func _on_image_process_update(stats: Dictionary) -> void:
 		"waiting": stats.waiting,
 		"finished": stats.finished,
 		"processing":  + stats.processing,
+		"elapsed": str(ceil(stats.elapsed_time / 1000)),
 		"eta": str(stats.wait_time)
 	}
-	progress_text.text = " {waiting} Waiting. {processing} Processing. {finished} Finished. ETA {eta} sec".format(stats_format)
+	progress_text.text = " {waiting} Waiting. {processing} Processing. {finished} Finished. ETA {eta} sec. Elapsed {elapsed} sec.".format(stats_format)
 
 
 func _on_viewport_resized() -> void:
@@ -240,7 +241,6 @@ func clear_all_highlights_except(exception:GridTextureRect = null) -> void:
 	for tr in grid.get_children():
 		if tr != exception:
 			tr.clear_highlight()
-			print(tr)
 
 func _fill_in_details(imagetex: AIImageTexture) -> void:
 	image_prompt.text = "Prompt: " + imagetex.prompt
