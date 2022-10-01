@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.8.0](https://github.com/db0/Stable-Horde-Client/tree/v0.8.0) (2022-10-01)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.7.0...v0.8.0)
+
+**Merged pull requests:**
+
+- Shows actually elapsed time in status [\#25](https://github.com/db0/Stable-Horde-Client/pull/25) ([db0](https://github.com/db0))
+
 ## [v0.7.0](https://github.com/db0/Stable-Horde-Client/tree/v0.7.0) (2022-09-30)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.6.0...v0.7.0)
