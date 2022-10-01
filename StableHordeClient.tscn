@@ -336,6 +336,7 @@ unique_name_in_owner = true
 margin_top = 37.0
 margin_right = 146.0
 margin_bottom = 75.4343
+clear_button_enabled = true
 
 [node name="SaveButtons" type="HBoxContainer" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
 margin_top = 95.0

@@ -66,14 +66,11 @@ func _ready():
 	sampler_method.select(sampler_method_id)
 	api_key.text = stable_horde_client.api_key
 	var default_save_dir = globals.config.get_value("Config", "default_save_dir", "user://")
-	if default_save_dir == "user://":
-		match OS.get_name():
-			"Windows":
-				save_dir.text = '%APPDATA%\\Godot\\app_userdata\\Stable Horde Client\\'
-			"X11":
-				save_dir.text = '${HOME}/.local/share/godot/app_userdata/Stable Horde Client/'
+	if default_save_dir in ["user://", '']:
+		_set_default_savedir_path()
 	else:
 		save_dir.text = default_save_dir
+		_set_default_savedir_path(true)
 
 	# warning-ignore:return_value_discarded
 	get_viewport().connect("size_changed", self, '_on_viewport_resized')
@@ -255,6 +252,10 @@ func _on_savedir_entered(path: String) -> void:
 			globals.set_setting('default_save_dir', "user://", "Config")
 		'${HOME}/.local/share/godot/app_userdata/Stable Horde Client/':
 			globals.set_setting('default_save_dir', "user://", "Config")
+		'~/Library/Application Support/Godot/app_userdata/Stable Horde Client/':
+			globals.set_setting('default_save_dir', "user://", "Config")
+		'':
+			_set_default_savedir_path()
 		_:
 			globals.set_setting('default_save_dir', path, "Config")
 
@@ -303,3 +304,21 @@ func _reset_input() -> void:
 	progress_text.visible = false
 	prompt_cover.visible = false
 	progress_text.text = "Request initiating..."
+
+
+func _set_default_savedir_path(only_placholder = false) -> void:
+	match OS.get_name():
+		"Windows":
+			if not only_placholder:
+				save_dir.text = '%APPDATA%\\Godot\\app_userdata\\Stable Horde Client\\'
+			save_dir.placeholder_text = '%APPDATA%\\Godot\\app_userdata\\Stable Horde Client\\'
+		"X11":
+			if not only_placholder:
+				save_dir.text = '${HOME}/.local/share/godot/app_userdata/Stable Horde Client/'
+			save_dir.placeholder_text = '${HOME}/.local/share/godot/app_userdata/Stable Horde Client/'
+			
+		_:
+			if not only_placholder:
+				save_dir.text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
+			save_dir.placeholder_text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
+
