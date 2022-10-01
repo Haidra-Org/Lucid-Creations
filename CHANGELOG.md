@@ -1,5 +1,25 @@
 # Changelog
 
+## [Unreleased](https://github.com/db0/Stable-Horde-Client/tree/HEAD)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.8.1...HEAD)
+
+**Closed issues:**
+
+- Mac save directory [\#24](https://github.com/db0/Stable-Horde-Client/issues/24)
+
+## [v0.8.1](https://github.com/db0/Stable-Horde-Client/tree/v0.8.1) (2022-10-01)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.8.0...v0.8.1)
+
+**Closed issues:**
+
+- Missing minimum Godot version [\#15](https://github.com/db0/Stable-Horde-Client/issues/15)
+
+**Merged pull requests:**
+
+- added default save path for mac [\#26](https://github.com/db0/Stable-Horde-Client/pull/26) ([db0](https://github.com/db0))
+
 ## [v0.8.0](https://github.com/db0/Stable-Horde-Client/tree/v0.8.0) (2022-10-01)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.7.0...v0.8.0)
