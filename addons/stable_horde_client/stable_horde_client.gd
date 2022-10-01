@@ -1,7 +1,7 @@
 class_name StableHordeClient
 extends HTTPRequest
 
-signal images_generated(texture_list)
+signal images_generated(completed_payload)
 signal request_failed(error_msg)
 signal request_warning(warning_msg)
 signal image_processing(stats)
@@ -63,6 +63,7 @@ var async_request_id : String
 var imgen_params : Dictionary
 # When set to true, we will abort the current generation and try to retrieve whatever images we can
 var state : int = States.READY
+var request_start_time : float # We use that to get the accurate amount of time the request took
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -72,6 +73,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	if state != States.READY:
 		push_error("Client currently working. Cannot do more than 1 request at a time with the same Stable Horde Client.")
 		return
+	request_start_time = OS.get_ticks_msec()
 	state = States.WORKING
 	latest_image_textures.clear()
 	imgen_params = {
@@ -141,6 +143,7 @@ func _on_request_completed(_result, response_code, _headers, body):
 		if json_ret['done']:
 			operation = OngoingRequestOperations.GET
 		elif state == States.WORKING:
+			json_ret["elapsed_time"] = OS.get_ticks_msec() - request_start_time
 			emit_signal("image_processing", json_ret)
 		check_request_process(operation)
 
@@ -187,7 +190,12 @@ func _extract_images(generations_array: Array) -> void:
 		texture.create_from_image(image)
 		latest_image_textures.append(texture)
 		all_image_textures.append(texture)
-	emit_signal("images_generated",latest_image_textures)
+	var completed_payload = {
+		"image_textures": latest_image_textures,
+		"elapsed_time": OS.get_ticks_msec() - request_start_time
+	}
+	request_start_time = 0
+	emit_signal("images_generated",completed_payload)
 	state = States.READY
 
 
