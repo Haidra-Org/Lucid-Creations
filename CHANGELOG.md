@@ -1,12 +1,16 @@
 # Changelog
 
-## [Unreleased](https://github.com/db0/Stable-Horde-Client/tree/HEAD)
+## [v0.9.0](https://github.com/db0/Stable-Horde-Client/tree/v0.9.0) (2022-10-02)
 
-[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.8.1...HEAD)
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.8.1...v0.9.0)
 
 **Closed issues:**
 
 - Mac save directory [\#24](https://github.com/db0/Stable-Horde-Client/issues/24)
+
+**Merged pull requests:**
+
+- Adds NSFW classification [\#27](https://github.com/db0/Stable-Horde-Client/pull/27) ([db0](https://github.com/db0))
 
 ## [v0.8.1](https://github.com/db0/Stable-Horde-Client/tree/v0.8.1) (2022-10-01)
 
