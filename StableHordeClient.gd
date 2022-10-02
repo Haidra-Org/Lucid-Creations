@@ -35,6 +35,8 @@ onready var cancel_button = $"%CancelButton"
 onready var _tween = $"%Tween"
 onready var progress_text = $"%ProgressText"
 onready var prompt_cover = $"%PromptCover"
+onready var nsfw = $"%NSFW"
+onready var censor_nsfw = $"%CensorNSFW"
 
 var controls_width := 500
 
@@ -90,8 +92,12 @@ func _on_GenerateButton_pressed():
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
 	stable_horde_client.set("sampler_name", sampler_name)
 	globals.set_setting("sampler_name", sampler_name)
-	stable_horde_client.set("", api_key.text)
+	stable_horde_client.set("api_key", api_key.text)
 	globals.set_setting("api_key", api_key.text)
+	stable_horde_client.set("nsfw", nsfw.pressed)
+	globals.set_setting("nsfw", nsfw.pressed)
+	stable_horde_client.set("censor_nsfw", censor_nsfw.pressed)
+	globals.set_setting("censor_nsfw", censor_nsfw.pressed)
 	stable_horde_client.set("gen_seed", seed_edit.text)
 	if line_edit.text != '':
 		stable_horde_client.prompt = line_edit.text
@@ -321,4 +327,3 @@ func _set_default_savedir_path(only_placholder = false) -> void:
 			if not only_placholder:
 				save_dir.text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
 			save_dir.placeholder_text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
-
