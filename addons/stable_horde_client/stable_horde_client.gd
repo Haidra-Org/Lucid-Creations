@@ -52,6 +52,14 @@ export(float,-40,30,0.5) var cfg_scale := 7.5
 # The unique seed for the prompt. If you pass a value in the seed and keep all the values the same
 # The same image will always be generated.
 export(String) var gen_seed := ''
+# If set to True, will mark this generation as NSFW and only workers which accept NSFW requests
+# Will fulfill it
+export(bool) var nsfw := false
+# Only active is nsfw == false
+# Will request workers to censor accidentally generated NSFW images. 
+# If set to false, and a sfw request accidently generates nsfw content, the worker
+# will automatically set it to a black image.
+export(bool) var censor_nsfw := true
 
 
 var all_image_textures := []
@@ -90,7 +98,9 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		imgen_params[param] = replacement_params[param]
 	var submit_dict = {
 		"prompt": prompt,
-		"params": imgen_params
+		"params": imgen_params,
+		"nsfw": nsfw,
+		"censor_nsfw": censor_nsfw,
 	}
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
