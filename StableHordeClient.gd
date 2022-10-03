@@ -157,12 +157,16 @@ func _on_image_process_update(stats: Dictionary) -> void:
 		"eta": str(stats.wait_time)
 	}
 	progress_text.text = " {waiting} Waiting. {processing} Processing. {finished} Finished. ETA {eta} sec. Elapsed {elapsed} sec.".format(stats_format)
-	if stats.wait_time > 200 or stats.elapsed_time / 1000> 150:
-		status_text.text = "Unfortunately the Hoard appears to be under heavy load at the moment! Your queue position is {queue}.\n".format({"queue":stats.queue_position})\
-				+ "If you can, please consider adding your own GPU to the horde to get more generation priority!"
+	if stats.queue_position == 0:
+		status_text.bbcode_text = "Thank you for using the horde!\n"\
+			+ "If you enjoy this service join us in [url=discord]discord[/url] or subscribe on [url=patreon]patreon[/url]"
+		status_text.modulate = Color(0,1,0)
+	elif stats.wait_time > 200 or stats.elapsed_time / 1000> 150:
+		status_text.bbcode_text = "Unfortunately the Hoard appears to be under heavy load at the moment! Your queue position is {queue}.\n".format({"queue":stats.queue_position})\
+				+ "If you can, please consider [url=worker]adding your own GPU[/url] to the horde to get more generation priority!"
 		status_text.modulate = Color(0.84,0.47,0)
 	else:
-		status_text.text = "Your queue position is {queue}.\n".format({"queue":stats.queue_position})
+		status_text.bbcode_text = "Your queue position is {queue}.\n".format({"queue":stats.queue_position})
 		status_text.modulate = Color(0,1,0)
 
 
@@ -200,6 +204,15 @@ func get_grid_min_size() -> Vector2:
 		tr_min_size.y = grid_scroll.rect_min_size.y
 	return(tr_min_size)
 
+func _on_StatusText_meta_clicked(meta):
+	match meta:
+		"discord":
+			# warning-ignore:return_value_discarded
+			OS.shell_open("https://discord.gg/3DxrhksKzn")
+		"patreon":
+			OS.shell_open("https://www.patreon.com/db0")
+		"worker":
+			OS.shell_open("https://github.com/db0/AI-Horde/blob/main/README_StableHorde.md#joining-the-horde")
 
 func _on_APIKeyLabel_meta_clicked(meta):
 	match meta:
@@ -334,3 +347,4 @@ func _set_default_savedir_path(only_placholder = false) -> void:
 			if not only_placholder:
 				save_dir.text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
 			save_dir.placeholder_text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
+
