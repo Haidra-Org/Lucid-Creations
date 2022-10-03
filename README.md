@@ -1,4 +1,4 @@
-# Stable-Horde-Client [v0.9.1](CHANGELOG.md)
+# Stable-Horde-Client [v0.10.0](CHANGELOG.md)
 
 Generate images using the Stable Diffusion AI. This godot program is using the [Godot Stable Horde Client Addon](https://github.com/db0/Stable-Horde-Client-Addon) to take advantage of the [Stable Horde](https://stablehorde.net/).
 

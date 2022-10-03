@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.10.0](https://github.com/db0/Stable-Horde-Client/tree/v0.10.0) (2022-10-03)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.9.1...v0.10.0)
+
+**Merged pull requests:**
+
+- change default sampler [\#29](https://github.com/db0/Stable-Horde-Client/pull/29) ([db0](https://github.com/db0))
+
 ## [v0.9.1](https://github.com/db0/Stable-Horde-Client/tree/v0.9.1) (2022-10-03)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.9.0...v0.9.1)
