@@ -157,6 +157,13 @@ func _on_image_process_update(stats: Dictionary) -> void:
 		"eta": str(stats.wait_time)
 	}
 	progress_text.text = " {waiting} Waiting. {processing} Processing. {finished} Finished. ETA {eta} sec. Elapsed {elapsed} sec.".format(stats_format)
+	if stats.wait_time > 200 or stats.elapsed_time / 1000> 150:
+		status_text.text = "Unfortunately the Hoard appears to be under heavy load at the moment! Your queue position is {queue}.\n".format({"queue":stats.queue_position})\
+				+ "If you can, please consider adding your own GPU to the horde to get more generation priority!"
+		status_text.modulate = Color(0.84,0.47,0)
+	else:
+		status_text.text = "Your queue position is {queue}.\n".format({"queue":stats.queue_position})
+		status_text.modulate = Color(0,1,0)
 
 
 func _on_viewport_resized() -> void:
