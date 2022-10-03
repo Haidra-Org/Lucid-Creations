@@ -375,12 +375,13 @@ margin_bottom = 41.251
 size_flags_horizontal = 3
 text = "Save All"
 
-[node name="StatusText" type="Label" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
+[node name="StatusText" type="RichTextLabel" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
 unique_name_in_owner = true
 margin_top = 412.0
 margin_right = 311.0
-margin_bottom = 429.0
-autowrap = true
+margin_bottom = 430.0
+bbcode_enabled = true
+fit_content_height = true
 
 [node name="Information" type="MarginContainer" parent="."]
 visible = false
@@ -468,5 +469,6 @@ script = ExtResource( 6 )
 
 [connection signal="meta_clicked" from="Text2Image/VBoxContainer/MainArea/ControlsRight/APIKeyLabel" to="." method="_on_APIKeyLabel_meta_clicked"]
 [connection signal="text_changed" from="Text2Image/VBoxContainer/MainArea/ControlsRight/APIKey" to="." method="_on_APIKey_text_changed"]
+[connection signal="meta_clicked" from="Text2Image/VBoxContainer/MainArea/ControlsRight/StatusText" to="." method="_on_StatusText_meta_clicked"]
 [connection signal="meta_clicked" from="Information/VBoxContainer/HBC/VBC1/Infodump" to="Information/VBoxContainer/HBC/VBC1/Infodump" method="_on_Infodump_meta_clicked"]
 [connection signal="meta_clicked" from="Information/VBoxContainer/HBC/VBC2/Credits" to="Information/VBoxContainer/HBC/VBC2/Credits" method="_on_Credits_meta_clicked"]
