@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.9.1](https://github.com/db0/Stable-Horde-Client/tree/v0.9.1) (2022-10-03)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.9.0...v0.9.1)
+
+**Merged pull requests:**
+
+- Shows queue position on the GUI and informs on overload [\#28](https://github.com/db0/Stable-Horde-Client/pull/28) ([db0](https://github.com/db0))
+
 ## [v0.9.0](https://github.com/db0/Stable-Horde-Client/tree/v0.9.0) (2022-10-02)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.8.1...v0.9.0)
