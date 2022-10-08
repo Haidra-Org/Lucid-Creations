@@ -343,8 +343,7 @@ unique_name_in_owner = true
 margin_top = 256.0
 margin_right = 311.0
 margin_bottom = 316.251
-pressed = true
-text = "Allow Untrusted Workers"
+text = "Require Trusted Workers"
 
 [node name="SaveDirLabel" type="Label" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
 unique_name_in_owner = true
