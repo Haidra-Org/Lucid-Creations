@@ -37,6 +37,7 @@ onready var progress_text = $"%ProgressText"
 onready var prompt_cover = $"%PromptCover"
 onready var nsfw = $"%NSFW"
 onready var censor_nsfw = $"%CensorNSFW"
+onready var trusted_workers = $"%TrustedWorkers"
 
 var controls_width := 500
 
@@ -98,6 +99,8 @@ func _on_GenerateButton_pressed():
 	globals.set_setting("nsfw", nsfw.pressed)
 	stable_horde_client.set("censor_nsfw", censor_nsfw.pressed)
 	globals.set_setting("censor_nsfw", censor_nsfw.pressed)
+	stable_horde_client.set("trusted_workers", trusted_workers.pressed)
+	globals.set_setting("trusted_workers", trusted_workers.pressed)
 	stable_horde_client.set("gen_seed", seed_edit.text)
 	if line_edit.text != '':
 		stable_horde_client.prompt = line_edit.text
