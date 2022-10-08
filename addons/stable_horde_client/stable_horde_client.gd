@@ -60,6 +60,8 @@ export(bool) var nsfw := false
 # If set to false, and a sfw request accidently generates nsfw content, the worker
 # will automatically set it to a black image.
 export(bool) var censor_nsfw := true
+# When true, will allow untrusted workers to also generate for this request.
+export(bool) var trusted_workers := true
 
 
 var all_image_textures := []
@@ -101,6 +103,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"params": imgen_params,
 		"nsfw": nsfw,
 		"censor_nsfw": censor_nsfw,
+		"trusted_workers": trusted_workers,
 	}
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
