@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.10.1](https://github.com/db0/Stable-Horde-Client/tree/v0.10.1) (2022-10-08)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.10.0...v0.10.1)
+
+**Merged pull requests:**
+
+- button to allow untrusted workers [\#30](https://github.com/db0/Stable-Horde-Client/pull/30) ([db0](https://github.com/db0))
+
 ## [v0.10.0](https://github.com/db0/Stable-Horde-Client/tree/v0.10.0) (2022-10-03)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.9.1...v0.10.0)
