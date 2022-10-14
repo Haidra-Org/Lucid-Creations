@@ -26,7 +26,7 @@ const CONFIG := {
 	"steps": {
 		"label": "Sampling Steps",
 		"min": 1,
-		"max": 200,
+		"max": 100,
 		"step": 1,
 	},
 	"cfg_scale": {
