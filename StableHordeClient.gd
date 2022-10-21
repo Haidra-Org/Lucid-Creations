@@ -38,12 +38,15 @@ onready var prompt_cover = $"%PromptCover"
 onready var nsfw = $"%NSFW"
 onready var censor_nsfw = $"%CensorNSFW"
 onready var trusted_workers = $"%TrustedWorkers"
+onready var model_select = $"%ModelSelect"
+
 
 var controls_width := 500
 
 func _ready():
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("images_generated",self, "_on_images_generated")
+	stable_horde_client.connect("request_initiated",model_select, "_on_request_initiated")
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("request_failed",self, "_on_request_failed")
 	# warning-ignore:return_value_discarded
@@ -63,6 +66,7 @@ func _ready():
 			# Fetch the data for each section.
 			stable_horde_client.set(key, globals.config.get_value("Parameters", key))
 		stable_horde_client.set("sampler_name", globals.config.get_value("Parameters", "sampler_name"))
+		stable_horde_client.set("models", globals.config.get_value("Parameters", "models"))
 	for slider_config in [width,height,config_slider,steps_slider,amount]:
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
@@ -93,6 +97,12 @@ func _on_GenerateButton_pressed():
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
 	stable_horde_client.set("sampler_name", sampler_name)
 	globals.set_setting("sampler_name", sampler_name)
+	var model_name = model_select.get_item_text(model_select.selected)
+	var models = []
+	if model_name != "Any model":
+		models = [model_name]
+	stable_horde_client.set("model_names", models)
+	globals.set_setting("models", models)
 	stable_horde_client.set("api_key", api_key.text)
 	globals.set_setting("api_key", api_key.text)
 	stable_horde_client.set("nsfw", nsfw.pressed)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Credits.gd" type="Script" id=6]
 [ext_resource path="res://theme/components/blue_button05.png" type="Texture" id=7]
 [ext_resource path="res://theme/components/grey_button05.png" type="Texture" id=8]
+[ext_resource path="res://addons/stable_horde_client/stable_horde_models.gd" type="Script" id=9]
+[ext_resource path="res://ModelSelect.gd" type="Script" id=10]
 
 [sub_resource type="StyleBoxTexture" id=2]
 texture = ExtResource( 8 )
@@ -323,47 +325,68 @@ margin_bottom = 76.4343
 secret = true
 clear_button_enabled = true
 
-[node name="NSFW" type="CheckButton" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
-unique_name_in_owner = true
+[node name="ModelSelectLabel" type="Label" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
 margin_top = 96.0
 margin_right = 311.0
-margin_bottom = 156.251
+margin_bottom = 113.0
+text = "Model"
+autowrap = true
+
+[node name="ModelSelect" type="OptionButton" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
+unique_name_in_owner = true
+margin_top = 133.0
+margin_right = 311.0
+margin_bottom = 174.251
+text = "Any model"
+items = [ "Any model", null, false, 0, null, "stable_diffusion", null, false, 1, null ]
+selected = 0
+script = ExtResource( 10 )
+
+[node name="StableHordeModels" type="HTTPRequest" parent="Text2Image/VBoxContainer/MainArea/ControlsRight/ModelSelect"]
+unique_name_in_owner = true
+script = ExtResource( 9 )
+
+[node name="NSFW" type="CheckButton" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
+unique_name_in_owner = true
+margin_top = 194.0
+margin_right = 311.0
+margin_bottom = 254.251
 text = "NSFW"
 
 [node name="CensorNSFW" type="CheckButton" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
 unique_name_in_owner = true
-margin_top = 176.0
+margin_top = 274.0
 margin_right = 311.0
-margin_bottom = 236.251
+margin_bottom = 334.251
 pressed = true
 text = "Censor accidental NSFW"
 
 [node name="TrustedWorkers" type="CheckButton" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
 unique_name_in_owner = true
-margin_top = 256.0
+margin_top = 354.0
 margin_right = 311.0
-margin_bottom = 316.251
+margin_bottom = 414.251
 text = "Require Trusted Workers"
 
 [node name="SaveDirLabel" type="Label" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
 unique_name_in_owner = true
-margin_top = 336.0
+margin_top = 434.0
 margin_right = 311.0
-margin_bottom = 353.0
+margin_bottom = 451.0
 text = "Save Directory"
 autowrap = true
 
 [node name="SaveDir" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
 unique_name_in_owner = true
-margin_top = 373.0
+margin_top = 471.0
 margin_right = 311.0
-margin_bottom = 411.434
+margin_bottom = 509.434
 clear_button_enabled = true
 
 [node name="SaveButtons" type="HBoxContainer" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
-margin_top = 431.0
+margin_top = 529.0
 margin_right = 311.0
-margin_bottom = 472.0
+margin_bottom = 570.0
 custom_constants/separation = 10
 
 [node name="Save" type="Button" parent="Text2Image/VBoxContainer/MainArea/ControlsRight/SaveButtons"]
@@ -384,9 +407,9 @@ text = "Save All"
 
 [node name="StatusText" type="RichTextLabel" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
 unique_name_in_owner = true
-margin_top = 492.0
+margin_top = 590.0
 margin_right = 311.0
-margin_bottom = 510.0
+margin_bottom = 608.0
 bbcode_enabled = true
 fit_content_height = true
 

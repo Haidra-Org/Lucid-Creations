@@ -1,7 +1,7 @@
 class_name StableHordeHTTPRequest
 extends HTTPRequest
 
-
+signal request_initiated
 signal request_failed(error_msg)
 signal request_warning(warning_msg)
 

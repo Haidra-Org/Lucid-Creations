@@ -28,6 +28,7 @@ func process_request(json_ret) -> void:
 		emit_signal("request_failed",error_msg)
 		return
 	models = json_ret
+	model_names.clear()
 	for entry in models:
 		model_names.append(entry.name)
 	emit_signal("models_retrieved", model_names)

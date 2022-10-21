@@ -2,6 +2,7 @@ class_name StableHordeClient
 extends HTTPRequest
 
 signal images_generated(completed_payload)
+signal request_initiated
 signal request_failed(error_msg)
 signal request_warning(warning_msg)
 signal image_processing(stats)
@@ -62,6 +63,10 @@ export(bool) var nsfw := false
 export(bool) var censor_nsfw := true
 # When true, will allow untrusted workers to also generate for this request.
 export(bool) var trusted_workers := true
+# The model to be used to generate this request. If you change this, use the StableHordeModels class 
+# To ensure there is a worker serving that model first.
+# An empty array here picks the first available models from the workers
+export(Array) var models := ["stable_diffusion"]
 
 
 var all_image_textures := []
@@ -104,6 +109,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"nsfw": nsfw,
 		"censor_nsfw": censor_nsfw,
 		"trusted_workers": trusted_workers,
+		"models": models
 	}
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
@@ -114,6 +120,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
 		emit_signal("request_failed",error_msg)
+	emit_signal("request_initiated")
 
 # warning-ignore:unused_argument
 func _on_request_completed(_result, response_code, _headers, body):
