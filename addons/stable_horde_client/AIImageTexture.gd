@@ -17,6 +17,8 @@ var steps: int
 var worker_id: String
 # The worker name which generated this image
 var worker_name: String
+# The model which was used to generate this image
+var model: String
 # We store the image data to be able to save it later
 # I can't figure how to get an Image back from an ImageTexture,
 # so I need to store it explicitly
@@ -29,6 +31,7 @@ func _init(
 		_prompt: String, 
 		_imgen_params: Dictionary, 
 		_gen_seed,
+		_model: String, 
 		_worker_id: String, 
 		_worker_name: String, 
 		_image: Image) -> void:
@@ -43,6 +46,7 @@ func _init(
 	steps = attributes['steps']
 	worker_name = _worker_name
 	attributes['worker_name'] = worker_name
+	model = _model
 	worker_id = _worker_id
 	attributes['worker_id'] = worker_id
 	image = _image

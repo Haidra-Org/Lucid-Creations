@@ -204,6 +204,7 @@ func _extract_images(generations_array: Array) -> void:
 			prompt,
 			imgen_params,
 			img_dict["seed"],
+			img_dict["model"],
 			img_dict["worker_id"],
 			img_dict["worker_name"],
 			image)

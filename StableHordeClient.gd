@@ -22,7 +22,9 @@ onready var image_width = $"%ImageWidth"
 onready var image_length = $"%ImageLength"
 onready var image_prompt = $"%ImagePrompt"
 onready var image_info = $"%ImageInfo"
+onready var model = $"%Model"
 onready var worker_name = $"%WorkerName"
+onready var worker_id = $"%WorkerID"
 onready var save_dir = $"%SaveDir"
 onready var save = $"%Save"
 onready var save_all = $"%SaveAll"
@@ -249,7 +251,7 @@ func _get_test_images(n = 10) -> Array:
 		var new_seed = str(rand_seed(iter)[0])
 		var tex := preload("res://icon.png")
 		var img := tex.get_data()
-		var new_texture := AIImageTexture.new('Test Prompt', {"sampler_name":"Test", "steps":0}, new_seed, 'Test worker', 'Test worker ID', img)
+		var new_texture := AIImageTexture.new('Test Prompt', {"sampler_name":"Test", "steps":0}, new_seed, "Test Model", 'Test worker', 'Test worker ID', img)
 		new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
@@ -283,7 +285,9 @@ func _fill_in_details(imagetex: AIImageTexture) -> void:
 	image_seed.text = "Seed: " + imagetex.gen_seed
 	image_width.text = "Width: " + str(imagetex.get_width())
 	image_length.text = "Height: " + str(imagetex.get_height())
+	model.text = "Model: " + str(imagetex.model)
 	worker_name.text = "Worker Name: " + str(imagetex.worker_name)
+	worker_id.text = "Worker ID: " + str(imagetex.worker_id)
 
 func _on_savedir_entered(path: String) -> void:
 	match path:

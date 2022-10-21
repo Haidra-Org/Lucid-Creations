@@ -237,32 +237,32 @@ stretch_mode = 4
 [node name="GridScroll" type="ScrollContainer" parent="Text2Image/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
 margin_right = 900.0
-margin_bottom = 686.0
+margin_bottom = 644.0
 rect_min_size = Vector2( 900, 600 )
 size_flags_vertical = 3
 
 [node name="Grid" type="GridContainer" parent="Text2Image/VBoxContainer/MainArea/Display/GridScroll"]
 unique_name_in_owner = true
 margin_right = 900.0
-margin_bottom = 686.0
+margin_bottom = 644.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9
 
 [node name="ImagePrompt" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_top = 690.0
+margin_top = 648.0
 margin_right = 900.0
-margin_bottom = 728.434
+margin_bottom = 686.434
 size_flags_horizontal = 3
 text = "Prompt:"
 editable = false
 
 [node name="ImageInfo" type="HBoxContainer" parent="Text2Image/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_top = 732.0
+margin_top = 690.0
 margin_right = 900.0
-margin_bottom = 770.0
+margin_bottom = 728.0
 custom_constants/separation = 50
 
 [node name="ImageSeed" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
@@ -291,13 +291,37 @@ text = "Length:"
 editable = false
 expand_to_text_length = true
 
-[node name="WorkerName" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
+[node name="Model" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
 margin_left = 420.0
+margin_right = 510.866
+margin_bottom = 38.4343
+text = "Model:"
+editable = false
+expand_to_text_length = true
+
+[node name="WorkerInfo" type="HBoxContainer" parent="Text2Image/VBoxContainer/MainArea/Display"]
+unique_name_in_owner = true
+margin_top = 732.0
+margin_right = 900.0
+margin_bottom = 770.0
+custom_constants/separation = 50
+
+[node name="WorkerName" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/WorkerInfo"]
+unique_name_in_owner = true
+margin_right = 425.0
+margin_bottom = 38.4343
+size_flags_horizontal = 3
+text = "Worker Name:"
+editable = false
+
+[node name="WorkerID" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/WorkerInfo"]
+unique_name_in_owner = true
+margin_left = 475.0
 margin_right = 900.0
 margin_bottom = 38.4343
 size_flags_horizontal = 3
-text = "Server Name:"
+text = "Worker ID:"
 editable = false
 
 [node name="ControlsRight" type="VBoxContainer" parent="Text2Image/VBoxContainer/MainArea"]
