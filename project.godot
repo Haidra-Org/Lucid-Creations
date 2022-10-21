@@ -24,6 +24,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/stable_horde_client/stable_horde_client.gd"
 }, {
+"base": "HTTPRequest",
+"class": "StableHordeHTTPRequest",
+"language": "GDScript",
+"path": "res://addons/stable_horde_client/stable_horde_httpclient.gd"
+}, {
+"base": "StableHordeHTTPRequest",
+"class": "StableHordeModels",
+"language": "GDScript",
+"path": "res://addons/stable_horde_client/stable_horde_models.gd"
+}, {
 "base": "Reference",
 "class": "ToolConsts",
 "language": "GDScript",
@@ -33,6 +43,8 @@ _global_script_class_icons={
 "AIImageTexture": "",
 "GridTextureRect": "",
 "StableHordeClient": "",
+"StableHordeHTTPRequest": "",
+"StableHordeModels": "",
 "ToolConsts": ""
 }
 

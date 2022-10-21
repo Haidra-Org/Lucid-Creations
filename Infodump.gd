@@ -11,7 +11,7 @@ You can also joing your own GPU to the horde which will provide you with Kudos a
 
 This is a free service and relying solely on contributors such as yourself.
 
-Enjoy and let us know of any [url=issue tracker]issues or suggestions[/url]
+Enjoy, let us know of any [url=issue tracker]issues or suggestions[/url] and join us on [url=discord]discord[/url]
 """
 
 func _ready():
@@ -28,3 +28,6 @@ func _on_Infodump_meta_clicked(meta):
 		"issue tracker":
 			# warning-ignore:return_value_discarded
 			OS.shell_open("https://github.com/db0/Stable-Horde-Client/issues")
+		"discord":
+			# warning-ignore:return_value_discarded
+			OS.shell_open("https://discord.gg/3DxrhksKzn")
