@@ -404,7 +404,7 @@ margin_right = 1234.0
 margin_bottom = 40.0
 size_flags_vertical = 3
 expand = true
-stretch_mode = 4
+stretch_mode = 6
 
 [node name="ImagePrompt" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus"]
 unique_name_in_owner = true
