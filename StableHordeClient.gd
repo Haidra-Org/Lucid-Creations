@@ -72,6 +72,8 @@ func _ready():
 		stable_horde_client.set("models", globals.config.get_value("Parameters", "models"))
 	for slider_config in [width,height,config_slider,steps_slider,amount]:
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
+	nsfw.pressed = stable_horde_client.nsfw
+	censor_nsfw.pressed = stable_horde_client.censor_nsfw
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
 	sampler_method.select(sampler_method_id)
 	api_key.text = stable_horde_client.api_key
@@ -100,7 +102,7 @@ func _on_GenerateButton_pressed():
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
 	stable_horde_client.set("sampler_name", sampler_name)
 	globals.set_setting("sampler_name", sampler_name)
-	var model_name = model_select.get_item_text(model_select.selected)
+	var model_name = model_select.get_selected_model()
 	var models = []
 	if model_name != "Any model":
 		models = [model_name]

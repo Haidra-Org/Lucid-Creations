@@ -1,12 +1,17 @@
 class_name StableHordeModels
 extends StableHordeHTTPRequest
 
-signal models_retrieved(models_list)
+signal models_retrieved(models_list, model_reference)
 
 var models := []
 var model_names := []
 var models_retrieved = false
+var model_reference: StableHordeModelReference
 
+func _ready() -> void:
+	model_reference = StableHordeModelReference.new()
+	add_child(model_reference)
+	
 
 func get_models() -> void:
 	if state != States.READY:
@@ -31,6 +36,7 @@ func process_request(json_ret) -> void:
 	model_names.clear()
 	for entry in models:
 		model_names.append(entry.name)
-	emit_signal("models_retrieved", model_names)
+	emit_signal("models_retrieved", model_names, model_reference.model_reference)
 	state = States.READY
+
 
