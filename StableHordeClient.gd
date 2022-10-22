@@ -48,6 +48,7 @@ var controls_width := 500
 func _ready():
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("images_generated",self, "_on_images_generated")
+# warning-ignore:return_value_discarded
 	stable_horde_client.connect("request_initiated",model_select, "_on_request_initiated")
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("request_failed",self, "_on_request_failed")
@@ -103,7 +104,8 @@ func _on_GenerateButton_pressed():
 	var models = []
 	if model_name != "Any model":
 		models = [model_name]
-	stable_horde_client.set("model_names", models)
+		print_debug(models)
+	stable_horde_client.set("models", models)
 	globals.set_setting("models", models)
 	stable_horde_client.set("api_key", api_key.text)
 	globals.set_setting("api_key", api_key.text)

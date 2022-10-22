@@ -113,6 +113,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	}
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
+	print_debug(submit_dict)
 	var body = to_json(submit_dict)
 	var headers = ["Content-Type: application/json", "apikey: " + api_key]
 	var error = request("https://stablehorde.net/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
