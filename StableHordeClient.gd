@@ -1,9 +1,15 @@
 extends TabContainer
 
 const GRID_TEXTURE_RECT = preload("res://GridTextureRect.tscn")
+var placeholder_prompts := [
+	"Surface photo of planet made of cheese, space background",
+	"a legion of cute monster toys",
+]
+
+
 onready var stable_horde_client := $"%StableHordeClient"
 onready var grid := $"%Grid"
-onready var line_edit := $"%PromptLine"
+onready var prompt_line_edit := $"%PromptLine"
 onready var display := $"%Display"
 onready var width := $"%Width"
 onready var height := $"%Height"
@@ -29,8 +35,8 @@ onready var save_dir = $"%SaveDir"
 onready var save = $"%Save"
 onready var save_all = $"%SaveAll"
 onready var status_text = $"%StatusText"
-onready var controls_right := $"%ControlsRight"
-onready var controls_left := $"%ControlsLeft"
+onready var controls_basic := $"%Basic"
+onready var control_advanced := $"%Advanced"
 onready var generations_processing = $"%GenerationsProcessing"
 onready var generations_done = $"%GenerationsDone"
 onready var cancel_button = $"%CancelButton"
@@ -68,10 +74,9 @@ func _ready():
 		for key in globals.config.get_section_keys("Parameters"):
 			# Fetch the data for each section.
 			stable_horde_client.set(key, globals.config.get_value("Parameters", key))
-		stable_horde_client.set("sampler_name", globals.config.get_value("Parameters", "sampler_name"))
-		stable_horde_client.set("models", globals.config.get_value("Parameters", "models"))
+		stable_horde_client.set("sampler_name", globals.config.get_value("Parameters", "sampler_name", stable_horde_client.sampler_name))
+		stable_horde_client.set("models", globals.config.get_value("Parameters", "models", stable_horde_client.models))
 	for slider_config in [width,height,config_slider,steps_slider,amount]:
-		print_debug(slider_config)
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	nsfw.pressed = stable_horde_client.nsfw
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
@@ -89,6 +94,10 @@ func _ready():
 	get_viewport().connect("size_changed", self, '_on_viewport_resized')
 	_on_APIKey_text_changed('')
 	_on_viewport_resized()
+	randomize()
+	var rand_index : int = randi() % placeholder_prompts.size()
+	prompt_line_edit.placeholder_text = placeholder_prompts[rand_index]
+	
 #	var tween2 = create_tween()
 #	print_debug(tween2)
 #	var t = tween2.tween_property(generations_processing, "value", 15, 2)
@@ -107,7 +116,6 @@ func _on_GenerateButton_pressed():
 	var models = []
 	if model_name != "Any model":
 		models = [model_name]
-		print_debug(models)
 	stable_horde_client.set("models", models)
 	globals.set_setting("models", models)
 	stable_horde_client.set("api_key", api_key.text)
@@ -119,10 +127,10 @@ func _on_GenerateButton_pressed():
 	stable_horde_client.set("trusted_workers", trusted_workers.pressed)
 	globals.set_setting("trusted_workers", trusted_workers.pressed)
 	stable_horde_client.set("gen_seed", seed_edit.text)
-	if line_edit.text != '':
-		stable_horde_client.prompt = line_edit.text
+	if prompt_line_edit.text != '':
+		stable_horde_client.prompt = prompt_line_edit.text
 	else:
-		stable_horde_client.prompt = line_edit.placeholder_text
+		stable_horde_client.prompt = prompt_line_edit.placeholder_text
 	close_focus()
 	for child in grid.get_children():
 		child.queue_free()
@@ -134,7 +142,7 @@ func _on_GenerateButton_pressed():
 	cancel_button.visible = true
 	prompt_cover.visible = true
 	progress_text.visible = true
-	stable_horde_client.generate(line_edit.text)
+	stable_horde_client.generate(prompt_line_edit.text)
 
 
 func _on_CancelButton_pressed():
@@ -191,6 +199,9 @@ func _on_image_process_update(stats: Dictionary) -> void:
 
 
 func _on_viewport_resized() -> void:
+	# Disabling now with the tabs
+	return
+	# warning-ignore:unreachable_code
 	if not display_focus.visible:
 		_sets_size_without_display_focus()
 	else:
@@ -333,10 +344,10 @@ func _check_html5() -> void:
 	save.hide()
 	save_all.hide()
 	save_dir.hide()
-	controls_right.hide()
+#	controls_right.hide()
 	$"%SaveDirLabel".hide()
-	controls_right.remove_child(status_text)
-	controls_left.add_child(status_text)
+#	controls_right.remove_child(status_text)
+#	controls_left.add_child(status_text)
 	status_text.text = "Warning: Saving disabled in browser version due to sandboxing. Please download the local executable to save your generations!"
 	status_text.modulate = Color(1,1,0)
 

@@ -47,3 +47,8 @@ func _on_request_completed(_result, response_code, _headers, body):
 # Function to overwrite to process valid return from the horde
 func process_request(json_ret) -> void:
 	state = States.READY
+
+
+func is_ready() -> bool:
+	return(get_http_client_status() == HTTPClient.STATUS_DISCONNECTED)
+

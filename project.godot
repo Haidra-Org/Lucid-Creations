@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GridTextureRect.gd"
 }, {
-"base": "HTTPRequest",
+"base": "StableHordeHTTPRequest",
 "class": "StableHordeClient",
 "language": "GDScript",
 "path": "res://addons/stable_horde_client/stable_horde_client.gd"

@@ -1,6 +1,6 @@
 extends OptionButton
 
-var model_id_map := {}
+var model_id_map := {"Any model": 0}
 
 onready var stable_horde_models := $"%StableHordeModels"
 
@@ -11,24 +11,24 @@ func _ready():
 	stable_horde_models.connect("request_failed",self, "_on_request_failed")
 	# warning-ignore:return_value_discarded
 	stable_horde_models.connect("request_warning",self, "_on_request_warning")
-	connect("item_selected",self,"_on_item_selected") # Debug
+	# warning-ignore:return_value_discarded
+#	connect("item_selected",self,"_on_item_selected") # Debug
 	init_refresh_models()
 	
 
 func get_selected_model() -> String:
-	print_debug(selected, model_id_map)
 	for model_name in model_id_map:
 		if model_id_map[model_name] == selected:
 			return(model_name)
 	push_error("Current selection does not match a model in the model_id_map!")
-	return('None')
+	return('')
 
 func init_refresh_models() -> void:
 	stable_horde_models.get_models()
 
 func _on_models_retrieved(model_names: Array, model_reference: Dictionary):
 	clear()
-	model_id_map.clear()
+	model_id_map = {"Any model": 0}
 #	print_debug(model_names, model_reference)
 	add_item("Any model")
 	# We start at 1 because "Any model" is 0
@@ -48,7 +48,7 @@ func _on_models_retrieved(model_names: Array, model_reference: Dictionary):
 		
 
 func set_previous_model() -> void:
-	var config_models = globals.config.get_value("Parameters", "models")
+	var config_models = globals.config.get_value("Parameters", "models", ["stable_diffusion"])
 	var previous_selection: String
 	if config_models.empty():
 		previous_selection = "Any model"
@@ -64,5 +64,5 @@ func set_previous_model() -> void:
 func _on_request_initiated():
 	init_refresh_models()
 
-func _on_item_selected(index):
+func _on_item_selected(_index):
 	print_debug(get_selected_model())
