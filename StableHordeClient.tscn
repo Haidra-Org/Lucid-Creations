@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Credits.gd" type="Script" id=6]
 [ext_resource path="res://theme/components/blue_button05.png" type="Texture" id=7]
 [ext_resource path="res://theme/components/grey_button05.png" type="Texture" id=8]
+[ext_resource path="res://addons/stable_horde_client/stable_horde_models.gd" type="Script" id=9]
+[ext_resource path="res://ModelSelect.gd" type="Script" id=10]
 
 [sub_resource type="StyleBoxTexture" id=2]
 texture = ExtResource( 8 )
@@ -35,7 +37,7 @@ script = ExtResource( 1 )
 unique_name_in_owner = true
 script = ExtResource( 2 )
 
-[node name="Text2Image" type="MarginContainer" parent="."]
+[node name="Generate" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -47,24 +49,24 @@ custom_constants/margin_top = 15
 custom_constants/margin_left = 15
 custom_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Text2Image"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Generate"]
 margin_left = 15.0
 margin_top = 15.0
 margin_right = 1577.0
 margin_bottom = 846.0
 custom_constants/separation = 20
 
-[node name="Generate" type="HBoxContainer" parent="Text2Image/VBoxContainer"]
+[node name="Generate" type="HBoxContainer" parent="Generate/VBoxContainer"]
 margin_right = 1562.0
 margin_bottom = 41.0
 
-[node name="PromptCC" type="MarginContainer" parent="Text2Image/VBoxContainer/Generate"]
+[node name="PromptCC" type="MarginContainer" parent="Generate/VBoxContainer/Generate"]
 unique_name_in_owner = true
 margin_right = 1438.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 
-[node name="PromptLine" type="LineEdit" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+[node name="PromptLine" type="LineEdit" parent="Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1438.0
 margin_bottom = 41.0
@@ -72,13 +74,13 @@ size_flags_horizontal = 3
 clear_button_enabled = true
 placeholder_text = "A horde of cute blue robots with gears on their head."
 
-[node name="PromptCover" type="ColorRect" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+[node name="PromptCover" type="ColorRect" parent="Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 visible = false
 margin_right = 1438.0
 margin_bottom = 41.0
 
-[node name="GenerationsProcessing" type="TextureProgress" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+[node name="GenerationsProcessing" type="TextureProgress" parent="Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1438.0
 margin_bottom = 41.0
@@ -93,7 +95,7 @@ stretch_margin_top = 6
 stretch_margin_right = 6
 stretch_margin_bottom = 6
 
-[node name="GenerationsDone" type="TextureProgress" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+[node name="GenerationsDone" type="TextureProgress" parent="Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1438.0
 margin_bottom = 41.0
@@ -107,7 +109,7 @@ stretch_margin_top = 6
 stretch_margin_right = 6
 stretch_margin_bottom = 6
 
-[node name="ProgressText" type="Label" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+[node name="ProgressText" type="Label" parent="Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 visible = false
 margin_top = 12.0
@@ -118,10 +120,10 @@ custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
 text = "0 Done. 1 Processing. 3 Waiting. ETA 100 Sec"
 align = 1
 
-[node name="Tween" type="Tween" parent="Text2Image/VBoxContainer/Generate/PromptCC"]
+[node name="Tween" type="Tween" parent="Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 
-[node name="GenerateButton" type="Button" parent="Text2Image/VBoxContainer/Generate"]
+[node name="GenerateButton" type="Button" parent="Generate/VBoxContainer/Generate"]
 unique_name_in_owner = true
 margin_left = 1442.0
 margin_right = 1562.0
@@ -129,7 +131,7 @@ margin_bottom = 41.251
 rect_min_size = Vector2( 120, 0 )
 text = "Generate"
 
-[node name="CancelButton" type="Button" parent="Text2Image/VBoxContainer/Generate"]
+[node name="CancelButton" type="Button" parent="Generate/VBoxContainer/Generate"]
 unique_name_in_owner = true
 visible = false
 margin_left = 1458.0
@@ -140,7 +142,7 @@ custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_styles/disabled = SubResource( 2 )
 text = "Cancel"
 
-[node name="MainArea" type="HBoxContainer" parent="Text2Image/VBoxContainer"]
+[node name="MainArea" type="HBoxContainer" parent="Generate/VBoxContainer"]
 margin_top = 61.0
 margin_right = 1562.0
 margin_bottom = 831.0
@@ -148,122 +150,231 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 20
 
-[node name="ControlsLeft" type="VBoxContainer" parent="Text2Image/VBoxContainer/MainArea"]
-unique_name_in_owner = true
-margin_right = 311.0
+[node name="TabContainer" type="TabContainer" parent="Generate/VBoxContainer/MainArea"]
+margin_right = 308.0
 margin_bottom = 770.0
+
+[node name="Basic" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea/TabContainer"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 35.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 20
 
-[node name="Width" parent="Text2Image/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
+[node name="Amount" parent="Generate/VBoxContainer/MainArea/TabContainer/Basic" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_right = 311.0
+margin_right = 300.0
+margin_bottom = 63.0
+
+[node name="NSFW" type="CheckButton" parent="Generate/VBoxContainer/MainArea/TabContainer/Basic"]
+unique_name_in_owner = true
+margin_top = 83.0
+margin_right = 300.0
+margin_bottom = 143.251
+text = "NSFW"
+
+[node name="CensorNSFW" type="CheckButton" parent="Generate/VBoxContainer/MainArea/TabContainer/Basic"]
+unique_name_in_owner = true
+margin_top = 163.0
+margin_right = 300.0
+margin_bottom = 223.251
+pressed = true
+text = "Censor accidental NSFW"
+
+[node name="TrustedWorkers" type="CheckButton" parent="Generate/VBoxContainer/MainArea/TabContainer/Basic"]
+unique_name_in_owner = true
+margin_top = 243.0
+margin_right = 300.0
+margin_bottom = 303.251
+text = "Require Trusted Workers"
+
+[node name="SaveDirLabel" type="Label" parent="Generate/VBoxContainer/MainArea/TabContainer/Basic"]
+unique_name_in_owner = true
+margin_top = 323.0
+margin_right = 300.0
+margin_bottom = 340.0
+text = "Save Directory"
+autowrap = true
+
+[node name="SaveDir" type="LineEdit" parent="Generate/VBoxContainer/MainArea/TabContainer/Basic"]
+unique_name_in_owner = true
+margin_top = 360.0
+margin_right = 300.0
+margin_bottom = 398.434
+clear_button_enabled = true
+
+[node name="SaveButtons" type="HBoxContainer" parent="Generate/VBoxContainer/MainArea/TabContainer/Basic"]
+margin_top = 418.0
+margin_right = 300.0
+margin_bottom = 459.0
+custom_constants/separation = 10
+
+[node name="Save" type="Button" parent="Generate/VBoxContainer/MainArea/TabContainer/Basic/SaveButtons"]
+unique_name_in_owner = true
+margin_right = 145.0
+margin_bottom = 41.251
+size_flags_horizontal = 3
+disabled = true
+text = "Save"
+
+[node name="SaveAll" type="Button" parent="Generate/VBoxContainer/MainArea/TabContainer/Basic/SaveButtons"]
+unique_name_in_owner = true
+margin_left = 155.0
+margin_right = 300.0
+margin_bottom = 41.251
+size_flags_horizontal = 3
+text = "Save All"
+
+[node name="StatusText" type="RichTextLabel" parent="Generate/VBoxContainer/MainArea/TabContainer/Basic"]
+unique_name_in_owner = true
+margin_top = 479.0
+margin_right = 300.0
+margin_bottom = 497.0
+bbcode_enabled = true
+fit_content_height = true
+
+[node name="Advanced" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea/TabContainer"]
+unique_name_in_owner = true
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 27.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_min_size = Vector2( 300, 0 )
+custom_constants/separation = 20
+
+[node name="ModelSelectLabel" type="Label" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced"]
+margin_top = 527.0
+margin_right = 300.0
+margin_bottom = 544.0
+text = "Model"
+autowrap = true
+
+[node name="ModelSelect" type="OptionButton" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced"]
+unique_name_in_owner = true
+margin_top = 564.0
+margin_right = 300.0
+margin_bottom = 605.251
+text = "Any model"
+items = [ "Any model", null, false, 0, null, "stable_diffusion", null, false, 1, null ]
+selected = 0
+script = ExtResource( 10 )
+
+[node name="StableHordeModels" type="HTTPRequest" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced/ModelSelect"]
+unique_name_in_owner = true
+script = ExtResource( 9 )
+
+[node name="Width" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced" instance=ExtResource( 5 )]
+unique_name_in_owner = true
+margin_right = 300.0
 margin_bottom = 63.0
 config_setting = "width"
 
-[node name="Height" parent="Text2Image/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
+[node name="Height" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 83.0
-margin_right = 311.0
+margin_right = 300.0
 margin_bottom = 146.0
 config_setting = "height"
 
-[node name="StepsSlider" parent="Text2Image/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
+[node name="StepsSlider" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 166.0
-margin_right = 311.0
+margin_right = 300.0
 margin_bottom = 229.0
 config_setting = "steps"
 
-[node name="ConfigSlider" parent="Text2Image/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
+[node name="ConfigSlider" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 249.0
-margin_right = 311.0
+margin_right = 300.0
 margin_bottom = 352.0
 config_setting = "cfg_scale"
 
-[node name="Amount" parent="Text2Image/VBoxContainer/MainArea/ControlsLeft" instance=ExtResource( 5 )]
-unique_name_in_owner = true
+[node name="SamplerMethodLabel" type="Label" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced"]
 margin_top = 372.0
-margin_right = 311.0
-margin_bottom = 435.0
-
-[node name="SamplerMethodLabel" type="Label" parent="Text2Image/VBoxContainer/MainArea/ControlsLeft"]
-margin_top = 455.0
-margin_right = 311.0
-margin_bottom = 492.0
+margin_right = 300.0
+margin_bottom = 409.0
 text = "Sampling method (k_lms is default k-diffusion sampler)"
 autowrap = true
 
-[node name="SamplerMethod" type="OptionButton" parent="Text2Image/VBoxContainer/MainArea/ControlsLeft"]
+[node name="SamplerMethod" type="OptionButton" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced"]
 unique_name_in_owner = true
-margin_top = 512.0
-margin_right = 311.0
-margin_bottom = 553.251
+margin_top = 429.0
+margin_right = 300.0
+margin_bottom = 470.251
 text = "k_lms"
 items = [ "k_lms", null, false, 0, null, "k_heun", null, false, 1, null, "k_euler", null, false, 2, null, "k_euler_a", null, false, 3, null, "k_dpm_2", null, false, 4, null, "k_dpm_2_a", null, false, 5, null, "DDIM", null, false, 6, null, "PLMS", null, false, 7, null ]
 selected = 0
 
-[node name="SeedLabel" type="Label" parent="Text2Image/VBoxContainer/MainArea/ControlsLeft"]
-margin_top = 573.0
-margin_right = 311.0
-margin_bottom = 590.0
+[node name="SeedLabel" type="Label" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced"]
+margin_top = 490.0
+margin_right = 300.0
+margin_bottom = 507.0
 text = "Seed (blank to randomize)"
 autowrap = true
 
-[node name="Seed" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/ControlsLeft"]
+[node name="Seed" type="LineEdit" parent="Generate/VBoxContainer/MainArea/TabContainer/Advanced"]
 unique_name_in_owner = true
-margin_top = 610.0
-margin_right = 311.0
-margin_bottom = 648.434
+margin_top = 625.0
+margin_right = 300.0
+margin_bottom = 663.434
 
-[node name="Display" type="VBoxContainer" parent="Text2Image/VBoxContainer/MainArea"]
+[node name="Display" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea"]
 unique_name_in_owner = true
-margin_left = 331.0
-margin_right = 1231.0
+margin_left = 328.0
+margin_right = 1562.0
 margin_bottom = 770.0
+size_flags_horizontal = 3
 
-[node name="DisplayFocus" type="TextureRect" parent="Text2Image/VBoxContainer/MainArea/Display"]
+[node name="DisplayFocus" type="TextureRect" parent="Generate/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
 visible = false
-margin_right = 1200.0
-margin_bottom = 151.0
+margin_right = 1234.0
+margin_bottom = 40.0
 size_flags_vertical = 3
 expand = true
 stretch_mode = 4
 
-[node name="GridScroll" type="ScrollContainer" parent="Text2Image/VBoxContainer/MainArea/Display"]
+[node name="GridScroll" type="ScrollContainer" parent="Generate/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_right = 900.0
-margin_bottom = 686.0
+margin_right = 1234.0
+margin_bottom = 644.0
 rect_min_size = Vector2( 900, 600 )
 size_flags_vertical = 3
 
-[node name="Grid" type="GridContainer" parent="Text2Image/VBoxContainer/MainArea/Display/GridScroll"]
+[node name="Grid" type="GridContainer" parent="Generate/VBoxContainer/MainArea/Display/GridScroll"]
 unique_name_in_owner = true
-margin_right = 900.0
-margin_bottom = 686.0
+margin_right = 1234.0
+margin_bottom = 644.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9
 
-[node name="ImagePrompt" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display"]
+[node name="ImagePrompt" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_top = 690.0
-margin_right = 900.0
-margin_bottom = 728.434
+margin_top = 648.0
+margin_right = 1234.0
+margin_bottom = 686.434
 size_flags_horizontal = 3
 text = "Prompt:"
 editable = false
 
-[node name="ImageInfo" type="HBoxContainer" parent="Text2Image/VBoxContainer/MainArea/Display"]
+[node name="ImageInfo" type="HBoxContainer" parent="Generate/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_top = 732.0
-margin_right = 900.0
-margin_bottom = 770.0
+margin_top = 690.0
+margin_right = 1234.0
+margin_bottom = 728.0
 custom_constants/separation = 50
 
-[node name="ImageSeed" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
+[node name="ImageSeed" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
 margin_right = 90.8655
 margin_bottom = 38.4343
@@ -271,7 +382,7 @@ text = "Seed:"
 editable = false
 expand_to_text_length = true
 
-[node name="ImageWidth" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
+[node name="ImageWidth" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
 margin_left = 140.0
 margin_right = 230.866
@@ -280,7 +391,7 @@ text = "Width: "
 editable = false
 expand_to_text_length = true
 
-[node name="ImageLength" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
+[node name="ImageLength" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
 margin_left = 280.0
 margin_right = 370.866
@@ -289,106 +400,115 @@ text = "Length:"
 editable = false
 expand_to_text_length = true
 
-[node name="WorkerName" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/Display/ImageInfo"]
+[node name="Model" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/ImageInfo"]
 unique_name_in_owner = true
 margin_left = 420.0
-margin_right = 900.0
+margin_right = 510.866
+margin_bottom = 38.4343
+text = "Model:"
+editable = false
+expand_to_text_length = true
+
+[node name="WorkerInfo" type="HBoxContainer" parent="Generate/VBoxContainer/MainArea/Display"]
+unique_name_in_owner = true
+margin_top = 732.0
+margin_right = 1234.0
+margin_bottom = 770.0
+custom_constants/separation = 50
+
+[node name="WorkerName" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/WorkerInfo"]
+unique_name_in_owner = true
+margin_right = 592.0
 margin_bottom = 38.4343
 size_flags_horizontal = 3
-text = "Server Name:"
+text = "Worker Name:"
 editable = false
 
-[node name="ControlsRight" type="VBoxContainer" parent="Text2Image/VBoxContainer/MainArea"]
+[node name="WorkerID" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/WorkerInfo"]
 unique_name_in_owner = true
-margin_left = 1251.0
-margin_right = 1562.0
-margin_bottom = 770.0
+margin_left = 642.0
+margin_right = 1234.0
+margin_bottom = 38.4343
 size_flags_horizontal = 3
-custom_constants/separation = 20
+text = "Worker ID:"
+editable = false
 
-[node name="APIKeyLabel" type="RichTextLabel" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
+[node name="Options" type="MarginContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 35.0
+margin_right = -4.0
+margin_bottom = -4.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
+
+[node name="VBC" type="VBoxContainer" parent="Options"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 1577.0
+margin_bottom = 846.0
+custom_constants/separation = 10
+
+[node name="HBC" type="HBoxContainer" parent="Options/VBC"]
+margin_right = 1562.0
+margin_bottom = 831.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBCLeft" type="VBoxContainer" parent="Options/VBC/HBC"]
+margin_right = 518.0
+margin_bottom = 831.0
+size_flags_horizontal = 3
+
+[node name="APIKeyLabel" type="RichTextLabel" parent="Options/VBC/HBC/VBCLeft"]
 unique_name_in_owner = true
-margin_right = 311.0
+margin_right = 518.0
 margin_bottom = 18.0
 bbcode_enabled = true
 bbcode_text = "API Key [url=register](Register)[/url]"
 text = "API Key (Register)"
 fit_content_height = true
 
-[node name="APIKey" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
+[node name="APIKey" type="LineEdit" parent="Options/VBC/HBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 38.0
-margin_right = 311.0
-margin_bottom = 76.4343
+margin_top = 22.0
+margin_right = 518.0
+margin_bottom = 60.4343
 secret = true
 clear_button_enabled = true
 
-[node name="NSFW" type="CheckButton" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
-unique_name_in_owner = true
-margin_top = 96.0
-margin_right = 311.0
-margin_bottom = 156.251
-text = "NSFW"
-
-[node name="CensorNSFW" type="CheckButton" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
-unique_name_in_owner = true
-margin_top = 176.0
-margin_right = 311.0
-margin_bottom = 236.251
-pressed = true
-text = "Censor accidental NSFW"
-
-[node name="TrustedWorkers" type="CheckButton" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
-unique_name_in_owner = true
-margin_top = 256.0
-margin_right = 311.0
-margin_bottom = 316.251
-text = "Require Trusted Workers"
-
-[node name="SaveDirLabel" type="Label" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
-unique_name_in_owner = true
-margin_top = 336.0
-margin_right = 311.0
-margin_bottom = 353.0
-text = "Save Directory"
-autowrap = true
-
-[node name="SaveDir" type="LineEdit" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
-unique_name_in_owner = true
-margin_top = 373.0
-margin_right = 311.0
-margin_bottom = 411.434
-clear_button_enabled = true
-
-[node name="SaveButtons" type="HBoxContainer" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
-margin_top = 431.0
-margin_right = 311.0
-margin_bottom = 472.0
-custom_constants/separation = 10
-
-[node name="Save" type="Button" parent="Text2Image/VBoxContainer/MainArea/ControlsRight/SaveButtons"]
-unique_name_in_owner = true
-margin_right = 150.0
-margin_bottom = 41.251
+[node name="VBCMiddle" type="VBoxContainer" parent="Options/VBC/HBC"]
+margin_left = 522.0
+margin_right = 1040.0
+margin_bottom = 831.0
 size_flags_horizontal = 3
-disabled = true
-text = "Save"
 
-[node name="SaveAll" type="Button" parent="Text2Image/VBoxContainer/MainArea/ControlsRight/SaveButtons"]
-unique_name_in_owner = true
-margin_left = 160.0
-margin_right = 311.0
-margin_bottom = 41.251
+[node name="VBCRight" type="VBoxContainer" parent="Options/VBC/HBC"]
+margin_left = 1044.0
+margin_right = 1562.0
+margin_bottom = 831.0
 size_flags_horizontal = 3
-text = "Save All"
 
-[node name="StatusText" type="RichTextLabel" parent="Text2Image/VBoxContainer/MainArea/ControlsRight"]
+[node name="img2img" type="VBoxContainer" parent="Options/VBC"]
 unique_name_in_owner = true
-margin_top = 492.0
-margin_right = 311.0
-margin_bottom = 510.0
-bbcode_enabled = true
-fit_content_height = true
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 88.0
+margin_right = -4.0
+margin_bottom = 57.0
+rect_min_size = Vector2( 300, 0 )
+custom_constants/separation = 20
+
+[node name="DenoisingStrength" parent="Options/VBC/img2img" instance=ExtResource( 5 )]
+margin_right = 300.0
+margin_bottom = 63.0
+config_setting = "width"
 
 [node name="Information" type="MarginContainer" parent="."]
 visible = false
@@ -474,8 +594,8 @@ text = "Contributors"
 fit_content_height = true
 script = ExtResource( 6 )
 
-[connection signal="meta_clicked" from="Text2Image/VBoxContainer/MainArea/ControlsRight/APIKeyLabel" to="." method="_on_APIKeyLabel_meta_clicked"]
-[connection signal="text_changed" from="Text2Image/VBoxContainer/MainArea/ControlsRight/APIKey" to="." method="_on_APIKey_text_changed"]
-[connection signal="meta_clicked" from="Text2Image/VBoxContainer/MainArea/ControlsRight/StatusText" to="." method="_on_StatusText_meta_clicked"]
+[connection signal="meta_clicked" from="Generate/VBoxContainer/MainArea/TabContainer/Basic/StatusText" to="." method="_on_StatusText_meta_clicked"]
+[connection signal="meta_clicked" from="Options/VBC/HBC/VBCLeft/APIKeyLabel" to="." method="_on_APIKeyLabel_meta_clicked"]
+[connection signal="text_changed" from="Options/VBC/HBC/VBCLeft/APIKey" to="." method="_on_APIKey_text_changed"]
 [connection signal="meta_clicked" from="Information/VBoxContainer/HBC/VBC1/Infodump" to="Information/VBoxContainer/HBC/VBC1/Infodump" method="_on_Infodump_meta_clicked"]
 [connection signal="meta_clicked" from="Information/VBoxContainer/HBC/VBC2/Credits" to="Information/VBoxContainer/HBC/VBC2/Credits" method="_on_Credits_meta_clicked"]

@@ -35,6 +35,12 @@ const CONFIG := {
 		"max": 30,
 		"step": 0.5,
 	},
+	"denoising_strength": {
+		"label": "Denoising Strength (how strongly the image should follow the source image)",
+		"min": 0,
+		"max": 1,
+		"step": 0.01,
+	},
 }
 onready var h_slider = $"%HSlider"
 onready var config_name = $"%ConfigName"
