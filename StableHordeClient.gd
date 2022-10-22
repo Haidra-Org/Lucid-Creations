@@ -49,6 +49,12 @@ onready var censor_nsfw = $"%CensorNSFW"
 onready var trusted_workers = $"%TrustedWorkers"
 onready var model_select = $"%ModelSelect"
 onready var controls = $"%Controls"
+# img2img
+onready var img_2_img_enabled = $"%Img2ImgEnabled"
+onready var denoising_strength = $"%DenoisingStrength"
+onready var select_image = $"%SelectImage"
+onready var open_image = $"%OpenImage"
+onready var image_preview = $"%ImagePreview"
 
 
 
@@ -63,6 +69,12 @@ func _ready():
 	stable_horde_client.connect("request_warning",self, "_on_request_warning")
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("image_processing",self, "_on_image_process_update")
+	# warning-ignore:return_value_discarded
+	img_2_img_enabled.connect("toggled",self,"on_img2img_toggled")
+	# warning-ignore:return_value_discarded
+	select_image.connect("pressed",self,"on_image_select_pressed")
+	# warning-ignore:return_value_discarded
+	open_image.connect("file_selected",self,"_on_source_image_selected")
 	save_dir.connect("text_entered",self,"_on_savedir_entered")
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
@@ -77,7 +89,7 @@ func _ready():
 			stable_horde_client.set(key, globals.config.get_value("Parameters", key))
 		stable_horde_client.set("sampler_name", globals.config.get_value("Parameters", "sampler_name", stable_horde_client.sampler_name))
 		stable_horde_client.set("models", globals.config.get_value("Parameters", "models", stable_horde_client.models))
-	for slider_config in [width,height,config_slider,steps_slider,amount]:
+	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	nsfw.pressed = stable_horde_client.nsfw
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
@@ -109,7 +121,7 @@ func _ready():
 
 func _on_GenerateButton_pressed():
 	status_text.text = ''
-	for slider_config in [width,height,config_slider,steps_slider,amount]:
+	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
 		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
 		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
@@ -245,8 +257,10 @@ func _on_StatusText_meta_clicked(meta):
 			# warning-ignore:return_value_discarded
 			OS.shell_open("https://discord.gg/3DxrhksKzn")
 		"patreon":
+			# warning-ignore:return_value_discarded
 			OS.shell_open("https://www.patreon.com/db0")
 		"worker":
+			# warning-ignore:return_value_discarded
 			OS.shell_open("https://github.com/db0/AI-Horde/blob/main/README_StableHorde.md#joining-the-horde")
 
 func _on_APIKeyLabel_meta_clicked(meta):
@@ -384,3 +398,15 @@ func _set_default_savedir_path(only_placholder = false) -> void:
 				save_dir.text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
 			save_dir.placeholder_text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
 
+func on_img2img_toggled(pressed: bool) -> void:
+	for node in [denoising_strength,select_image,image_preview]:
+		node.visible = pressed
+	if not pressed:
+		stable_horde_client.source_image = null
+
+func on_image_select_pressed() -> void:
+	open_image.popup_centered(Vector2(500,500))
+
+func _on_source_image_selected(path: String) -> void:
+	image_preview.load_image_from_path(path)
+	stable_horde_client.source_image = image_preview.source_image

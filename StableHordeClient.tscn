@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://addons/stable_horde_client/stable_horde_models.gd" type="Script" id=9]
 [ext_resource path="res://ModelSelect.gd" type="Script" id=10]
 [ext_resource path="res://Options.gd" type="Script" id=11]
+[ext_resource path="res://ImagePreview.gd" type="Script" id=12]
 
 [sub_resource type="StyleBoxTexture" id=2]
 texture = ExtResource( 8 )
@@ -246,24 +247,23 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 27.0
+margin_top = 35.0
 margin_right = -4.0
 margin_bottom = -4.0
 rect_min_size = Vector2( 300, 0 )
 custom_constants/separation = 20
 
 [node name="ModelSelectLabel" type="Label" parent="Generate/VBoxContainer/MainArea/Controls/Advanced"]
-margin_top = 527.0
 margin_right = 300.0
-margin_bottom = 544.0
+margin_bottom = 17.0
 text = "Model"
 autowrap = true
 
 [node name="ModelSelect" type="OptionButton" parent="Generate/VBoxContainer/MainArea/Controls/Advanced"]
 unique_name_in_owner = true
-margin_top = 564.0
+margin_top = 37.0
 margin_right = 300.0
-margin_bottom = 605.251
+margin_bottom = 78.251
 text = "Any model"
 items = [ "Any model", null, false, 0, null, "stable_diffusion", null, false, 1, null ]
 selected = 0
@@ -275,51 +275,52 @@ script = ExtResource( 9 )
 
 [node name="Width" parent="Generate/VBoxContainer/MainArea/Controls/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
+margin_top = 98.0
 margin_right = 300.0
-margin_bottom = 63.0
+margin_bottom = 161.0
 config_setting = "width"
 
 [node name="Height" parent="Generate/VBoxContainer/MainArea/Controls/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_top = 83.0
+margin_top = 181.0
 margin_right = 300.0
-margin_bottom = 146.0
+margin_bottom = 244.0
 config_setting = "height"
 
 [node name="StepsSlider" parent="Generate/VBoxContainer/MainArea/Controls/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_top = 166.0
+margin_top = 264.0
 margin_right = 300.0
-margin_bottom = 229.0
+margin_bottom = 327.0
 config_setting = "steps"
 
 [node name="ConfigSlider" parent="Generate/VBoxContainer/MainArea/Controls/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_top = 249.0
+margin_top = 347.0
 margin_right = 300.0
-margin_bottom = 352.0
+margin_bottom = 450.0
 config_setting = "cfg_scale"
 
 [node name="SamplerMethodLabel" type="Label" parent="Generate/VBoxContainer/MainArea/Controls/Advanced"]
-margin_top = 372.0
+margin_top = 470.0
 margin_right = 300.0
-margin_bottom = 409.0
+margin_bottom = 507.0
 text = "Sampling method (k_lms is default k-diffusion sampler)"
 autowrap = true
 
 [node name="SamplerMethod" type="OptionButton" parent="Generate/VBoxContainer/MainArea/Controls/Advanced"]
 unique_name_in_owner = true
-margin_top = 429.0
+margin_top = 527.0
 margin_right = 300.0
-margin_bottom = 470.251
+margin_bottom = 568.251
 text = "k_lms"
 items = [ "k_lms", null, false, 0, null, "k_heun", null, false, 1, null, "k_euler", null, false, 2, null, "k_euler_a", null, false, 3, null, "k_dpm_2", null, false, 4, null, "k_dpm_2_a", null, false, 5, null, "DDIM", null, false, 6, null, "PLMS", null, false, 7, null ]
 selected = 0
 
 [node name="SeedLabel" type="Label" parent="Generate/VBoxContainer/MainArea/Controls/Advanced"]
-margin_top = 490.0
+margin_top = 588.0
 margin_right = 300.0
-margin_bottom = 507.0
+margin_bottom = 605.0
 text = "Seed (blank to randomize)"
 autowrap = true
 
@@ -328,6 +329,60 @@ unique_name_in_owner = true
 margin_top = 625.0
 margin_right = 300.0
 margin_bottom = 663.434
+
+[node name="img2img" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea/Controls"]
+unique_name_in_owner = true
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 35.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_min_size = Vector2( 300, 0 )
+custom_constants/separation = 20
+
+[node name="Img2ImgEnabled" type="CheckButton" parent="Generate/VBoxContainer/MainArea/Controls/img2img"]
+unique_name_in_owner = true
+margin_right = 342.0
+margin_bottom = 60.251
+text = "Enabled"
+
+[node name="DenoisingStrength" parent="Generate/VBoxContainer/MainArea/Controls/img2img" instance=ExtResource( 5 )]
+unique_name_in_owner = true
+visible = false
+margin_top = 80.0
+margin_right = 342.0
+margin_bottom = 163.0
+config_setting = "denoising_strength"
+
+[node name="OpenImage" type="FileDialog" parent="Generate/VBoxContainer/MainArea/Controls/img2img"]
+unique_name_in_owner = true
+margin_top = 183.0
+margin_right = 342.0
+margin_bottom = 372.0
+window_title = "Open a File"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.png, *.jpg, *.jpeg, *.webp ; Supported Images\"" )
+
+[node name="SelectImage" type="Button" parent="Generate/VBoxContainer/MainArea/Controls/img2img"]
+unique_name_in_owner = true
+visible = false
+margin_right = 115.324
+margin_bottom = 41.251
+text = "Select Image"
+
+[node name="ImagePreview" type="TextureRect" parent="Generate/VBoxContainer/MainArea/Controls/img2img"]
+unique_name_in_owner = true
+visible = false
+margin_top = 392.0
+margin_right = 342.0
+margin_bottom = 642.0
+rect_min_size = Vector2( 250, 250 )
+expand = true
+stretch_mode = 6
+script = ExtResource( 12 )
 
 [node name="Display" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea"]
 unique_name_in_owner = true
@@ -509,23 +564,6 @@ margin_left = 1044.0
 margin_right = 1562.0
 margin_bottom = 831.0
 size_flags_horizontal = 3
-
-[node name="img2img" type="VBoxContainer" parent="Options/VBC"]
-unique_name_in_owner = true
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 88.0
-margin_right = -4.0
-margin_bottom = 57.0
-rect_min_size = Vector2( 300, 0 )
-custom_constants/separation = 20
-
-[node name="DenoisingStrength" parent="Options/VBC/img2img" instance=ExtResource( 5 )]
-margin_right = 300.0
-margin_bottom = 63.0
-config_setting = "width"
 
 [node name="Information" type="MarginContainer" parent="."]
 visible = false
