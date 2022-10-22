@@ -71,6 +71,7 @@ func _ready():
 		stable_horde_client.set("sampler_name", globals.config.get_value("Parameters", "sampler_name"))
 		stable_horde_client.set("models", globals.config.get_value("Parameters", "models"))
 	for slider_config in [width,height,config_slider,steps_slider,amount]:
+		print_debug(slider_config)
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	nsfw.pressed = stable_horde_client.nsfw
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
