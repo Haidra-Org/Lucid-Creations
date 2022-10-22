@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.11.0](https://github.com/db0/Stable-Horde-Client/tree/v0.11.0) (2022-10-22)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.10.3...v0.11.0)
+
+**Closed issues:**
+
+- Not able to save locally  [\#34](https://github.com/db0/Stable-Horde-Client/issues/34)
+
+**Merged pull requests:**
+
+- Support for Multiple model and rearrange UI for img2img [\#35](https://github.com/db0/Stable-Horde-Client/pull/35) ([db0](https://github.com/db0))
+
 ## [v0.10.3](https://github.com/db0/Stable-Horde-Client/tree/v0.10.3) (2022-10-14)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.10.2...v0.10.3)
