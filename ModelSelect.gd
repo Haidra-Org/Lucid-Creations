@@ -33,8 +33,11 @@ func _on_models_retrieved(model_names: Array, model_reference: Dictionary):
 	add_item("Any model")
 	# We start at 1 because "Any model" is 0
 	for iter in range(model_names.size()):
-		var id = iter + 1
 		var model_name = model_names[iter]
+		# We ignore unknown model names
+		if not model_reference.has(model_name):
+			continue
+		var id = iter + 1
 		model_id_map[model_name] = id
 		var model_fmt = {
 			"model_name": model_name,
