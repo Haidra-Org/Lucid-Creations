@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.0](https://github.com/db0/Stable-Horde-Client/tree/v1.0.0) (2022-10-22)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.11.0...v1.0.0)
+
+**Merged pull requests:**
+
+- remember prompt option [\#36](https://github.com/db0/Stable-Horde-Client/pull/36) ([db0](https://github.com/db0))
+
 ## [v0.11.0](https://github.com/db0/Stable-Horde-Client/tree/v0.11.0) (2022-10-22)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.10.3...v0.11.0)
