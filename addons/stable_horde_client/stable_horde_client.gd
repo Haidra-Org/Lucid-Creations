@@ -60,7 +60,7 @@ export(bool) var trusted_workers := true
 # To ensure there is a worker serving that model first.
 # An empty array here picks the first available models from the workers
 export(Array) var models := ["stable_diffusion"]
-
+export(Image) var source_image
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -99,6 +99,9 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"trusted_workers": trusted_workers,
 		"models": models
 	}
+	if source_image:
+		submit_dict["source_image"] = get_img2img_b64(source_image)
+		submit_dict["params"]["denoising_strength"] = denoising_strength
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
 	var body = to_json(submit_dict)
@@ -191,3 +194,8 @@ func get_sampler_method_id() -> String:
 func cancel_request() -> void:
 	print_debug("Cancelling...")
 	state = States.CANCELLING
+
+func get_img2img_b64(image: Image) -> String:
+	var imgbuffer = image.save_png_to_buffer()
+	return(Marshalls.raw_to_base64(imgbuffer))
+	

@@ -46,7 +46,7 @@ onready var h_slider = $"%HSlider"
 onready var config_name = $"%ConfigName"
 onready var config_value = $"%ConfigValue"
 
-export(String, "amount", "width", "height","steps", "cfg_scale") var config_setting := 'amount' setget set_config_name
+export(String, "amount", "width", "height","steps", "cfg_scale", "denoising_strength") var config_setting := 'amount' setget set_config_name
 
 func _ready():
 	_adapt_to_config_name()

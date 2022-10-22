@@ -23,6 +23,7 @@ onready var api_key := $"%APIKey"
 onready var api_key_label := $"%APIKeyLabel"
 onready var grid_scroll = $"%GridScroll"
 onready var display_focus = $"%DisplayFocus"
+onready var focused_image = $"%FocusedImage"
 onready var image_seed = $"%ImageSeed"
 onready var image_width = $"%ImageWidth"
 onready var image_length = $"%ImageLength"
@@ -47,9 +48,15 @@ onready var nsfw = $"%NSFW"
 onready var censor_nsfw = $"%CensorNSFW"
 onready var trusted_workers = $"%TrustedWorkers"
 onready var model_select = $"%ModelSelect"
+onready var controls = $"%Controls"
+# img2img
+onready var img_2_img_enabled = $"%Img2ImgEnabled"
+onready var denoising_strength = $"%DenoisingStrength"
+onready var select_image = $"%SelectImage"
+onready var open_image = $"%OpenImage"
+onready var image_preview = $"%ImagePreview"
 
 
-var controls_width := 500
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -62,6 +69,12 @@ func _ready():
 	stable_horde_client.connect("request_warning",self, "_on_request_warning")
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("image_processing",self, "_on_image_process_update")
+	# warning-ignore:return_value_discarded
+	img_2_img_enabled.connect("toggled",self,"on_img2img_toggled")
+	# warning-ignore:return_value_discarded
+	select_image.connect("pressed",self,"on_image_select_pressed")
+	# warning-ignore:return_value_discarded
+	open_image.connect("file_selected",self,"_on_source_image_selected")
 	save_dir.connect("text_entered",self,"_on_savedir_entered")
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
@@ -76,7 +89,7 @@ func _ready():
 			stable_horde_client.set(key, globals.config.get_value("Parameters", key))
 		stable_horde_client.set("sampler_name", globals.config.get_value("Parameters", "sampler_name", stable_horde_client.sampler_name))
 		stable_horde_client.set("models", globals.config.get_value("Parameters", "models", stable_horde_client.models))
-	for slider_config in [width,height,config_slider,steps_slider,amount]:
+	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	nsfw.pressed = stable_horde_client.nsfw
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
@@ -89,6 +102,8 @@ func _ready():
 	else:
 		save_dir.text = default_save_dir
 		_set_default_savedir_path(true)
+	if globals.config.get_value("Options", "remember_prompt"):
+		prompt_line_edit.text = globals.config.get_value("Options", "saved_prompt")
 
 	# warning-ignore:return_value_discarded
 	get_viewport().connect("size_changed", self, '_on_viewport_resized')
@@ -106,7 +121,7 @@ func _ready():
 
 func _on_GenerateButton_pressed():
 	status_text.text = ''
-	for slider_config in [width,height,config_slider,steps_slider,amount]:
+	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
 		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
 		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
@@ -143,6 +158,7 @@ func _on_GenerateButton_pressed():
 	prompt_cover.visible = true
 	progress_text.visible = true
 	stable_horde_client.generate(prompt_line_edit.text)
+	globals.set_setting("saved_prompt", prompt_line_edit.text, "Options")
 
 
 func _on_CancelButton_pressed():
@@ -200,7 +216,7 @@ func _on_image_process_update(stats: Dictionary) -> void:
 
 func _on_viewport_resized() -> void:
 	# Disabling now with the tabs
-	return
+#	return
 	# warning-ignore:unreachable_code
 	if not display_focus.visible:
 		_sets_size_without_display_focus()
@@ -210,7 +226,7 @@ func _on_viewport_resized() -> void:
 
 func _sets_size_without_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_EXPAND_FILL
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls_width) * 0.75
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls.rect_size.x) * 0.88
 	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
 #	grid_scroll.rect_min_size.y = get_viewport().size.y - image_info.rect_size.y - 100
 	grid_scroll.rect_min_size.y = 0
@@ -220,7 +236,7 @@ func _sets_size_without_display_focus() -> void:
 
 func _sets_size_with_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_FILL
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls_width) * 0.75
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls.rect_size.x) * 0.88
 	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
 	grid_scroll.rect_min_size.y = 140
 	for tr in grid.get_children():
@@ -241,8 +257,10 @@ func _on_StatusText_meta_clicked(meta):
 			# warning-ignore:return_value_discarded
 			OS.shell_open("https://discord.gg/3DxrhksKzn")
 		"patreon":
+			# warning-ignore:return_value_discarded
 			OS.shell_open("https://www.patreon.com/db0")
 		"worker":
+			# warning-ignore:return_value_discarded
 			OS.shell_open("https://github.com/db0/AI-Horde/blob/main/README_StableHorde.md#joining-the-horde")
 
 func _on_APIKeyLabel_meta_clicked(meta):
@@ -274,7 +292,7 @@ func _get_test_images(n = 10) -> Array:
 
 func focus_on_image(imagetex: AIImageTexture) -> void:
 	_sets_size_with_display_focus()
-	display_focus.texture = imagetex
+	focused_image.texture = imagetex
 	display_focus.show()
 	_fill_in_details(imagetex)
 	save.disabled = false
@@ -321,7 +339,7 @@ func _on_savedir_entered(path: String) -> void:
 func _on_save_pressed() -> void:
 	_on_savedir_entered(save_dir.text)
 	var save_dir_path : String = globals.config.get_value("Config", "default_save_dir", "user://")
-	display_focus.texture.save_in_dir(save_dir_path)
+	focused_image.texture.save_in_dir(save_dir_path)
 
 func _on_save_all_pressed() -> void:
 	var save_dir_path : String = globals.config.get_value("Config", "default_save_dir", "user://")
@@ -340,7 +358,6 @@ func _on_request_warning(warning_msg: String) -> void:
 func _check_html5() -> void:
 	if OS.get_name() != "HTML5":
 		return
-	controls_width = 200
 	save.hide()
 	save_all.hide()
 	save_dir.hide()
@@ -381,3 +398,15 @@ func _set_default_savedir_path(only_placholder = false) -> void:
 				save_dir.text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
 			save_dir.placeholder_text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
 
+func on_img2img_toggled(pressed: bool) -> void:
+	for node in [denoising_strength,select_image,image_preview]:
+		node.visible = pressed
+	if not pressed:
+		stable_horde_client.source_image = null
+
+func on_image_select_pressed() -> void:
+	open_image.popup_centered(Vector2(500,500))
+
+func _on_source_image_selected(path: String) -> void:
+	image_preview.load_image_from_path(path)
+	stable_horde_client.source_image = image_preview.source_image
