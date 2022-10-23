@@ -57,16 +57,10 @@ jobs:
       if: ${{ steps.release.outputs.version != '' }}
       shell: bash
       run: |
-          # cp -v /home/runner/.local/share/godot/dist/* .
-          # mkdir -p build/StandaloneWindows64
-          # mkdir -p build/StandaloneLinux64
-          # mkdir -p build/StandaloneMacOS
-          # cp '/home/runner/.local/share/godot/builds/LinuxX11/lucid-creations_Linux.x86_64' .
-          # cp '/home/runner/.local/share/godot/builds/LinuxX11/lucid-creations_Linux.x86_64' build/StandaloneLinux64/
-          # cp '/home/runner/.local/share/godot/builds/Windows Desktop/lucid-creations_Windows.exe' .
-          # cp '/home/runner/.local/share/godot/builds/Windows Desktop/lucid-creations_Windows.exe' build/StandaloneWindows64/
-          # cp '/home/runner/.local/share/godot/builds/Mac OSX/lucid-creations_MacOSX.zip' .
-          # cp '/home/runner/.local/share/godot/builds/Mac OSX/lucid-creations_MacOSX.zip' build/StandaloneMacOS/
+          cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-windows.zip' .
+          cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-linux.zip' .
+          cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-macosx.zip' .
+          cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-HTML5.zip' .
           ls -larth
           ls -larth ${{ steps.export.outputs.archive_directory }}
     - name: "☢ Upload Windows version to itch.io"
