@@ -103,7 +103,7 @@ func _ready():
 	else:
 		save_dir.text = default_save_dir
 		_set_default_savedir_path(true)
-	if globals.config.get_value("Options", "remember_prompt"):
+	if globals.config.get_value("Options", "remember_prompt", false):
 		prompt_line_edit.text = globals.config.get_value("Options", "saved_prompt")
 
 	# warning-ignore:return_value_discarded

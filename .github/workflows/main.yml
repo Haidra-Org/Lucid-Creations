@@ -53,21 +53,22 @@ jobs:
         create_release: false
         archive_output: true
         export_debug: false
-    # - name: "🛠 Prepare files for publishing"
-    #   if: ${{ steps.release.outputs.version != '' }}
-    #   shell: bash
-    #   run: |
-    #       cp -v /home/runner/.local/share/godot/dist/* .
-    #       mkdir -p build/StandaloneWindows64
-    #       mkdir -p build/StandaloneLinux64
-    #       mkdir -p build/StandaloneMacOS
-    #       cp '/home/runner/.local/share/godot/builds/LinuxX11/lucid-creations_Linux.x86_64' .
-    #       cp '/home/runner/.local/share/godot/builds/LinuxX11/lucid-creations_Linux.x86_64' build/StandaloneLinux64/
-    #       cp '/home/runner/.local/share/godot/builds/Windows Desktop/lucid-creations_Windows.exe' .
-    #       cp '/home/runner/.local/share/godot/builds/Windows Desktop/lucid-creations_Windows.exe' build/StandaloneWindows64/
-    #       cp '/home/runner/.local/share/godot/builds/Mac OSX/lucid-creations_MacOSX.zip' .
-    #       cp '/home/runner/.local/share/godot/builds/Mac OSX/lucid-creations_MacOSX.zip' build/StandaloneMacOS/
-    #       ls -larth
+    - name: "🛠 Prepare files for publishing"
+      if: ${{ steps.release.outputs.version != '' }}
+      shell: bash
+      run: |
+          # cp -v /home/runner/.local/share/godot/dist/* .
+          # mkdir -p build/StandaloneWindows64
+          # mkdir -p build/StandaloneLinux64
+          # mkdir -p build/StandaloneMacOS
+          # cp '/home/runner/.local/share/godot/builds/LinuxX11/lucid-creations_Linux.x86_64' .
+          # cp '/home/runner/.local/share/godot/builds/LinuxX11/lucid-creations_Linux.x86_64' build/StandaloneLinux64/
+          # cp '/home/runner/.local/share/godot/builds/Windows Desktop/lucid-creations_Windows.exe' .
+          # cp '/home/runner/.local/share/godot/builds/Windows Desktop/lucid-creations_Windows.exe' build/StandaloneWindows64/
+          # cp '/home/runner/.local/share/godot/builds/Mac OSX/lucid-creations_MacOSX.zip' .
+          # cp '/home/runner/.local/share/godot/builds/Mac OSX/lucid-creations_MacOSX.zip' build/StandaloneMacOS/
+          ls -larth
+          ls -larth ${{ steps.export.outputs.archive_directory }}
     - name: "☢ Upload Windows version to itch.io"
       if: ${{ steps.release.outputs.version != '' }}
       uses: josephbmanley/butler-publish-itchio-action@master
