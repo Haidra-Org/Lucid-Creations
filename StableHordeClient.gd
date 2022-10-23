@@ -3,7 +3,8 @@ extends TabContainer
 const GRID_TEXTURE_RECT = preload("res://GridTextureRect.tscn")
 var placeholder_prompts := [
 	"Surface photo of planet made of cheese, space background",
-	"a legion of cute monster toys",
+	"A legion of cute monster toys",
+	"professional portrait render head shot of a simplified minimalist cute synthwave panda, looking sideways, happy, side profile, covered in blue pink fur, teal body, photorealist, perfect cuddly panda face, perfect panda eyes, in colored smoke, dark purple studio background, volumetric lighting, ultra-hd, intricate, stunning anime painting, dof",
 ]
 
 
@@ -325,11 +326,11 @@ func _fill_in_details(imagetex: AIImageTexture) -> void:
 
 func _on_savedir_entered(path: String) -> void:
 	match path:
-		'%APPDATA%\\Godot\\app_userdata\\Stable Horde Client\\':
+		'%APPDATA%\\Godot\\app_userdata\\Lucid Creations\\':
 			globals.set_setting('default_save_dir', "user://", "Config")
-		'${HOME}/.local/share/godot/app_userdata/Stable Horde Client/':
+		'${HOME}/.local/share/godot/app_userdata/Lucid Creations/':
 			globals.set_setting('default_save_dir', "user://", "Config")
-		'~/Library/Application Support/Godot/app_userdata/Stable Horde Client/':
+		'~/Library/Application Support/Godot/app_userdata/Lucid Creations/':
 			globals.set_setting('default_save_dir', "user://", "Config")
 		'':
 			_set_default_savedir_path()
@@ -386,17 +387,17 @@ func _set_default_savedir_path(only_placholder = false) -> void:
 	match OS.get_name():
 		"Windows":
 			if not only_placholder:
-				save_dir.text = '%APPDATA%\\Godot\\app_userdata\\Stable Horde Client\\'
-			save_dir.placeholder_text = '%APPDATA%\\Godot\\app_userdata\\Stable Horde Client\\'
+				save_dir.text = '%APPDATA%\\Godot\\app_userdata\\Lucid Creations\\'
+			save_dir.placeholder_text = '%APPDATA%\\Godot\\app_userdata\\Lucid Creations\\'
 		"X11":
 			if not only_placholder:
-				save_dir.text = '${HOME}/.local/share/godot/app_userdata/Stable Horde Client/'
-			save_dir.placeholder_text = '${HOME}/.local/share/godot/app_userdata/Stable Horde Client/'
+				save_dir.text = '${HOME}/.local/share/godot/app_userdata/Lucid Creations/'
+			save_dir.placeholder_text = '${HOME}/.local/share/godot/app_userdata/Lucid Creations/'
 			
 		_:
 			if not only_placholder:
-				save_dir.text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
-			save_dir.placeholder_text = '~/Library/Application Support/Godot/app_userdata/Stable Horde Client/'
+				save_dir.text = '~/Library/Application Support/Godot/app_userdata/Lucid Creations/'
+			save_dir.placeholder_text = '~/Library/Application Support/Godot/app_userdata/Lucid Creations/'
 
 func on_img2img_toggled(pressed: bool) -> void:
 	for node in [denoising_strength,select_image,image_preview]:

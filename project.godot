@@ -56,7 +56,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Stable Horde Client"
+config/name="Lucid Creations"
 config/description="Generate images using the Stable Diffusion AI and the Stable Horde crowdsourced cluster"
 run/main_scene="res://StableHordeClient.tscn"
 config/icon="res://icon.png"

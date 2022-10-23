@@ -51,7 +51,7 @@ jobs:
         base_version: "${{ steps.release.outputs.version }}"
         create_release: false
         archive_export_output: true
-        export_debug: true
+        export_debug: false
     - name: "🛠 Prepare files for publishing"
       if: ${{ steps.release.outputs.version != '' }}
       shell: bash
