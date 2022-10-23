@@ -60,7 +60,7 @@ jobs:
           cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-windows.zip' .
           cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-linux.zip' .
           cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-macosx.zip' .
-          cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-HTML5.zip' .
+          cp '${{ steps.export.outputs.archive_directory }}/HTML5.zip' .
           ls -larth
           ls -larth ${{ steps.export.outputs.archive_directory }}
     - name: "☢ Upload Windows version to itch.io"
