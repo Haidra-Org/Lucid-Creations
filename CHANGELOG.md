@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.1.0](https://github.com/db0/Lucid-Creations/tree/v1.1.0) (2022-10-23)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.0.8...v1.1.0)
+
+**Merged pull requests:**
+
+- fix for break when error return [\#45](https://github.com/db0/Lucid-Creations/pull/45) ([db0](https://github.com/db0))
+
 ## [v1.0.8](https://github.com/db0/Lucid-Creations/tree/v1.0.8) (2022-10-23)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.0.7...v1.0.8)
