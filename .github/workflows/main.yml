@@ -42,6 +42,7 @@ jobs:
           git commit -am 'version incremented'
           git push
     - name: "🤖 Export game"
+      id: export
       if: ${{ steps.release.outputs.version != '' }}
       uses: firebelley/godot-export@v4.2.0
       with:
