@@ -4,6 +4,7 @@ const GRID_TEXTURE_RECT = preload("res://GridTextureRect.tscn")
 var placeholder_prompts := [
 	"Surface photo of planet made of cheese, space background",
 	"A legion of cute monster toys",
+	"giant magical gemstone, crystal, magical, colorful, fantasy ore, high detail, illustration, bright lighting, glow, wide focus, rough, raw, gem, octane render, valuables, 3d, galaxy, pretty, reflection, smooth, glass, mana ### haze, fog, text, watermark, bloom, fuzz, blur",
 	"professional portrait render head shot of a simplified minimalist cute synthwave panda, looking sideways, happy, side profile, covered in blue pink fur, teal body, photorealist, perfect cuddly panda face, perfect panda eyes, in colored smoke, dark purple studio background, volumetric lighting, ultra-hd, intricate, stunning anime painting, dof",
 ]
 
