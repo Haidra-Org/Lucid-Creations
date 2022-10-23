@@ -36,7 +36,7 @@ jobs:
           sed -i 's/VERSION := ".*"/VERSION := "${{ steps.release.outputs.version }}"/g' ./Consts.gd
           sed -i 's/application\/file_version=".*"/application\/file_version="${{ steps.release.outputs.version }}"/g' ./export_presets.cfg
           sed -i 's/application\/product_version=".*"/application\/product_version="${{ steps.release.outputs.version }}"/g' ./export_presets.cfg
-          sed -i 's/# Stable-Horde-Client \[.*\]/# Stable-Horde-Client [${{ steps.release.outputs.version }}]/g' README.md
+          sed -i 's/# Lucid-Creations \[.*\]/# Lucid-Creations [${{ steps.release.outputs.version }}]/g' README.md
           git config user.email github-actions@github.com
           git config user.name github-actions
           git commit -am 'version incremented'
@@ -52,30 +52,30 @@ jobs:
         create_release: false
         archive_export_output: true
         export_debug: false
-    - name: "🛠 Prepare files for publishing"
-      if: ${{ steps.release.outputs.version != '' }}
-      shell: bash
-      run: |
-          cp -v /home/runner/.local/share/godot/dist/* .
-          mkdir -p build/StandaloneWindows64
-          mkdir -p build/StandaloneLinux64
-          mkdir -p build/StandaloneMacOS
-          cp '/home/runner/.local/share/godot/builds/LinuxX11/stable-horde-client_Linux.x86_64' .
-          cp '/home/runner/.local/share/godot/builds/LinuxX11/stable-horde-client_Linux.x86_64' build/StandaloneLinux64/
-          cp '/home/runner/.local/share/godot/builds/Windows Desktop/stable-horde-client_Windows.exe' .
-          cp '/home/runner/.local/share/godot/builds/Windows Desktop/stable-horde-client_Windows.exe' build/StandaloneWindows64/
-          cp '/home/runner/.local/share/godot/builds/Mac OSX/stable-horde-client_MacOSX.zip' .
-          cp '/home/runner/.local/share/godot/builds/Mac OSX/stable-horde-client_MacOSX.zip' build/StandaloneMacOS/
-          ls -larth
+    # - name: "🛠 Prepare files for publishing"
+    #   if: ${{ steps.release.outputs.version != '' }}
+    #   shell: bash
+    #   run: |
+    #       cp -v /home/runner/.local/share/godot/dist/* .
+    #       mkdir -p build/StandaloneWindows64
+    #       mkdir -p build/StandaloneLinux64
+    #       mkdir -p build/StandaloneMacOS
+    #       cp '/home/runner/.local/share/godot/builds/LinuxX11/lucid-creations_Linux.x86_64' .
+    #       cp '/home/runner/.local/share/godot/builds/LinuxX11/lucid-creations_Linux.x86_64' build/StandaloneLinux64/
+    #       cp '/home/runner/.local/share/godot/builds/Windows Desktop/lucid-creations_Windows.exe' .
+    #       cp '/home/runner/.local/share/godot/builds/Windows Desktop/lucid-creations_Windows.exe' build/StandaloneWindows64/
+    #       cp '/home/runner/.local/share/godot/builds/Mac OSX/lucid-creations_MacOSX.zip' .
+    #       cp '/home/runner/.local/share/godot/builds/Mac OSX/lucid-creations_MacOSX.zip' build/StandaloneMacOS/
+    #       ls -larth
     - name: "☢ Upload Windows version to itch.io"
       if: ${{ steps.release.outputs.version != '' }}
       uses: josephbmanley/butler-publish-itchio-action@master
       env:
         BUTLER_CREDENTIALS: "${{ secrets.BUTLER_CREDENTIALS }}"
         CHANNEL: windows
-        ITCH_GAME: stable-horde-client
+        ITCH_GAME: lucid-creations
         ITCH_USER: dbzer0
-        PACKAGE: stable-horde-client_Windows.exe
+        PACKAGE: lucid-creations_Windows.zip
         VERSION: "${{ steps.release.outputs.version }}"
     - name: "🐧 Upload Linux version to itch.io"
       if: ${{ steps.release.outputs.version != '' }}
@@ -83,9 +83,9 @@ jobs:
       env:
         BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
         CHANNEL: linux
-        ITCH_GAME: stable-horde-client
+        ITCH_GAME: lucid-creations
         ITCH_USER: dbzer0
-        PACKAGE: stable-horde-client_Linux.x86_64
+        PACKAGE: lucid-creations_Linux.zip
         VERSION: "${{ steps.release.outputs.version }}"
     - name: "☣ Upload OSX version to itch.io"
       if: ${{ steps.release.outputs.version != '' }}
@@ -93,9 +93,9 @@ jobs:
       env:
         BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
         CHANNEL: osx
-        ITCH_GAME: stable-horde-client
+        ITCH_GAME: lucid-creations
         ITCH_USER: dbzer0
-        PACKAGE: stable-horde-client_MacOSX.zip
+        PACKAGE: lucid-creations_MacOSX.zip
         VERSION: "${{ steps.release.outputs.version }}"
     - name: "🚀 Upload HTML5 version to itch.io"
       if: ${{ steps.release.outputs.version != '' }}
@@ -103,7 +103,7 @@ jobs:
       env:
         BUTLER_CREDENTIALS: "${{ secrets.BUTLER_CREDENTIALS }}"
         CHANNEL: HTML5
-        ITCH_GAME: stable-horde-client
+        ITCH_GAME: lucid-creations
         ITCH_USER: dbzer0
         PACKAGE: HTML5.zip
         VERSION: "${{ steps.release.outputs.version }}"

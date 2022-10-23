@@ -1,10 +1,10 @@
-# Stable-Horde-Client [v1.0.0](CHANGELOG.md)
+# Lucid-Creations [v1.0.0](CHANGELOG.md)
 
 Generate images using the Stable Diffusion AI. This godot program is using the [Godot Stable Horde Client Addon](https://github.com/db0/Stable-Horde-Client-Addon) to take advantage of the [Stable Horde](https://stablehorde.net/).
 
-You can download executables or try a demo version on [itch.io](https://dbzer0.itch.io/stable-horde-client)
+You can download executables or try a demo version on [itch.io](https://dbzer0.itch.io/lucid-creations)
 
-![Stable Horde Client Preview image](screenshot.png "Stable Horde Client Screenshot 1") 
+![Lucid Creations Preview image](screenshot.png "Stable Horde Client Screenshot 1") 
 
 # API Key
 
