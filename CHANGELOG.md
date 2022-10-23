@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.1](https://github.com/db0/Stable-Horde-Client/tree/v1.0.1) (2022-10-22)
+
+[Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v1.0.0...v1.0.1)
+
+**Merged pull requests:**
+
+- Avoids crashing when someone reports an unknown model [\#37](https://github.com/db0/Stable-Horde-Client/pull/37) ([db0](https://github.com/db0))
+
 ## [v1.0.0](https://github.com/db0/Stable-Horde-Client/tree/v1.0.0) (2022-10-22)
 
 [Full Changelog](https://github.com/db0/Stable-Horde-Client/compare/v0.11.0...v1.0.0)
