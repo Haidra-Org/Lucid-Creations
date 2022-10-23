@@ -25,3 +25,8 @@ Reminder that you will always have priority on your own GPU, and you will also b
 # Community
 
 Join us on [Discord](https://discord.gg/3DxrhksKzn)
+
+
+## License
+
+This software is licensed undel AGPL3. However [an addendum](ADDENDUM1) has been added to allow distribution via Steam and integration with Steamworks SDK.
