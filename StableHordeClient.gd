@@ -34,7 +34,6 @@ onready var image_info = $"%ImageInfo"
 onready var model = $"%Model"
 onready var worker_name = $"%WorkerName"
 onready var worker_id = $"%WorkerID"
-onready var save_dir = $"%SaveDir"
 onready var save = $"%Save"
 onready var save_all = $"%SaveAll"
 onready var status_text = $"%StatusText"
@@ -77,7 +76,6 @@ func _ready():
 	select_image.connect("pressed",self,"on_image_select_pressed")
 	# warning-ignore:return_value_discarded
 	open_image.connect("file_selected",self,"_on_source_image_selected")
-	save_dir.connect("text_entered",self,"_on_savedir_entered")
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
 	# warning-ignore:return_value_discarded
@@ -98,12 +96,6 @@ func _ready():
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
 	sampler_method.select(sampler_method_id)
 	api_key.text = stable_horde_client.api_key
-	var default_save_dir = globals.config.get_value("Config", "default_save_dir", "user://")
-	if default_save_dir in ["user://", '']:
-		_set_default_savedir_path()
-	else:
-		save_dir.text = default_save_dir
-		_set_default_savedir_path(true)
 	if globals.config.get_value("Options", "remember_prompt", false):
 		prompt_line_edit.text = globals.config.get_value("Options", "saved_prompt")
 
@@ -325,26 +317,13 @@ func _fill_in_details(imagetex: AIImageTexture) -> void:
 	worker_name.text = "Worker Name: " + str(imagetex.worker_name)
 	worker_id.text = "Worker ID: " + str(imagetex.worker_id)
 
-func _on_savedir_entered(path: String) -> void:
-	match path:
-		'%APPDATA%\\Godot\\app_userdata\\Lucid Creations\\':
-			globals.set_setting('default_save_dir', "user://", "Config")
-		'${HOME}/.local/share/godot/app_userdata/Lucid Creations/':
-			globals.set_setting('default_save_dir', "user://", "Config")
-		'~/Library/Application Support/Godot/app_userdata/Lucid Creations/':
-			globals.set_setting('default_save_dir', "user://", "Config")
-		'':
-			_set_default_savedir_path()
-		_:
-			globals.set_setting('default_save_dir', path, "Config")
-
 func _on_save_pressed() -> void:
-	_on_savedir_entered(save_dir.text)
-	var save_dir_path : String = globals.config.get_value("Config", "default_save_dir", "user://")
+	var save_dir_path : String = globals.config.get_value("Options", "default_save_dir", "user://")
+	print_debug(save_dir_path)
 	focused_image.texture.save_in_dir(save_dir_path)
 
 func _on_save_all_pressed() -> void:
-	var save_dir_path : String = globals.config.get_value("Config", "default_save_dir", "user://")
+	var save_dir_path : String = globals.config.get_value("Options", "default_save_dir", "user://")
 	for imgtex in grid.get_children():
 		imgtex.texture.save_in_dir(save_dir_path)
 
@@ -362,7 +341,7 @@ func _check_html5() -> void:
 		return
 	save.hide()
 	save_all.hide()
-	save_dir.hide()
+#	save_dir.hide()
 #	controls_right.hide()
 	$"%SaveDirLabel".hide()
 #	controls_right.remove_child(status_text)
@@ -383,23 +362,6 @@ func _reset_input() -> void:
 	prompt_cover.visible = false
 	progress_text.text = "Request initiating..."
 
-
-func _set_default_savedir_path(only_placholder = false) -> void:
-	match OS.get_name():
-		"Windows":
-			if not only_placholder:
-				save_dir.text = '%APPDATA%\\Godot\\app_userdata\\Lucid Creations\\'
-			save_dir.placeholder_text = '%APPDATA%\\Godot\\app_userdata\\Lucid Creations\\'
-		"X11":
-			if not only_placholder:
-				save_dir.text = '${HOME}/.local/share/godot/app_userdata/Lucid Creations/'
-			save_dir.placeholder_text = '${HOME}/.local/share/godot/app_userdata/Lucid Creations/'
-			
-		_:
-			if not only_placholder:
-				save_dir.text = '~/Library/Application Support/Godot/app_userdata/Lucid Creations/'
-			save_dir.placeholder_text = '~/Library/Application Support/Godot/app_userdata/Lucid Creations/'
-
 func on_img2img_toggled(pressed: bool) -> void:
 	for node in [denoising_strength,select_image,image_preview]:
 		node.visible = pressed
@@ -407,12 +369,12 @@ func on_img2img_toggled(pressed: bool) -> void:
 		stable_horde_client.source_image = null
 
 func on_image_select_pressed() -> void:
-	var prev_path = globals.config.get_value("Config", "last_img2img_path", open_image.current_dir)
+	var prev_path = globals.config.get_value("Options", "last_img2img_path", open_image.current_dir)
 	if prev_path:
 		open_image.current_dir = prev_path
 	open_image.popup_centered(Vector2(500,500))
 
 func _on_source_image_selected(path: String) -> void:
-	globals.set_setting("last_img2img_path", open_image.current_dir, "Config")
+	globals.set_setting("last_img2img_path", open_image.current_dir, "Options")
 	image_preview.load_image_from_path(path)
 	stable_horde_client.source_image = image_preview.source_image
