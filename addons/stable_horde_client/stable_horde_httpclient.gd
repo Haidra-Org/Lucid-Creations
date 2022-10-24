@@ -35,6 +35,8 @@ func _on_request_completed(_result, response_code, _headers, body):
 	var json_error = json_ret
 	if typeof(json_ret) == TYPE_DICTIONARY and json_ret.has('message'):
 		json_error = str(json_ret['message'])
+		if json_ret.has('errors'):
+			json_error += ': ' + str(json_ret['errors'])
 	if typeof(json_ret) == TYPE_NIL:
 		json_error = 'Connection Lost'
 	if not response_code in [200, 202] or typeof(json_ret) == TYPE_STRING:

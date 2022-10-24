@@ -35,7 +35,7 @@ func _on_models_retrieved(model_names: Array, model_reference: Dictionary):
 	for iter in range(model_names.size()):
 		var model_name = model_names[iter]
 		# We ignore unknown model names
-		if not model_reference.has(model_name):
+		if not model_reference.empty() and not model_reference.has(model_name):
 			continue
 		var id = iter + 1
 		model_id_map[model_name] = id

@@ -196,48 +196,20 @@ margin_right = 300.0
 margin_bottom = 303.251
 text = "Require Trusted Workers"
 
-[node name="SaveDirLabel" type="Label" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
+[node name="SaveAll" type="Button" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
 margin_top = 323.0
 margin_right = 300.0
-margin_bottom = 340.0
-text = "Save Directory"
-autowrap = true
-
-[node name="SaveDir" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
-unique_name_in_owner = true
-margin_top = 360.0
-margin_right = 300.0
-margin_bottom = 398.434
-clear_button_enabled = true
-
-[node name="SaveButtons" type="HBoxContainer" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
-margin_top = 418.0
-margin_right = 300.0
-margin_bottom = 459.0
-custom_constants/separation = 10
-
-[node name="Save" type="Button" parent="Generate/VBoxContainer/MainArea/Controls/Basic/SaveButtons"]
-unique_name_in_owner = true
-margin_right = 145.0
-margin_bottom = 41.251
+margin_bottom = 364.251
 size_flags_horizontal = 3
 disabled = true
-text = "Save"
-
-[node name="SaveAll" type="Button" parent="Generate/VBoxContainer/MainArea/Controls/Basic/SaveButtons"]
-unique_name_in_owner = true
-margin_left = 155.0
-margin_right = 300.0
-margin_bottom = 41.251
-size_flags_horizontal = 3
 text = "Save All"
 
 [node name="StatusText" type="RichTextLabel" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
-margin_top = 479.0
+margin_top = 384.0
 margin_right = 300.0
-margin_bottom = 497.0
+margin_bottom = 402.0
 bbcode_enabled = true
 fit_content_height = true
 
@@ -415,12 +387,52 @@ size_flags_horizontal = 3
 text = "Prompt:"
 editable = false
 
+[node name="WorkerInfo" type="HBoxContainer" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus"]
+unique_name_in_owner = true
+margin_top = 128.0
+margin_right = 1234.0
+margin_bottom = 166.0
+custom_constants/separation = 50
+
+[node name="WorkerName" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus/WorkerInfo"]
+unique_name_in_owner = true
+margin_right = 592.0
+margin_bottom = 38.4343
+size_flags_horizontal = 3
+text = "Worker Name:"
+editable = false
+
+[node name="WorkerID" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus/WorkerInfo"]
+unique_name_in_owner = true
+margin_left = 642.0
+margin_right = 1234.0
+margin_bottom = 38.4343
+size_flags_horizontal = 3
+text = "Worker ID:"
+editable = false
+
 [node name="ImageInfo" type="HBoxContainer" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus"]
 unique_name_in_owner = true
 margin_top = 86.0
 margin_right = 1234.0
 margin_bottom = 124.0
+size_flags_horizontal = 3
 custom_constants/separation = 50
+
+[node name="Save" type="Button" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageInfo"]
+unique_name_in_owner = true
+margin_left = -324.0
+margin_top = 272.0
+margin_right = -174.0
+margin_bottom = 313.251
+rect_min_size = Vector2( 150, 0 )
+disabled = true
+text = "Save Image"
+
+[node name="Push" type="Control" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageInfo"]
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
 
 [node name="ImageSeed" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageInfo"]
 unique_name_in_owner = true
@@ -456,30 +468,6 @@ margin_bottom = 38.4343
 text = "Model:"
 editable = false
 expand_to_text_length = true
-
-[node name="WorkerInfo" type="HBoxContainer" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus"]
-unique_name_in_owner = true
-margin_top = 128.0
-margin_right = 1234.0
-margin_bottom = 166.0
-custom_constants/separation = 50
-
-[node name="WorkerName" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus/WorkerInfo"]
-unique_name_in_owner = true
-margin_right = 592.0
-margin_bottom = 38.4343
-size_flags_horizontal = 3
-text = "Worker Name:"
-editable = false
-
-[node name="WorkerID" type="LineEdit" parent="Generate/VBoxContainer/MainArea/Display/DisplayFocus/WorkerInfo"]
-unique_name_in_owner = true
-margin_left = 642.0
-margin_right = 1234.0
-margin_bottom = 38.4343
-size_flags_horizontal = 3
-text = "Worker ID:"
-editable = false
 
 [node name="GridScroll" type="ScrollContainer" parent="Generate/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
@@ -545,12 +533,48 @@ margin_bottom = 60.4343
 secret = true
 clear_button_enabled = true
 
+[node name="SaveDirLabel" type="Label" parent="Options/VBC/HBC/VBCLeft"]
+unique_name_in_owner = true
+margin_top = 64.0
+margin_right = 518.0
+margin_bottom = 81.0
+text = "Save Directory"
+autowrap = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options/VBC/HBC/VBCLeft"]
+margin_top = 85.0
+margin_right = 518.0
+margin_bottom = 126.0
+
+[node name="SaveDir" type="LineEdit" parent="Options/VBC/HBC/VBCLeft/HBoxContainer"]
+unique_name_in_owner = true
+margin_right = 436.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+editable = false
+clear_button_enabled = true
+
+[node name="SaveDirBrowseButton" type="Button" parent="Options/VBC/HBC/VBCLeft/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 440.0
+margin_right = 518.324
+margin_bottom = 41.251
+text = "Browse"
+
+[node name="SaveDirBrowse" type="FileDialog" parent="Options/VBC/HBC/VBCLeft"]
+unique_name_in_owner = true
+margin_top = 183.0
+margin_right = 342.0
+margin_bottom = 372.0
+window_title = "Open a Directory"
+mode = 2
+access = 2
+
 [node name="RememberPrompt" type="CheckButton" parent="Options/VBC/HBC/VBCLeft"]
 unique_name_in_owner = true
-margin_left = 522.0
-margin_top = 83.0
-margin_right = 822.0
-margin_bottom = 143.251
+margin_top = 130.0
+margin_right = 518.0
+margin_bottom = 190.251
 text = "Remember Prompt"
 
 [node name="VBCMiddle" type="VBoxContainer" parent="Options/VBC/HBC"]

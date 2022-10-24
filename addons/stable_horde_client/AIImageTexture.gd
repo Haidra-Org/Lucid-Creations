@@ -2,7 +2,7 @@
 class_name AIImageTexture
 extends ImageTexture
 
-const FILENAME_TEMPLATE := "{gen_seed}_{prompt}"
+const FILENAME_TEMPLATE := "{gen_seed}_{src_img}_{prompt}"
 const DIRECTORY_TEMPLATE := "{sampler_name}_{steps}_{prompt}"
 
 # The prompt which generated this image
@@ -19,6 +19,8 @@ var worker_id: String
 var worker_name: String
 # The model which was used to generate this image
 var model: String
+# The origin image for an img2img generation
+var source_image_path: String = ''
 # We store the image data to be able to save it later
 # I can't figure how to get an Image back from an ImageTexture,
 # so I need to store it explicitly
@@ -33,7 +35,7 @@ func _init(
 		_gen_seed,
 		_model: String, 
 		_worker_id: String, 
-		_worker_name: String, 
+		_worker_name: String,
 		_image: Image) -> void:
 	._init()
 	prompt = _prompt
@@ -47,14 +49,21 @@ func _init(
 	worker_name = _worker_name
 	attributes['worker_name'] = worker_name
 	model = _model
+	attributes['model'] = model
 	worker_id = _worker_id
 	attributes['worker_id'] = worker_id
 	image = _image
+	
+# This can be used to provide metadata for the source image in img2img requests
+func set_source_image_path(image_path: String) -> void:
+	source_image_path = image_path
+	attributes['source_image_path'] = image_path
 
 func get_filename() -> String:
 	var fmt := {
 		"prompt": prompt,
 		"gen_seed": gen_seed,
+		"src_img": source_image_path,
 	}
 	var filename = sanitize_filename(FILENAME_TEMPLATE.format(fmt)).substr(0,100)
 	return(filename)
@@ -110,6 +119,7 @@ func save_attributes_to_file(filepath:String) -> void:
 static func sanitize_filename(filename: String) -> String:
 	var replace_chars = [
 		'/',
+		':',
 		'\\',
 		'?',
 		'%',
