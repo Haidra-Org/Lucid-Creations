@@ -1,9 +1,11 @@
 extends TextureRect
 
 var source_image: Image
+var source_path: String
 
 func load_image_from_path(path: String) -> void:
 	source_image = Image.new()
+	source_path = path
 	var error = source_image.load(path)
 	if error != OK:
 		var error_msg := "Couldn't load the image."

@@ -319,7 +319,8 @@ func _fill_in_details(imagetex: AIImageTexture) -> void:
 
 func _on_save_pressed() -> void:
 	var save_dir_path : String = globals.config.get_value("Options", "default_save_dir", "user://")
-	print_debug(save_dir_path)
+	if img_2_img_enabled.pressed:
+		focused_image.texture.set_source_image_path(image_preview.source_path)
 	focused_image.texture.save_in_dir(save_dir_path)
 
 func _on_save_all_pressed() -> void:

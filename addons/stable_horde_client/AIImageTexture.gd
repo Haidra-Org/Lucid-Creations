@@ -19,6 +19,8 @@ var worker_id: String
 var worker_name: String
 # The model which was used to generate this image
 var model: String
+# The origin image for an img2img generation
+var source_image_path: String = ''
 # We store the image data to be able to save it later
 # I can't figure how to get an Image back from an ImageTexture,
 # so I need to store it explicitly
@@ -33,7 +35,7 @@ func _init(
 		_gen_seed,
 		_model: String, 
 		_worker_id: String, 
-		_worker_name: String, 
+		_worker_name: String,
 		_image: Image) -> void:
 	._init()
 	prompt = _prompt
@@ -51,6 +53,11 @@ func _init(
 	worker_id = _worker_id
 	attributes['worker_id'] = worker_id
 	image = _image
+	
+# This can be used to provide metadata for the source image in img2img requests
+func set_source_image_path(image_path: String) -> void:
+	source_image_path = image_path
+	attributes['source_image_path'] = image_path
 
 func get_filename() -> String:
 	var fmt := {

@@ -53,7 +53,6 @@ func _set_default_savedir_path(only_placholder = false) -> void:
 			if not only_placholder:
 				save_dir.text = '~/Library/Application Support/Godot/app_userdata/Lucid Creations/'
 			save_dir.placeholder_text = '~/Library/Application Support/Godot/app_userdata/Lucid Creations/'
-	print_debug(save_dir.text)
 
 
 func _on_browse_pressed() -> void:
