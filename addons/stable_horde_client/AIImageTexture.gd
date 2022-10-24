@@ -2,7 +2,7 @@
 class_name AIImageTexture
 extends ImageTexture
 
-const FILENAME_TEMPLATE := "{gen_seed}_{prompt}"
+const FILENAME_TEMPLATE := "{gen_seed}_{src_img}_{prompt}"
 const DIRECTORY_TEMPLATE := "{sampler_name}_{steps}_{prompt}"
 
 # The prompt which generated this image
@@ -63,6 +63,7 @@ func get_filename() -> String:
 	var fmt := {
 		"prompt": prompt,
 		"gen_seed": gen_seed,
+		"src_img": source_image_path,
 	}
 	var filename = sanitize_filename(FILENAME_TEMPLATE.format(fmt)).substr(0,100)
 	return(filename)
@@ -118,6 +119,7 @@ func save_attributes_to_file(filepath:String) -> void:
 static func sanitize_filename(filename: String) -> String:
 	var replace_chars = [
 		'/',
+		':',
 		'\\',
 		'?',
 		'%',
