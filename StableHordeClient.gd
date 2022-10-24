@@ -161,6 +161,7 @@ func _on_CancelButton_pressed():
 
 func _on_images_generated(completed_payload: Dictionary):
 	_reset_input()
+	save_all.disabled = false
 	for texture in completed_payload["image_textures"]:
 		var tr := GRID_TEXTURE_RECT.instance()
 		tr.texture = texture
