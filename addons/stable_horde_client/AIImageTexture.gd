@@ -47,6 +47,7 @@ func _init(
 	worker_name = _worker_name
 	attributes['worker_name'] = worker_name
 	model = _model
+	attributes['model'] = model
 	worker_id = _worker_id
 	attributes['worker_id'] = worker_id
 	image = _image

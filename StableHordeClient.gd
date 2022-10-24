@@ -407,8 +407,12 @@ func on_img2img_toggled(pressed: bool) -> void:
 		stable_horde_client.source_image = null
 
 func on_image_select_pressed() -> void:
+	var prev_path = globals.config.get_value("Config", "last_img2img_path", open_image.current_dir)
+	if prev_path:
+		open_image.current_dir = prev_path
 	open_image.popup_centered(Vector2(500,500))
 
 func _on_source_image_selected(path: String) -> void:
+	globals.set_setting("last_img2img_path", open_image.current_dir, "Config")
 	image_preview.load_image_from_path(path)
 	stable_horde_client.source_image = image_preview.source_image
