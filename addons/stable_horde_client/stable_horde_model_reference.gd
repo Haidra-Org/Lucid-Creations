@@ -35,3 +35,5 @@ func process_request(json_ret) -> void:
 	emit_signal("reference_retrieved", model_reference)
 	state = States.READY
 
+func get_model_info(model_name: String) -> Dictionary:
+	return(model_reference.get(model_name, {}))

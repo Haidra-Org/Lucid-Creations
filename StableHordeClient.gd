@@ -31,7 +31,7 @@ onready var image_width = $"%ImageWidth"
 onready var image_length = $"%ImageLength"
 onready var image_prompt = $"%ImagePrompt"
 onready var image_info = $"%ImageInfo"
-onready var model = $"%Model"
+onready var generation_model = $"%GenerationModel"
 onready var worker_name = $"%WorkerName"
 onready var worker_id = $"%WorkerID"
 onready var save = $"%Save"
@@ -48,7 +48,6 @@ onready var prompt_cover = $"%PromptCover"
 onready var nsfw = $"%NSFW"
 onready var censor_nsfw = $"%CensorNSFW"
 onready var trusted_workers = $"%TrustedWorkers"
-onready var model_select = $"%ModelSelect"
 onready var controls = $"%Controls"
 # img2img
 onready var img_2_img_enabled = $"%Img2ImgEnabled"
@@ -56,14 +55,16 @@ onready var denoising_strength = $"%DenoisingStrength"
 onready var select_image = $"%SelectImage"
 onready var open_image = $"%OpenImage"
 onready var image_preview = $"%ImagePreview"
+# model
+onready var model = $"%Model"
 
 
 
 func _ready():
 	# warning-ignore:return_value_discarded
+	stable_horde_client.connect("request_initiated", model, "_on_request_initiated")
+	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("images_generated",self, "_on_images_generated")
-# warning-ignore:return_value_discarded
-	stable_horde_client.connect("request_initiated",model_select, "_on_request_initiated")
 	# warning-ignore:return_value_discarded
 	stable_horde_client.connect("request_failed",self, "_on_request_failed")
 	# warning-ignore:return_value_discarded
@@ -82,6 +83,7 @@ func _ready():
 	generate_button.connect("pressed",self,"_on_GenerateButton_pressed")
 	# warning-ignore:return_value_discarded
 	cancel_button.connect("pressed",self,"_on_CancelButton_pressed")
+	model.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	_check_html5()
 	if globals.config.has_section("Parameters"):
 		for key in globals.config.get_section_keys("Parameters"):
@@ -121,7 +123,7 @@ func _on_GenerateButton_pressed():
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
 	stable_horde_client.set("sampler_name", sampler_name)
 	globals.set_setting("sampler_name", sampler_name)
-	var model_name = model_select.get_selected_model()
+	var model_name = model.get_selected_model()
 	var models = []
 	if model_name != "Any model":
 		models = [model_name]
@@ -314,7 +316,7 @@ func _fill_in_details(imagetex: AIImageTexture) -> void:
 	image_seed.text = "Seed: " + imagetex.gen_seed
 	image_width.text = "Width: " + str(imagetex.get_width())
 	image_length.text = "Height: " + str(imagetex.get_height())
-	model.text = "Model: " + str(imagetex.model)
+	generation_model.text = "Model: " + str(imagetex.model)
 	worker_name.text = "Worker Name: " + str(imagetex.worker_name)
 	worker_id.text = "Worker ID: " + str(imagetex.worker_id)
 
@@ -380,3 +382,6 @@ func _on_source_image_selected(path: String) -> void:
 	globals.set_setting("last_img2img_path", open_image.current_dir, "Options")
 	image_preview.load_image_from_path(path)
 	stable_horde_client.source_image = image_preview.source_image
+
+func _on_prompt_inject(tokens: String) -> void:
+	prompt_line_edit.text += ', ' + tokens
