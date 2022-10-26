@@ -286,6 +286,32 @@ selected = 0
 unique_name_in_owner = true
 script = ExtResource( 9 )
 
+[node name="PopupInfo" type="PopupPanel" parent="Generate/VBoxContainer/MainArea/Controls/Basic/Model"]
+unique_name_in_owner = true
+margin_left = 157.0
+margin_right = 665.0
+margin_bottom = 98.0
+
+[node name="PopupInfoLabel" type="RichTextLabel" parent="Generate/VBoxContainer/MainArea/Controls/Basic/Model/PopupInfo"]
+unique_name_in_owner = true
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 504.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 500, 0 )
+bbcode_enabled = true
+bbcode_text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+fit_content_height = true
+
 [node name="NSFW" type="CheckButton" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
 margin_top = 189.0

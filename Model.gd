@@ -10,8 +10,11 @@ onready var model_info := $"%ModelInfo"
 onready var model_trigger := $"%ModelTrigger"
 onready var model_info_card := $"%ModelInfoCard"
 onready var model_info_label := $"%ModelInfoLabel"
-onready var model_health := $"%ModelHealth"
-onready var model_eta := $"%ModelETA"
+onready var model_health  : TextureRect = $"%ModelHealth"
+onready var model_eta = $"%ModelETA"
+onready var popup_info := $"%PopupInfo"
+onready var popup_info_label := $"%PopupInfoLabel"
+
 
 var model_refresh: float
 var previous_selection: String
@@ -27,11 +30,13 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	model_info_label.connect("meta_clicked",self, "_on_model_info_meta_clicked")
 	model_select.connect("item_selected",self,"_on_model_changed")
+	model_health.connect("mouse_entered", self, "_on_model_health_mouse_enterred")
+	model_health.connect("mouse_exited", self, "_on_model_health_mouse_exited")
 	init_refresh_models()
 
 func _process(delta):
 	model_refresh += delta
-	if model_refresh >= 5:
+	if model_refresh >= 2:
 		model_refresh = 0
 		init_refresh_models()
 
@@ -80,7 +85,6 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 	set_previous_model()
 #	print_debug(model_reference)
 	_on_model_changed()
-
 
 func set_previous_model() -> void:
 	model_select.selected = 0
@@ -161,6 +165,7 @@ func _on_model_changed(_selected_item = null) -> void:
 	else:
 		model_trigger.disabled = true
 	_refresh_model_performance()
+	_update_popup_info_label()
 
 func _refresh_model_performance() -> void:
 	var model_performance := get_selected_model_performance()
@@ -171,9 +176,33 @@ func _refresh_model_performance() -> void:
 		var healthy := Color(0,1,0)
 		var unhealthy := Color(1,0,0)
 		# We model the horde overloaded when there's a 20 seconds ETA to clear its current queue
-		var current_pct = model_performance['eta'] / 20
+		var current_pct = model_performance['eta'] / 40
 		if current_pct > 1:
 			current_pct = 1
 		model_health.self_modulate = healthy.linear_interpolate(unhealthy,current_pct)
 		model_eta.text = str(model_performance['eta'])
+	
+func _on_model_health_mouse_enterred() -> void:
+	popup_info.show()
+	popup_info.rect_global_position = get_global_mouse_position() + Vector2(30,-40)
+	_update_popup_info_label()
+
+func _on_model_health_mouse_exited() -> void:
+	popup_info.hide()
+
+func _update_popup_info_label() -> void:
+	if get_selected_model() == "Any model":
+		popup_info_label.bbcode_text = "'Any model' will process your request the fastest of all options, but the model which will process each image can differ."
+		return
+	var model_performance := get_selected_model_performance()
+	var t = "Available workers: {count}\n"\
+			+ "Average Speed per worker: {performance} MPS/s\n"\
+			+ "Queued MPS: {mps}\nEst. time to clear queue: {eta} seconds."
+	var fmt = {
+		"count": model_performance["count"],
+		"performance": stepify(model_performance["performance"] / 1000000, 0.1),
+		"mps": stepify(model_performance["queued"] / 1000000, 0.1),
+		"eta": model_performance["eta"],
+	}
+	popup_info_label.bbcode_text = t.format(fmt)
 	
