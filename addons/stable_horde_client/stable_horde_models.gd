@@ -3,7 +3,7 @@ extends StableHordeHTTPRequest
 
 signal models_retrieved(models_list, model_reference)
 
-var models := []
+var model_performances := []
 var model_names := []
 var models_retrieved = false
 var model_reference: StableHordeModelReference
@@ -32,11 +32,11 @@ func process_request(json_ret) -> void:
 		push_error("Unexpected model format received" + ': ' +  json_ret)
 		emit_signal("request_failed",error_msg)
 		return
-	models = json_ret
+	model_performances = json_ret
 	model_names.clear()
-	for entry in models:
+	for entry in model_performances:
 		model_names.append(entry.name)
-	emit_signal("models_retrieved", model_names, model_reference.model_reference)
+	emit_signal("models_retrieved", model_performances, model_reference.model_reference)
 	state = States.READY
 
 
