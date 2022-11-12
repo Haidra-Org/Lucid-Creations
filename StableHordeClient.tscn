@@ -51,6 +51,7 @@ unique_name_in_owner = true
 script = ExtResource( 2 )
 
 [node name="Generate" type="MarginContainer" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -186,7 +187,6 @@ margin_bottom = 750.0
 
 [node name="Basic" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea/Controls"]
 unique_name_in_owner = true
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -362,6 +362,7 @@ text = "Save All"
 
 [node name="Advanced" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea/Controls"]
 unique_name_in_owner = true
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -618,7 +619,6 @@ size_flags_vertical = 3
 columns = 9
 
 [node name="Options" type="MarginContainer" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -709,6 +709,13 @@ margin_top = 130.0
 margin_right = 518.0
 margin_bottom = 190.251
 text = "Remember Prompt"
+
+[node name="LargerValues" type="CheckButton" parent="Options/VBC/HBC/VBCLeft"]
+unique_name_in_owner = true
+margin_top = 194.0
+margin_right = 518.0
+margin_bottom = 254.251
+text = "Larger Values"
 
 [node name="VBCMiddle" type="VBoxContainer" parent="Options/VBC/HBC"]
 margin_left = 522.0
