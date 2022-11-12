@@ -15,14 +15,14 @@ const CONFIG := {
 		"label": "Width",
 		"min": 64,
 		"max": 3072,
-		"upfront_limit": 640,
+		"upfront_limit": 576,
 		"step": 64,
 	},
 	"height": {
 		"label": "Height",
 		"min": 64,
 		"max": 3072,
-		"upfront_limit": 640,
+		"upfront_limit": 576,
 		"step": 64,
 	},
 	"steps": {
@@ -50,11 +50,15 @@ onready var h_slider = $"%HSlider"
 onready var config_name = $"%ConfigName"
 onready var config_value = $"%ConfigValue"
 
-export(String, "amount", "width", "height","steps", "cfg_scale", "denoising_strength") var config_setting := 'amount' setget set_config_name
+export(String, "amount", "width", "height", "steps", "cfg_scale", "denoising_strength") var config_setting := 'amount' setget set_config_name
 
 func _ready():
 	_adapt_to_config_name()
 	globals.connect("setting_changed", self, "_on_setting_changed")
+	if config_setting == "width":
+		EventBus.connect("height_changed", self, "_on_wh_changed")
+	if config_setting == "height":
+		EventBus.connect("width_changed", self, "_on_wh_changed")
 
 func set_value(value) -> void:
 	$"%HSlider".value = value
@@ -85,7 +89,11 @@ func _adapt_to_config_name() -> void:
 
 func _on_HSlider_value_changed(value):
 	config_value.text = str(value)
-	if upfront_limit != null and upfront_limit < value:
+	if config_setting == "width":
+		EventBus.emit_signal("width_changed", self)
+	elif config_setting == "height":
+		EventBus.emit_signal("height_changed", self)
+	elif upfront_limit != null and upfront_limit < value:
 		config_value.modulate = Color(1,0,0)
 		h_slider.modulate = Color(1,0,0)
 	else:
@@ -99,3 +107,14 @@ func _on_setting_changed(setting_name):
 		else:
 			h_slider.max_value = CONFIG[config_setting].upfront_limit
 			
+
+func _on_wh_changed(sister_slider):
+	if sister_slider.h_slider.value * h_slider.value > upfront_limit * upfront_limit:
+		for n in [sister_slider, self]:
+			n.config_value.modulate = Color(1,0,0)
+			n.h_slider.modulate = Color(1,0,0)
+	else:
+		for n in [sister_slider, self]:
+			n.config_value.modulate = Color(1,1,1)
+			n.h_slider.modulate = Color(1,1,1)
+		

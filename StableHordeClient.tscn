@@ -51,7 +51,6 @@ unique_name_in_owner = true
 script = ExtResource( 2 )
 
 [node name="Generate" type="MarginContainer" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -619,6 +618,7 @@ size_flags_vertical = 3
 columns = 9
 
 [node name="Options" type="MarginContainer" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
