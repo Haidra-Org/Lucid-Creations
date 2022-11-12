@@ -155,10 +155,31 @@ custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_styles/disabled = SubResource( 2 )
 text = "Cancel"
 
-[node name="StatusPanel" type="PanelContainer" parent="Generate/VBoxContainer"]
+[node name="NegPromptHBC" type="HBoxContainer" parent="Generate/VBoxContainer"]
+unique_name_in_owner = true
 margin_top = 44.0
 margin_right = 1562.0
-margin_bottom = 78.0
+margin_bottom = 82.0
+
+[node name="NegPromptLabel" type="Label" parent="Generate/VBoxContainer/NegPromptHBC"]
+margin_top = 10.0
+margin_right = 130.0
+margin_bottom = 27.0
+text = "Negative Prompt:"
+
+[node name="NegativePromptLine" type="LineEdit" parent="Generate/VBoxContainer/NegPromptHBC"]
+unique_name_in_owner = true
+margin_left = 134.0
+margin_right = 1562.0
+margin_bottom = 38.4343
+size_flags_horizontal = 3
+clear_button_enabled = true
+placeholder_text = "Any text here will be avoided. Increase CFG if it doesn't seem to work."
+
+[node name="StatusPanel" type="PanelContainer" parent="Generate/VBoxContainer"]
+margin_top = 85.0
+margin_right = 1562.0
+margin_bottom = 119.0
 
 [node name="StatusText" type="RichTextLabel" parent="Generate/VBoxContainer/StatusPanel"]
 unique_name_in_owner = true
@@ -172,7 +193,7 @@ fit_content_height = true
 scroll_active = false
 
 [node name="MainArea" type="HBoxContainer" parent="Generate/VBoxContainer"]
-margin_top = 81.0
+margin_top = 122.0
 margin_right = 1562.0
 margin_bottom = 831.0
 size_flags_horizontal = 3
@@ -182,7 +203,7 @@ custom_constants/separation = 20
 [node name="Controls" type="TabContainer" parent="Generate/VBoxContainer/MainArea"]
 unique_name_in_owner = true
 margin_right = 308.0
-margin_bottom = 750.0
+margin_bottom = 709.0
 
 [node name="Basic" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea/Controls"]
 unique_name_in_owner = true
@@ -328,27 +349,41 @@ blah blah blah
 url: https://example.com"
 fit_content_height = true
 
-[node name="NSFW" type="CheckButton" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
+[node name="NegativePrompt" type="CheckButton" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
 margin_top = 189.0
 margin_right = 300.0
 margin_bottom = 249.251
-text = "NSFW"
+size_flags_horizontal = 3
+text = "Negative Prompt"
 
-[node name="CensorNSFW" type="CheckButton" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
+[node name="TrustedWorkers" type="CheckButton" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
 margin_top = 269.0
 margin_right = 300.0
 margin_bottom = 329.251
-pressed = true
-text = "Censor accidental NSFW"
+text = "Require Trusted Workers"
 
-[node name="TrustedWorkers" type="CheckButton" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
-unique_name_in_owner = true
+[node name="HBC" type="HBoxContainer" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
 margin_top = 349.0
 margin_right = 300.0
-margin_bottom = 409.251
-text = "Require Trusted Workers"
+margin_bottom = 409.0
+
+[node name="NSFW" type="CheckButton" parent="Generate/VBoxContainer/MainArea/Controls/Basic/HBC"]
+unique_name_in_owner = true
+margin_right = 148.0
+margin_bottom = 60.251
+size_flags_horizontal = 3
+text = "NSFW"
+
+[node name="CensorNSFW" type="CheckButton" parent="Generate/VBoxContainer/MainArea/Controls/Basic/HBC"]
+unique_name_in_owner = true
+margin_left = 152.0
+margin_right = 300.0
+margin_bottom = 60.251
+size_flags_horizontal = 3
+pressed = true
+text = "Censored"
 
 [node name="SaveAll" type="Button" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
@@ -493,7 +528,7 @@ script = ExtResource( 12 )
 unique_name_in_owner = true
 margin_left = 328.0
 margin_right = 1562.0
-margin_bottom = 750.0
+margin_bottom = 709.0
 size_flags_horizontal = 3
 
 [node name="DisplayFocus" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea/Display"]
@@ -605,14 +640,14 @@ expand_to_text_length = true
 [node name="GridScroll" type="ScrollContainer" parent="Generate/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
 margin_right = 1234.0
-margin_bottom = 750.0
+margin_bottom = 709.0
 rect_min_size = Vector2( 900, 600 )
 size_flags_vertical = 3
 
 [node name="Grid" type="GridContainer" parent="Generate/VBoxContainer/MainArea/Display/GridScroll"]
 unique_name_in_owner = true
 margin_right = 1234.0
-margin_bottom = 750.0
+margin_bottom = 709.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9
@@ -814,6 +849,7 @@ fit_content_height = true
 script = ExtResource( 6 )
 
 [connection signal="meta_clicked" from="Generate/VBoxContainer/StatusPanel/StatusText" to="." method="_on_StatusText_meta_clicked"]
+[connection signal="toggled" from="Generate/VBoxContainer/MainArea/Controls/Basic/NegativePrompt" to="." method="_on_NegativePrompt_toggled"]
 [connection signal="meta_clicked" from="Options/VBC/HBC/VBCLeft/APIKeyLabel" to="." method="_on_APIKeyLabel_meta_clicked"]
 [connection signal="text_changed" from="Options/VBC/HBC/VBCLeft/APIKey" to="." method="_on_APIKey_text_changed"]
 [connection signal="meta_clicked" from="Information/VBoxContainer/HBC/VBC1/Infodump" to="Information/VBoxContainer/HBC/VBC1/Infodump" method="_on_Infodump_meta_clicked"]

@@ -54,10 +54,13 @@ export(String, "amount", "width", "height", "steps", "cfg_scale", "denoising_str
 
 func _ready():
 	_adapt_to_config_name()
+	# warning-ignore:return_value_discarded
 	globals.connect("setting_changed", self, "_on_setting_changed")
 	if config_setting == "width":
+		# warning-ignore:return_value_discarded
 		EventBus.connect("height_changed", self, "_on_wh_changed")
 	if config_setting == "height":
+		# warning-ignore:return_value_discarded
 		EventBus.connect("width_changed", self, "_on_wh_changed")
 
 func set_value(value) -> void:

@@ -14,6 +14,7 @@ var placeholder_prompts := [
 onready var stable_horde_client := $"%StableHordeClient"
 onready var grid := $"%Grid"
 onready var prompt_line_edit := $"%PromptLine"
+onready var negative_prompt_line_edit := $"%NegativePromptLine"
 onready var display := $"%Display"
 onready var width := $"%Width"
 onready var height := $"%Height"
@@ -49,6 +50,7 @@ onready var _tween = $"%Tween"
 onready var progress_text = $"%ProgressText"
 onready var prompt_cover = $"%PromptCover"
 onready var nsfw = $"%NSFW"
+onready var negative_prompt = $"%NegativePrompt"
 onready var censor_nsfw = $"%CensorNSFW"
 onready var trusted_workers = $"%TrustedWorkers"
 onready var controls = $"%Controls"
@@ -97,13 +99,15 @@ func _ready():
 	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	karras.pressed = stable_horde_client.karras
+	negative_prompt.pressed = globals.config.get_value("Options", "negative_prompt", false)
 	nsfw.pressed = stable_horde_client.nsfw
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
 	sampler_method.select(sampler_method_id)
 	api_key.text = stable_horde_client.api_key
 	if globals.config.get_value("Options", "remember_prompt", false):
-		prompt_line_edit.text = globals.config.get_value("Options", "saved_prompt")
+		prompt_line_edit.text = globals.config.get_value("Options", "saved_prompt", '')
+		negative_prompt_line_edit.text = globals.config.get_value("Options", "saved_negative_prompt", '')
 
 	# warning-ignore:return_value_discarded
 	get_viewport().connect("size_changed", self, '_on_viewport_resized')
@@ -148,6 +152,8 @@ func _on_GenerateButton_pressed():
 		stable_horde_client.prompt = prompt_line_edit.text
 	else:
 		stable_horde_client.prompt = prompt_line_edit.placeholder_text
+	if globals.config.get_value("Options", "negative_prompt", false) and negative_prompt_line_edit.text != '':
+		stable_horde_client.prompt += '###' + negative_prompt_line_edit.text
 	close_focus()
 	for child in grid.get_children():
 		child.queue_free()
@@ -161,6 +167,7 @@ func _on_GenerateButton_pressed():
 	progress_text.visible = true
 	stable_horde_client.generate(prompt_line_edit.text)
 	globals.set_setting("saved_prompt", prompt_line_edit.text, "Options")
+	globals.set_setting("saved_negative_prompt", negative_prompt_line_edit.text, "Options")
 
 
 func _on_CancelButton_pressed():
@@ -394,3 +401,8 @@ func _on_source_image_selected(path: String) -> void:
 
 func _on_prompt_inject(tokens: String) -> void:
 	prompt_line_edit.text += ', ' + tokens
+
+func _on_NegativePrompt_toggled(pressed: bool) -> void:
+	globals.set_setting("negative_prompt", negative_prompt.pressed, "Options")
+	$"%NegPromptHBC".visible = pressed
+	
