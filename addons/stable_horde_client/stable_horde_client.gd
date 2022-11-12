@@ -38,7 +38,7 @@ export(int,64,1024,64) var height := 512
 # Generally there's usually no reason to go above 50 unless you know what you're doing.
 export(int,1,100) var steps := 30
 # Advanced: The sampler used to generate. Provides slight variations on the same prompt.
-export(String, "k_lms", "k_heun", "k_euler", "k_euler_a", "k_dpm_2", "k_dpm_2_a", "DDIM", "PLMS") var sampler_name := "k_euler"
+export(String, "k_lms", "k_heun", "k_euler", "k_euler_a", "k_dpm_2", "k_dpm_2_a", "k_dpm_fast", "k_dpm_adaptive", "k_dpmpp_2s_a", "k_dpmpp_2m") var sampler_name := "k_euler_a"
 # How closely to follow the prompt given
 export(float,-40,30,0.5) var cfg_scale := 7.5
 # How closely to follow the source image in img2img
@@ -46,6 +46,8 @@ export(float,0,1,0.01) var denoising_strength := 0.7
 # The unique seed for the prompt. If you pass a value in the seed and keep all the values the same
 # The same image will always be generated.
 export(String) var gen_seed := ''
+# If set to True, will enable the karras noise scheduler
+export(bool) var karras := true
 # If set to True, will mark this generation as NSFW and only workers which accept NSFW requests
 # Will fulfill it
 export(bool) var nsfw := false
@@ -85,6 +87,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"height": height,
 		"steps": steps,
 		"sampler_name": sampler_name,
+		"karras": karras,
 		"cfg_scale": cfg_scale,
 		"seed": gen_seed,
 		# You can put extra SD webui params here if you wish

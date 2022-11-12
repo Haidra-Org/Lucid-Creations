@@ -6,6 +6,8 @@ var placeholder_prompts := [
 	"A legion of cute monster toys",
 	"giant magical gemstone, crystal, magical, colorful, fantasy ore, high detail, illustration, bright lighting, glow, wide focus, rough, raw, gem, octane render, valuables, 3d, galaxy, pretty, reflection, smooth, glass, mana ### haze, fog, text, watermark, bloom, fuzz, blur",
 	"professional portrait render head shot of a simplified minimalist cute synthwave panda, looking sideways, happy, side profile, covered in blue pink fur, teal body, photorealist, perfect cuddly panda face, perfect panda eyes, in colored smoke, dark purple studio background, volumetric lighting, ultra-hd, intricate, stunning anime painting, dof",
+	"Psychedelic Surreal victorian landscape art, dark shadows, muted colors, intricate brush strokes, masterpiece oil painting, intricate brush strokes, muted colour palette, hard lighting, dark, eerie",
+	"photorealistic rendering of a vast landscape, vivid colors, fantasy landscape",
 ]
 
 
@@ -21,6 +23,7 @@ onready var config_slider := $"%ConfigSlider"
 onready var steps_slider := $"%StepsSlider"
 onready var generate_button := $"%GenerateButton"
 onready var sampler_method := $"%SamplerMethod"
+onready var karras := $"%Karras"
 onready var api_key := $"%APIKey"
 onready var api_key_label := $"%APIKeyLabel"
 onready var grid_scroll = $"%GridScroll"
@@ -93,6 +96,7 @@ func _ready():
 		stable_horde_client.set("models", globals.config.get_value("Parameters", "models", stable_horde_client.models))
 	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
+	karras.pressed = stable_horde_client.karras
 	nsfw.pressed = stable_horde_client.nsfw
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
@@ -131,6 +135,8 @@ func _on_GenerateButton_pressed():
 	globals.set_setting("models", models)
 	stable_horde_client.set("api_key", api_key.text)
 	globals.set_setting("api_key", api_key.text)
+	stable_horde_client.set("karras", karras.pressed)
+	globals.set_setting("karras", karras.pressed)
 	stable_horde_client.set("nsfw", nsfw.pressed)
 	globals.set_setting("nsfw", nsfw.pressed)
 	stable_horde_client.set("censor_nsfw", censor_nsfw.pressed)
@@ -193,21 +199,24 @@ func _on_image_process_update(stats: Dictionary) -> void:
 	var stats_format = {
 		"waiting": stats.waiting,
 		"finished": stats.finished,
-		"processing":  + stats.processing,
+		"processing": stats.processing,
+		"restarted": '',
 		"elapsed": str(ceil(stats.elapsed_time / 1000)),
 		"eta": str(stats.wait_time)
 	}
-	progress_text.text = " {waiting} Waiting. {processing} Processing. {finished} Finished. ETA {eta} sec. Elapsed {elapsed} sec.".format(stats_format)
+	if stats.restarted > 0:
+		stats_format["restarted"] = " Restarted:" + str(stats.restarted) + '.'
+	progress_text.text = " {waiting} Waiting. {processing} Processing.{restarted} {finished} Finished. ETA {eta} sec. Elapsed {elapsed} sec.".format(stats_format)
 	if stats.queue_position == 0:
-		status_text.bbcode_text = "Thank you for using the horde!\n"\
+		status_text.bbcode_text = "Thank you for using the horde! "\
 			+ "If you enjoy this service join us in [url=discord]discord[/url] or subscribe on [url=patreon]patreon[/url]"
 		status_text.modulate = Color(0,1,0)
 	elif stats.wait_time > 200 or stats.elapsed_time / 1000> 150:
-		status_text.bbcode_text = "Unfortunately the Hoard appears to be under heavy load at the moment! Your queue position is {queue}.\n".format({"queue":stats.queue_position})\
+		status_text.bbcode_text = "Unfortunately the Hoard appears to be under heavy load at the moment! Your queue position is {queue}. ".format({"queue":stats.queue_position})\
 				+ "If you can, please consider [url=worker]adding your own GPU[/url] to the horde to get more generation priority!"
 		status_text.modulate = Color(0.84,0.47,0)
 	else:
-		status_text.bbcode_text = "Your queue position is {queue}.\n".format({"queue":stats.queue_position})
+		status_text.bbcode_text = "Your queue position is {queue}.".format({"queue":stats.queue_position})
 		status_text.modulate = Color(0,1,0)
 
 
@@ -333,7 +342,7 @@ func _on_save_all_pressed() -> void:
 
 func _on_request_failed(error_msg: String) -> void:
 	status_text.text = error_msg
-	status_text.modulate = Color(1,0,0)
+	status_text.modulate = Color(1,0.4,0.2)
 	_reset_input()
 
 func _on_request_warning(warning_msg: String) -> void:
