@@ -1,6 +1,7 @@
 extends MarginContainer
 
 onready var remember_prompt = $"%RememberPrompt"
+onready var larger_values = $"%LargerValues"
 onready var save_dir = $"%SaveDir"
 onready var save_dir_browse_button = $"%SaveDirBrowseButton"
 onready var save_dir_browse = $"%SaveDirBrowse"
@@ -8,6 +9,8 @@ onready var save_dir_browse = $"%SaveDirBrowse"
 func _ready():
 	remember_prompt.pressed = globals.config.get_value("Options", "remember_prompt", false)
 	remember_prompt.connect("toggled",self,"_on_remember_prompt_pressed")
+	larger_values.pressed = globals.config.get_value("Options", "larger_values", false)
+	larger_values.connect("toggled",self,"_on_larger_values_pressed")
 	# warning-ignore:return_value_discarded
 	save_dir_browse_button.connect("pressed",self,"_on_browse_pressed")
 #	save_dir.connect("text_changed",self,"_on_savedir_changed")
@@ -22,6 +25,9 @@ func _ready():
 
 func _on_remember_prompt_pressed(pressed: bool) -> void:
 	globals.set_setting("remember_prompt", pressed, "Options")
+
+func _on_larger_values_pressed(pressed: bool) -> void:
+	globals.set_setting("larger_values", pressed, "Options")
 
 
 func _on_savedir_changed(path: String) -> void:
