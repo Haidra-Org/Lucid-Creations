@@ -1,5 +1,17 @@
 # Changelog
 
+## [v1.5.0](https://github.com/db0/Lucid-Creations/tree/v1.5.0) (2022-11-13)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.4.0...v1.5.0)
+
+**Closed issues:**
+
+- Bad URL. Please contact the developer of this add-on [\#48](https://github.com/db0/Lucid-Creations/issues/48)
+
+**Merged pull requests:**
+
+- Karras [\#50](https://github.com/db0/Lucid-Creations/pull/50) ([db0](https://github.com/db0))
+
 ## [v1.4.0](https://github.com/db0/Lucid-Creations/tree/v1.4.0) (2022-10-26)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.3.0...v1.4.0)
