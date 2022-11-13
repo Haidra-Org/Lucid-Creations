@@ -82,6 +82,7 @@ func _ready():
 	select_image.connect("pressed",self,"on_image_select_pressed")
 	# warning-ignore:return_value_discarded
 	open_image.connect("file_selected",self,"_on_source_image_selected")
+	_connect_hover_signals()
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
 	# warning-ignore:return_value_discarded
@@ -104,6 +105,7 @@ func _ready():
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
 	sampler_method.select(sampler_method_id)
+	_on_SamplerMethod_item_selected(sampler_method_id)
 	api_key.text = stable_horde_client.api_key
 	if globals.config.get_value("Options", "remember_prompt", false):
 		prompt_line_edit.text = globals.config.get_value("Options", "saved_prompt", '')
@@ -298,7 +300,16 @@ func _get_test_images(n = 10) -> Array:
 		var new_seed = str(rand_seed(iter)[0])
 		var tex := preload("res://icon.png")
 		var img := tex.get_data()
-		var new_texture := AIImageTexture.new('Test Prompt', {"sampler_name":"Test", "steps":0}, new_seed, "Test Model", 'Test worker', 'Test worker ID', img)
+		var new_texture := AIImageTexture.new(
+			'Test Prompt', 
+			{"sampler_name":"Test", 
+			"steps":0}, 
+			new_seed, 
+			"Test Model", 
+			'Test worker', 
+			'Test worker ID', 
+			OS.get_unix_time(), 
+			img)
 		new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
@@ -412,9 +423,41 @@ func _on_PromptLine_text_changed(new_text: String) -> void:
 		var textsplit = new_text.split('###')
 		_on_NegativePrompt_toggled(true)
 		if negative_prompt_line_edit.text == '':
-			negative_prompt_line_edit.text == textsplit[1]
+			negative_prompt_line_edit.text = textsplit[1]
 		else:
 			negative_prompt_line_edit.text += ', ' + textsplit[1]
 		prompt_line_edit.text = textsplit[0]
 		status_text.bbcode_text = "It appears you have enterred a negative prompt. Please use the negative prompt textbox"
 		status_text.modulate = Color(1,1,0)
+
+func _on_SamplerMethod_item_selected(index: int) -> void:
+	# Adaptive doesn't have steps
+	if sampler_method.get_item_text(index) == "k_dpm_adaptive":
+		steps_slider.h_slider.editable = false
+		steps_slider.config_value.text = '-'
+	else:
+		steps_slider.h_slider.editable = true
+		steps_slider.config_value.text = str(steps_slider.h_slider.value)
+	
+func _connect_hover_signals() -> void:
+	for node in [
+		negative_prompt,
+		amount,
+		$"%ModelInfo",
+		$"%ModelTrigger",
+		$"%ModelSelect",
+		trusted_workers,
+		nsfw,
+		censor_nsfw,
+		save_all,
+		width,
+		height,
+		steps_slider,
+		config_slider,
+		sampler_method,
+		seed_edit,
+		karras,
+		denoising_strength,
+	]:
+		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
+		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])

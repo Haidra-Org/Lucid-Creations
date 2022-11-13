@@ -11,8 +11,10 @@ enum SamplerMethods {
 	k_euler_a
 	k_dpm_2
 	k_dpm_2_a
-	DDIM
-	PLMS
+	k_dpm_fast
+	k_dpm_adaptive
+	k_dpmpp_2s_a
+	k_dpmpp_2m
 }
 
 enum OngoingRequestOperations {
@@ -161,6 +163,7 @@ func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 
 
 func _extract_images(generations_array: Array) -> void:
+	var timestamp = OS.get_unix_time()
 	for img_dict in generations_array:
 		var b64img = img_dict["img"]
 		var base64_bytes = Marshalls.base64_to_raw(b64img)
@@ -178,6 +181,7 @@ func _extract_images(generations_array: Array) -> void:
 			img_dict["model"],
 			img_dict["worker_id"],
 			img_dict["worker_name"],
+			timestamp,
 			image)
 		texture.create_from_image(image)
 		latest_image_textures.append(texture)
