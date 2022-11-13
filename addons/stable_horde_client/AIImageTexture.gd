@@ -2,7 +2,7 @@
 class_name AIImageTexture
 extends ImageTexture
 
-const FILENAME_TEMPLATE := "{gen_seed}_{src_img}_{prompt}"
+const FILENAME_TEMPLATE := "{timestamp}_{gen_seed}"
 const DIRECTORY_TEMPLATE := "{sampler_name}_{steps}_{prompt}"
 
 # The prompt which generated this image
@@ -28,6 +28,7 @@ var image: Image
 # The full information about this image
 # We use this to store them to a file
 var attributes: Dictionary
+var timestamp: float
 
 func _init(
 		_prompt: String, 
@@ -36,6 +37,7 @@ func _init(
 		_model: String, 
 		_worker_id: String, 
 		_worker_name: String,
+		_timestamp: float,
 		_image: Image) -> void:
 	._init()
 	prompt = _prompt
@@ -53,6 +55,7 @@ func _init(
 	worker_id = _worker_id
 	attributes['worker_id'] = worker_id
 	image = _image
+	timestamp = _timestamp
 	
 # This can be used to provide metadata for the source image in img2img requests
 func set_source_image_path(image_path: String) -> void:
@@ -61,9 +64,8 @@ func set_source_image_path(image_path: String) -> void:
 
 func get_filename() -> String:
 	var fmt := {
-		"prompt": prompt,
+		"timestamp": timestamp,
 		"gen_seed": gen_seed,
-		"src_img": source_image_path,
 	}
 	var filename = sanitize_filename(FILENAME_TEMPLATE.format(fmt)).substr(0,100)
 	return(filename)

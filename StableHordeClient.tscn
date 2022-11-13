@@ -157,6 +157,7 @@ text = "Cancel"
 
 [node name="NegPromptHBC" type="HBoxContainer" parent="Generate/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 margin_top = 44.0
 margin_right = 1562.0
 margin_bottom = 82.0
@@ -177,9 +178,9 @@ clear_button_enabled = true
 placeholder_text = "Any text here will be avoided. Increase CFG if it doesn't seem to work."
 
 [node name="StatusPanel" type="PanelContainer" parent="Generate/VBoxContainer"]
-margin_top = 85.0
+margin_top = 44.0
 margin_right = 1562.0
-margin_bottom = 119.0
+margin_bottom = 78.0
 
 [node name="StatusText" type="RichTextLabel" parent="Generate/VBoxContainer/StatusPanel"]
 unique_name_in_owner = true
@@ -193,7 +194,7 @@ fit_content_height = true
 scroll_active = false
 
 [node name="MainArea" type="HBoxContainer" parent="Generate/VBoxContainer"]
-margin_top = 122.0
+margin_top = 81.0
 margin_right = 1562.0
 margin_bottom = 831.0
 size_flags_horizontal = 3
@@ -203,7 +204,7 @@ custom_constants/separation = 20
 [node name="Controls" type="TabContainer" parent="Generate/VBoxContainer/MainArea"]
 unique_name_in_owner = true
 margin_right = 308.0
-margin_bottom = 709.0
+margin_bottom = 750.0
 
 [node name="Basic" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea/Controls"]
 unique_name_in_owner = true
@@ -528,7 +529,7 @@ script = ExtResource( 12 )
 unique_name_in_owner = true
 margin_left = 328.0
 margin_right = 1562.0
-margin_bottom = 709.0
+margin_bottom = 750.0
 size_flags_horizontal = 3
 
 [node name="DisplayFocus" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea/Display"]
@@ -640,14 +641,14 @@ expand_to_text_length = true
 [node name="GridScroll" type="ScrollContainer" parent="Generate/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
 margin_right = 1234.0
-margin_bottom = 709.0
+margin_bottom = 750.0
 rect_min_size = Vector2( 900, 600 )
 size_flags_vertical = 3
 
 [node name="Grid" type="GridContainer" parent="Generate/VBoxContainer/MainArea/Display/GridScroll"]
 unique_name_in_owner = true
 margin_right = 1234.0
-margin_bottom = 709.0
+margin_bottom = 750.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9
@@ -851,6 +852,7 @@ script = ExtResource( 6 )
 [connection signal="text_changed" from="Generate/VBoxContainer/Generate/PromptCC/PromptLine" to="." method="_on_PromptLine_text_changed"]
 [connection signal="meta_clicked" from="Generate/VBoxContainer/StatusPanel/StatusText" to="." method="_on_StatusText_meta_clicked"]
 [connection signal="toggled" from="Generate/VBoxContainer/MainArea/Controls/Basic/NegativePrompt" to="." method="_on_NegativePrompt_toggled"]
+[connection signal="item_selected" from="Generate/VBoxContainer/MainArea/Controls/Advanced/SamplerMethod" to="." method="_on_SamplerMethod_item_selected"]
 [connection signal="meta_clicked" from="Options/VBC/HBC/VBCLeft/APIKeyLabel" to="." method="_on_APIKeyLabel_meta_clicked"]
 [connection signal="text_changed" from="Options/VBC/HBC/VBCLeft/APIKey" to="." method="_on_APIKey_text_changed"]
 [connection signal="meta_clicked" from="Information/VBoxContainer/HBC/VBC1/Infodump" to="Information/VBoxContainer/HBC/VBC1/Infodump" method="_on_Infodump_meta_clicked"]

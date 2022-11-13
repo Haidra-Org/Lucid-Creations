@@ -104,6 +104,7 @@ func _ready():
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
 	sampler_method.select(sampler_method_id)
+	_on_SamplerMethod_item_selected(sampler_method_id)
 	api_key.text = stable_horde_client.api_key
 	if globals.config.get_value("Options", "remember_prompt", false):
 		prompt_line_edit.text = globals.config.get_value("Options", "saved_prompt", '')
@@ -298,7 +299,16 @@ func _get_test_images(n = 10) -> Array:
 		var new_seed = str(rand_seed(iter)[0])
 		var tex := preload("res://icon.png")
 		var img := tex.get_data()
-		var new_texture := AIImageTexture.new('Test Prompt', {"sampler_name":"Test", "steps":0}, new_seed, "Test Model", 'Test worker', 'Test worker ID', img)
+		var new_texture := AIImageTexture.new(
+			'Test Prompt', 
+			{"sampler_name":"Test", 
+			"steps":0}, 
+			new_seed, 
+			"Test Model", 
+			'Test worker', 
+			'Test worker ID', 
+			OS.get_unix_time(), 
+			img)
 		new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
@@ -418,3 +428,13 @@ func _on_PromptLine_text_changed(new_text: String) -> void:
 		prompt_line_edit.text = textsplit[0]
 		status_text.bbcode_text = "It appears you have enterred a negative prompt. Please use the negative prompt textbox"
 		status_text.modulate = Color(1,1,0)
+
+func _on_SamplerMethod_item_selected(index: int) -> void:
+	# Adaptive doesn't have steps
+	if sampler_method.get_item_text(index) == "k_dpm_adaptive":
+		steps_slider.h_slider.editable = false
+		steps_slider.config_value.text = '-'
+	else:
+		steps_slider.h_slider.editable = true
+		steps_slider.config_value.text = str(steps_slider.h_slider.value)
+	

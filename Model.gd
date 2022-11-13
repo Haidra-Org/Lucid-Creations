@@ -30,7 +30,9 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	model_info_label.connect("meta_clicked",self, "_on_model_info_meta_clicked")
 	model_select.connect("item_selected",self,"_on_model_changed")
+	# warning-ignore:return_value_discarded
 	model_health.connect("mouse_entered", self, "_on_model_health_mouse_enterred")
+	# warning-ignore:return_value_discarded
 	model_health.connect("mouse_exited", self, "_on_model_health_mouse_exited")
 	init_refresh_models()
 
