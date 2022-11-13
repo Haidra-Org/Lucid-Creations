@@ -403,6 +403,18 @@ func _on_prompt_inject(tokens: String) -> void:
 	prompt_line_edit.text += ', ' + tokens
 
 func _on_NegativePrompt_toggled(pressed: bool) -> void:
+	negative_prompt.pressed = pressed
 	globals.set_setting("negative_prompt", negative_prompt.pressed, "Options")
 	$"%NegPromptHBC".visible = pressed
 	
+func _on_PromptLine_text_changed(new_text: String) -> void:
+	if '###' in new_text:
+		var textsplit = new_text.split('###')
+		_on_NegativePrompt_toggled(true)
+		if negative_prompt_line_edit.text == '':
+			negative_prompt_line_edit.text == textsplit[1]
+		else:
+			negative_prompt_line_edit.text += ', ' + textsplit[1]
+		prompt_line_edit.text = textsplit[0]
+		status_text.bbcode_text = "It appears you have enterred a negative prompt. Please use the negative prompt textbox"
+		status_text.modulate = Color(1,1,0)

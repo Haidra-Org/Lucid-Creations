@@ -848,6 +848,7 @@ text = "Contributors"
 fit_content_height = true
 script = ExtResource( 6 )
 
+[connection signal="text_changed" from="Generate/VBoxContainer/Generate/PromptCC/PromptLine" to="." method="_on_PromptLine_text_changed"]
 [connection signal="meta_clicked" from="Generate/VBoxContainer/StatusPanel/StatusText" to="." method="_on_StatusText_meta_clicked"]
 [connection signal="toggled" from="Generate/VBoxContainer/MainArea/Controls/Basic/NegativePrompt" to="." method="_on_NegativePrompt_toggled"]
 [connection signal="meta_clicked" from="Options/VBC/HBC/VBCLeft/APIKeyLabel" to="." method="_on_APIKeyLabel_meta_clicked"]
