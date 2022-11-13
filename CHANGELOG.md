@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.6.0](https://github.com/db0/Lucid-Creations/tree/v1.6.0) (2022-11-13)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.5.0...v1.6.0)
+
+**Merged pull requests:**
+
+- Popup information and bugfixes [\#52](https://github.com/db0/Lucid-Creations/pull/52) ([db0](https://github.com/db0))
+
 ## [v1.5.0](https://github.com/db0/Lucid-Creations/tree/v1.5.0) (2022-11-13)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.4.0...v1.5.0)
