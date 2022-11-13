@@ -82,6 +82,7 @@ func _ready():
 	select_image.connect("pressed",self,"on_image_select_pressed")
 	# warning-ignore:return_value_discarded
 	open_image.connect("file_selected",self,"_on_source_image_selected")
+	_connect_hover_signals()
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
 	# warning-ignore:return_value_discarded
@@ -422,7 +423,7 @@ func _on_PromptLine_text_changed(new_text: String) -> void:
 		var textsplit = new_text.split('###')
 		_on_NegativePrompt_toggled(true)
 		if negative_prompt_line_edit.text == '':
-			negative_prompt_line_edit.text == textsplit[1]
+			negative_prompt_line_edit.text = textsplit[1]
 		else:
 			negative_prompt_line_edit.text += ', ' + textsplit[1]
 		prompt_line_edit.text = textsplit[0]
@@ -438,3 +439,25 @@ func _on_SamplerMethod_item_selected(index: int) -> void:
 		steps_slider.h_slider.editable = true
 		steps_slider.config_value.text = str(steps_slider.h_slider.value)
 	
+func _connect_hover_signals() -> void:
+	for node in [
+		negative_prompt,
+		amount,
+		$"%ModelInfo",
+		$"%ModelTrigger",
+		$"%ModelSelect",
+		trusted_workers,
+		nsfw,
+		censor_nsfw,
+		save_all,
+		width,
+		height,
+		steps_slider,
+		config_slider,
+		sampler_method,
+		seed_edit,
+		karras,
+		denoising_strength,
+	]:
+		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
+		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])

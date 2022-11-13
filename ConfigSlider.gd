@@ -33,7 +33,7 @@ const CONFIG := {
 		"step": 1,
 	},
 	"cfg_scale": {
-		"label": "Classifier Free Guidance Scale (how strongly the image should follow the prompt)",
+		"label": "Guidance",
 		"min": -40,
 		"max": 30,
 		"step": 0.5,

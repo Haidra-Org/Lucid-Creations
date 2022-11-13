@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://assets/icons/lever_w.png" type="Texture" id=14]
 [ext_resource path="res://theme/gantari/Gantari[wght].ttf" type="DynamicFontData" id=15]
 [ext_resource path="res://assets/icons/circle.png" type="Texture" id=16]
+[ext_resource path="res://PopupInfoPanel.tscn" type="PackedScene" id=17]
 
 [sub_resource type="StyleBoxTexture" id=2]
 texture = ExtResource( 8 )
@@ -395,6 +396,11 @@ size_flags_horizontal = 3
 disabled = true
 text = "Save All"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="Generate/VBoxContainer/MainArea/Controls/Basic"]
+margin_top = 490.0
+margin_right = 300.0
+margin_bottom = 490.0
+
 [node name="Advanced" type="VBoxContainer" parent="Generate/VBoxContainer/MainArea/Controls"]
 unique_name_in_owner = true
 visible = false
@@ -438,7 +444,7 @@ config_setting = "cfg_scale"
 margin_top = 372.0
 margin_right = 300.0
 margin_bottom = 409.0
-text = "Sampling method (k_lms is default k-diffusion sampler)"
+text = "Sampling method"
 autowrap = true
 
 [node name="SamplerMethod" type="OptionButton" parent="Generate/VBoxContainer/MainArea/Controls/Advanced"]
@@ -848,6 +854,8 @@ bbcode_text = "Contributors"
 text = "Contributors"
 fit_content_height = true
 script = ExtResource( 6 )
+
+[node name="PopupInfoPanel" parent="." instance=ExtResource( 17 )]
 
 [connection signal="text_changed" from="Generate/VBoxContainer/Generate/PromptCC/PromptLine" to="." method="_on_PromptLine_text_changed"]
 [connection signal="meta_clicked" from="Generate/VBoxContainer/StatusPanel/StatusText" to="." method="_on_StatusText_meta_clicked"]
