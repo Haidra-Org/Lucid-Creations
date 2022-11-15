@@ -167,7 +167,7 @@ func _on_GenerateButton_pressed():
 	cancel_button.visible = true
 	prompt_cover.visible = true
 	progress_text.visible = true
-	stable_horde_client.generate(prompt_line_edit.text)
+	stable_horde_client.generate()
 	globals.set_setting("saved_prompt", prompt_line_edit.text, "Options")
 	globals.set_setting("saved_negative_prompt", negative_prompt_line_edit.text, "Options")
 
