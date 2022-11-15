@@ -1,5 +1,21 @@
 # Changelog
 
+## [v1.6.1](https://github.com/db0/Lucid-Creations/tree/v1.6.1) (2022-11-15)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.6.0...v1.6.1)
+
+**Fixed bugs:**
+
+- Cannot save on default folder when filename too long [\#51](https://github.com/db0/Lucid-Creations/issues/51)
+
+**Closed issues:**
+
+- GUI doesn't fully shown [\#32](https://github.com/db0/Lucid-Creations/issues/32)
+
+**Merged pull requests:**
+
+- fix negative prompt [\#53](https://github.com/db0/Lucid-Creations/pull/53) ([db0](https://github.com/db0))
+
 ## [v1.6.0](https://github.com/db0/Lucid-Creations/tree/v1.6.0) (2022-11-13)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.5.0...v1.6.0)
