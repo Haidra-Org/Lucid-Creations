@@ -122,6 +122,6 @@ jobs:
         buildDescription: "Steamtest"
         # buildDescription: "${{ steps.release.outputs.version }}"
         rootPath: build
-        depot1Path: StandaloneWindows64
-        depot2Path: StandaloneLinux64
+        depot1Path: StandaloneLinux64
+        depot2Path: StandaloneWindows64
         releaseBranch: prerelease
