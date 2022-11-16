@@ -3,7 +3,7 @@ name: Prepare New Release
 on:
   push:
     branches:
-      - main
+      - steamtest
 
 
 jobs:
@@ -15,35 +15,35 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "📣 Release on push"
-      id: release
-      uses: rymndhng/release-on-push-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        bump_version_scheme: norelease
-        use_github_release_notes: true
-      # Always include the checkout step so that
-      # your project is available for Godot to export
-    - name: "✏️ Generate release changelog"
-      if: ${{ steps.release.outputs.version != '' }}
-      uses: heinrichreimer/github-changelog-generator-action@v2.3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-    - name: "💾 Commit new version"
-      if: ${{ steps.release.outputs.version != '' }}
-      run: |
-          sed -i 's/VERSION := ".*"/VERSION := "${{ steps.release.outputs.version }}"/g' ./Consts.gd
-          sed -i 's/application\/file_version=".*"/application\/file_version="${{ steps.release.outputs.version }}"/g' ./export_presets.cfg
-          sed -i 's/application\/product_version=".*"/application\/product_version="${{ steps.release.outputs.version }}"/g' ./export_presets.cfg
-          sed -i 's/# Lucid-Creations \[.*\]/# Lucid-Creations [${{ steps.release.outputs.version }}]/g' README.md
-          git config user.email github-actions@github.com
-          git config user.name github-actions
-          git commit -am 'version incremented'
-          git push
+    # - name: "📣 Release on push"
+    #   id: release
+    #   uses: rymndhng/release-on-push-action@master
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     bump_version_scheme: norelease
+    #     use_github_release_notes: true
+    #   # Always include the checkout step so that
+    #   # your project is available for Godot to export
+    # - name: "✏️ Generate release changelog"
+    #   if: ${{ steps.release.outputs.version != '' }}
+    #   uses: heinrichreimer/github-changelog-generator-action@v2.3
+    #   with:
+    #     token: ${{ secrets.GITHUB_TOKEN }}
+    # - name: "💾 Commit new version"
+    #   if: ${{ steps.release.outputs.version != '' }}
+    #   run: |
+    #       sed -i 's/VERSION := ".*"/VERSION := "${{ steps.release.outputs.version }}"/g' ./Consts.gd
+    #       sed -i 's/application\/file_version=".*"/application\/file_version="${{ steps.release.outputs.version }}"/g' ./export_presets.cfg
+    #       sed -i 's/application\/product_version=".*"/application\/product_version="${{ steps.release.outputs.version }}"/g' ./export_presets.cfg
+    #       sed -i 's/# Lucid-Creations \[.*\]/# Lucid-Creations [${{ steps.release.outputs.version }}]/g' README.md
+    #       git config user.email github-actions@github.com
+    #       git config user.name github-actions
+    #       git commit -am 'version incremented'
+    #       git push
     - name: "🤖 Export game"
       id: export
-      if: ${{ steps.release.outputs.version != '' }}
+      # if: ${{ steps.release.outputs.version != '' }}
       uses: firebelley/godot-export@v4.2.0
       with:
         godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/3.5/Godot_v3.5-stable_linux_headless.64.zip
@@ -54,7 +54,7 @@ jobs:
         archive_output: true
         export_debug: false
     - name: "🛠 Prepare files for publishing"
-      if: ${{ steps.release.outputs.version != '' }}
+      # if: ${{ steps.release.outputs.version != '' }}
       shell: bash
       run: |
           cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-windows.zip' .
@@ -63,43 +63,60 @@ jobs:
           cp '${{ steps.export.outputs.archive_directory }}/HTML5.zip' .
           ls -larth
           ls -larth ${{ steps.export.outputs.archive_directory }}
-    - name: "☢ Upload Windows version to itch.io"
-      if: ${{ steps.release.outputs.version != '' }}
-      uses: josephbmanley/butler-publish-itchio-action@master
-      env:
-        BUTLER_CREDENTIALS: "${{ secrets.BUTLER_CREDENTIALS }}"
-        CHANNEL: windows
-        ITCH_GAME: lucid-creations
-        ITCH_USER: dbzer0
-        PACKAGE: lucid-creations-windows.zip
-        VERSION: "${{ steps.release.outputs.version }}"
-    - name: "🐧 Upload Linux version to itch.io"
-      if: ${{ steps.release.outputs.version != '' }}
-      uses: josephbmanley/butler-publish-itchio-action@master
-      env:
-        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-        CHANNEL: linux
-        ITCH_GAME: lucid-creations
-        ITCH_USER: dbzer0
-        PACKAGE: lucid-creations-linux.zip
-        VERSION: "${{ steps.release.outputs.version }}"
-    - name: "☣ Upload OSX version to itch.io"
-      if: ${{ steps.release.outputs.version != '' }}
-      uses: josephbmanley/butler-publish-itchio-action@master
-      env:
-        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-        CHANNEL: osx
-        ITCH_GAME: lucid-creations
-        ITCH_USER: dbzer0
-        PACKAGE: lucid-creations-macosx.zip
-        VERSION: "${{ steps.release.outputs.version }}"
-    - name: "🚀 Upload HTML5 version to itch.io"
-      if: ${{ steps.release.outputs.version != '' }}
-      uses: josephbmanley/butler-publish-itchio-action@master
-      env:
-        BUTLER_CREDENTIALS: "${{ secrets.BUTLER_CREDENTIALS }}"
-        CHANNEL: HTML5
-        ITCH_GAME: lucid-creations
-        ITCH_USER: dbzer0
-        PACKAGE: HTML5.zip
-        VERSION: "${{ steps.release.outputs.version }}"
+    # - name: "☢ Upload Windows version to itch.io"
+    #   if: ${{ steps.release.outputs.version != '' }}
+    #   uses: josephbmanley/butler-publish-itchio-action@master
+    #   env:
+    #     BUTLER_CREDENTIALS: "${{ secrets.BUTLER_CREDENTIALS }}"
+    #     CHANNEL: windows
+    #     ITCH_GAME: lucid-creations
+    #     ITCH_USER: dbzer0
+    #     PACKAGE: lucid-creations-windows.zip
+    #     VERSION: "${{ steps.release.outputs.version }}"
+    # - name: "🐧 Upload Linux version to itch.io"
+    #   if: ${{ steps.release.outputs.version != '' }}
+    #   uses: josephbmanley/butler-publish-itchio-action@master
+    #   env:
+    #     BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+    #     CHANNEL: linux
+    #     ITCH_GAME: lucid-creations
+    #     ITCH_USER: dbzer0
+    #     PACKAGE: lucid-creations-linux.zip
+    #     VERSION: "${{ steps.release.outputs.version }}"
+    # - name: "☣ Upload OSX version to itch.io"
+    #   if: ${{ steps.release.outputs.version != '' }}
+    #   uses: josephbmanley/butler-publish-itchio-action@master
+    #   env:
+    #     BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+    #     CHANNEL: osx
+    #     ITCH_GAME: lucid-creations
+    #     ITCH_USER: dbzer0
+    #     PACKAGE: lucid-creations-macosx.zip
+    #     VERSION: "${{ steps.release.outputs.version }}"
+    # - name: "🚀 Upload HTML5 version to itch.io"
+    #   if: ${{ steps.release.outputs.version != '' }}
+    #   uses: josephbmanley/butler-publish-itchio-action@master
+    #   env:
+    #     BUTLER_CREDENTIALS: "${{ secrets.BUTLER_CREDENTIALS }}"
+    #     CHANNEL: HTML5
+    #     ITCH_GAME: lucid-creations
+    #     ITCH_USER: dbzer0
+    #     PACKAGE: HTML5.zip
+    #     VERSION: "${{ steps.release.outputs.version }}"
+    - name: "🔧 Publish all versions with Steamworks"
+      # if: ${{ steps.release.outputs.version != '' }}
+      uses: game-ci/steam-deploy@v1
+      with:
+        username: ${{ secrets.STEAM_USERNAME }}
+        password: ${{ secrets.STEAM_PASSWORD }}
+        configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
+        ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
+        ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
+        appId: 2197290
+        buildDescription: "Steamtest"
+        # buildDescription: "${{ steps.release.outputs.version }}"
+        rootPath: build
+        depot1Path: StandaloneWindows64
+        depot2Path: StandaloneLinux64
+        depot3Path: StandaloneMacOS
+        releaseBranch: prerelease
