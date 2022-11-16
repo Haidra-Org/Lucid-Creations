@@ -60,9 +60,9 @@ jobs:
           mkdir -p build/StandaloneWindows64
           mkdir -p build/StandaloneLinux64
           cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-windows.zip' .
-          unzip lucid-creations-windows.zip build/StandaloneWindows64/
+          unzip lucid-creations-windows.zip -d build/StandaloneWindows64
           cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-linux.zip' .
-          unzip lucid-creations-linux.zip build/StandaloneLinux64/
+          unzip lucid-creations-linux.zip -d build/StandaloneLinux64
           cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-macosx.zip' .
           cp '${{ steps.export.outputs.archive_directory }}/HTML5.zip' .
           ls -larth
