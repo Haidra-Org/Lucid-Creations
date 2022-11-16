@@ -57,8 +57,12 @@ jobs:
       # if: ${{ steps.release.outputs.version != '' }}
       shell: bash
       run: |
-          cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-windows.zip' .
+          mkdir -p build/StandaloneWindows64
+          mkdir -p build/StandaloneLinux64
+          cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-windows.zip'
+          unzip lucid-creations-windows.zip build/StandaloneWindows64/
           cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-linux.zip' .
+          unzip lucid-creations-linux.zip build/StandaloneLinux64/
           cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-macosx.zip' .
           cp '${{ steps.export.outputs.archive_directory }}/HTML5.zip' .
           ls -larth
@@ -115,8 +119,7 @@ jobs:
         appId: 2197290
         buildDescription: "Steamtest"
         # buildDescription: "${{ steps.release.outputs.version }}"
-        rootPath: ${{ steps.export.outputs.archive_directory }}
+        rootPath: build
         depot1Path: StandaloneWindows64
         depot2Path: StandaloneLinux64
-        depot3Path: StandaloneMacOS
         releaseBranch: prerelease
