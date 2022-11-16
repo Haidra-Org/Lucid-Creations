@@ -115,7 +115,7 @@ jobs:
         appId: 2197290
         buildDescription: "Steamtest"
         # buildDescription: "${{ steps.release.outputs.version }}"
-        rootPath: build
+        rootPath: ${{ steps.export.outputs.archive_directory }}
         depot1Path: StandaloneWindows64
         depot2Path: StandaloneLinux64
         depot3Path: StandaloneMacOS
