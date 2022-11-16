@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=35 format=2]
+[gd_resource type="Theme" load_steps=39 format=2]
 
 [ext_resource path="res://theme/UIpack_vector.svg" type="Texture" id=1]
 [ext_resource path="res://theme/alvarado/AlvaradoVar.ttf" type="DynamicFontData" id=2]
@@ -113,6 +113,13 @@ margin_right = 13.3469
 margin_top = 13.3469
 margin_bottom = 11.2935
 
+[sub_resource type="StyleBoxFlat" id=36]
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color( 0, 0, 0, 0.745098 )
+
 [sub_resource type="AtlasTexture" id=22]
 flags = 4
 atlas = ExtResource( 1 )
@@ -158,6 +165,29 @@ margin_top = 9.53314
 margin_bottom = 13.9025
 expand_margin_top = 10.0
 expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id=32]
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color( 0, 0, 0, 0.784314 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id=35]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color( 0, 0, 0, 0.862745 )
+
+[sub_resource type="StyleBoxFlat" id=34]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color( 0.6, 0.6, 0.6, 0.780392 )
+corner_radius_top_left = 3
+corner_radius_top_right = 3
 
 [sub_resource type="StyleBoxTexture" id=28]
 content_margin_left = 12.0
@@ -263,6 +293,7 @@ OptionButton/styles/hover = null
 OptionButton/styles/normal = null
 OptionButton/styles/pressed = null
 Panel/styles/panel = SubResource( 21 )
+PanelContainer/styles/panel = SubResource( 36 )
 PopupMenu/colors/font_color = Color( 0, 0, 0, 1 )
 PopupMenu/colors/font_color_accel = Color( 0.701961, 0.701961, 0.701961, 0.8 )
 PopupMenu/colors/font_color_disabled = Color( 0.4, 0.4, 0.4, 0.8 )
@@ -282,6 +313,24 @@ PopupMenu/styles/panel = SubResource( 27 )
 PopupMenu/styles/panel_disabled = null
 PopupMenu/styles/separator = null
 ProgressBar/styles/fg = ExtResource( 3 )
+TabContainer/colors/font_color_bg = Color( 0.69, 0.69, 0.69, 1 )
+TabContainer/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+TabContainer/colors/font_color_fg = Color( 0.94, 0.94, 0.94, 1 )
+TabContainer/constants/hseparation = 4
+TabContainer/constants/label_valign_bg = 2
+TabContainer/constants/label_valign_fg = 0
+TabContainer/constants/side_margin = 8
+TabContainer/constants/top_margin = 24
+TabContainer/icons/decrement = null
+TabContainer/icons/decrement_highlight = null
+TabContainer/icons/increment = null
+TabContainer/icons/increment_highlight = null
+TabContainer/icons/menu = null
+TabContainer/icons/menu_highlight = null
+TabContainer/styles/panel = SubResource( 32 )
+TabContainer/styles/tab_bg = SubResource( 35 )
+TabContainer/styles/tab_disabled = null
+TabContainer/styles/tab_fg = SubResource( 34 )
 TextEdit/colors/background_color = Color( 0, 0, 0, 0 )
 TextEdit/colors/bookmark_color = Color( 0.08, 0.49, 0.98, 1 )
 TextEdit/colors/brace_mismatch_color = Color( 1, 0.2, 0.2, 1 )
