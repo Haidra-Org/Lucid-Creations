@@ -59,7 +59,7 @@ jobs:
       run: |
           mkdir -p build/StandaloneWindows64
           mkdir -p build/StandaloneLinux64
-          cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-windows.zip'
+          cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-windows.zip' .
           unzip lucid-creations-windows.zip build/StandaloneWindows64/
           cp '${{ steps.export.outputs.archive_directory }}/lucid-creations-linux.zip' .
           unzip lucid-creations-linux.zip build/StandaloneLinux64/
