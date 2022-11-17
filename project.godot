@@ -14,7 +14,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/stable_horde_client/AIImageTexture.gd"
 }, {
-"base": "TextureRect",
+"base": "PanelContainer",
 "class": "GridTextureRect",
 "language": "GDScript",
 "path": "res://GridTextureRect.gd"

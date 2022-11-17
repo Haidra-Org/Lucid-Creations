@@ -1,16 +1,20 @@
 class_name GridTextureRect
-extends TextureRect
+extends PanelContainer
 
 signal left_mouse_mouse_clicked
 signal right_mouse_mouse_clicked
+
+onready var grid_texture_rect = $"%GridTextureRect"
 onready var highlight := $"%Highlight"
 
-func _init():
-	rect_min_size = Vector2(128,128)
-	expand = true
-	stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	
+var texture: AIImageTexture
+
 func _ready():
+	rect_min_size = Vector2(128,128)
+	grid_texture_rect.rect_min_size = Vector2(120,120)
+	grid_texture_rect.expand = true
+	grid_texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	grid_texture_rect.texture = texture
 	# warning-ignore:return_value_discarded
 	connect("gui_input",self, "_on_gui_input")
 
@@ -31,3 +35,6 @@ func _on_gui_input(event) -> void:
 
 func is_highlighted() -> bool:
 	return(highlight.visible)
+
+func set_texture(_texture) -> void:
+	texture = _texture

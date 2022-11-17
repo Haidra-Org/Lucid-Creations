@@ -180,7 +180,11 @@ margin_top = 44.0
 margin_right = 1562.0
 margin_bottom = 82.0
 
-[node name="NegPromptLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/NegPromptHBC"]
+[node name="PanelContainer" type="PanelContainer" parent="TabContainer/Generate/VBoxContainer/NegPromptHBC"]
+margin_right = 10.0
+margin_bottom = 10.0
+
+[node name="NegPromptLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/NegPromptHBC/PanelContainer"]
 margin_top = 10.0
 margin_right = 130.0
 margin_bottom = 27.0
