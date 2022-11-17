@@ -119,7 +119,7 @@ jobs:
         ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
         ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
         appId: 2197290
-        buildDescription: "Steamtest"
+        buildDescription: "${{ steps.release.outputs.version }}"
         # buildDescription: "${{ steps.release.outputs.version }}"
         rootPath: build
         depot1Path: StandaloneLinux64
