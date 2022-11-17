@@ -66,6 +66,8 @@ func init_refresh_models() -> void:
 
 
 func _on_models_retrieved(model_performances: Array, model_reference: Dictionary):
+	if model_select.get_popup().visible:
+		return
 	model_select.clear()
 	model_id_map = {"Any model": 0}
 #	print_debug(model_names, model_reference)
@@ -74,6 +76,7 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 	for iter in range(model_performances.size()):
 		var model_performance : Dictionary = model_performances[iter]
 		var model_name = model_performance['name']
+		var worker_count = model_performance['count']
 		# We ignore unknown model names
 		if not model_reference.empty() and not model_reference.has(model_name):
 			continue
@@ -81,11 +84,12 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 		model_id_map[model_name] = id
 		var model_fmt = {
 			"model_name": model_name,
+			"worker_count": worker_count,
 		}
 		var model_entry = "{model_name}"
 		if not model_reference.empty():
 			model_fmt["style"] = model_reference[model_name].get("style",'')
-			model_entry = "{model_name} ({style})"
+			model_entry = "{model_name}: {style} ({worker_count})"
 		model_select.add_item(model_entry.format(model_fmt))
 	set_previous_model()
 #	print_debug(model_reference)
@@ -145,8 +149,6 @@ As such, the result tend to be quite random as the image can be sent to somethin
 	model_info_card.popup()
 	model_info_card.rect_global_position = get_global_mouse_position() + Vector2(30,0)
 
-
-
 func _on_model_info_meta_clicked(meta):
 	match meta:
 		"homepage":
@@ -184,6 +186,7 @@ func _on_model_changed(_selected_item = null) -> void:
 		model_trigger.disabled = true
 	_refresh_model_performance()
 	_update_popup_info_label()
+
 
 func _refresh_model_performance() -> void:
 	var model_performance := get_selected_model_performance()
