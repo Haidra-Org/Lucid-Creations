@@ -26,3 +26,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
+
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+color = Color( 0, 0, 0, 0.745098 )
