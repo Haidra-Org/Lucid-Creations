@@ -8,6 +8,7 @@ onready var model_select = $"%ModelSelect"
 onready var stable_horde_models := $"%StableHordeModels"
 onready var model_info := $"%ModelInfo"
 onready var model_trigger := $"%ModelTrigger"
+onready var trigger_selection := $"%TriggerSelection"
 onready var model_info_card := $"%ModelInfoCard"
 onready var model_info_label := $"%ModelInfoLabel"
 onready var model_health  : TextureRect = $"%ModelHealth"
@@ -26,6 +27,8 @@ func _ready():
 	model_info.connect("pressed", self, "_on_model_info_pressed")
 	# warning-ignore:return_value_discarded
 	model_trigger.connect("pressed", self, "_on_model_trigger_pressed")
+	# warning-ignore:return_value_discarded
+	trigger_selection.connect("id_pressed", self,"_on_trigger_selection_id_pressed")
 #	connect("item_selected",self,"_on_item_selected") # Debug
 	# warning-ignore:return_value_discarded
 	model_info_label.connect("meta_clicked",self, "_on_model_info_meta_clicked")
@@ -153,7 +156,20 @@ func _on_model_info_meta_clicked(meta):
 
 func _on_model_trigger_pressed() -> void:
 	var model_reference := get_selected_model_reference()
-	emit_signal("prompt_inject_requested", model_reference['trigger'])
+	var selected_triggers: Array = []
+	if typeof(model_reference['trigger']) == TYPE_STRING:
+		selected_triggers =  [model_reference['trigger']]
+	elif model_reference['trigger'].size() == 1:
+		selected_triggers = [model_reference['trigger'][0]]
+	else:
+		trigger_selection.clear()
+		for t in model_reference['trigger']:
+			trigger_selection.add_check_item(t)
+		trigger_selection.add_item("Select")
+		trigger_selection.popup()
+		trigger_selection.rect_global_position = model_trigger.rect_global_position
+	if selected_triggers.size() > 0:
+		emit_signal("prompt_inject_requested", selected_triggers)
 
 
 func _on_model_changed(_selected_item = null) -> void:
@@ -208,3 +224,12 @@ func _update_popup_info_label() -> void:
 	}
 	popup_info_label.bbcode_text = t.format(fmt)
 	
+func _on_trigger_selection_id_pressed(id: int) -> void:
+	if trigger_selection.is_item_checkable(id):
+		trigger_selection.toggle_item_checked(id)
+	else:
+		var selected_triggers:= []
+		for iter in range (trigger_selection.get_item_count()):
+			if trigger_selection.is_item_checked(iter):
+				selected_triggers.append(trigger_selection.get_item_text(iter))
+		emit_signal("prompt_inject_requested", selected_triggers)

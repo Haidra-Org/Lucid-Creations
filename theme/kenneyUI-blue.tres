@@ -99,6 +99,7 @@ margin_left = 17.1475
 margin_right = 13.718
 margin_top = 12.0032
 margin_bottom = 9.43112
+modulate_color = Color( 1, 1, 1, 0.784314 )
 
 [sub_resource type="AtlasTexture" id=20]
 flags = 4
