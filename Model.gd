@@ -8,6 +8,7 @@ onready var model_select = $"%ModelSelect"
 onready var stable_horde_models := $"%StableHordeModels"
 onready var model_info := $"%ModelInfo"
 onready var model_trigger := $"%ModelTrigger"
+onready var trigger_selection := $"%TriggerSelection"
 onready var model_info_card := $"%ModelInfoCard"
 onready var model_info_label := $"%ModelInfoLabel"
 onready var model_health  : TextureRect = $"%ModelHealth"
@@ -26,6 +27,8 @@ func _ready():
 	model_info.connect("pressed", self, "_on_model_info_pressed")
 	# warning-ignore:return_value_discarded
 	model_trigger.connect("pressed", self, "_on_model_trigger_pressed")
+	# warning-ignore:return_value_discarded
+	trigger_selection.connect("id_pressed", self,"_on_trigger_selection_id_pressed")
 #	connect("item_selected",self,"_on_item_selected") # Debug
 	# warning-ignore:return_value_discarded
 	model_info_label.connect("meta_clicked",self, "_on_model_info_meta_clicked")
@@ -63,6 +66,8 @@ func init_refresh_models() -> void:
 
 
 func _on_models_retrieved(model_performances: Array, model_reference: Dictionary):
+	if model_select.get_popup().visible:
+		return
 	model_select.clear()
 	model_id_map = {"Any model": 0}
 #	print_debug(model_names, model_reference)
@@ -71,6 +76,7 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 	for iter in range(model_performances.size()):
 		var model_performance : Dictionary = model_performances[iter]
 		var model_name = model_performance['name']
+		var worker_count = model_performance['count']
 		# We ignore unknown model names
 		if not model_reference.empty() and not model_reference.has(model_name):
 			continue
@@ -78,11 +84,12 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 		model_id_map[model_name] = id
 		var model_fmt = {
 			"model_name": model_name,
+			"worker_count": worker_count,
 		}
 		var model_entry = "{model_name}"
 		if not model_reference.empty():
 			model_fmt["style"] = model_reference[model_name].get("style",'')
-			model_entry = "{model_name} ({style})"
+			model_entry = "{model_name}: {style} ({worker_count})"
 		model_select.add_item(model_entry.format(model_fmt))
 	set_previous_model()
 #	print_debug(model_reference)
@@ -142,8 +149,6 @@ As such, the result tend to be quite random as the image can be sent to somethin
 	model_info_card.popup()
 	model_info_card.rect_global_position = get_global_mouse_position() + Vector2(30,0)
 
-
-
 func _on_model_info_meta_clicked(meta):
 	match meta:
 		"homepage":
@@ -153,7 +158,20 @@ func _on_model_info_meta_clicked(meta):
 
 func _on_model_trigger_pressed() -> void:
 	var model_reference := get_selected_model_reference()
-	emit_signal("prompt_inject_requested", model_reference['trigger'])
+	var selected_triggers: Array = []
+	if typeof(model_reference['trigger']) == TYPE_STRING:
+		selected_triggers =  [model_reference['trigger']]
+	elif model_reference['trigger'].size() == 1:
+		selected_triggers = [model_reference['trigger'][0]]
+	else:
+		trigger_selection.clear()
+		for t in model_reference['trigger']:
+			trigger_selection.add_check_item(t)
+		trigger_selection.add_item("Select")
+		trigger_selection.popup()
+		trigger_selection.rect_global_position = model_trigger.rect_global_position
+	if selected_triggers.size() > 0:
+		emit_signal("prompt_inject_requested", selected_triggers)
 
 
 func _on_model_changed(_selected_item = null) -> void:
@@ -168,6 +186,7 @@ func _on_model_changed(_selected_item = null) -> void:
 		model_trigger.disabled = true
 	_refresh_model_performance()
 	_update_popup_info_label()
+
 
 func _refresh_model_performance() -> void:
 	var model_performance := get_selected_model_performance()
@@ -208,3 +227,12 @@ func _update_popup_info_label() -> void:
 	}
 	popup_info_label.bbcode_text = t.format(fmt)
 	
+func _on_trigger_selection_id_pressed(id: int) -> void:
+	if trigger_selection.is_item_checkable(id):
+		trigger_selection.toggle_item_checked(id)
+	else:
+		var selected_triggers:= []
+		for iter in range (trigger_selection.get_item_count()):
+			if trigger_selection.is_item_checked(iter):
+				selected_triggers.append(trigger_selection.get_item_text(iter))
+		emit_signal("prompt_inject_requested", selected_triggers)

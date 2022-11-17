@@ -410,8 +410,11 @@ func _on_source_image_selected(path: String) -> void:
 	image_preview.load_image_from_path(path)
 	stable_horde_client.source_image = image_preview.source_image
 
-func _on_prompt_inject(tokens: String) -> void:
-	prompt_line_edit.text += ', ' + tokens
+func _on_prompt_inject(tokens: Array) -> void:
+	for token in tokens:
+		if token in prompt_line_edit.text:
+			continue
+		prompt_line_edit.text += ', ' + token
 
 func _on_NegativePrompt_toggled(pressed: bool) -> void:
 	negative_prompt.pressed = pressed

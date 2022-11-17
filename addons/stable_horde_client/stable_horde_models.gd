@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func get_models() -> void:
 	if state != States.READY:
-		push_error("Client currently working. Cannot do more than 1 request at a time with the same Stable Horde Client.")
+		push_warning("Client currently working. Cannot do more than 1 request at a time with the same Stable Horde Client.")
 		return
 	state = States.WORKING
 	var error = request("https://stablehorde.net/api/v2/status/models", [], false, HTTPClient.METHOD_GET)

@@ -286,6 +286,12 @@ icon = ExtResource( 14 )
 flat = true
 expand_icon = true
 
+[node name="TriggerSelection" type="PopupMenu" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons/ModelTrigger"]
+unique_name_in_owner = true
+margin_right = 20.0
+margin_bottom = 20.0
+hide_on_checkable_item_selection = false
+
 [node name="ModelInfoCard" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons"]
 unique_name_in_owner = true
 margin_left = 157.0
