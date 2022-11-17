@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -17,7 +17,8 @@
 [ext_resource path="res://theme/gantari/Gantari[wght].ttf" type="DynamicFontData" id=15]
 [ext_resource path="res://assets/icons/circle.png" type="Texture" id=16]
 [ext_resource path="res://PopupInfoPanel.tscn" type="PackedScene" id=17]
-[ext_resource path="res://assets/1668640648_2362995226.webp" type="Texture" id=18]
+[ext_resource path="res://assets/backgrounds/1668640648_2362995226.webp" type="Texture" id=18]
+[ext_resource path="res://Background.gd" type="Script" id=19]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -51,12 +52,13 @@ func _ready():
 	text = \"Version: \" + ToolConsts.VERSION
 "
 
-[node name="TextureRect" type="TextureRect"]
+[node name="Background" type="TextureRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 18 )
 expand = true
 stretch_mode = 7
+script = ExtResource( 19 )
 
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
