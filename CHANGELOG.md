@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.7.0](https://github.com/db0/Lucid-Creations/tree/v1.7.0) (2022-11-17)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.6.1...v1.7.0)
+
+**Merged pull requests:**
+
+- Theme improvements [\#54](https://github.com/db0/Lucid-Creations/pull/54) ([db0](https://github.com/db0))
+
 ## [v1.6.1](https://github.com/db0/Lucid-Creations/tree/v1.6.1) (2022-11-15)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.6.0...v1.6.1)
