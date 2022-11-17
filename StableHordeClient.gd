@@ -181,7 +181,7 @@ func _on_images_generated(completed_payload: Dictionary):
 	save_all.disabled = false
 	for texture in completed_payload["image_textures"]:
 		var tr := GRID_TEXTURE_RECT.instance()
-		tr.texture = texture
+		tr.set_texture(texture)
 		# warning-ignore:return_value_discarded
 		tr.connect("left_mouse_mouse_clicked", self, "_on_grid_texture_left_clicked", [tr])
 #		tr.connect("right_mouse_mouse_clicked", self, "_on_grid_texture_right_clicked", [tr])

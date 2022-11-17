@@ -14,7 +14,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/stable_horde_client/AIImageTexture.gd"
 }, {
-"base": "TextureRect",
+"base": "PanelContainer",
 "class": "GridTextureRect",
 "language": "GDScript",
 "path": "res://GridTextureRect.gd"
@@ -43,6 +43,11 @@ _global_script_classes=[ {
 "class": "ToolConsts",
 "language": "GDScript",
 "path": "res://Consts.gd"
+}, {
+"base": "Reference",
+"class": "Utils",
+"language": "GDScript",
+"path": "res://Utils.gd"
 } ]
 _global_script_class_icons={
 "AIImageTexture": "",
@@ -51,7 +56,8 @@ _global_script_class_icons={
 "StableHordeHTTPRequest": "",
 "StableHordeModelReference": "",
 "StableHordeModels": "",
-"ToolConsts": ""
+"ToolConsts": "",
+"Utils": ""
 }
 
 [application]
@@ -75,6 +81,10 @@ window/stretch/aspect="keep"
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/stable_horde_client/plugin.cfg" )
+
+[global]
+
+icon=false
 
 [gui]
 
