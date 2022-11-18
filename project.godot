@@ -30,6 +30,11 @@ _global_script_classes=[ {
 "path": "res://addons/stable_horde_client/stable_horde_httpclient.gd"
 }, {
 "base": "StableHordeHTTPRequest",
+"class": "StableHordeLogin",
+"language": "GDScript",
+"path": "res://addons/stable_horde_client/stable_horde_login.gd"
+}, {
+"base": "StableHordeHTTPRequest",
 "class": "StableHordeModelReference",
 "language": "GDScript",
 "path": "res://addons/stable_horde_client/stable_horde_model_reference.gd"
@@ -54,6 +59,7 @@ _global_script_class_icons={
 "GridTextureRect": "",
 "StableHordeClient": "",
 "StableHordeHTTPRequest": "",
+"StableHordeLogin": "",
 "StableHordeModelReference": "",
 "StableHordeModels": "",
 "ToolConsts": "",
@@ -66,6 +72,7 @@ config/name="Lucid Creations"
 config/description="Generate images using the Stable Diffusion AI and the Stable Horde crowdsourced cluster"
 run/main_scene="res://StableHordeClient.tscn"
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 

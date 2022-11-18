@@ -5,6 +5,10 @@ onready var larger_values = $"%LargerValues"
 onready var save_dir = $"%SaveDir"
 onready var save_dir_browse_button = $"%SaveDirBrowseButton"
 onready var save_dir_browse = $"%SaveDirBrowse"
+onready var api_key := $"%APIKey"
+onready var api_key_label := $"%APIKeyLabel"
+onready var login_button = $"%LoginButton"
+onready var stable_horde_login = $"%StableHordeLogin"
 
 func _ready():
 	remember_prompt.pressed = globals.config.get_value("Options", "remember_prompt", false)
@@ -12,16 +16,31 @@ func _ready():
 	larger_values.pressed = globals.config.get_value("Options", "larger_values", false)
 	larger_values.connect("toggled",self,"_on_larger_values_pressed")
 	# warning-ignore:return_value_discarded
+	login_button.connect("pressed",self,"_on_login_pressed")
+	# warning-ignore:return_value_discarded
 	save_dir_browse_button.connect("pressed",self,"_on_browse_pressed")
 #	save_dir.connect("text_changed",self,"_on_savedir_changed")
 	# warning-ignore:return_value_discarded
 	save_dir_browse.connect("dir_selected",self,"_on_savedir_selected")
+	stable_horde_login.connect("login_successful",self, "_on_login_succesful")
+	stable_horde_login.connect("request_failed", self, "_on_login_failed")
 	var default_save_dir = globals.config.get_value("Options", "default_save_dir", "user://")
 	if default_save_dir in ["user://", '']:
 		_set_default_savedir_path()
 	else:
 		save_dir.text = default_save_dir
 		_set_default_savedir_path(true)
+
+func set_api_key(new_api_key) -> void:
+	api_key.text = new_api_key
+	_on_APIKey_text_changed(new_api_key)
+
+
+func get_api_key() -> String:
+	return(api_key.text)
+
+func login() -> void:
+	_on_login_pressed()
 
 func _on_remember_prompt_pressed(pressed: bool) -> void:
 	globals.set_setting("remember_prompt", pressed, "Options")
@@ -63,13 +82,46 @@ func _set_default_savedir_path(only_placholder = false) -> void:
 
 func _on_browse_pressed() -> void:
 	var prev_path = globals.config.get_value("Options", "default_save_dir", "user://")
-	print_debug([prev_path,save_dir_browse.current_path])
 	if prev_path:
 		save_dir_browse.current_dir = prev_path
 	save_dir_browse.popup_centered(Vector2(500,500))
 
-
 func _on_savedir_selected(path: String) -> void:
 	globals.set_setting("default_save_dir", path, "Options")
 	save_dir.text = path
-	print_debug(save_dir.text)
+
+	
+func _on_APIKeyLabel_meta_clicked(meta):
+	match meta:
+		"register":
+			# warning-ignore:return_value_discarded
+			OS.shell_open("https://stablehorde.net/register")
+		"anonymous":
+			api_key.text = "0000000000"
+			_on_APIKey_text_changed('')
+			_on_login_pressed()
+
+
+func _on_APIKey_text_changed(_new_text):
+	if api_key.text == "0000000000":
+		api_key_label.bbcode_text = "API Key = Anonymous [url=register](Register)[/url]"
+	else:
+		api_key_label.bbcode_text = "API Key [url=anonymous](Anonymize?)[/url]"
+
+func _on_login_pressed() -> void:
+	globals.set_setting("api_key", api_key.text)
+	stable_horde_login.api_key = api_key.text
+	stable_horde_login.login()
+	$"%LoggedInDetails".visible = false
+	api_key.modulate = Color(1,1,0)
+	
+func _on_login_succesful(_user_data) -> void:
+	$"%LoggedInDetails".visible = true
+	$"%LoggedInUsername".text = "Username: " + stable_horde_login.get_username()
+	$"%LoggedInKudos".text = "Kudos: " + str(stable_horde_login.get_kudos())
+	$"%LoggedInWorkers".text = "Workers: " + str(stable_horde_login.get_worker_count())
+	api_key.modulate = Color(1,1,1)
+
+func _on_login_failed(_error_msg) -> void:
+	$"%LoggedInDetails".visible = false
+	api_key.modulate = Color(1,0,0)

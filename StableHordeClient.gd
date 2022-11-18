@@ -10,7 +10,7 @@ var placeholder_prompts := [
 	"photorealistic rendering of a vast landscape, vivid colors, fantasy landscape",
 ]
 
-
+onready var options = $"%Options"
 onready var stable_horde_client := $"%StableHordeClient"
 onready var grid := $"%Grid"
 onready var prompt_line_edit := $"%PromptLine"
@@ -25,8 +25,6 @@ onready var steps_slider := $"%StepsSlider"
 onready var generate_button := $"%GenerateButton"
 onready var sampler_method := $"%SamplerMethod"
 onready var karras := $"%Karras"
-onready var api_key := $"%APIKey"
-onready var api_key_label := $"%APIKeyLabel"
 onready var grid_scroll = $"%GridScroll"
 onready var display_focus = $"%DisplayFocus"
 onready var focused_image = $"%FocusedImage"
@@ -106,14 +104,15 @@ func _ready():
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
 	sampler_method.select(sampler_method_id)
 	_on_SamplerMethod_item_selected(sampler_method_id)
-	api_key.text = stable_horde_client.api_key
+	# The stable horde client is set from the Parameters settings
+	options.set_api_key(stable_horde_client.api_key)
+	options.login()
 	if globals.config.get_value("Options", "remember_prompt", false):
 		prompt_line_edit.text = globals.config.get_value("Options", "saved_prompt", '')
 		negative_prompt_line_edit.text = globals.config.get_value("Options", "saved_negative_prompt", '')
 
 	# warning-ignore:return_value_discarded
 	get_viewport().connect("size_changed", self, '_on_viewport_resized')
-	_on_APIKey_text_changed('')
 	_on_viewport_resized()
 	randomize()
 	var rand_index : int = randi() % placeholder_prompts.size()
@@ -139,8 +138,7 @@ func _on_GenerateButton_pressed():
 		models = [model_name]
 	stable_horde_client.set("models", models)
 	globals.set_setting("models", models)
-	stable_horde_client.set("api_key", api_key.text)
-	globals.set_setting("api_key", api_key.text)
+	stable_horde_client.set("api_key", options.get_api_key())
 	stable_horde_client.set("karras", karras.pressed)
 	globals.set_setting("karras", karras.pressed)
 	stable_horde_client.set("nsfw", nsfw.pressed)
@@ -218,11 +216,11 @@ func _on_image_process_update(stats: Dictionary) -> void:
 	progress_text.text = " {waiting} Waiting. {processing} Processing.{restarted} {finished} Finished. ETA {eta} sec. Elapsed {elapsed} sec.".format(stats_format)
 	if stats.queue_position == 0:
 		status_text.bbcode_text = "Thank you for using the horde! "\
-			+ "If you enjoy this service join us in [url=discord]discord[/url] or subscribe on [url=patreon]patreon[/url]"
+			+ "If you enjoy this service join us in [url=discord]discord[/url] or subscribe on [url=patreon]patreon[/url] if you haven't already."
 		status_text.modulate = Color(0,1,0)
 	elif stats.wait_time > 200 or stats.elapsed_time / 1000> 150:
-		status_text.bbcode_text = "Unfortunately the Hoard appears to be under heavy load at the moment! Your queue position is {queue}. ".format({"queue":stats.queue_position})\
-				+ "If you can, please consider [url=worker]adding your own GPU[/url] to the horde to get more generation priority!"
+		status_text.bbcode_text = "The Hoard appears to be under heavy load at the moment! Your queue position is {queue}. ".format({"queue":stats.queue_position})\
+				+ "Please consider [url=worker]adding your own GPU[/url] to the horde to get more generation priority!"
 		status_text.modulate = Color(0.84,0.47,0)
 	else:
 		status_text.bbcode_text = "Your queue position is {queue}.".format({"queue":stats.queue_position})
@@ -241,7 +239,7 @@ func _on_viewport_resized() -> void:
 
 func _sets_size_without_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_EXPAND_FILL
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls.rect_size.x) * 0.88
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls.rect_size.x) * 0.84
 	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
 #	grid_scroll.rect_min_size.y = get_viewport().size.y - image_info.rect_size.y - 100
 	grid_scroll.rect_min_size.y = 0
@@ -251,9 +249,9 @@ func _sets_size_without_display_focus() -> void:
 
 func _sets_size_with_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_FILL
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls.rect_size.x) * 0.88
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls.rect_size.x) * 0.84
 	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
-	grid_scroll.rect_min_size.y = 140
+	grid_scroll.rect_min_size.y = 150
 	for tr in grid.get_children():
 		tr.rect_min_size = Vector2(64,64)
 	grid.columns = int(grid_scroll.rect_min_size.x / 64)
@@ -278,21 +276,6 @@ func _on_StatusText_meta_clicked(meta):
 			# warning-ignore:return_value_discarded
 			OS.shell_open("https://github.com/db0/AI-Horde/blob/main/README_StableHorde.md#joining-the-horde")
 
-func _on_APIKeyLabel_meta_clicked(meta):
-	match meta:
-		"register":
-			# warning-ignore:return_value_discarded
-			OS.shell_open("https://stablehorde.net/register")
-		"anonymous":
-			api_key.text = "0000000000"
-			_on_APIKey_text_changed('')
-
-
-func _on_APIKey_text_changed(_new_text):
-	if api_key.text == "0000000000":
-		api_key_label.bbcode_text = "API Key = Anonymous [url=register](Register)[/url]"
-	else:
-		api_key_label.bbcode_text = "API Key [url=anonymous](Anonymize?)[/url]"
 
 func _get_test_images(n = 10) -> Array:
 	var test_array := []
