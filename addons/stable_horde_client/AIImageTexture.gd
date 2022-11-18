@@ -41,7 +41,7 @@ func _init(
 		_image: Image) -> void:
 	._init()
 	prompt = _prompt
-	attributes = _imgen_params
+	attributes = _imgen_params.duplicate(true)
 	attributes.erase('n')
 	attributes['prompt'] = prompt
 	gen_seed = _gen_seed

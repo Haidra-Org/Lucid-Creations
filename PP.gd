@@ -15,7 +15,11 @@ func _ready():
 	pp_popup.clear()
 	for p in POST_PROCESSORS:
 		pp_popup.add_item(p)
+	selected_pp = globals.config.get_value("Parameters", "post_processing", [])
+	_update_pp_label()
+	# warning-ignore:return_value_discarded
 	pp_popup.connect("index_pressed",self,"on_index_pressed")
+	# warning-ignore:return_value_discarded
 	pp_selected.connect("meta_clicked",self,"_on_pp_meta_clicked")
 
 func on_index_pressed(index: int) -> void:
