@@ -37,7 +37,7 @@ func on_index_pressed(index: int) -> void:
 func _update_pp_label() -> void:
 	var bbtext := []
 	for index in range(selected_pp.size()):
-		var pp_text = "[url={pp_hover}]{post_processor}[/url]([url={pp_x}]X[/url])"
+		var pp_text = "[url={pp_hover}]{post_processor}[/url] ([url={pp_x}]X[/url])"
 		var pp_fmt = {
 			"post_processor": selected_pp[index],
 			"pp_x": index,
@@ -47,6 +47,8 @@ func _update_pp_label() -> void:
 	pp_selected.bbcode_text = ", ".join(bbtext)
 
 func _on_pp_meta_clicked(index: String) -> void:
+	if "hover" in index:
+		return
 	selected_pp.remove(int(index))
 	globals.set_setting("post_processing",selected_pp)
 	_update_pp_label()
