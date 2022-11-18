@@ -445,6 +445,7 @@ func _connect_hover_signals() -> void:
 		seed_edit,
 		karras,
 		denoising_strength,
+		$"%PP",
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])
