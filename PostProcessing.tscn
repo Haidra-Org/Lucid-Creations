@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://PP.gd" type="Script" id=1]
+
+[node name="PP" type="VBoxContainer"]
+margin_top = 510.0
+margin_right = 300.0
+margin_bottom = 605.0
+script = ExtResource( 1 )
+
+[node name="HBC" type="HBoxContainer" parent="."]
+margin_right = 300.0
+margin_bottom = 20.0
+
+[node name="PPLabel" type="Label" parent="HBC"]
+margin_top = 3.0
+margin_right = 148.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Post Processing"
+
+[node name="PPSelect" type="MenuButton" parent="HBC"]
+unique_name_in_owner = true
+margin_left = 152.0
+margin_right = 300.0
+margin_bottom = 20.0
+focus_mode = 2
+size_flags_horizontal = 3
+text = "Select"
+flat = false
+items = [ "GFPGAN", null, 0, false, false, 0, 0, null, "", false, "RealESRGAN_x4plus", null, 0, false, false, 1, 0, null, "", false ]
+
+[node name="PPSelected" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+margin_top = 24.0
+margin_right = 300.0
+margin_bottom = 74.0
+rect_min_size = Vector2( 0, 50 )
+bbcode_enabled = true

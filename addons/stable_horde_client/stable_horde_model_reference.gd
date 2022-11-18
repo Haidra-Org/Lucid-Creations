@@ -14,7 +14,7 @@ func _ready() -> void:
 
 func get_model_reference() -> void:
 	if state != States.READY:
-		push_error("Client currently working. Cannot do more than 1 request at a time with the same Stable Horde Client.")
+		push_error("Model Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
 		return
 	state = States.WORKING
 	var error = request(model_refence_url, [], false, HTTPClient.METHOD_GET)
@@ -30,6 +30,7 @@ func process_request(json_ret) -> void:
 		var error_msg : String = "Unexpected model reference received"
 		push_error("Unexpected model reference received" + ': ' +  json_ret)
 		emit_signal("request_failed",error_msg)
+		state = States.READY
 		return
 	model_reference = json_ret
 	emit_signal("reference_retrieved", model_reference)

@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func get_models() -> void:
 	if state != States.READY:
-		push_warning("Client currently working. Cannot do more than 1 request at a time with the same Stable Horde Client.")
+		push_warning("Models currently working. Cannot do more than 1 request at a time with the same Stable Horde Models.")
 		return
 	state = States.WORKING
 	var error = request("https://stablehorde.net/api/v2/status/models", [], false, HTTPClient.METHOD_GET)
@@ -31,6 +31,7 @@ func process_request(json_ret) -> void:
 		var error_msg : String = "Unexpected model format received"
 		push_error("Unexpected model format received" + ': ' +  json_ret)
 		emit_signal("request_failed",error_msg)
+		state = States.READY
 		return
 	model_performances = json_ret
 	model_names.clear()
