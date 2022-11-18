@@ -22,6 +22,7 @@ func on_index_pressed(index: int) -> void:
 	if POST_PROCESSORS[index] in selected_pp:
 		return
 	selected_pp.append(POST_PROCESSORS[index])
+	globals.set_setting("post_processing",selected_pp)
 	_update_pp_label()
 
 func _update_pp_label() -> void:
@@ -37,4 +38,5 @@ func _update_pp_label() -> void:
 
 func _on_pp_meta_clicked(index: String) -> void:
 	selected_pp.remove(int(index))
+	globals.set_setting("post_processing",selected_pp)
 	_update_pp_label()
