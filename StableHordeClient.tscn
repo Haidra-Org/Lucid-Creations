@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Background.gd" type="Script" id=19]
 [ext_resource path="res://icon.png" type="Texture" id=20]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_login.gd" type="Script" id=21]
+[ext_resource path="res://PostProcessing.tscn" type="PackedScene" id=22]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -74,7 +75,6 @@ unique_name_in_owner = true
 script = ExtResource( 2 )
 
 [node name="Generate" type="MarginContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 27.0
@@ -435,6 +435,8 @@ margin_top = 490.0
 margin_right = 300.0
 margin_bottom = 490.0
 
+[node name="PP" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic" instance=ExtResource( 22 )]
+
 [node name="Advanced" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 unique_name_in_owner = true
 visible = false
@@ -711,6 +713,7 @@ columns = 9
 
 [node name="Options" type="MarginContainer" parent="TabContainer"]
 unique_name_in_owner = true
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 27.0
