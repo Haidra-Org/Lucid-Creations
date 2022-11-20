@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://icon.png" type="Texture" id=20]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_login.gd" type="Script" id=21]
 [ext_resource path="res://PostProcessing.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Tutorial.tscn" type="PackedScene" id=23]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -1018,6 +1019,9 @@ texture = ExtResource( 20 )
 expand = true
 
 [node name="PopupInfoPanel" parent="TabContainer" instance=ExtResource( 17 )]
+
+[node name="Tutorial" parent="." instance=ExtResource( 23 )]
+unique_name_in_owner = true
 
 [connection signal="text_changed" from="TabContainer/Generate/VBoxContainer/Generate/PromptCC/PromptLine" to="TabContainer" method="_on_PromptLine_text_changed"]
 [connection signal="meta_clicked" from="TabContainer/Generate/VBoxContainer/StatusPanel/StatusText" to="TabContainer" method="_on_StatusText_meta_clicked"]

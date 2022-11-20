@@ -54,6 +54,8 @@ func get_selected_model() -> String:
 
 
 func init_refresh_models() -> void:
+	if model_select.get_popup().visible:
+		return
 	if previous_selection == '':
 		var config_models = globals.config.get_value("Parameters", "models", ["stable_diffusion"])
 		if config_models.empty():
@@ -202,7 +204,7 @@ func _refresh_model_performance() -> void:
 			current_pct = 1
 		model_health.self_modulate = healthy.linear_interpolate(unhealthy,current_pct)
 		model_eta.text = str(model_performance['eta'])
-	
+
 func _on_model_health_mouse_enterred() -> void:
 	popup_info.show()
 	popup_info.rect_global_position = get_global_mouse_position() + Vector2(30,-40)
@@ -226,7 +228,7 @@ func _update_popup_info_label() -> void:
 		"eta": model_performance["eta"],
 	}
 	popup_info_label.bbcode_text = t.format(fmt)
-	
+
 func _on_trigger_selection_id_pressed(id: int) -> void:
 	if trigger_selection.is_item_checkable(id):
 		trigger_selection.toggle_item_checked(id)

@@ -1,0 +1,192 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/tutorial/generate_progress.png" type="Texture" id=1]
+[ext_resource path="res://assets/tutorial/generate_button.png" type="Texture" id=2]
+[ext_resource path="res://theme/assets/blue_boxCross.png" type="Texture" id=3]
+[ext_resource path="res://assets/tutorial/login.png" type="Texture" id=4]
+[ext_resource path="res://assets/tutorial/tabs.png" type="Texture" id=5]
+[ext_resource path="res://theme/kenneyUI-blue.tres" type="Theme" id=6]
+[ext_resource path="res://Tutorial.gd" type="Script" id=7]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.862745 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="Tutorial" type="PopupPanel"]
+margin_right = 695.0
+margin_bottom = 610.0
+theme = ExtResource( 6 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 7 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 693.0
+margin_bottom = 608.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="VBC" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 671.0
+margin_bottom = 586.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBC"]
+margin_right = 651.0
+margin_bottom = 36.0
+
+[node name="Label" type="Label" parent="MarginContainer/VBC/HBoxContainer"]
+margin_top = 9.0
+margin_right = 609.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+text = "Welcome to Lucid Creations"
+align = 1
+
+[node name="ExitButton" type="TextureButton" parent="MarginContainer/VBC/HBoxContainer"]
+margin_left = 613.0
+margin_right = 651.0
+margin_bottom = 36.0
+texture_normal = ExtResource( 3 )
+stretch_mode = 4
+
+[node name="HCB" type="HBoxContainer" parent="MarginContainer/VBC"]
+margin_top = 40.0
+margin_right = 651.0
+margin_bottom = 463.0
+size_flags_horizontal = 3
+
+[node name="VBC" type="VBoxContainer" parent="MarginContainer/VBC/HCB"]
+margin_right = 651.0
+margin_bottom = 423.0
+size_flags_horizontal = 3
+custom_constants/separation = 7
+
+[node name="Label" type="Label" parent="MarginContainer/VBC/HCB/VBC"]
+margin_right = 651.0
+margin_bottom = 17.0
+text = "You can use this client to quickly and painlessly generate images using Stable Diffusion"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBC/HCB/VBC"]
+margin_top = 24.0
+margin_right = 651.0
+margin_bottom = 61.0
+
+[node name="GenerateHelp" type="Label" parent="MarginContainer/VBC/HCB/VBC/HBoxContainer"]
+margin_right = 547.0
+margin_bottom = 37.0
+size_flags_horizontal = 3
+text = "To start, click on the generate button and it will draw an image using some of our sample prompts"
+autowrap = true
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBC/HCB/VBC/HBoxContainer"]
+margin_left = 551.0
+margin_right = 651.0
+margin_bottom = 37.0
+rect_min_size = Vector2( 100, 35 )
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="MarginContainer/VBC/HCB/VBC"]
+margin_top = 68.0
+margin_right = 651.0
+margin_bottom = 105.0
+text = "After you hit this button, simply wait a few seconds to get your generation
+"
+autowrap = true
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBC/HCB/VBC"]
+margin_top = 112.0
+margin_right = 651.0
+margin_bottom = 142.0
+rect_min_size = Vector2( 0, 30 )
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 5
+
+[node name="Label3" type="Label" parent="MarginContainer/VBC/HCB/VBC"]
+margin_top = 149.0
+margin_right = 651.0
+margin_bottom = 366.0
+text = "
+This tool uses the Stable Horde to generate images, which is a crowdsourced cluster of Stable Diffusion workers.
+
+The first time you open this tool, you will be using it anonymously gives has the lowest priority as well as some other restriction on how large a generation your can create.
+
+Head over to the options tab, where you can login with (or register for free) your Stable Horde account which will provide you with higher priority and power than the anonymous account."
+autowrap = true
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBC/HCB/VBC"]
+margin_top = 373.0
+margin_right = 651.0
+margin_bottom = 423.0
+rect_min_size = Vector2( 0, 50 )
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 5
+
+[node name="Label4" type="Label" parent="MarginContainer/VBC"]
+visible = false
+margin_top = 467.0
+margin_right = 651.0
+margin_bottom = 504.0
+text = "While there, you can also set your save directory which is were all images will be stored when you save them."
+autowrap = true
+
+[node name="Label8" type="Label" parent="MarginContainer/VBC"]
+margin_top = 467.0
+margin_right = 651.0
+margin_bottom = 504.0
+text = "You can also head to the info tab to find some more information and links about this client and the Stable Horde."
+autowrap = true
+
+[node name="Label5" type="Label" parent="MarginContainer/VBC"]
+visible = false
+margin_top = 568.0
+margin_right = 651.0
+margin_bottom = 725.0
+text = "This client provides a lot of power over the settings you can tweak to play with the Stable Horde. 
+But don't feel the need to immediately start tweaking settings! 
+We already provide reasonable defaults and you can create great results by simply modifying your prompt.
+
+However if you feel the need for more control, head over the the advanced tab to be able to tweak more settings for your generation"
+autowrap = true
+
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/VBC"]
+visible = false
+margin_top = 508.0
+margin_right = 651.0
+margin_bottom = 543.0
+rect_min_size = Vector2( 100, 35 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 5
+
+[node name="Label6" type="Label" parent="MarginContainer/VBC"]
+margin_top = 508.0
+margin_right = 651.0
+margin_bottom = 545.0
+text = "You can mouse over any setting to see information on what it's changing. Feel free to experiment!"
+autowrap = true
+
+[node name="Label7" type="Label" parent="MarginContainer/VBC"]
+margin_top = 549.0
+margin_right = 651.0
+margin_bottom = 566.0
+text = "Play and generate as much as you want! Enjoy!"
+align = 1
+autowrap = true
+
+[connection signal="pressed" from="MarginContainer/VBC/HBoxContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
