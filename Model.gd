@@ -15,6 +15,8 @@ onready var model_health  : TextureRect = $"%ModelHealth"
 onready var model_eta = $"%ModelETA"
 onready var popup_info := $"%PopupInfo"
 onready var popup_info_label := $"%PopupInfoLabel"
+onready var stable_horde_model_showcase = $"%StableHordeModelShowcase"
+onready var model_showcase = $"%ModelShowcase"
 
 
 var model_refresh: float
@@ -37,6 +39,7 @@ func _ready():
 	model_health.connect("mouse_entered", self, "_on_model_health_mouse_enterred")
 	# warning-ignore:return_value_discarded
 	model_health.connect("mouse_exited", self, "_on_model_health_mouse_exited")
+	stable_horde_model_showcase.connect("showcase_retrieved",self, "_on_showcase_retrieved")
 	init_refresh_models()
 
 func _process(delta):
@@ -95,7 +98,7 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 		model_select.add_item(model_entry.format(model_fmt))
 	set_previous_model()
 #	print_debug(model_reference)
-	_on_model_changed()
+	_refresh_model_performance()
 
 func set_previous_model() -> void:
 	model_select.selected = 0
@@ -148,6 +151,7 @@ As such, the result tend to be quite random as the image can be sent to somethin
 			if fmt['homepage']:
 				label_text += "\nHomepage: [url=homepage]{homepage}[/url]".format(fmt)
 			model_info_label.bbcode_text = label_text
+	model_info_card.rect_size = Vector2(0,0)
 	model_info_card.popup()
 	model_info_card.rect_global_position = get_global_mouse_position() + Vector2(30,0)
 
@@ -186,6 +190,8 @@ func _on_model_changed(_selected_item = null) -> void:
 		model_trigger.disabled = false
 	else:
 		model_trigger.disabled = true
+	model_showcase.rect_min_size = Vector2(0,0)
+	stable_horde_model_showcase.get_model_showcase(model_reference)
 	_refresh_model_performance()
 	_update_popup_info_label()
 
@@ -238,3 +244,7 @@ func _on_trigger_selection_id_pressed(id: int) -> void:
 			if trigger_selection.is_item_checked(iter):
 				selected_triggers.append(trigger_selection.get_item_text(iter))
 		emit_signal("prompt_inject_requested", selected_triggers)
+
+func _on_showcase_retrieved(img:ImageTexture, model_name) -> void:
+	model_showcase.texture = img
+	model_showcase.rect_min_size = Vector2(400,400)
