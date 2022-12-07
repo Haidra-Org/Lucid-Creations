@@ -8,6 +8,7 @@ var placeholder_prompts := [
 	"professional portrait render head shot of a simplified minimalist cute synthwave panda, looking sideways, happy, side profile, covered in blue pink fur, teal body, photorealist, perfect cuddly panda face, perfect panda eyes, in colored smoke, dark purple studio background, volumetric lighting, ultra-hd, intricate, stunning anime painting, dof",
 	"Psychedelic Surreal victorian landscape art, dark shadows, muted colors, intricate brush strokes, masterpiece oil painting, intricate brush strokes, muted colour palette, hard lighting, dark, eerie",
 	"photorealistic rendering of a vast landscape, vivid colors, fantasy landscape",
+	"Rainbow jellyfish on a a deep colorful ocean, reef coral, concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation, hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!Centered composition!!!###bad art, strange colors, sketch ,lacklustre, repetitive, lowres, deformed, old, childish",
 ]
 
 onready var options = $"%Options"

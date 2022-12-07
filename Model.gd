@@ -45,7 +45,7 @@ func _ready():
 
 func _process(delta):
 	model_refresh += delta
-	if model_refresh >= 2:
+	if model_refresh > 2.5:
 		model_refresh = 0
 		init_refresh_models()
 
