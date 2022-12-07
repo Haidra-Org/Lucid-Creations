@@ -255,7 +255,7 @@ func _sets_size_with_display_focus() -> void:
 	grid_scroll.rect_min_size.y = 150
 	for tr in grid.get_children():
 		tr.rect_min_size = Vector2(64,64)
-	grid.columns = int(grid_scroll.rect_min_size.x / 64)
+	grid.columns = int(grid_scroll.rect_min_size.x / 128)
 
 func get_grid_min_size() -> Vector2:
 	var tr_min_size = Vector2(stable_horde_client.width,stable_horde_client.height)

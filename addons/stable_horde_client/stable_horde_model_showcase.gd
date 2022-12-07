@@ -13,7 +13,7 @@ func _ready():
 
 func get_model_showcase(_model_reference) -> void:
 	model_reference = _model_reference
-	model_name = model_reference.name
+	model_name = model_reference.get("name","stable_diffusion")
 	if not model_reference.has("showcases"):
 		return
 	var showcase_list = model_reference.showcases
