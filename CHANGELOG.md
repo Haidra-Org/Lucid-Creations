@@ -1,5 +1,17 @@
 # Changelog
 
+## [v1.11.0](https://github.com/db0/Lucid-Creations/tree/v1.11.0) (2022-12-08)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.10.1...v1.11.0)
+
+**Closed issues:**
+
+- UX: Lacking download redirection alternative link [\#61](https://github.com/db0/Lucid-Creations/issues/61)
+
+**Merged pull requests:**
+
+- Added ability to retrieve images via R2 [\#67](https://github.com/db0/Lucid-Creations/pull/67) ([db0](https://github.com/db0))
+
 ## [v1.10.1](https://github.com/db0/Lucid-Creations/tree/v1.10.1) (2022-11-20)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.10.0...v1.10.1)
