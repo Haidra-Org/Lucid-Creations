@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GridTextureRect.gd"
 }, {
+"base": "HTTPRequest",
+"class": "R2ImageRetriever",
+"language": "GDScript",
+"path": "res://addons/stable_horde_client/r2_image_retriever.gd"
+}, {
 "base": "StableHordeHTTPRequest",
 "class": "StableHordeClient",
 "language": "GDScript",
@@ -62,6 +67,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AIImageTexture": "",
 "GridTextureRect": "",
+"R2ImageRetriever": "",
 "StableHordeClient": "",
 "StableHordeHTTPRequest": "",
 "StableHordeLogin": "",

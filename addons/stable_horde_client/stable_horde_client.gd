@@ -15,6 +15,7 @@ enum SamplerMethods {
 	k_dpm_adaptive
 	k_dpmpp_2s_a
 	k_dpmpp_2m
+	dpmsolver
 }
 
 enum OngoingRequestOperations {
@@ -40,7 +41,7 @@ export(int,64,1024,64) var height := 512
 # Generally there's usually no reason to go above 50 unless you know what you're doing.
 export(int,1,100) var steps := 30
 # Advanced: The sampler used to generate. Provides slight variations on the same prompt.
-export(String, "k_lms", "k_heun", "k_euler", "k_euler_a", "k_dpm_2", "k_dpm_2_a", "k_dpm_fast", "k_dpm_adaptive", "k_dpmpp_2s_a", "k_dpmpp_2m") var sampler_name := "k_euler_a"
+export(String, "k_lms", "k_heun", "k_euler", "k_euler_a", "k_dpm_2", "k_dpm_2_a", "k_dpm_fast", "k_dpm_adaptive", "k_dpmpp_2s_a", "k_dpmpp_2m", "dpmsolver") var sampler_name := "k_euler_a"
 # How closely to follow the prompt given
 export(float,-40,30,0.5) var cfg_scale := 7.5
 # How closely to follow the source image in img2img
@@ -67,6 +68,8 @@ export(bool) var trusted_workers := true
 # An empty array here picks the first available models from the workers
 export(Array) var models := ["stable_diffusion"]
 export(Image) var source_image
+# If true, the image will be sent as a URL to download instead of a base64 string
+export(bool) var r2 := true
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -77,6 +80,7 @@ var async_request_id : String
 var imgen_params : Dictionary
 # When set to true, we will abort the current generation and try to retrieve whatever images we can
 var request_start_time : float # We use that to get the accurate amount of time the request took
+var async_retrievals_completed = 0
 
 func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	if state != States.READY:
@@ -104,13 +108,15 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"nsfw": nsfw,
 		"censor_nsfw": censor_nsfw,
 		"trusted_workers": trusted_workers,
-		"models": models
+		"models": models,
+		"r2": r2
 	}
 	if source_image:
 		submit_dict["source_image"] = get_img2img_b64(source_image)
 		submit_dict["params"]["denoising_strength"] = denoising_strength
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
+	print_debug(submit_dict)
 	var body = to_json(submit_dict)
 	var headers = ["Content-Type: application/json", "apikey: " + api_key]
 	var error = request("https://stablehorde.net/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
@@ -165,29 +171,59 @@ func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 
 
 func _extract_images(generations_array: Array) -> void:
-	var timestamp = OS.get_unix_time()
+	async_request_id = ''
+	var timestamp := OS.get_unix_time()
 	for img_dict in generations_array:
-		var b64img = img_dict["img"]
-		var base64_bytes = Marshalls.base64_to_raw(b64img)
-		var image = Image.new()
-		var error = image.load_webp_from_buffer(base64_bytes)
-		if error != OK:
-			var error_msg := "Couldn't load the image."
-			push_error(error_msg)
-			emit_signal("request_failed",error_msg)
-			return
-		var texture = AIImageTexture.new(
-			prompt,
-			imgen_params,
-			img_dict["seed"],
-			img_dict["model"],
-			img_dict["worker_id"],
-			img_dict["worker_name"],
-			timestamp,
-			image)
-		texture.create_from_image(image)
-		latest_image_textures.append(texture)
-		all_image_textures.append(texture)
+		var error
+		var image: Image
+		async_retrievals_completed = 0
+		print_debug(img_dict)
+		if 'https' in img_dict["img"]:
+			var image_retriever := R2ImageRetriever.new()
+			add_child(image_retriever)
+			image_retriever.connect(
+					"retrieval_failed", 
+					self, 
+					"_on_r2_retrieval_failed", 
+					[generations_array.size()])
+			image_retriever.connect(
+					"retrieval_success", 
+					self, 
+					"_on_r2_retrieval_success", 
+					[img_dict,  timestamp, generations_array.size()])
+			image_retriever.download_image(img_dict["img"])
+		else:
+			var b64img = img_dict["img"]
+			var base64_bytes = Marshalls.base64_to_raw(b64img)
+			# Just in case a worker sends us randomly a b64
+			async_retrievals_completed += 1
+			prepare_aitexture(base64_bytes, img_dict, timestamp)
+	if not r2:
+		complete_image_request()
+
+func prepare_aitexture(imgbuffer: PoolByteArray, img_dict: Dictionary, timestamp: int) -> AIImageTexture:
+	var image = Image.new()
+	var error = image.load_webp_from_buffer(imgbuffer)
+	if error != OK:
+		var error_msg := "Couldn't load the image."
+		push_error(error_msg)
+		emit_signal("request_failed",error_msg)
+		return null
+	var texture = AIImageTexture.new(
+		prompt,
+		imgen_params,
+		img_dict["seed"],
+		img_dict["model"],
+		img_dict["worker_id"],
+		img_dict["worker_name"],
+		timestamp,
+		image)
+	texture.create_from_image(image)
+	latest_image_textures.append(texture)
+	all_image_textures.append(texture)
+	return texture
+
+func complete_image_request() -> void:
 	var completed_payload = {
 		"image_textures": latest_image_textures,
 		"elapsed_time": OS.get_ticks_msec() - request_start_time
@@ -196,6 +232,16 @@ func _extract_images(generations_array: Array) -> void:
 	emit_signal("images_generated",completed_payload)
 	state = States.READY
 
+func _on_r2_retrieval_success(image_bytes: PoolByteArray, img_dict: Dictionary, timestamp: int, expected_amount: int) -> void:
+	prepare_aitexture(image_bytes, img_dict, timestamp)
+	async_retrievals_completed += 1
+	if async_retrievals_completed >= expected_amount:
+		complete_image_request()
+
+func _on_r2_retrieval_failed(error_msg: String, expected_amount: int) -> void:
+	async_retrievals_completed += 1
+	if async_retrievals_completed >= expected_amount:
+		complete_image_request()
 
 func get_sampler_method_id() -> String:
 	return(SamplerMethods[sampler_name])

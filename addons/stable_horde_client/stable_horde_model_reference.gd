@@ -10,11 +10,12 @@ var models_retrieved = false
 
 func _ready() -> void:
 	# We pick the first reference immediately as we enter the scene
+	timeout = 2
 	get_model_reference()
 
 func get_model_reference() -> void:
 	if state != States.READY:
-		push_error("Model Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
+		push_warning("Model Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
 		return
 	state = States.WORKING
 	var error = request(model_refence_url, [], false, HTTPClient.METHOD_GET)

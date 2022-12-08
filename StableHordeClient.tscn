@@ -103,23 +103,23 @@ custom_constants/margin_bottom = 15
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Generate"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 1666.0
+margin_right = 1585.0
 margin_bottom = 858.0
 custom_constants/separation = 3
 
 [node name="Generate" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer"]
-margin_right = 1651.0
+margin_right = 1570.0
 margin_bottom = 41.0
 
 [node name="PromptCC" type="MarginContainer" parent="TabContainer/Generate/VBoxContainer/Generate"]
 unique_name_in_owner = true
-margin_right = 1527.0
+margin_right = 1446.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 
 [node name="PromptLine" type="LineEdit" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
-margin_right = 1527.0
+margin_right = 1446.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 clear_button_enabled = true
@@ -130,12 +130,12 @@ caret_blink_speed = 0.5
 [node name="PromptCover" type="ColorRect" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 visible = false
-margin_right = 1527.0
+margin_right = 1446.0
 margin_bottom = 41.0
 
 [node name="GenerationsProcessing" type="TextureProgress" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
-margin_right = 1527.0
+margin_right = 1446.0
 margin_bottom = 41.0
 mouse_filter = 2
 max_value = 20.0
@@ -150,7 +150,7 @@ stretch_margin_bottom = 6
 
 [node name="GenerationsDone" type="TextureProgress" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
-margin_right = 1527.0
+margin_right = 1446.0
 margin_bottom = 41.0
 mouse_filter = 2
 max_value = 20.0
@@ -166,7 +166,7 @@ stretch_margin_bottom = 6
 unique_name_in_owner = true
 visible = false
 margin_top = 12.0
-margin_right = 1527.0
+margin_right = 1446.0
 margin_bottom = 29.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
@@ -178,8 +178,8 @@ unique_name_in_owner = true
 
 [node name="GenerateButton" type="Button" parent="TabContainer/Generate/VBoxContainer/Generate"]
 unique_name_in_owner = true
-margin_left = 1531.0
-margin_right = 1651.0
+margin_left = 1450.0
+margin_right = 1570.0
 margin_bottom = 41.251
 rect_min_size = Vector2( 120, 0 )
 text = "Generate"
@@ -225,14 +225,14 @@ caret_blink_speed = 0.5
 
 [node name="StatusPanel" type="PanelContainer" parent="TabContainer/Generate/VBoxContainer"]
 margin_top = 44.0
-margin_right = 1651.0
+margin_right = 1570.0
 margin_bottom = 74.0
 
 [node name="StatusText" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/StatusPanel"]
 unique_name_in_owner = true
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 1646.0
+margin_right = 1565.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 20 )
 bbcode_enabled = true
@@ -241,7 +241,7 @@ scroll_active = false
 
 [node name="MainArea" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer"]
 margin_top = 77.0
-margin_right = 1651.0
+margin_right = 1570.0
 margin_bottom = 843.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -249,11 +249,10 @@ custom_constants/separation = 20
 
 [node name="Controls" type="TabContainer" parent="TabContainer/Generate/VBoxContainer/MainArea"]
 unique_name_in_owner = true
-margin_right = 731.0
+margin_right = 310.0
 margin_bottom = 766.0
 
-[node name="Basic" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
-unique_name_in_owner = true
+[node name="Basic" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -261,72 +260,77 @@ margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 rect_min_size = Vector2( 300, 0 )
+
+[node name="Basic" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
+unique_name_in_owner = true
+margin_right = 300.0
+margin_bottom = 605.0
+rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 20
 
-[node name="Amount" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic" instance=ExtResource( 5 )]
+[node name="Amount" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_right = 721.0
+margin_right = 300.0
 margin_bottom = 63.0
 
-[node name="Model" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
+[node name="Model" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
 margin_top = 83.0
-margin_right = 721.0
-margin_bottom = 242.0
+margin_right = 300.0
+margin_bottom = 169.0
 script = ExtResource( 10 )
 
-[node name="ModelButtons" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model"]
-margin_right = 721.0
-margin_bottom = 114.0
+[node name="ModelButtons" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model"]
+margin_right = 300.0
+margin_bottom = 41.0
 
-[node name="ModelSelectLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons"]
-margin_top = 48.0
+[node name="ModelSelectLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons"]
+margin_top = 12.0
 margin_right = 45.0
-margin_bottom = 65.0
+margin_bottom = 29.0
 text = "Model"
 
-[node name="ModelInfo" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons"]
+[node name="ModelInfo" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons"]
 unique_name_in_owner = true
 margin_left = 49.0
 margin_right = 99.0
-margin_bottom = 114.0
+margin_bottom = 41.251
 rect_min_size = Vector2( 50, 0 )
 icon = ExtResource( 13 )
 flat = true
 expand_icon = true
 
-[node name="ModelTrigger" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons"]
+[node name="ModelTrigger" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons"]
 unique_name_in_owner = true
 margin_left = 103.0
 margin_right = 153.0
-margin_bottom = 114.0
+margin_bottom = 41.251
 rect_min_size = Vector2( 50, 0 )
 icon = ExtResource( 14 )
 flat = true
 expand_icon = true
 
-[node name="TriggerSelection" type="PopupMenu" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons/ModelTrigger"]
+[node name="TriggerSelection" type="PopupMenu" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/ModelTrigger"]
 unique_name_in_owner = true
 margin_right = 20.0
 margin_bottom = 20.0
 hide_on_checkable_item_selection = false
 
-[node name="ModelInfoCard" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons"]
+[node name="ModelInfoCard" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons"]
 unique_name_in_owner = true
-visible = true
 margin_left = 157.0
 margin_right = 677.0
 margin_bottom = 114.0
 custom_styles/panel = SubResource( 8 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons/ModelInfoCard"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/ModelInfoCard"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 510.0
 margin_bottom = 104.0
 
-[node name="ModelInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons/ModelInfoCard/VBoxContainer"]
+[node name="ModelInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/ModelInfoCard/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 500.0
 margin_bottom = 90.0
@@ -344,7 +348,7 @@ blah blah blah
 url: https://example.com"
 fit_content_height = true
 
-[node name="ModelShowcase" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons/ModelInfoCard/VBoxContainer"]
+[node name="ModelShowcase" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/ModelInfoCard/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 94.0
 margin_right = 500.0
@@ -352,56 +356,55 @@ margin_bottom = 94.0
 expand = true
 stretch_mode = 6
 
-[node name="StableHordeModelShowcase" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons/ModelInfoCard/VBoxContainer/ModelShowcase"]
+[node name="StableHordeModelShowcase" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/ModelInfoCard/VBoxContainer/ModelShowcase"]
 unique_name_in_owner = true
 script = ExtResource( 24 )
 
-[node name="CC" type="CenterContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons"]
-margin_left = 681.0
-margin_right = 721.0
-margin_bottom = 114.0
+[node name="CC" type="CenterContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons"]
+margin_left = 157.0
+margin_right = 197.0
+margin_bottom = 41.0
 rect_min_size = Vector2( 40, 40 )
 
-[node name="ModelHealth" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons/CC"]
+[node name="ModelHealth" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/CC"]
 unique_name_in_owner = true
-margin_top = 37.0
 margin_right = 40.0
-margin_bottom = 77.0
+margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 texture = ExtResource( 16 )
 expand = true
 stretch_mode = 6
 
-[node name="ModelETA" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelButtons/CC"]
+[node name="ModelETA" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/CC"]
 unique_name_in_owner = true
 margin_left = 12.0
-margin_top = 43.0
+margin_top = 6.0
 margin_right = 27.0
-margin_bottom = 71.0
+margin_bottom = 34.0
 custom_fonts/font = SubResource( 3 )
 text = "0"
 
-[node name="ModelSelect" type="OptionButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model"]
+[node name="ModelSelect" type="OptionButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model"]
 unique_name_in_owner = true
-margin_top = 118.0
-margin_right = 721.0
-margin_bottom = 159.251
+margin_top = 45.0
+margin_right = 300.0
+margin_bottom = 86.251
 text = "Any model"
 clip_text = true
 items = [ "Any model", null, false, 0, null, "stable_diffusion", null, false, 1, null ]
 selected = 0
 
-[node name="StableHordeModels" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/ModelSelect"]
+[node name="StableHordeModels" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelSelect"]
 unique_name_in_owner = true
 script = ExtResource( 9 )
 
-[node name="PopupInfo" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model"]
+[node name="PopupInfo" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model"]
 unique_name_in_owner = true
 margin_left = 157.0
 margin_right = 665.0
 margin_bottom = 98.0
 
-[node name="PopupInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Model/PopupInfo"]
+[node name="PopupInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/PopupInfo"]
 unique_name_in_owner = true
 margin_left = 4.0
 margin_top = 4.0
@@ -422,125 +425,123 @@ url: https://example.com"
 fit_content_height = true
 deselect_on_focus_loss_enabled = false
 
-[node name="NegativePrompt" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
+[node name="NegativePrompt" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 262.0
-margin_right = 721.0
-margin_bottom = 322.251
+margin_top = 189.0
+margin_right = 300.0
+margin_bottom = 249.251
 size_flags_horizontal = 3
 text = "Negative Prompt"
 
-[node name="TrustedWorkers" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
+[node name="TrustedWorkers" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 342.0
-margin_right = 721.0
-margin_bottom = 402.251
+margin_top = 269.0
+margin_right = 300.0
+margin_bottom = 329.251
 text = "Require Trusted Workers"
 
-[node name="HBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
-margin_top = 422.0
-margin_right = 721.0
-margin_bottom = 482.0
+[node name="HBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
+margin_top = 349.0
+margin_right = 300.0
+margin_bottom = 409.0
 
-[node name="NSFW" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/HBC"]
+[node name="NSFW" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC"]
 unique_name_in_owner = true
-margin_right = 358.0
+margin_right = 148.0
 margin_bottom = 60.251
 size_flags_horizontal = 3
 text = "NSFW"
 
-[node name="CensorNSFW" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/HBC"]
+[node name="CensorNSFW" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC"]
 unique_name_in_owner = true
-margin_left = 362.0
-margin_right = 721.0
+margin_left = 152.0
+margin_right = 300.0
 margin_bottom = 60.251
 size_flags_horizontal = 3
 pressed = true
 text = "Censored"
 
-[node name="SaveAll" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
+[node name="SaveAll" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 502.0
-margin_right = 721.0
-margin_bottom = 543.251
+margin_top = 429.0
+margin_right = 300.0
+margin_bottom = 470.251
 size_flags_horizontal = 3
 disabled = true
 text = "Save All"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
-margin_top = 563.0
-margin_right = 721.0
-margin_bottom = 563.0
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
+margin_top = 490.0
+margin_right = 300.0
+margin_bottom = 490.0
 
-[node name="PP" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic" instance=ExtResource( 22 )]
+[node name="PP" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic" instance=ExtResource( 22 )]
 unique_name_in_owner = true
-margin_top = 583.0
-margin_right = 721.0
-margin_bottom = 678.0
 
-[node name="Advanced" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
-unique_name_in_owner = true
+[node name="Advanced" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+margin_right = 12.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 300, 0 )
+
+[node name="Advanced" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced"]
+unique_name_in_owner = true
+margin_right = 300.0
+margin_bottom = 585.0
 rect_min_size = Vector2( 300, 0 )
 custom_constants/separation = 20
 
-[node name="Width" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced" instance=ExtResource( 5 )]
+[node name="Width" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_right = 300.0
 margin_bottom = 63.0
 config_setting = "width"
 
-[node name="Height" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced" instance=ExtResource( 5 )]
+[node name="Height" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 83.0
 margin_right = 300.0
 margin_bottom = 146.0
 config_setting = "height"
 
-[node name="StepsSlider" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced" instance=ExtResource( 5 )]
+[node name="StepsSlider" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 166.0
 margin_right = 300.0
 margin_bottom = 229.0
 config_setting = "steps"
 
-[node name="ConfigSlider" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced" instance=ExtResource( 5 )]
+[node name="ConfigSlider" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 249.0
 margin_right = 300.0
 margin_bottom = 312.0
 config_setting = "cfg_scale"
 
-[node name="SamplerMethodLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced"]
+[node name="SamplerMethodLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced"]
 margin_top = 332.0
 margin_right = 300.0
 margin_bottom = 349.0
 text = "Sampling method"
 autowrap = true
 
-[node name="SamplerMethod" type="OptionButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced"]
+[node name="SamplerMethod" type="OptionButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced"]
 unique_name_in_owner = true
 margin_top = 369.0
 margin_right = 300.0
 margin_bottom = 410.251
 text = "k_lms"
-items = [ "k_lms", null, false, 0, null, "k_heun", null, false, 1, null, "k_euler", null, false, 2, null, "k_euler_a", null, false, 3, null, "k_dpm_2", null, false, 4, null, "k_dpm_2_a", null, false, 5, null, "k_dpm_fast", null, false, 6, null, "k_dpm_adaptive", null, false, 7, null, "k_dpmpp_2s_a", null, false, 8, null, "k_dpmpp_2m", null, false, 9, null ]
+items = [ "k_lms", null, false, 0, null, "k_heun", null, false, 1, null, "k_euler", null, false, 2, null, "k_euler_a", null, false, 3, null, "k_dpm_2", null, false, 4, null, "k_dpm_2_a", null, false, 5, null, "k_dpm_fast", null, false, 6, null, "k_dpm_adaptive", null, false, 7, null, "k_dpmpp_2s_a", null, false, 8, null, "k_dpmpp_2m", null, false, 9, null, "dpmsolver", null, false, 10, null ]
 selected = 0
 
-[node name="SeedLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced"]
+[node name="SeedLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced"]
 margin_top = 430.0
 margin_right = 300.0
 margin_bottom = 447.0
 text = "Seed (blank to randomize)"
 autowrap = true
 
-[node name="Seed" type="LineEdit" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced"]
+[node name="Seed" type="LineEdit" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced"]
 unique_name_in_owner = true
 margin_top = 467.0
 margin_right = 300.0
@@ -548,7 +549,7 @@ margin_bottom = 505.434
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Karras" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced"]
+[node name="Karras" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced"]
 unique_name_in_owner = true
 margin_top = 525.0
 margin_right = 300.0
@@ -556,25 +557,26 @@ margin_bottom = 585.251
 pressed = true
 text = "Karras"
 
-[node name="img2img" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
-unique_name_in_owner = true
+[node name="img2img" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+margin_right = 12.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 300, 0 )
+
+[node name="img2img" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img"]
+unique_name_in_owner = true
+margin_right = 300.0
+margin_bottom = 60.0
 rect_min_size = Vector2( 300, 0 )
 custom_constants/separation = 20
 
-[node name="Img2ImgEnabled" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img"]
+[node name="Img2ImgEnabled" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
 unique_name_in_owner = true
 margin_right = 300.0
 margin_bottom = 60.251
 text = "Enabled"
 
-[node name="DenoisingStrength" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img" instance=ExtResource( 5 )]
+[node name="DenoisingStrength" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 visible = false
 margin_top = 80.0
@@ -582,7 +584,7 @@ margin_right = 342.0
 margin_bottom = 163.0
 config_setting = "denoising_strength"
 
-[node name="OpenImage" type="FileDialog" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img"]
+[node name="OpenImage" type="FileDialog" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
 unique_name_in_owner = true
 margin_top = 183.0
 margin_right = 342.0
@@ -592,14 +594,14 @@ mode = 0
 access = 2
 filters = PoolStringArray( "*.png, *.jpg, *.jpeg, *.webp ; Supported Images\"" )
 
-[node name="SelectImage" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img"]
+[node name="SelectImage" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
 unique_name_in_owner = true
 visible = false
 margin_right = 115.324
 margin_bottom = 41.251
 text = "Select Image"
 
-[node name="ImagePreview" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img"]
+[node name="ImagePreview" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
 unique_name_in_owner = true
 visible = false
 margin_top = 392.0
@@ -612,8 +614,8 @@ script = ExtResource( 12 )
 
 [node name="Display" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea"]
 unique_name_in_owner = true
-margin_left = 751.0
-margin_right = 1651.0
+margin_left = 330.0
+margin_right = 1570.0
 margin_bottom = 766.0
 size_flags_horizontal = 3
 
@@ -739,14 +741,14 @@ caret_blink_speed = 0.5
 
 [node name="GridScroll" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_right = 900.0
+margin_right = 1240.0
 margin_bottom = 766.0
 rect_min_size = Vector2( 900, 600 )
 size_flags_vertical = 3
 
 [node name="Grid" type="GridContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/GridScroll"]
 unique_name_in_owner = true
-margin_right = 900.0
+margin_right = 1240.0
 margin_bottom = 766.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -767,14 +769,14 @@ script = ExtResource( 11 )
 [node name="Background" type="Panel" parent="TabContainer/Options"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 1666.0
+margin_right = 1585.0
 margin_bottom = 858.0
 custom_styles/panel = SubResource( 5 )
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Options"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 1666.0
+margin_right = 1585.0
 margin_bottom = 858.0
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
@@ -784,7 +786,7 @@ custom_constants/margin_bottom = 20
 [node name="VBC" type="VBoxContainer" parent="TabContainer/Options/MarginContainer"]
 margin_left = 20.0
 margin_top = 20.0
-margin_right = 1631.0
+margin_right = 1550.0
 margin_bottom = 823.0
 custom_constants/separation = 10
 
@@ -956,14 +958,14 @@ custom_constants/margin_bottom = 15
 [node name="Background" type="Panel" parent="TabContainer/Information"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 1666.0
+margin_right = 1585.0
 margin_bottom = 858.0
 custom_styles/panel = SubResource( 5 )
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Information"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 1666.0
+margin_right = 1585.0
 margin_bottom = 858.0
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
@@ -973,7 +975,7 @@ custom_constants/margin_bottom = 20
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Information/MarginContainer"]
 margin_left = 20.0
 margin_top = 20.0
-margin_right = 1631.0
+margin_right = 1550.0
 margin_bottom = 823.0
 custom_constants/separation = 10
 
@@ -1064,8 +1066,8 @@ unique_name_in_owner = true
 
 [connection signal="text_changed" from="TabContainer/Generate/VBoxContainer/Generate/PromptCC/PromptLine" to="TabContainer" method="_on_PromptLine_text_changed"]
 [connection signal="meta_clicked" from="TabContainer/Generate/VBoxContainer/StatusPanel/StatusText" to="TabContainer" method="_on_StatusText_meta_clicked"]
-[connection signal="toggled" from="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/NegativePrompt" to="TabContainer" method="_on_NegativePrompt_toggled"]
-[connection signal="item_selected" from="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/SamplerMethod" to="TabContainer" method="_on_SamplerMethod_item_selected"]
+[connection signal="toggled" from="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/NegativePrompt" to="TabContainer" method="_on_NegativePrompt_toggled"]
+[connection signal="item_selected" from="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced/SamplerMethod" to="TabContainer" method="_on_SamplerMethod_item_selected"]
 [connection signal="meta_clicked" from="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft/APIKeyLabel" to="TabContainer/Options" method="_on_APIKeyLabel_meta_clicked"]
 [connection signal="text_changed" from="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft/APIHBC/APIKey" to="TabContainer/Options" method="_on_APIKey_text_changed"]
 [connection signal="meta_clicked" from="TabContainer/Information/MarginContainer/VBoxContainer/HBC/VBC1/Infodump" to="TabContainer/Information/MarginContainer/VBoxContainer/HBC/VBC1/Infodump" method="_on_Infodump_meta_clicked"]

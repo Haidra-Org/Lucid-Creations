@@ -1,6 +1,7 @@
 extends Control
 
 signal prompt_inject_requested(tokens)
+signal model_changed(model_name)
 
 var model_id_map := {"Any model": 0}
 
@@ -44,7 +45,7 @@ func _ready():
 
 func _process(delta):
 	model_refresh += delta
-	if model_refresh >= 2:
+	if model_refresh > 2.5:
 		model_refresh = 0
 		init_refresh_models()
 
@@ -117,7 +118,13 @@ func get_selected_model_performance() -> Dictionary:
 	for m in stable_horde_models.model_performances:
 		if m['name'] == get_selected_model():
 			return(m)
-	return({})
+	var default_perf_dict = {
+		"count": 'N/A',
+		"performance": 1000000,
+		"queued": 1,
+		"eta": 4,
+	}
+	return(default_perf_dict)
 
 
 func _on_request_initiated():
@@ -192,6 +199,7 @@ func _on_model_changed(_selected_item = null) -> void:
 		model_trigger.disabled = true
 	model_showcase.rect_min_size = Vector2(0,0)
 	stable_horde_model_showcase.get_model_showcase(model_reference)
+	emit_signal("model_changed",get_selected_model())
 	_refresh_model_performance()
 	_update_popup_info_label()
 

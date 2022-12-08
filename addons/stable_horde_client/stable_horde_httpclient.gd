@@ -20,7 +20,7 @@ func _ready():
 # warning-ignore:unused_argument
 func _on_request_completed(_result, response_code, _headers, body):
 	if response_code == 0:
-			var error_msg := "Stable Horde address cannot be resolved!"
+			var error_msg := "Stable Horde timed out"
 			push_error(error_msg)
 			emit_signal("request_failed",error_msg)
 			state = States.READY
@@ -38,6 +38,8 @@ func _on_request_completed(_result, response_code, _headers, body):
 		if json_ret.has('errors'):
 			json_error += ': ' + str(json_ret['errors'])
 	if typeof(json_ret) == TYPE_NIL:
+		print_debug(body)
+		print_debug(body.get_string_from_utf8())
 		json_error = 'Connection Lost'
 	if not response_code in [200, 202] or typeof(json_ret) == TYPE_STRING:
 			var error_msg : String = "Error received from the Stable Horde: " +  json_error
