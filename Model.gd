@@ -79,6 +79,7 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 #	print_debug(model_names, model_reference)
 	model_select.add_item("Any model")
 	# We start at 1 because "Any model" is 0
+	var sorted_models := []
 	for iter in range(model_performances.size()):
 		var model_performance : Dictionary = model_performances[iter]
 		var model_name = model_performance['name']
@@ -96,7 +97,14 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 		if not model_reference.empty():
 			model_fmt["style"] = model_reference[model_name].get("style",'')
 			model_entry = "{model_name}: {style} ({worker_count})"
-		model_select.add_item(model_entry.format(model_fmt))
+		var model_dict = {
+			"entry": model_entry,
+			"fmt": model_fmt
+		}
+		sorted_models.append(model_dict)
+	sorted_models.sort_custom(ModelSorter, "sort")
+	for model_dict in sorted_models:
+		model_select.add_item(model_dict["entry"].format(model_dict["fmt"]))
 	set_previous_model()
 #	print_debug(model_reference)
 	_refresh_model_performance()
@@ -256,3 +264,9 @@ func _on_trigger_selection_id_pressed(id: int) -> void:
 func _on_showcase_retrieved(img:ImageTexture, model_name) -> void:
 	model_showcase.texture = img
 	model_showcase.rect_min_size = Vector2(400,400)
+
+class ModelSorter:
+	static func sort(m1, m2):
+		if m1["fmt"]["model_name"] < m2["fmt"]["model_name"]:
+			return true
+		return false
