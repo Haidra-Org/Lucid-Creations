@@ -116,7 +116,6 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		submit_dict["params"]["denoising_strength"] = denoising_strength
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
-	print_debug(submit_dict)
 	var body = to_json(submit_dict)
 	var headers = ["Content-Type: application/json", "apikey: " + api_key]
 	var error = request("https://stablehorde.net/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
@@ -177,7 +176,6 @@ func _extract_images(generations_array: Array) -> void:
 		var error
 		var image: Image
 		async_retrievals_completed = 0
-		print_debug(img_dict)
 		if 'https' in img_dict["img"]:
 			var image_retriever := R2ImageRetriever.new()
 			add_child(image_retriever)
