@@ -42,6 +42,8 @@ func _ready():
 	model_health.connect("mouse_exited", self, "_on_model_health_mouse_exited")
 	stable_horde_model_showcase.connect("showcase_retrieved",self, "_on_showcase_retrieved")
 	init_refresh_models()
+	yield(get_tree().create_timer(2), "timeout")
+	_refresh_model_info()
 
 func _process(delta):
 	model_refresh += delta
@@ -80,15 +82,12 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 	model_select.add_item("Any model")
 	# We start at 1 because "Any model" is 0
 	var sorted_models := []
-	for iter in range(model_performances.size()):
-		var model_performance : Dictionary = model_performances[iter]
+	for model_performance in model_performances:
 		var model_name = model_performance['name']
 		var worker_count = model_performance['count']
 		# We ignore unknown model names
 		if not model_reference.empty() and not model_reference.has(model_name):
 			continue
-		var id = iter + 1
-		model_id_map[model_name] = id
 		var model_fmt = {
 			"model_name": model_name,
 			"worker_count": worker_count,
@@ -103,11 +102,14 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 		}
 		sorted_models.append(model_dict)
 	sorted_models.sort_custom(ModelSorter, "sort")
-	for model_dict in sorted_models:
+	for iter in range(sorted_models.size()):
+		var model_dict: Dictionary = sorted_models[iter]
+		model_id_map[model_dict["fmt"]["model_name"]] = iter + 1
 		model_select.add_item(model_dict["entry"].format(model_dict["fmt"]))
 	set_previous_model()
 #	print_debug(model_reference)
 	_refresh_model_performance()
+
 
 func set_previous_model() -> void:
 	model_select.selected = 0
@@ -121,6 +123,7 @@ func set_previous_model() -> void:
 func get_selected_model_reference() -> Dictionary:
 	var model_reference : Dictionary = stable_horde_models.model_reference.get_model_info(get_selected_model())
 	return(model_reference)
+
 
 func get_selected_model_performance() -> Dictionary:
 	for m in stable_horde_models.model_performances:
@@ -170,12 +173,14 @@ As such, the result tend to be quite random as the image can be sent to somethin
 	model_info_card.popup()
 	model_info_card.rect_global_position = get_global_mouse_position() + Vector2(30,0)
 
+
 func _on_model_info_meta_clicked(meta):
 	match meta:
 		"homepage":
 			var model_reference := get_selected_model_reference()
 			# warning-ignore:return_value_discarded
 			OS.shell_open(model_reference['homepage'])
+
 
 func _on_model_trigger_pressed() -> void:
 	var model_reference := get_selected_model_reference()
@@ -196,6 +201,13 @@ func _on_model_trigger_pressed() -> void:
 
 
 func _on_model_changed(_selected_item = null) -> void:
+	_refresh_model_info()
+	emit_signal("model_changed",get_selected_model())
+	_refresh_model_performance()
+	_update_popup_info_label()
+
+
+func _refresh_model_info() -> void:
 	var model_reference := get_selected_model_reference()
 	if model_reference.empty() and get_selected_model() != "Any model":
 		model_info.disabled = true
@@ -207,10 +219,7 @@ func _on_model_changed(_selected_item = null) -> void:
 		model_trigger.disabled = true
 	model_showcase.rect_min_size = Vector2(0,0)
 	stable_horde_model_showcase.get_model_showcase(model_reference)
-	emit_signal("model_changed",get_selected_model())
-	_refresh_model_performance()
-	_update_popup_info_label()
-
+	
 
 func _refresh_model_performance() -> void:
 	var model_performance := get_selected_model_performance()
@@ -227,13 +236,16 @@ func _refresh_model_performance() -> void:
 		model_health.self_modulate = healthy.linear_interpolate(unhealthy,current_pct)
 		model_eta.text = str(model_performance['eta'])
 
+
 func _on_model_health_mouse_enterred() -> void:
 	popup_info.show()
 	popup_info.rect_global_position = get_global_mouse_position() + Vector2(30,-40)
 	_update_popup_info_label()
 
+
 func _on_model_health_mouse_exited() -> void:
 	popup_info.hide()
+
 
 func _update_popup_info_label() -> void:
 	if get_selected_model() == "Any model":
@@ -251,6 +263,7 @@ func _update_popup_info_label() -> void:
 	}
 	popup_info_label.bbcode_text = t.format(fmt)
 
+
 func _on_trigger_selection_id_pressed(id: int) -> void:
 	if trigger_selection.is_item_checkable(id):
 		trigger_selection.toggle_item_checked(id)
@@ -261,9 +274,11 @@ func _on_trigger_selection_id_pressed(id: int) -> void:
 				selected_triggers.append(trigger_selection.get_item_text(iter))
 		emit_signal("prompt_inject_requested", selected_triggers)
 
+
 func _on_showcase_retrieved(img:ImageTexture, model_name) -> void:
 	model_showcase.texture = img
 	model_showcase.rect_min_size = Vector2(400,400)
+
 
 class ModelSorter:
 	static func sort(m1, m2):

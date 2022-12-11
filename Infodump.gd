@@ -7,7 +7,7 @@ You can use this software to generate images using AI and then save them to your
 Be aware that this software is relying on the [url=stable horde]Stable Horde crowdsourced cluster[/url], and therefore your speed will depend on how many other people are using this service at the same time and the amount of Kudos your have.
 
 You can [url=register]Register an account[/url] for free, to track your individual contributions and usage.
-You can also joing your own GPU to the horde which will provide you with Kudos and therefore increase your priority.
+You can also join your own GPU to the horde which will provide you with Kudos and therefore increase your priority.
 
 This is a free service and relying solely on contributors such as yourself.
 

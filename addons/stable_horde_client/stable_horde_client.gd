@@ -218,7 +218,8 @@ func prepare_aitexture(imgbuffer: PoolByteArray, img_dict: Dictionary, timestamp
 		image)
 	texture.create_from_image(image)
 	latest_image_textures.append(texture)
-	all_image_textures.append(texture)
+	# Avoid keeping all images in RAM. Until I find a reason for it.
+#	all_image_textures.append(texture)
 	return texture
 
 func complete_image_request() -> void:
