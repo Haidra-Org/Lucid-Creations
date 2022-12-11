@@ -221,7 +221,7 @@ func _on_image_process_update(stats: Dictionary) -> void:
 			+ "If you enjoy this service join us in [url=discord]discord[/url] or subscribe on [url=patreon]patreon[/url] if you haven't already."
 		status_text.modulate = Color(0,1,0)
 	elif stats.wait_time > 200 or stats.elapsed_time / 1000> 150:
-		status_text.bbcode_text = "The Hoard appears to be under heavy load at the moment! Your queue position is {queue}. ".format({"queue":stats.queue_position})\
+		status_text.bbcode_text = "The Horde appears to be under heavy load at the moment! Your queue position is {queue}. ".format({"queue":stats.queue_position})\
 				+ "Please consider [url=worker]adding your own GPU[/url] to the horde to get more generation priority!"
 		status_text.modulate = Color(0.84,0.47,0)
 	else:

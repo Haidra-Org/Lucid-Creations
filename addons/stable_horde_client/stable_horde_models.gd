@@ -40,5 +40,3 @@ func process_request(json_ret) -> void:
 		model_names.append(entry.name)
 	emit_signal("models_retrieved", model_performances, model_reference.model_reference)
 	state = States.READY
-
-

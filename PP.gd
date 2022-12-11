@@ -1,6 +1,8 @@
 extends VBoxContainer
 
+# warning-ignore:unused_signal
 signal meta_hovered(description)
+# warning-ignore:unused_signal
 signal meta_unhovered
 
 const POST_PROCESSORS = [
@@ -24,7 +26,9 @@ func _ready():
 	pp_popup.connect("index_pressed",self,"on_index_pressed")
 	# warning-ignore:return_value_discarded
 	pp_selected.connect("meta_clicked",self,"_on_pp_meta_clicked")
+	# warning-ignore:return_value_discarded
 	pp_selected.connect("meta_hover_started", self, "_on_meta_hover_started")
+	# warning-ignore:return_value_discarded
 	pp_selected.connect("meta_hover_ended", self, "_on_meta_hover_ended")
 
 func on_index_pressed(index: int) -> void:
