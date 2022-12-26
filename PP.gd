@@ -8,6 +8,7 @@ signal meta_unhovered
 const POST_PROCESSORS = [
 	"GFPGAN",
 	"RealESRGAN_x4plus",
+	"CodeFormers",
 ]
 
 var selected_pp := []

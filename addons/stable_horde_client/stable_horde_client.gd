@@ -111,6 +111,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"models": models,
 		"r2": r2
 	}
+	#print_debug(submit_dict)
 	if source_image:
 		submit_dict["source_image"] = get_img2img_b64(source_image)
 		submit_dict["params"]["denoising_strength"] = denoising_strength
