@@ -14,7 +14,6 @@ func download_image(r2_url: String) -> void:
 	var retries := 0
 	var http_error = ERR_BUSY
 	while http_error != OK:
-		print_debug([retries, r2_url])
 		http_error = request(r2_url)
 		if http_error == OK:
 			break
