@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.13.0](https://github.com/db0/Lucid-Creations/tree/v1.13.0) (2022-12-26)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.12.0...v1.13.0)
+
+**Merged pull requests:**
+
+- CodeFormers support [\#69](https://github.com/db0/Lucid-Creations/pull/69) ([db0](https://github.com/db0))
+
 ## [v1.12.0](https://github.com/db0/Lucid-Creations/tree/v1.12.0) (2022-12-11)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.11.0...v1.12.0)
