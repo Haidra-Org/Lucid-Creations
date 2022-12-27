@@ -260,6 +260,7 @@ margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 rect_min_size = Vector2( 300, 0 )
+scroll_horizontal_enabled = false
 
 [node name="Basic" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
@@ -271,7 +272,6 @@ custom_constants/separation = 20
 
 [node name="Amount" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_right = 300.0
 margin_bottom = 63.0
 
 [node name="Model" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
@@ -480,41 +480,42 @@ unique_name_in_owner = true
 
 [node name="Advanced" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 visible = false
-margin_right = 12.0
-margin_bottom = 12.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
 rect_min_size = Vector2( 300, 0 )
+scroll_horizontal_enabled = false
 
 [node name="Advanced" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced"]
 unique_name_in_owner = true
 margin_right = 300.0
-margin_bottom = 1325.0
+margin_bottom = 585.0
 rect_min_size = Vector2( 300, 0 )
 custom_constants/separation = 20
 
 [node name="Width" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_right = 300.0
 margin_bottom = 63.0
 config_setting = "width"
 
 [node name="Height" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 83.0
-margin_right = 300.0
 margin_bottom = 146.0
 config_setting = "height"
 
 [node name="StepsSlider" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 166.0
-margin_right = 300.0
 margin_bottom = 229.0
 config_setting = "steps"
 
 [node name="ConfigSlider" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 margin_top = 249.0
-margin_right = 300.0
 margin_bottom = 312.0
 config_setting = "cfg_scale"
 
@@ -562,6 +563,7 @@ visible = false
 margin_right = 12.0
 margin_bottom = 12.0
 rect_min_size = Vector2( 300, 0 )
+scroll_horizontal_enabled = false
 
 [node name="img2img" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img"]
 unique_name_in_owner = true

@@ -3,37 +3,36 @@
 [ext_resource path="res://ConfigSlider.gd" type="Script" id=1]
 
 [node name="ConfigSlider" type="VBoxContainer"]
-margin_right = 16.0
-margin_bottom = 510.0
+margin_right = 300.0
+margin_bottom = 527.0
 script = ExtResource( 1 )
 
 [node name="Labels" type="HBoxContainer" parent="."]
-margin_right = 20.0
-margin_bottom = 507.0
+margin_right = 300.0
+margin_bottom = 14.0
 
 [node name="ConfigName" type="Label" parent="Labels"]
 unique_name_in_owner = true
-margin_right = 1.0
-margin_bottom = 507.0
+margin_right = 281.0
+margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Number of images to generate"
 autowrap = true
 
 [node name="ConfigValue" type="Label" parent="Labels"]
 unique_name_in_owner = true
-margin_left = 5.0
-margin_top = 246.0
-margin_right = 20.0
-margin_bottom = 260.0
+margin_left = 285.0
+margin_right = 300.0
+margin_bottom = 14.0
 rect_min_size = Vector2( 15, 0 )
 text = "1"
 align = 2
 
 [node name="HSlider" type="HSlider" parent="."]
 unique_name_in_owner = true
-margin_top = 511.0
-margin_right = 20.0
-margin_bottom = 527.0
+margin_top = 18.0
+margin_right = 300.0
+margin_bottom = 34.0
 mouse_filter = 1
 min_value = 1.0
 max_value = 20.0
