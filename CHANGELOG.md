@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.13.1](https://github.com/db0/Lucid-Creations/tree/v1.13.1) (2022-12-27)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.13.0...v1.13.1)
+
+**Merged pull requests:**
+
+- fix scroll hiding info: [\#70](https://github.com/db0/Lucid-Creations/pull/70) ([db0](https://github.com/db0))
+
 ## [v1.13.0](https://github.com/db0/Lucid-Creations/tree/v1.13.0) (2022-12-26)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.12.0...v1.13.0)
