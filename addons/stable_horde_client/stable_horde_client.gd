@@ -70,6 +70,9 @@ export(Array) var models := ["stable_diffusion"]
 export(Image) var source_image
 # If true, the image will be sent as a URL to download instead of a base64 string
 export(bool) var r2 := true
+# If true, the image will be stored permanently in a dataset that will be provided to LAION
+# top help train future models
+export(bool) var shared := true
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -109,7 +112,8 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"censor_nsfw": censor_nsfw,
 		"trusted_workers": trusted_workers,
 		"models": models,
-		"r2": r2
+		"r2": r2,
+		"shared": shared,
 	}
 	#print_debug(submit_dict)
 	if source_image:

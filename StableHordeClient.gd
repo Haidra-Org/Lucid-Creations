@@ -148,6 +148,7 @@ func _on_GenerateButton_pressed():
 	globals.set_setting("censor_nsfw", censor_nsfw.pressed)
 	stable_horde_client.set("trusted_workers", trusted_workers.pressed)
 	globals.set_setting("trusted_workers", trusted_workers.pressed)
+	stable_horde_client.set("shared", globals.config.get_value("Options", "share", true))
 	stable_horde_client.set("gen_seed", seed_edit.text)
 	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
 	if prompt_line_edit.text != '':
@@ -447,6 +448,9 @@ func _connect_hover_signals() -> void:
 		karras,
 		denoising_strength,
 		$"%PP",
+		$"%RememberPrompt",
+		$"%LargerValues",
+		$"%Shared",
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])

@@ -92,6 +92,7 @@ unique_name_in_owner = true
 script = ExtResource( 2 )
 
 [node name="Generate" type="MarginContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 27.0
@@ -758,7 +759,6 @@ columns = 9
 
 [node name="Options" type="MarginContainer" parent="TabContainer"]
 unique_name_in_owner = true
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 27.0
@@ -890,6 +890,13 @@ margin_top = 197.0
 margin_right = 507.0
 margin_bottom = 257.251
 text = "Larger Values"
+
+[node name="Shared" type="CheckButton" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
+unique_name_in_owner = true
+margin_top = 261.0
+margin_right = 507.0
+margin_bottom = 321.251
+text = "Share Images"
 
 [node name="VBCMiddle" type="VBoxContainer" parent="TabContainer/Options/MarginContainer/VBC/HBC"]
 margin_left = 511.0
