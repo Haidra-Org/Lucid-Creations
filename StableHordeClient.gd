@@ -521,6 +521,7 @@ func _on_shared_toggled() -> void:
 
 
 func _on_submit_ratings_pressed() -> void:
+	submit_ratings.disabled = true
 	var submit_dict := {}
 	for tr in grid.get_children():
 		if tr.bestof:
@@ -533,7 +534,7 @@ func _on_submit_ratings_pressed() -> void:
 				"rating": tr.aesthetic_rating
 			}
 			submit_dict.ratings.append(rating_dict)
-	print_debug(submit_dict)
+#	print_debug(submit_dict)
 	stable_horde_rate_generation.submit_rating(
 		stable_horde_client.async_request_id,
 		submit_dict
@@ -547,3 +548,4 @@ func _on_generation_rated(kudos: int) -> void:
 func _on_generation_rating_failed(message: String) -> void:
 	status_text.modulate = Color(1,1,0)
 	status_text.bbcode_text = message
+	submit_ratings.disabled = true
