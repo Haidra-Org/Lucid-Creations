@@ -8,6 +8,8 @@ onready var grid_texture_rect = $"%GridTextureRect"
 onready var highlight := $"%Highlight"
 
 var texture: AIImageTexture
+var aesthetic_rating: int = 0
+var bestof:= false
 
 func _ready():
 	rect_min_size = Vector2(128,128)

@@ -92,6 +92,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	request_start_time = OS.get_ticks_msec()
 	state = States.WORKING
 	latest_image_textures.clear()
+	async_request_id = ''
 	imgen_params = {
 		"n": amount,
 		"width": width,
@@ -175,7 +176,6 @@ func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 
 
 func _extract_images(generations_array: Array) -> void:
-	async_request_id = ''
 	var timestamp := OS.get_unix_time()
 	for img_dict in generations_array:
 		var error
@@ -220,7 +220,8 @@ func prepare_aitexture(imgbuffer: PoolByteArray, img_dict: Dictionary, timestamp
 		img_dict["worker_id"],
 		img_dict["worker_name"],
 		timestamp,
-		image)
+		image,
+		img_dict["id"])
 	texture.create_from_image(image)
 	latest_image_textures.append(texture)
 	# Avoid keeping all images in RAM. Until I find a reason for it.

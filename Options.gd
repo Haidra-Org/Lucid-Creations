@@ -53,6 +53,7 @@ func _on_larger_values_pressed(pressed: bool) -> void:
 
 func _on_shared_pressed(pressed: bool) -> void:
 	globals.set_setting("shared", pressed, "Options")
+	EventBus.emit_signal("shared_toggled")
 
 
 func _on_savedir_changed(path: String) -> void:

@@ -13,6 +13,7 @@ var placeholder_prompts := [
 
 onready var options = $"%Options"
 onready var stable_horde_client := $"%StableHordeClient"
+onready var stable_horde_rate_generation := $"%StableHordeRateGeneration"
 onready var grid := $"%Grid"
 onready var prompt_line_edit := $"%PromptLine"
 onready var negative_prompt_line_edit := $"%NegativePromptLine"
@@ -34,6 +35,7 @@ onready var image_width = $"%ImageWidth"
 onready var image_length = $"%ImageLength"
 onready var image_prompt = $"%ImagePrompt"
 onready var image_info = $"%ImageInfo"
+onready var image_buttons = $"%ImageButtons"
 onready var generation_model = $"%GenerationModel"
 onready var worker_name = $"%WorkerName"
 onready var worker_id = $"%WorkerID"
@@ -61,8 +63,10 @@ onready var open_image = $"%OpenImage"
 onready var image_preview = $"%ImagePreview"
 # model
 onready var model = $"%Model"
-
-
+# ratings
+onready var aesthetic_rating = $"%AestheticRating"
+onready var best_of = $"%BestOf"
+onready var submit_ratings = $"%SubmitRatings"
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -89,6 +93,14 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	cancel_button.connect("pressed",self,"_on_CancelButton_pressed")
 	model.connect("prompt_inject_requested",self,"_on_prompt_inject")
+	# Ratings
+	EventBus.connect("shared_toggled", self, "_on_shared_toggled")
+	best_of.connect("toggled",self,"on_bestof_toggled")
+	aesthetic_rating.connect("item_selected",self,"on_aethetic_rating_selected")
+	submit_ratings.connect("pressed", self, "_on_submit_ratings_pressed")
+	stable_horde_rate_generation.connect("generation_rated",self, "_on_generation_rated")
+	stable_horde_rate_generation.connect("request_failed",self, "_on_generation_rating_failed")
+	_on_shared_toggled()
 	_check_html5()
 	if globals.config.has_section("Parameters"):
 		for key in globals.config.get_section_keys("Parameters"):
@@ -295,7 +307,8 @@ func _get_test_images(n = 10) -> Array:
 			'Test worker', 
 			'Test worker ID', 
 			OS.get_unix_time(), 
-			img)
+			img,
+			'Test Image ID')
 		new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
@@ -318,6 +331,8 @@ func _on_grid_texture_left_clicked(tr: GridTextureRect) -> void:
 		return
 	focus_on_image(tr.texture)
 	clear_all_highlights_except(tr)
+	best_of.pressed = tr.bestof
+	aesthetic_rating.select(tr.aesthetic_rating)
 
 func clear_all_highlights_except(exception:GridTextureRect = null) -> void:
 	for tr in grid.get_children():
@@ -451,6 +466,84 @@ func _connect_hover_signals() -> void:
 		$"%RememberPrompt",
 		$"%LargerValues",
 		$"%Shared",
+		aesthetic_rating,
+		best_of,
+		submit_ratings,
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])
+
+
+func on_aethetic_rating_selected(index: int) -> void:
+	var tr = get_active_image_tr()
+	tr.aesthetic_rating = index
+	set_submit_button_state()
+
+
+func on_bestof_toggled(pressed: bool) -> void:
+	# This is called even when we changed the value by code
+	# So we don't want it unckecking all bestof when
+	# we switch between images
+	if not pressed:
+		return
+	for tr in grid.get_children():
+		if tr.bestof and not tr.is_highlighted():
+			tr.bestof = false
+		if tr.is_highlighted():
+			tr.bestof = pressed
+	set_submit_button_state()
+
+
+func get_active_image_tr() -> GridTextureRect:
+	for tr in grid.get_children():
+		if tr.is_highlighted():
+			return tr
+	return null
+
+
+func has_any_ratings() -> bool:
+	for tr in grid.get_children():
+		if tr.bestof or tr.aesthetic_rating:
+			return true
+	return false
+
+func set_submit_button_state() -> void:
+	submit_ratings.disabled = !has_any_ratings()
+
+
+func _on_shared_toggled() -> void:
+
+	best_of.disabled = !globals.config.get_value("Options", "shared", true)
+	aesthetic_rating.disabled = !globals.config.get_value("Options", "shared", true)
+	submit_ratings.disabled = !globals.config.get_value("Options", "shared", true)
+	if not has_any_ratings():
+		submit_ratings.disabled = true
+
+
+func _on_submit_ratings_pressed() -> void:
+	var submit_dict := {}
+	for tr in grid.get_children():
+		if tr.bestof:
+			submit_dict["best"] = tr.texture.image_horde_id
+		if tr.aesthetic_rating:
+			if not submit_dict.has("ratings"):
+				submit_dict["ratings"] = []
+			var rating_dict = {
+				"id": tr.texture.image_horde_id,
+				"rating": tr.aesthetic_rating
+			}
+			submit_dict.ratings.append(rating_dict)
+	print_debug(submit_dict)
+	stable_horde_rate_generation.submit_rating(
+		stable_horde_client.async_request_id,
+		submit_dict
+	)
+
+func _on_generation_rated(kudos: int) -> void:
+#	print_debug(stats)
+	status_text.modulate = Color(0,1,0)
+	status_text.bbcode_text = "Thank for you rating your images. You have received a refund of {kudos} kudos.".format({"kudos":kudos})
+
+func _on_generation_rating_failed(message: String) -> void:
+	status_text.modulate = Color(1,1,0)
+	status_text.bbcode_text = message

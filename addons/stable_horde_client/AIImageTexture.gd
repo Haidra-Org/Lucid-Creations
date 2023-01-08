@@ -29,6 +29,7 @@ var image: Image
 # We use this to store them to a file
 var attributes: Dictionary
 var timestamp: float
+var image_horde_id: String
 
 func _init(
 		_prompt: String, 
@@ -38,7 +39,8 @@ func _init(
 		_worker_id: String, 
 		_worker_name: String,
 		_timestamp: float,
-		_image: Image) -> void:
+		_image: Image,
+		_image_horde_id: String) -> void:
 	._init()
 	prompt = _prompt
 	attributes = _imgen_params.duplicate(true)
@@ -55,6 +57,7 @@ func _init(
 	worker_id = _worker_id
 	attributes['worker_id'] = worker_id
 	image = _image
+	image_horde_id = _image_horde_id
 	timestamp = _timestamp
 	
 # This can be used to provide metadata for the source image in img2img requests
