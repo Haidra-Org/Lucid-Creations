@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/stable_horde_client/stable_horde_models.gd"
 }, {
+"base": "StableHordeHTTPRequest",
+"class": "StableHordeRateGeneration",
+"language": "GDScript",
+"path": "res://addons/stable_horde_client/stable_horde_rate_generation.gd"
+}, {
 "base": "Reference",
 "class": "ToolConsts",
 "language": "GDScript",
@@ -74,6 +79,7 @@ _global_script_class_icons={
 "StableHordeModelReference": "",
 "StableHordeModelShowcase": "",
 "StableHordeModels": "",
+"StableHordeRateGeneration": "",
 "ToolConsts": "",
 "Utils": ""
 }

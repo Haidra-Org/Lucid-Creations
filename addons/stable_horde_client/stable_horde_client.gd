@@ -70,6 +70,9 @@ export(Array) var models := ["stable_diffusion"]
 export(Image) var source_image
 # If true, the image will be sent as a URL to download instead of a base64 string
 export(bool) var r2 := true
+# If true, the image will be stored permanently in a dataset that will be provided to LAION
+# top help train future models
+export(bool) var shared := true
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -89,6 +92,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	request_start_time = OS.get_ticks_msec()
 	state = States.WORKING
 	latest_image_textures.clear()
+	async_request_id = ''
 	imgen_params = {
 		"n": amount,
 		"width": width,
@@ -109,7 +113,8 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"censor_nsfw": censor_nsfw,
 		"trusted_workers": trusted_workers,
 		"models": models,
-		"r2": r2
+		"r2": r2,
+		"shared": shared,
 	}
 	#print_debug(submit_dict)
 	if source_image:
@@ -171,7 +176,6 @@ func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 
 
 func _extract_images(generations_array: Array) -> void:
-	async_request_id = ''
 	var timestamp := OS.get_unix_time()
 	for img_dict in generations_array:
 		var error
@@ -216,7 +220,8 @@ func prepare_aitexture(imgbuffer: PoolByteArray, img_dict: Dictionary, timestamp
 		img_dict["worker_id"],
 		img_dict["worker_name"],
 		timestamp,
-		image)
+		image,
+		img_dict["id"])
 	texture.create_from_image(image)
 	latest_image_textures.append(texture)
 	# Avoid keeping all images in RAM. Until I find a reason for it.
