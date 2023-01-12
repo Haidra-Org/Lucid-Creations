@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.14.2](https://github.com/db0/Lucid-Creations/tree/v1.14.2) (2023-01-12)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.14.1...v1.14.2)
+
+**Merged pull requests:**
+
+- Client agent [\#73](https://github.com/db0/Lucid-Creations/pull/73) ([db0](https://github.com/db0))
+
 ## [v1.14.1](https://github.com/db0/Lucid-Creations/tree/v1.14.1) (2023-01-09)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.14.0...v1.14.1)
