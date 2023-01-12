@@ -26,7 +26,7 @@ func _on_request_completed(_result, response_code, _headers, body):
 			state = States.READY
 			return
 	if response_code == 404:
-			var error_msg := "Bad URL. Please contact the developer of this addon"
+			var error_msg := "URL path not found (404). Please contact the developer of this addon"
 			push_error(error_msg)
 			emit_signal("request_failed",error_msg)
 			state = States.READY
