@@ -84,11 +84,13 @@ var imgen_params : Dictionary
 # When set to true, we will abort the current generation and try to retrieve whatever images we can
 var request_start_time : float # We use that to get the accurate amount of time the request took
 var async_retrievals_completed = 0
+var delete_sent = false
 
 func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	if state != States.READY:
 		push_error("Client currently working. Cannot do more than 1 request at a time with the same Stable Horde Client.")
 		return
+	delete_sent = false
 	request_start_time = OS.get_ticks_msec()
 	state = States.WORKING
 	latest_image_textures.clear()
@@ -123,7 +125,11 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
 	var body = to_json(submit_dict)
-	var headers = ["Content-Type: application/json", "apikey: " + api_key]
+	var headers = [
+		"Content-Type: application/json", 
+		"apikey: " + api_key,
+		"Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":db0#1625",
+	]
 	var error = request("https://stablehorde.net/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
@@ -139,12 +145,15 @@ func process_request(json_ret) -> void:
 	if 'generations' in json_ret:
 		_extract_images(json_ret['generations'])
 		return
-	if state ==States.CANCELLING:
+	if delete_sent:
+		_return_empty()
+		return
+	if state == States.CANCELLING:
 		check_request_process(OngoingRequestOperations.CANCEL)
-	if 'id' in json_ret:
+	elif 'id' in json_ret:
 		async_request_id = json_ret['id']
 		check_request_process(OngoingRequestOperations.CHECK)
-	if 'done' in json_ret:
+	elif 'done' in json_ret:
 		var operation = OngoingRequestOperations.CHECK
 		if json_ret['done']:
 			operation = OngoingRequestOperations.GET
@@ -164,7 +173,14 @@ func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 	elif operation == OngoingRequestOperations.CANCEL:
 		url = "https://stablehorde.net/api/v2/generate/status/" + async_request_id
 		method = HTTPClient.METHOD_DELETE
-	var error = request(url, [], false, method)
+		delete_sent = true
+	push_warning('Op:' + str(operation))
+	push_warning('State:' + str(state))
+	var error = request(
+		url, 
+		["Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":db0#1625"], 
+		false, 
+		method)
 	if state == States.WORKING and error != OK:
 		var error_msg := "Something went wrong when checking the status of Stable Horde Request: " + async_request_id
 		push_error(error_msg)
@@ -203,6 +219,9 @@ func _extract_images(generations_array: Array) -> void:
 			prepare_aitexture(base64_bytes, img_dict, timestamp)
 	if not r2:
 		complete_image_request()
+		
+func _return_empty() -> void:
+	complete_image_request()
 
 func prepare_aitexture(imgbuffer: PoolByteArray, img_dict: Dictionary, timestamp: int) -> AIImageTexture:
 	var image = Image.new()
@@ -253,6 +272,7 @@ func get_sampler_method_id() -> String:
 
 func cancel_request() -> void:
 	print_debug("Cancelling...")
+	push_warning("Cancelling...")
 	state = States.CANCELLING
 
 func get_img2img_b64(image: Image) -> String:
