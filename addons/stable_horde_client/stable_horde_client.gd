@@ -123,7 +123,11 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
 	var body = to_json(submit_dict)
-	var headers = ["Content-Type: application/json", "apikey: " + api_key]
+	var headers = [
+		"Content-Type: application/json", 
+		"apikey: " + api_key,
+		"Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":db0#1625",
+	]
 	var error = request("https://stablehorde.net/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
@@ -253,6 +257,7 @@ func get_sampler_method_id() -> String:
 
 func cancel_request() -> void:
 	print_debug("Cancelling...")
+	push_warning("Cancelling...")
 	state = States.CANCELLING
 
 func get_img2img_b64(image: Image) -> String:

@@ -13,7 +13,10 @@ func login() -> void:
 		return
 	user_details.clear()
 	state = States.WORKING
-	var headers = ["Content-Type: application/json", "apikey: " + api_key]
+	var headers = [
+		"Content-Type: application/json", "apikey: " + api_key,
+		"Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":db0#1625"
+	]
 	var error = request("https://stablehorde.net/api/v2/find_user", headers, false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
