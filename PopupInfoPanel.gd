@@ -22,7 +22,8 @@ const DESCRIPTIONS = {
 	"RememberPrompt": "It will remember your prompt you had when you shut down Lucid Creations.",
 	"LargerValues": "It allows you to specify very high values for resolution and steps. You will need to have the kudos upfront to request these.",
 	"Shared": "text2img images generated and their prompt, will be stored permanently and made accessible to the LAION non-profit to help train improved models. Shared resolutions receive a kudos discount as they cost less to store by the stable horde.",
-	"AestheticRating": "How much do you like this image? Please rate it from 1 (I hate it) to 10 (I am in love with it!)\nEach rating will refund 5 kudos.\nRemember to press the submit ratings button once you've rated all images.!",
+	"AestheticRating": "How much do you like this image, subjectively an in isolation from the other images? Please rate it from 1 (I hate it) to 10 (I am in love with it!)\nEach rating will refund 5 kudos.\nRemember to press the submit ratings button once you've rated all images.!",
+	"ArtifactsRating": "The artifacts rating for this image.\n0 for flawless generation that perfectly fits to the prompt.\n1 for small, hardly recognizable flaws.\n2 small flaws that can easily be spotted, but don not harm the aesthetic experience.\n3 for flaws that look obviously wrong, but only mildly harm the aesthetic experience.\n4 for flaws that look obviously wrong & significantly harm the aesthetic experience.\n5 for flaws that make the image look like total garbage",
 	"BestOf": "From this set of generated images, is this the best one?\nIf you select a bestof, you are refunded 4 kudos. You do not need select a bestof if you rate all images, unless you've tied one image for top place.\nRemember to press the submit ratings button once you've rated all images.!",
 	"SubmitRatings": "Will submit the aesthetic ratings and best-of selection. It's disabled until you've rated at least one image in the set. You can only rate images if you've selected to share them (in the options menu). Rating your images will refund some of the kudos used for the generations.",
 }
@@ -55,6 +56,9 @@ func _on_node_hovered(node: Control) -> void:
 	rect_global_position = current_hovered_node.rect_global_position + Vector2(current_hovered_node.rect_size.x + 10,0)
 	if rect_global_position.x > get_viewport().size.x:
 		rect_global_position.x = get_viewport().size.x - current_hovered_node.rect_size.x
+	print_debug([rect_global_position.y + info.rect_size.y,rect_global_position.y,info.rect_size.y,get_viewport().size.y])
+	if rect_global_position.y + info.rect_size.y > get_viewport().size.y:
+		rect_global_position.y = get_viewport().size.y - info.rect_size.y - 10 
 	info.text = DESCRIPTIONS[node.name]
 	visible = true
 	rect_size = info.rect_size
@@ -72,6 +76,8 @@ func _on_rtl_meta_hovered(node: RichTextLabel, rtl_meta: String) -> void:
 	rect_global_position = current_hovered_node.rect_global_position + Vector2(current_hovered_node.rect_size.x + 10,0)
 	if rect_global_position.x > get_viewport().size.x:
 		rect_global_position.x = get_viewport().size.x - current_hovered_node.rect_size.x
+	if rect_global_position.y + info.rect_size.y > get_viewport().size.y:
+		rect_global_position.y = get_viewport().size.y - info.rect_size.y 
 	info.text = META_DESCRIPTIONS[rtl_meta]
 	visible = true
 	rect_size = info.rect_size

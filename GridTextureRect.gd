@@ -9,6 +9,7 @@ onready var highlight := $"%Highlight"
 
 var texture: AIImageTexture
 var aesthetic_rating: int = 0
+var artifacts_rating = null # We actually use 0 and null
 var bestof:= false
 
 func _ready():

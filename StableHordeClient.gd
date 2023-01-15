@@ -65,6 +65,7 @@ onready var image_preview = $"%ImagePreview"
 onready var model = $"%Model"
 # ratings
 onready var aesthetic_rating = $"%AestheticRating"
+onready var artifacts_rating = $"%ArtifactsRating"
 onready var best_of = $"%BestOf"
 onready var submit_ratings = $"%SubmitRatings"
 
@@ -97,6 +98,7 @@ func _ready():
 	EventBus.connect("shared_toggled", self, "_on_shared_toggled")
 	best_of.connect("toggled",self,"on_bestof_toggled")
 	aesthetic_rating.connect("item_selected",self,"on_aethetic_rating_selected")
+	artifacts_rating.connect("item_selected",self,"on_artifacts_rating_selected")
 	submit_ratings.connect("pressed", self, "_on_submit_ratings_pressed")
 	stable_horde_rate_generation.connect("generation_rated",self, "_on_generation_rated")
 	stable_horde_rate_generation.connect("request_failed",self, "_on_generation_rating_failed")
@@ -336,6 +338,10 @@ func _on_grid_texture_left_clicked(tr: GridTextureRect) -> void:
 	clear_all_highlights_except(tr)
 	best_of.pressed = tr.bestof
 	aesthetic_rating.select(tr.aesthetic_rating)
+	if tr.artifacts_rating == null:
+		artifacts_rating.select(0)
+	else:
+		artifacts_rating.select(tr.artifacts_rating + 1)
 
 func clear_all_highlights_except(exception:GridTextureRect = null) -> void:
 	for tr in grid.get_children():
@@ -470,6 +476,7 @@ func _connect_hover_signals() -> void:
 		$"%LargerValues",
 		$"%Shared",
 		aesthetic_rating,
+		artifacts_rating,
 		best_of,
 		submit_ratings,
 	]:
@@ -480,6 +487,15 @@ func _connect_hover_signals() -> void:
 func on_aethetic_rating_selected(index: int) -> void:
 	var tr = get_active_image_tr()
 	tr.aesthetic_rating = index
+	set_submit_button_state()
+
+
+func on_artifacts_rating_selected(index: int) -> void:
+	var tr = get_active_image_tr()
+	if index == 0:
+		tr.artifacts_rating = null
+	else:
+		tr.artifacts_rating = index - 1
 	set_submit_button_state()
 
 
@@ -534,8 +550,10 @@ func _on_submit_ratings_pressed() -> void:
 				submit_dict["ratings"] = []
 			var rating_dict = {
 				"id": tr.texture.image_horde_id,
-				"rating": tr.aesthetic_rating
+				"rating": tr.aesthetic_rating,
 			}
+			if tr.artifacts_rating != null:
+				rating_dict["artifacts"] = tr.artifacts_rating
 			submit_dict.ratings.append(rating_dict)
 #	print_debug(submit_dict)
 	stable_horde_rate_generation.submit_rating(
