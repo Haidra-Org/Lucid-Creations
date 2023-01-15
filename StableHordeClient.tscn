@@ -761,7 +761,7 @@ text = "Save Image"
 
 [node name="Ratings" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageButtons"]
 margin_left = 200.0
-margin_right = 516.0
+margin_right = 679.0
 margin_bottom = 60.0
 
 [node name="PanelContainer" type="PanelContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageButtons/Ratings"]
@@ -785,10 +785,32 @@ text = "N/A"
 items = [ "N/A", null, false, 0, null, "1", null, false, 1, null, "2", null, false, 2, null, "3", null, false, 3, null, "4", null, false, 4, null, "5", null, false, 5, null, "6", null, false, 6, null, "7", null, false, 7, null, "8", null, false, 8, null, "9", null, false, 9, null, "10", null, false, 10, null ]
 selected = 0
 
+[node name="PanelContainer2" type="PanelContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageButtons/Ratings"]
+margin_left = 221.0
+margin_right = 296.0
+margin_bottom = 60.0
+
+[node name="ArtifactsRatingLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageButtons/Ratings/PanelContainer2"]
+unique_name_in_owner = true
+margin_left = 5.0
+margin_top = 21.0
+margin_right = 70.0
+margin_bottom = 38.0
+text = "Artifacts"
+
+[node name="ArtifactsRating" type="OptionButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageButtons/Ratings"]
+unique_name_in_owner = true
+margin_left = 300.0
+margin_right = 380.324
+margin_bottom = 60.0
+text = "N/A"
+items = [ "N/A", null, false, 0, null, "0: Flawless", null, false, 1, null, "1: Trivial", null, false, 2, null, "2: Small", null, false, 3, null, "3: Obvious", null, false, 5, null, "4: Significant.", null, false, 5, null, "5: Ruined!", null, false, 6, null ]
+selected = 0
+
 [node name="BestOf" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageButtons/Ratings"]
 unique_name_in_owner = true
-margin_left = 221.0
-margin_right = 316.324
+margin_left = 384.0
+margin_right = 479.324
 margin_bottom = 60.251
 text = "Best"
 
