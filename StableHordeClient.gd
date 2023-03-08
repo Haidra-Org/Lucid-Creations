@@ -9,6 +9,7 @@ var placeholder_prompts := [
 	"Psychedelic Surreal victorian landscape art, dark shadows, muted colors, intricate brush strokes, masterpiece oil painting, intricate brush strokes, muted colour palette, hard lighting, dark, eerie",
 	"photorealistic rendering of a vast landscape, vivid colors, fantasy landscape",
 	"Rainbow jellyfish on a a deep colorful ocean, reef coral, concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation, hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!Centered composition!!!###bad art, strange colors, sketch ,lacklustre, repetitive, lowres, deformed, old, childish",
+	"tiny cute isometric Livingroom, soft smooth lighting, soft colors, dark color scheme, soft colors, 100mm, 3d blender render, octane render, global illumination, sharp focus in the middle###blurry, bad, text",
 ]
 
 onready var options = $"%Options"
