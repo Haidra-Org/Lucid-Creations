@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.15.1](https://github.com/db0/Lucid-Creations/tree/v1.15.1) (2023-03-08)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.15.0...v1.15.1)
+
+**Merged pull requests:**
+
+- fix\_mode\_reference [\#76](https://github.com/db0/Lucid-Creations/pull/76) ([db0](https://github.com/db0))
+
 ## [v1.15.0](https://github.com/db0/Lucid-Creations/tree/v1.15.0) (2023-01-15)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.14.2...v1.15.0)
