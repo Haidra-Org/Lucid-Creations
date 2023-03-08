@@ -3,7 +3,7 @@ extends StableHordeHTTPRequest
 
 signal reference_retrieved(models_list)
 
-export(String) var model_refence_url := "https://raw.githubusercontent.com/db0/nataili-model-reference/main/db.json"
+export(String) var model_refence_url := "https://raw.githubusercontent.com/db0/AI-Horde-image-model-reference/main/stable_diffusion.json"
 
 var model_reference := {}
 var models_retrieved = false
