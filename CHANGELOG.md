@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.16.0](https://github.com/db0/Lucid-Creations/tree/v1.16.0) (2023-03-12)
+
+[Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.15.1...v1.16.0)
+
+**Merged pull requests:**
+
+- Support for ControlNet [\#77](https://github.com/db0/Lucid-Creations/pull/77) ([db0](https://github.com/db0))
+
 ## [v1.15.1](https://github.com/db0/Lucid-Creations/tree/v1.15.1) (2023-03-08)
 
 [Full Changelog](https://github.com/db0/Lucid-Creations/compare/v1.15.0...v1.15.1)
