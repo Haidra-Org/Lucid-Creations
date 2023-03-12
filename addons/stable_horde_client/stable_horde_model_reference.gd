@@ -3,7 +3,8 @@ extends StableHordeHTTPRequest
 
 signal reference_retrieved(models_list)
 
-export(String) var model_refence_url := "https://raw.githubusercontent.com/db0/AI-Horde-image-model-reference/main/stable_diffusion.json"
+export(String) var compvis_refence_url := "https://raw.githubusercontent.com/db0/AI-Horde-image-model-reference/main/stable_diffusion.json"
+export(String) var diffusers_refence_url := "https://raw.githubusercontent.com/db0/AI-Horde-image-model-reference/main/diffusers.json"
 
 var model_reference := {}
 var models_retrieved = false
@@ -18,7 +19,7 @@ func get_model_reference() -> void:
 		push_warning("Model Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
 		return
 	state = States.WORKING
-	var error = request(model_refence_url, [], false, HTTPClient.METHOD_GET)
+	var error = request(compvis_refence_url, [], false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)

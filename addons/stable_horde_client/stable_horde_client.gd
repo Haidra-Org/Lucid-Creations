@@ -255,6 +255,7 @@ func prepare_aitexture(imgbuffer: PoolByteArray, img_dict: Dictionary, timestamp
 		img_dict["worker_id"],
 		img_dict["worker_name"],
 		timestamp,
+		control_type,
 		image,
 		img_dict["id"])
 	texture.create_from_image(image)

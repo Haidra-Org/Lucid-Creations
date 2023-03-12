@@ -327,7 +327,8 @@ func _get_test_images(n = 10) -> Array:
 			"Test Model", 
 			'Test worker', 
 			'Test worker ID', 
-			OS.get_unix_time(), 
+			OS.get_unix_time(),
+			"none",
 			img,
 			'Test Image ID')
 		new_texture.create_from_image(img)
