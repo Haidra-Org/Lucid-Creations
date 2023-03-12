@@ -21,10 +21,10 @@ func _on_Infodump_meta_clicked(meta):
 	match meta:
 		"register":
 			# warning-ignore:return_value_discarded
-			OS.shell_open("https://stablehorde.net/register")
+			OS.shell_open("https://aihorde.net/register")
 		"stable horde":
 			# warning-ignore:return_value_discarded
-			OS.shell_open("https://stablehorde.net")
+			OS.shell_open("https://aihorde.net")
 		"issue tracker":
 			# warning-ignore:return_value_discarded
 			OS.shell_open("https://github.com/db0/Lucid-Creations/issues")

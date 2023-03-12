@@ -58,7 +58,6 @@ func _on_node_hovered(node: Control) -> void:
 	rect_global_position = current_hovered_node.rect_global_position + Vector2(current_hovered_node.rect_size.x + 10,0)
 	if rect_global_position.x > get_viewport().size.x:
 		rect_global_position.x = get_viewport().size.x - current_hovered_node.rect_size.x
-	print_debug([rect_global_position.y + info.rect_size.y,rect_global_position.y,info.rect_size.y,get_viewport().size.y])
 	if rect_global_position.y + info.rect_size.y > get_viewport().size.y:
 		rect_global_position.y = get_viewport().size.y - info.rect_size.y - 10 
 	info.text = DESCRIPTIONS[node.name]

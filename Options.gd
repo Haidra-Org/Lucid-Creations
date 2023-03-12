@@ -102,7 +102,7 @@ func _on_APIKeyLabel_meta_clicked(meta):
 	match meta:
 		"register":
 			# warning-ignore:return_value_discarded
-			OS.shell_open("https://stablehorde.net/register")
+			OS.shell_open("https://aihorde.net/register")
 		"anonymous":
 			api_key.text = "0000000000"
 			_on_APIKey_text_changed('')

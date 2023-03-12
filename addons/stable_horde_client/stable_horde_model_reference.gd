@@ -15,6 +15,7 @@ func _ready() -> void:
 	get_model_reference()
 
 func get_model_reference() -> void:
+	_load_from_file()
 	if state != States.READY:
 		push_warning("Model Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
 		return
@@ -35,8 +36,23 @@ func process_request(json_ret) -> void:
 		state = States.READY
 		return
 	model_reference = json_ret
+	_store_to_file()
 	emit_signal("reference_retrieved", model_reference)
 	state = States.READY
 
 func get_model_info(model_name: String) -> Dictionary:
 	return(model_reference.get(model_name, {}))
+
+func _store_to_file() -> void:
+	var file = File.new()
+	file.open("user://model_reference", File.WRITE)
+	file.store_var(model_reference)
+	file.close()
+
+func _load_from_file() -> void:
+	var file = File.new()
+	file.open("user://model_reference", File.READ)
+	var filevar = file.get_var()
+	if filevar:
+		model_reference = filevar
+	file.close()

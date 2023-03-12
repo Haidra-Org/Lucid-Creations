@@ -12,6 +12,7 @@ func _ready() -> void:
 	model_reference = StableHordeModelReference.new()
 	timeout = 2
 	add_child(model_reference)
+	_load_from_file()
 	
 
 func get_models() -> void:
@@ -19,7 +20,7 @@ func get_models() -> void:
 		print_debug("Models currently working. Cannot do more than 1 request at a time with the same Stable Horde Models.")
 		return
 	state = States.WORKING
-	var error = request("https://stablehorde.net/api/v2/status/models", [], false, HTTPClient.METHOD_GET)
+	var error = request("https://aihorde.net/api/v2/status/models", [], false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
@@ -38,5 +39,20 @@ func process_request(json_ret) -> void:
 	model_names.clear()
 	for entry in model_performances:
 		model_names.append(entry.name)
+	_store_to_file()
 	emit_signal("models_retrieved", model_performances, model_reference.model_reference)
 	state = States.READY
+
+func _store_to_file() -> void:
+	var file = File.new()
+	file.open("user://model_performances", File.WRITE)
+	file.store_var(model_performances)
+	file.close()
+
+func _load_from_file() -> void:
+	var file = File.new()
+	file.open("user://model_performances", File.READ)
+	var filevar = file.get_var()
+	if filevar:
+		model_performances = filevar
+	file.close()

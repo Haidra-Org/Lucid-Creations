@@ -10,7 +10,7 @@ func submit_rating(request_id: String, ratings_payload: Dictionary) -> void:
 		return
 	state = States.WORKING
 	var body = to_json(ratings_payload)
-	var url = "https://stablehorde.net/api/v2/generate/rate/" + request_id
+	var url = "https://aihorde.net/api/v2/generate/rate/" + request_id
 	var headers = [
 		"Content-Type: application/json", 
 		"Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":(discord)db0#1625"
