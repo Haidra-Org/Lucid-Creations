@@ -18,6 +18,19 @@ enum SamplerMethods {
 	dpmsolver
 }
 
+enum ControlTypes {
+	none = 0
+	canny
+	hed
+	depth
+	normal
+	openpose
+	seg
+	scribble
+	fakescribbles
+	hough
+}
+
 enum OngoingRequestOperations {
 	CHECK
 	GET
@@ -73,6 +86,7 @@ export(bool) var r2 := true
 # If true, the image will be stored permanently in a dataset that will be provided to LAION
 # top help train future models
 export(bool) var shared := true
+export(String, "none", "canny", "hed", "depth", "normal", "openpose", "seg", "scribble", "fakescribbles", "hough") var control_type := "none"
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -106,6 +120,8 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"seed": gen_seed,
 		"post_processing": post_processing,
 	}
+	if control_type != 'none':
+		imgen_params["control_type"] = control_type
 	for param in replacement_params:
 		imgen_params[param] = replacement_params[param]
 	var submit_dict = {
@@ -269,6 +285,9 @@ func _on_r2_retrieval_failed(error_msg: String, expected_amount: int) -> void:
 
 func get_sampler_method_id() -> String:
 	return(SamplerMethods[sampler_name])
+
+func get_control_type_id() -> String:
+	return(ControlTypes[control_type])
 
 func cancel_request() -> void:
 	print_debug("Cancelling...")

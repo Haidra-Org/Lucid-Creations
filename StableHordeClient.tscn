@@ -254,6 +254,7 @@ margin_right = 310.0
 margin_bottom = 766.0
 
 [node name="Basic" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -577,9 +578,12 @@ pressed = true
 text = "Karras"
 
 [node name="img2img" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
-visible = false
-margin_right = 12.0
-margin_bottom = 12.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
 rect_min_size = Vector2( 300, 0 )
 scroll_horizontal_enabled = false
 
@@ -600,15 +604,14 @@ text = "Enabled"
 unique_name_in_owner = true
 visible = false
 margin_top = 80.0
-margin_right = 342.0
-margin_bottom = 163.0
+margin_bottom = 183.0
 config_setting = "denoising_strength"
 
 [node name="OpenImage" type="FileDialog" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
 unique_name_in_owner = true
-margin_top = 183.0
+margin_top = 80.0
 margin_right = 342.0
-margin_bottom = 372.0
+margin_bottom = 269.0
 window_title = "Open a File"
 mode = 0
 access = 2
@@ -617,20 +620,50 @@ filters = PoolStringArray( "*.png, *.jpg, *.jpeg, *.webp ; Supported Images\"" )
 [node name="SelectImage" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
 unique_name_in_owner = true
 visible = false
-margin_right = 115.324
-margin_bottom = 41.251
+margin_top = 80.0
+margin_right = 300.0
+margin_bottom = 121.251
 text = "Select Image"
 
 [node name="ImagePreview" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
 unique_name_in_owner = true
 visible = false
-margin_top = 392.0
-margin_right = 342.0
-margin_bottom = 642.0
+margin_top = 80.0
+margin_right = 300.0
+margin_bottom = 330.0
 rect_min_size = Vector2( 250, 250 )
 expand = true
 stretch_mode = 6
 script = ExtResource( 12 )
+
+[node name="ControlNet" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
+unique_name_in_owner = true
+visible = false
+margin_top = 80.0
+margin_right = 300.0
+margin_bottom = 98.0
+bbcode_enabled = true
+bbcode_text = "[url=cn_url]ControlNet[/url]"
+text = "ControlNet"
+fit_content_height = true
+
+[node name="ControlType" type="OptionButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
+unique_name_in_owner = true
+visible = false
+margin_top = 80.0
+margin_right = 300.0
+margin_bottom = 121.251
+text = "none"
+items = [ "none", null, false, 0, null, "canny", null, false, 1, null, "hed", null, false, 2, null, "depth", null, false, 3, null, "normal", null, false, 4, null, "openpose", null, false, 5, null, "seg", null, false, 6, null, "scribble", null, false, 7, null, "fakescribbles", null, false, 8, null, "hough", null, false, 9, null ]
+selected = 0
+
+[node name="ImageIsControl" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
+unique_name_in_owner = true
+visible = false
+margin_top = 178.0
+margin_right = 300.0
+margin_bottom = 238.251
+text = "Image is control"
 
 [node name="Display" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea"]
 unique_name_in_owner = true
@@ -1150,6 +1183,8 @@ unique_name_in_owner = true
 [connection signal="meta_clicked" from="TabContainer/Generate/VBoxContainer/StatusPanel/StatusText" to="TabContainer" method="_on_StatusText_meta_clicked"]
 [connection signal="toggled" from="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/NegativePrompt" to="TabContainer" method="_on_NegativePrompt_toggled"]
 [connection signal="item_selected" from="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced/SamplerMethod" to="TabContainer" method="_on_SamplerMethod_item_selected"]
+[connection signal="meta_clicked" from="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img/ControlNet" to="TabContainer" method="_on_ControlNet_meta_clicked"]
+[connection signal="item_selected" from="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img/ControlType" to="TabContainer" method="_on_ControlType_item_selected"]
 [connection signal="meta_clicked" from="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft/APIKeyLabel" to="TabContainer/Options" method="_on_APIKeyLabel_meta_clicked"]
 [connection signal="text_changed" from="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft/APIHBC/APIKey" to="TabContainer/Options" method="_on_APIKey_text_changed"]
 [connection signal="meta_clicked" from="TabContainer/Information/MarginContainer/VBoxContainer/HBC/VBC1/Infodump" to="TabContainer/Information/MarginContainer/VBoxContainer/HBC/VBC1/Infodump" method="_on_Infodump_meta_clicked"]

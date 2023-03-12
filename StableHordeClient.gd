@@ -62,6 +62,9 @@ onready var denoising_strength = $"%DenoisingStrength"
 onready var select_image = $"%SelectImage"
 onready var open_image = $"%OpenImage"
 onready var image_preview = $"%ImagePreview"
+onready var control_net = $"%ControlNet"
+onready var control_type = $"%ControlType"
+onready var image_is_control = $"%ImageIsControl"
 # model
 onready var model = $"%Model"
 # ratings
@@ -120,6 +123,9 @@ func _ready():
 	var sampler_method_id = stable_horde_client.get_sampler_method_id()
 	sampler_method.select(sampler_method_id)
 	_on_SamplerMethod_item_selected(sampler_method_id)
+	var control_type_id = stable_horde_client.get_control_type_id()
+	control_type.select(control_type_id)
+	_on_ControlType_item_selected(control_type_id)
 	# The stable horde client is set from the Parameters settings
 	options.set_api_key(stable_horde_client.api_key)
 	options.login()
@@ -148,6 +154,9 @@ func _on_GenerateButton_pressed():
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
 	stable_horde_client.set("sampler_name", sampler_name)
 	globals.set_setting("sampler_name", sampler_name)
+	var cn_name = control_type.get_item_text(control_type.selected)
+	stable_horde_client.set("control_type", cn_name)
+	globals.set_setting("control_type", cn_name)
 	var model_name = model.get_selected_model()
 	var models = []
 	if model_name != "Any model":
@@ -297,6 +306,12 @@ func _on_StatusText_meta_clicked(meta):
 			# warning-ignore:return_value_discarded
 			OS.shell_open("https://github.com/db0/AI-Horde/blob/main/README_StableHorde.md#joining-the-horde")
 
+func _on_ControlNet_meta_clicked(meta):
+	match meta:
+		"cn_url":
+			# warning-ignore:return_value_discarded
+			OS.shell_open("https://bootcamp.uxdesign.cc/controlnet-and-stable-diffusion-a-game-changer-for-ai-image-generation-83555cb942fc")
+
 
 func _get_test_images(n = 10) -> Array:
 	var test_array := []
@@ -405,7 +420,7 @@ func _reset_input() -> void:
 	progress_text.text = "Request initiating..."
 
 func on_img2img_toggled(pressed: bool) -> void:
-	for node in [denoising_strength,select_image,image_preview]:
+	for node in [denoising_strength,select_image,image_preview,control_net,control_type]:
 		node.visible = pressed
 	if not pressed:
 		stable_horde_client.source_image = null
@@ -453,6 +468,13 @@ func _on_SamplerMethod_item_selected(index: int) -> void:
 		steps_slider.h_slider.editable = true
 		steps_slider.config_value.text = str(steps_slider.h_slider.value)
 	
+func _on_ControlType_item_selected(index: int) -> void:
+	# Adaptive doesn't have steps
+	if index != 0:
+		steps_slider.set_max_value(40)
+	else:
+		steps_slider.reset_max_value()
+	
 func _connect_hover_signals() -> void:
 	for node in [
 		negative_prompt,
@@ -480,6 +502,8 @@ func _connect_hover_signals() -> void:
 		artifacts_rating,
 		best_of,
 		submit_ratings,
+		control_type,
+		image_is_control,
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])
