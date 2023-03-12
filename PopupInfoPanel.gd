@@ -26,6 +26,8 @@ const DESCRIPTIONS = {
 	"ArtifactsRating": "The artifacts rating for this image.\n0 for flawless generation that perfectly fits to the prompt.\n1 for small, hardly recognizable flaws.\n2 small flaws that can easily be spotted, but don not harm the aesthetic experience.\n3 for flaws that look obviously wrong, but only mildly harm the aesthetic experience.\n4 for flaws that look obviously wrong & significantly harm the aesthetic experience.\n5 for flaws that make the image look like total garbage",
 	"BestOf": "From this set of generated images, is this the best one?\nIf you select a bestof, you are refunded 4 kudos. You do not need select a bestof if you rate all images, unless you've tied one image for top place.\nRemember to press the submit ratings button once you've rated all images.!",
 	"SubmitRatings": "Will submit the aesthetic ratings and best-of selection. It's disabled until you've rated at least one image in the set. You can only rate images if you've selected to share them (in the options menu). Rating your images will refund some of the kudos used for the generations.",
+	"ControlType": "By selecting a Control Type, you will request that the horde utilize the ControlNet technology to process the source image, which will provide significantly more accurate conversion, at the cost of processing time. Using this option will triple the kudos cost for this request and limit the amount of steps you can use.",
+	"ImageIsControl": "When this option is selected, the source image will be treated the intermediate step of a ControlNet processing.",
 }
 
 const META_DESCRIPTIONS = {
@@ -56,7 +58,6 @@ func _on_node_hovered(node: Control) -> void:
 	rect_global_position = current_hovered_node.rect_global_position + Vector2(current_hovered_node.rect_size.x + 10,0)
 	if rect_global_position.x > get_viewport().size.x:
 		rect_global_position.x = get_viewport().size.x - current_hovered_node.rect_size.x
-	print_debug([rect_global_position.y + info.rect_size.y,rect_global_position.y,info.rect_size.y,get_viewport().size.y])
 	if rect_global_position.y + info.rect_size.y > get_viewport().size.y:
 		rect_global_position.y = get_viewport().size.y - info.rect_size.y - 10 
 	info.text = DESCRIPTIONS[node.name]

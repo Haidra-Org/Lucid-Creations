@@ -18,6 +18,19 @@ enum SamplerMethods {
 	dpmsolver
 }
 
+enum ControlTypes {
+	none = 0
+	canny
+	hed
+	depth
+	normal
+	openpose
+	seg
+	scribble
+	fakescribbles
+	hough
+}
+
 enum OngoingRequestOperations {
 	CHECK
 	GET
@@ -25,7 +38,7 @@ enum OngoingRequestOperations {
 }
 
 export(String) var prompt = "A horde of cute blue robots with gears on their head"
-# The API key you've generated from https://stablehorde.net/register
+# The API key you've generated from https://aihorde.net/register
 # You can pass either your own key (make sure you encrypt your app)
 # Or ask each player to register on their own
 # You can also pass the 0000000000 Anonymous key, but it has the lowest priority
@@ -73,6 +86,7 @@ export(bool) var r2 := true
 # If true, the image will be stored permanently in a dataset that will be provided to LAION
 # top help train future models
 export(bool) var shared := true
+export(String, "none", "canny", "hed", "depth", "normal", "openpose", "seg", "scribble", "fakescribbles", "hough") var control_type := "none"
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -106,6 +120,8 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"seed": gen_seed,
 		"post_processing": post_processing,
 	}
+	if control_type != 'none':
+		imgen_params["control_type"] = control_type
 	for param in replacement_params:
 		imgen_params[param] = replacement_params[param]
 	var submit_dict = {
@@ -130,7 +146,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"apikey: " + api_key,
 		"Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":db0#1625",
 	]
-	var error = request("https://stablehorde.net/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
+	var error = request("https://aihorde.net/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
@@ -166,12 +182,12 @@ func process_request(json_ret) -> void:
 func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 	# We do one check request per second
 	yield(get_tree().create_timer(1), "timeout")
-	var url = "https://stablehorde.net/api/v2/generate/check/" + async_request_id
+	var url = "https://aihorde.net/api/v2/generate/check/" + async_request_id
 	var method = HTTPClient.METHOD_GET
 	if operation == OngoingRequestOperations.GET:
-		url = "https://stablehorde.net/api/v2/generate/status/" + async_request_id
+		url = "https://aihorde.net/api/v2/generate/status/" + async_request_id
 	elif operation == OngoingRequestOperations.CANCEL:
-		url = "https://stablehorde.net/api/v2/generate/status/" + async_request_id
+		url = "https://aihorde.net/api/v2/generate/status/" + async_request_id
 		method = HTTPClient.METHOD_DELETE
 		delete_sent = true
 	push_warning('Op:' + str(operation))
@@ -239,6 +255,7 @@ func prepare_aitexture(imgbuffer: PoolByteArray, img_dict: Dictionary, timestamp
 		img_dict["worker_id"],
 		img_dict["worker_name"],
 		timestamp,
+		control_type,
 		image,
 		img_dict["id"])
 	texture.create_from_image(image)
@@ -269,6 +286,9 @@ func _on_r2_retrieval_failed(error_msg: String, expected_amount: int) -> void:
 
 func get_sampler_method_id() -> String:
 	return(SamplerMethods[sampler_name])
+
+func get_control_type_id() -> String:
+	return(ControlTypes[control_type])
 
 func cancel_request() -> void:
 	print_debug("Cancelling...")

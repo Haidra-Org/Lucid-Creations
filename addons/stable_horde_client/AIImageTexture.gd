@@ -30,6 +30,7 @@ var image: Image
 var attributes: Dictionary
 var timestamp: float
 var image_horde_id: String
+var control_type: String
 
 func _init(
 		_prompt: String, 
@@ -39,6 +40,7 @@ func _init(
 		_worker_id: String, 
 		_worker_name: String,
 		_timestamp: float,
+		_control_type: String,
 		_image: Image,
 		_image_horde_id: String) -> void:
 	._init()
@@ -56,6 +58,9 @@ func _init(
 	attributes['model'] = model
 	worker_id = _worker_id
 	attributes['worker_id'] = worker_id
+	control_type = _control_type
+	if control_type != "none":
+		attributes['control_type'] = control_type
 	image = _image
 	image_horde_id = _image_horde_id
 	timestamp = _timestamp
