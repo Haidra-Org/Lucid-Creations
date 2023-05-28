@@ -254,7 +254,6 @@ margin_right = 310.0
 margin_bottom = 766.0
 
 [node name="Basic" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -470,7 +469,7 @@ margin_bottom = 470.0
 
 [node name="SaveAll" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
-margin_right = 148.0
+margin_right = 300.0
 margin_bottom = 41.251
 size_flags_horizontal = 3
 disabled = true
@@ -478,6 +477,7 @@ text = "Save All"
 
 [node name="SubmitRatings" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
+visible = false
 margin_left = 152.0
 margin_right = 300.0
 margin_bottom = 41.251
@@ -578,6 +578,7 @@ pressed = true
 text = "Karras"
 
 [node name="img2img" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -793,6 +794,7 @@ disabled = true
 text = "Save Image"
 
 [node name="Ratings" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageButtons"]
+visible = false
 margin_left = 200.0
 margin_right = 679.0
 margin_bottom = 60.0
@@ -999,6 +1001,7 @@ text = "Larger Values"
 
 [node name="Shared" type="CheckButton" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
 unique_name_in_owner = true
+visible = false
 margin_top = 261.0
 margin_right = 507.0
 margin_bottom = 321.251
