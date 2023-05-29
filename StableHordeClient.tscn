@@ -441,12 +441,12 @@ margin_right = 300.0
 margin_bottom = 17.0
 text = "LoRa"
 
-[node name="HBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora"]
+[node name="LoraAutocompleteHBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora"]
 margin_top = 21.0
 margin_right = 300.0
 margin_bottom = 62.0
 
-[node name="LoraAutoComplete" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/HBC" instance=ExtResource( 26 )]
+[node name="LoraAutoComplete" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC" instance=ExtResource( 26 )]
 unique_name_in_owner = true
 margin_right = 246.0
 margin_bottom = 41.0
@@ -455,7 +455,7 @@ text = ""
 placeholder_text = "LoRa Name (max 5)"
 popup_position = 1
 
-[node name="ShowAllLoras" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/HBC"]
+[node name="ShowAllLoras" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC"]
 unique_name_in_owner = true
 margin_left = 250.0
 margin_right = 300.324

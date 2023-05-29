@@ -116,12 +116,14 @@ func _on_lora_info_label_meta_clicked(meta) -> void:
 
 func _update_selected_loras_label() -> void:
 	var bbtext := []
+	var indexes_to_remove = []
 	for index in range(selected_loras_list.size()):
 		var lora_text = "[url={lora_hover}]{lora_name}[/url] ([url={lora_trigger}]T[/url])([url={lora_remove}]X[/url])"
 		var lora_name = selected_loras_list[index]["name"]
 		# This might happen for example when we added a NSFW lora
 		# but then disabled NSFW which refreshed loras to only show SFW
 		if not lora_reference_node.is_lora(lora_name):
+			indexes_to_remove.append(index)
 			continue
 		if lora_reference_node.get_lora_info(lora_name)["triggers"].size() == 0:
 			lora_text = "[url={lora_hover}]{lora_name}[/url] ([url={lora_remove}]X[/url])"
@@ -133,6 +135,9 @@ func _update_selected_loras_label() -> void:
 		}
 		bbtext.append(lora_text.format(lora_fmt))
 	selected_loras.bbcode_text = ", ".join(bbtext)
+	indexes_to_remove.invert()
+	for index in indexes_to_remove:
+		selected_loras_list.remove(index)
 	if selected_loras_list.size() > 0:
 		selected_loras.show()
 	else:
