@@ -36,7 +36,7 @@ func _on_TextAutoComplete_text_changed(new_text: String, show_all=false):
 			for skey in seek_keys:
 				if not selections[item][skey]:
 					continue
-				if new_text.to_lower() in selections[item][skey].to_lower():
+				if new_text.to_lower() in str(selections[item][skey]).to_lower():
 					auto_complete_select.add_item(item)
 					iter += 1
 					break

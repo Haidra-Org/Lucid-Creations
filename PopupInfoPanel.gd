@@ -17,6 +17,7 @@ const DESCRIPTIONS = {
 	"SamplerMethod": "All samplers are very similar for the same seed, but might produce slightly different results.\bSamplers ending with _a tend to be better, but more random.\nk_heun, and k_dpm_2* double generation time and kudos cost for the same steps but converge faster.",
 	"Seed": "You can provide your own seed (to regenerate a previous image), or leave blank to get a random seed",
 	"Karras": "Improves image generation at lower steps. Basically magic.",
+	"HiResFix": "For resolutions higher than 512x512, uses the 512x512 as the baseline for the composition of the higher resolution image.",
 	"DenoisingStrength": "Low values attempt to retain the underlying image more. High values follow more of the prompt more.\n0 means the image will remain unchanged. 1 will completely replace the undelying image.",
 	"PP": "Performing post-processing on the image incurs an extra 20% Kudos consumption per post-processor. Mouse over each selected post-processor to see what it does.",
 	"RememberPrompt": "It will remember your prompt you had when you shut down Lucid Creations.",

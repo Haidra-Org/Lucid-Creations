@@ -28,6 +28,7 @@ onready var steps_slider := $"%StepsSlider"
 onready var generate_button := $"%GenerateButton"
 onready var sampler_method := $"%SamplerMethod"
 onready var karras := $"%Karras"
+onready var hires_fix = $"%HiResFix"
 onready var grid_scroll = $"%GridScroll"
 onready var display_focus = $"%DisplayFocus"
 onready var focused_image = $"%FocusedImage"
@@ -121,6 +122,7 @@ func _ready():
 	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	karras.pressed = stable_horde_client.karras
+	hires_fix.pressed = stable_horde_client.hires_fix
 	negative_prompt.pressed = globals.config.get_value("Options", "negative_prompt", false)
 	nsfw.pressed = stable_horde_client.nsfw
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
@@ -170,6 +172,8 @@ func _on_GenerateButton_pressed():
 	stable_horde_client.set("api_key", options.get_api_key())
 	stable_horde_client.set("karras", karras.pressed)
 	globals.set_setting("karras", karras.pressed)
+	stable_horde_client.set("hires_fix", hires_fix.pressed)
+	globals.set_setting("hires_fix", hires_fix.pressed)
 	stable_horde_client.set("nsfw", nsfw.pressed)
 	globals.set_setting("nsfw", nsfw.pressed)
 	stable_horde_client.set("censor_nsfw", censor_nsfw.pressed)
@@ -499,6 +503,7 @@ func _connect_hover_signals() -> void:
 		sampler_method,
 		seed_edit,
 		karras,
+		hires_fix,
 		denoising_strength,
 		$"%PP",
 		$"%RememberPrompt",

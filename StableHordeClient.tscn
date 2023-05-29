@@ -453,6 +453,7 @@ margin_bottom = 41.0
 size_flags_horizontal = 3
 text = ""
 placeholder_text = "LoRa Name (max 5)"
+seek_keys = [ "name", "description", "id" ]
 popup_position = 1
 
 [node name="ShowAllLoras" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC"]
@@ -715,13 +716,27 @@ margin_bottom = 505.434
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Karras" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced"]
-unique_name_in_owner = true
+[node name="HBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced"]
 margin_top = 525.0
 margin_right = 300.0
-margin_bottom = 585.251
+margin_bottom = 585.0
+
+[node name="Karras" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced/HBC"]
+unique_name_in_owner = true
+margin_right = 148.0
+margin_bottom = 60.251
+size_flags_horizontal = 3
 pressed = true
 text = "Karras"
+
+[node name="HiResFix" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced/HBC"]
+unique_name_in_owner = true
+margin_left = 152.0
+margin_right = 300.0
+margin_bottom = 60.251
+size_flags_horizontal = 3
+pressed = true
+text = "HiResFix"
 
 [node name="img2img" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 visible = false
