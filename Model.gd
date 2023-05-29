@@ -76,13 +76,8 @@ func get_model_performance(model_name: String) -> Dictionary:
 	}
 	return(default_perf_dict)
 
-
 func _on_request_initiated():
 	stable_horde_models.get_models()
-
-#func _on_item_selected(_index):
-#	print_debug(get_selected_model())
-
 
 func _show_model_details(model_name: String) -> void:
 	if model_name == "Any model":
@@ -168,7 +163,7 @@ func _on_showcase_retrieved(img:ImageTexture, _model_name) -> void:
 	model_showcase.rect_min_size = Vector2(400,400)
 
 func _on_model_selected(model_name: String) -> void:
-	if selected_models_list.size() >= 5:
+	if model_name in selected_models_list:
 		return
 	selected_models_list.append(model_name)
 	_update_selected_models_label()

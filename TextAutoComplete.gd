@@ -23,10 +23,10 @@ func _ready():
 	
 func _on_TextAutoComplete_text_changed(new_text: String, show_all=false):
 	if new_text == '' and not show_all:
-		auto_complete_select.get_popup().hide()
+		auto_complete_select.hide()
 		return
 	auto_complete_select.clear()
-	auto_complete_select.add_item('None')
+	auto_complete_select.add_item('Cancel')
 	var iter = 1
 	for item in selections:
 		if show_all:
@@ -45,15 +45,15 @@ func _on_TextAutoComplete_text_changed(new_text: String, show_all=false):
 					break
 		if iter >= 6 and not show_all:
 			break
-	auto_complete_select.get_popup().rect_size = Vector2(0,0)
-	auto_complete_select.get_popup().show()
+	auto_complete_select.rect_size = Vector2(0,0)
+	auto_complete_select.show()
 	if popup_position == PopupPosition.BELOW:
-		auto_complete_select.get_popup().rect_global_position.y = self.rect_global_position.y + self.rect_size.y
+		auto_complete_select.rect_global_position.y = self.rect_global_position.y + self.rect_size.y
 	elif popup_position == PopupPosition.RIGHT:
-		auto_complete_select.get_popup().rect_global_position.x = self.rect_global_position.x + self.rect_size.x
-		auto_complete_select.get_popup().rect_global_position.y = self.rect_global_position.y - (auto_complete_select.get_popup().rect_size.y / 2)
+		auto_complete_select.rect_global_position.x = self.rect_global_position.x + self.rect_size.x
+		auto_complete_select.rect_global_position.y = self.rect_global_position.y - (auto_complete_select.rect_size.y / 2)
 	elif popup_position == PopupPosition.BOTH:
-		auto_complete_select.get_popup().rect_global_position = self.rect_global_position + self.rect_size
+		auto_complete_select.rect_global_position = self.rect_global_position + self.rect_size
 
 func _add_item(item_key, id: int) -> void:
 	var fmt = {
@@ -68,7 +68,9 @@ func _add_item(item_key, id: int) -> void:
 	auto_complete_select.set_item_metadata(idx,item_key)
 	
 	
-func _on_AutoCompleteSelect_item_selected(index):
+func _on_AutoCompleteSelect_index_pressed(index):
+	if index == 0:
+		return
 	emit_signal("item_selected", auto_complete_select.get_item_metadata(index))
 	self.text = ''
 
