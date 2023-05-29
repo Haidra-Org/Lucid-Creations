@@ -125,10 +125,11 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"cfg_scale": cfg_scale,
 		"seed": gen_seed,
 		"post_processing": post_processing,
-		"loras": _get_loras_payload(),
 	}
 	if control_type != 'none':
 		imgen_params["control_type"] = control_type
+	if lora.size() > 0:
+		imgen_params["loras"] = _get_loras_payload()
 	for param in replacement_params:
 		imgen_params[param] = replacement_params[param]
 	var submit_dict = {
@@ -149,7 +150,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
 	var body = to_json(submit_dict)
-	print_debug(body)
+#	print_debug(body)
 	var headers = [
 		"Content-Type: application/json", 
 		"apikey: " + api_key,
@@ -165,6 +166,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 
 # Function to overwrite to process valid return from the horde
 func process_request(json_ret) -> void:
+#	print_debug(json_ret)
 	if typeof(json_ret) == TYPE_ARRAY:
 		_extract_images(json_ret)
 		return

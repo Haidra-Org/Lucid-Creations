@@ -163,10 +163,7 @@ func _on_GenerateButton_pressed():
 	var cn_name = control_type.get_item_text(control_type.selected)
 	stable_horde_client.set("control_type", cn_name)
 	globals.set_setting("control_type", cn_name)
-	var model_name = model.get_selected_model()
-	var models = []
-	if model_name != "Any model":
-		models = [model_name]
+	var models = model.selected_models_list
 	stable_horde_client.set("models", models)
 	globals.set_setting("models", models)
 	stable_horde_client.set("api_key", options.get_api_key())

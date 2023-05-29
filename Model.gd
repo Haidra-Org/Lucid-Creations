@@ -1,12 +1,9 @@
 extends Control
 
 signal prompt_inject_requested(tokens)
-signal model_changed(model_name)
 
-var model_id_map := {"Any model": 0}
 var selected_models_list : Array = []
 var model_refresh: float
-var previous_selection: String
 
 onready var model_auto_complete = $"%ModelAutoComplete"
 onready var selected_models = $"%SelectedModels"
@@ -28,8 +25,6 @@ func _ready():
 	stable_horde_models.connect("models_retrieved",self, "_on_models_retrieved")
 	# warning-ignore:return_value_discarded
 	trigger_selection.connect("id_pressed", self,"_on_trigger_selection_id_pressed")
-#	connect("item_selected",self,"_on_item_selected") # Debug
-	model_select.connect("item_selected",self,"_on_model_changed")
 	# warning-ignore:return_value_discarded
 	model_auto_complete.connect("item_selected", self,"_on_model_selected")
 
@@ -40,6 +35,7 @@ func _ready():
 	selected_models.connect("meta_hover_ended",self,"_on_selected_models_meta_hover_ended")
 	model_info_label.connect("meta_clicked",self,"_on_model_info_models_meta_clicked")
 	show_all_models.connect("pressed",self,"_on_show_all_models_pressed")
+# warning-ignore:return_value_discarded
 	model_info_card.connect("hide",self,"_on_models_info_card_hide")
 	
 #	init_refresh_models()
@@ -112,18 +108,18 @@ As such, the result tend to be quite random as the image can be sent to somethin
 				"workers": perf["workers"],
 			}
 			var label_text = "Description: {description}\nVersion: {version}\n".format(fmt)\
-					+ "Style: {style}\nHealth: ETA: [color={health_color}]{eta}s[/color]. Workers: {workers}".format(fmt)
+					+ "Style: {style}\nWorkers: {workers}. ETA: [color={health_color}]{eta}s[/color].".format(fmt)
 			if fmt['trigger']:
 				label_text += "\nTrigger token(s): {trigger}".format(fmt)
 			if fmt['homepage']:
 				label_text += "\nHomepage: [url={homepage}]{homepage}[/url]".format(fmt)
 			model_info_label.bbcode_text = label_text
-			_get_model_performance(model_name)
 	model_info_card.rect_size = Vector2(0,0)
 	model_info_card.popup()
 	model_info_card.rect_global_position = get_global_mouse_position() + Vector2(30,-model_info_card.rect_size.y/2)
 
 func _on_model_info_models_meta_clicked(meta) -> void:
+# warning-ignore:return_value_discarded
 	OS.shell_open(meta)
 
 func _on_model_trigger_pressed(model_name) -> void:
@@ -142,29 +138,6 @@ func _on_model_trigger_pressed(model_name) -> void:
 		trigger_selection.rect_global_position = selected_models.rect_global_position
 	if selected_triggers.size() > 0:
 		emit_signal("prompt_inject_requested", selected_triggers)
-
-
-func _on_model_changed(_selected_item = null) -> void:
-	pass
-#	_refresh_model_info()
-#	emit_signal("model_changed",get_selected_model())
-#	_get_model_performance()
-#	_update_popup_info_label()
-
-#
-#func _refresh_model_info() -> void:
-#	var model_reference := get_selected_model_reference()
-#	if model_reference.empty() and get_selected_model() != "Any model":
-#		model_info.disabled = true
-#	else:
-#		model_info.disabled = false
-#	if model_reference.get('trigger'):
-#		model_trigger.disabled = false
-#	else:
-#		model_trigger.disabled = true
-#	model_showcase.rect_min_size = Vector2(0,0)
-#	stable_horde_model_showcase.get_model_showcase(model_reference)
-	
 
 func _get_model_performance(model_name: String) -> Dictionary:
 	var model_performance := get_model_performance(model_name)
@@ -290,6 +263,7 @@ func _on_selected_models_meta_hover_ended(_meta: String) -> void:
 	EventBus.emit_signal("rtl_meta_unhovered",selected_models)
 
 func _on_lora_info_models_meta_clicked(meta) -> void:
+# warning-ignore:return_value_discarded
 	OS.shell_open(meta)
 
 
