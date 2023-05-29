@@ -34,6 +34,9 @@ const META_DESCRIPTIONS = {
 	"GFPGAN": "GFPGAN is a face-correcting model. Use it to ensure beautiful faces.",
 	"RealESRGAN_x4plus": "RealESRGAN_x4plus is an 4X image upscaler. Using it incurs an extra 30% Kudos consumption.",
 	"CodeFormers": "CodeFormers is a very powerful face-correcting model however it requires significant power, and therefore comes with an extra 30% Kudos consumption",
+	"LoRaHover": "Click to show information about this LoRa.",
+	"LoRaDelete": "Click to remove this LoRa from the list.",
+	"LoRaTrigger": "Click to inject this LoRa's triggers into your prompt.",
 }
 
 var current_hovered_node: Control

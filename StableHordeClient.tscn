@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -25,6 +25,9 @@
 [ext_resource path="res://Tutorial.tscn" type="PackedScene" id=23]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_model_showcase.gd" type="Script" id=24]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_rate_generation.gd" type="Script" id=25]
+[ext_resource path="res://TextAutoComplete.tscn" type="PackedScene" id=26]
+[ext_resource path="res://src/Lora/Lora.gd" type="Script" id=27]
+[ext_resource path="res://addons/stable_horde_client/civitai_showcase.gd" type="Script" id=28]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -254,7 +257,6 @@ margin_right = 310.0
 margin_bottom = 766.0
 
 [node name="Basic" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -267,7 +269,7 @@ scroll_horizontal_enabled = false
 [node name="Basic" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
 margin_right = 300.0
-margin_bottom = 605.0
+margin_bottom = 687.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 20
@@ -427,25 +429,166 @@ url: https://example.com"
 fit_content_height = true
 deselect_on_focus_loss_enabled = false
 
-[node name="NegativePrompt" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
+[node name="Lora" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
 margin_top = 189.0
 margin_right = 300.0
-margin_bottom = 249.251
+margin_bottom = 251.0
+script = ExtResource( 27 )
+
+[node name="LoraSelectLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora"]
+margin_right = 300.0
+margin_bottom = 17.0
+text = "LoRa"
+
+[node name="LoraAutocompleteHBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora"]
+margin_top = 21.0
+margin_right = 300.0
+margin_bottom = 62.0
+
+[node name="LoraAutoComplete" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC" instance=ExtResource( 26 )]
+unique_name_in_owner = true
+margin_right = 246.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = ""
+placeholder_text = "LoRa Name (max 5)"
+popup_position = 1
+
+[node name="ShowAllLoras" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC"]
+unique_name_in_owner = true
+margin_left = 250.0
+margin_right = 300.324
+margin_bottom = 41.251
+text = "ALL"
+
+[node name="LoraPopupInfo" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora"]
+margin_top = 63.0
+margin_right = 508.0
+margin_bottom = 161.0
+
+[node name="LoraPopupInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraPopupInfo"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 504.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 500, 0 )
+bbcode_enabled = true
+bbcode_text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+fit_content_height = true
+deselect_on_focus_loss_enabled = false
+
+[node name="SelectedLoras" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora"]
+unique_name_in_owner = true
+visible = false
+margin_top = 63.0
+margin_right = 200.0
+margin_bottom = 113.0
+rect_min_size = Vector2( 0, 50 )
+bbcode_enabled = true
+fit_content_height = true
+
+[node name="LoraTriggerSelection" type="PopupMenu" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras"]
+unique_name_in_owner = true
+margin_left = 43.0
+margin_top = -63.0
+margin_right = 63.0
+margin_bottom = -43.0
+hide_on_checkable_item_selection = false
+
+[node name="LoraInfoCard" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras"]
+unique_name_in_owner = true
+margin_left = 151.0
+margin_top = -63.0
+margin_right = 671.0
+margin_bottom = 51.0
+custom_styles/panel = SubResource( 8 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 614.0
+margin_bottom = 404.0
+
+[node name="LoraInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer"]
+unique_name_in_owner = true
+margin_right = 500.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 500, 0 )
+bbcode_enabled = true
+bbcode_text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+fit_content_height = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer"]
+margin_right = 500.0
+margin_bottom = 94.0
+
+[node name="LoraShowcase0" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 10.0
+margin_top = 104.0
+margin_right = 310.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 300, 300 )
+expand = true
+stretch_mode = 6
+
+[node name="CivitAIShowcase0" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer/HBoxContainer/LoraShowcase0"]
+unique_name_in_owner = true
+script = ExtResource( 28 )
+
+[node name="LoraShowcase1" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 10.0
+margin_top = 104.0
+margin_right = 310.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 300, 300 )
+expand = true
+stretch_mode = 6
+
+[node name="CivitAIShowcase1" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer/HBoxContainer/LoraShowcase1"]
+unique_name_in_owner = true
+script = ExtResource( 28 )
+showcase_index = 1
+
+[node name="NegativePrompt" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
+unique_name_in_owner = true
+margin_top = 271.0
+margin_right = 300.0
+margin_bottom = 331.251
 size_flags_horizontal = 3
 text = "Negative Prompt"
 
 [node name="TrustedWorkers" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 269.0
+margin_top = 351.0
 margin_right = 300.0
-margin_bottom = 329.251
+margin_bottom = 411.251
 text = "Require Trusted Workers"
 
 [node name="HBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 349.0
+margin_top = 431.0
 margin_right = 300.0
-margin_bottom = 409.0
+margin_bottom = 491.0
 
 [node name="NSFW" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC"]
 unique_name_in_owner = true
@@ -464,13 +607,13 @@ pressed = true
 text = "Censored"
 
 [node name="HBC2" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 429.0
+margin_top = 511.0
 margin_right = 300.0
-margin_bottom = 470.0
+margin_bottom = 552.0
 
 [node name="SaveAll" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
-margin_right = 148.0
+margin_right = 300.0
 margin_bottom = 41.251
 size_flags_horizontal = 3
 disabled = true
@@ -478,6 +621,7 @@ text = "Save All"
 
 [node name="SubmitRatings" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
+visible = false
 margin_left = 152.0
 margin_right = 300.0
 margin_bottom = 41.251
@@ -490,12 +634,14 @@ unique_name_in_owner = true
 script = ExtResource( 25 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 490.0
+margin_top = 572.0
 margin_right = 300.0
-margin_bottom = 490.0
+margin_bottom = 572.0
 
 [node name="PP" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic" instance=ExtResource( 22 )]
 unique_name_in_owner = true
+margin_top = 592.0
+margin_bottom = 687.0
 
 [node name="Advanced" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 visible = false
@@ -578,6 +724,7 @@ pressed = true
 text = "Karras"
 
 [node name="img2img" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -793,6 +940,7 @@ disabled = true
 text = "Save Image"
 
 [node name="Ratings" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageButtons"]
+visible = false
 margin_left = 200.0
 margin_right = 679.0
 margin_bottom = 60.0
@@ -999,6 +1147,7 @@ text = "Larger Values"
 
 [node name="Shared" type="CheckButton" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
 unique_name_in_owner = true
+visible = false
 margin_top = 261.0
 margin_right = 507.0
 margin_bottom = 321.251

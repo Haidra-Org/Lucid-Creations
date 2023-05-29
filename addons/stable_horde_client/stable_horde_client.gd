@@ -62,8 +62,11 @@ export(float,0,1,0.01) var denoising_strength := 0.7
 # The unique seed for the prompt. If you pass a value in the seed and keep all the values the same
 # The same image will always be generated.
 export(String) var gen_seed := ''
-# Advanced: The sampler used to generate. Provides slight variations on the same prompt.
+# Post Processors to use.
 export(Array) var post_processing := []
+# Loras to use. Each entry needs to be a dictionary in the form of
+#{"name": String, "model": float, "clip": float}
+export(Array) var lora := []
 # If set to True, will enable the karras noise scheduler
 export(bool) var karras := true
 # If set to True, will mark this generation as NSFW and only workers which accept NSFW requests
@@ -119,6 +122,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"cfg_scale": cfg_scale,
 		"seed": gen_seed,
 		"post_processing": post_processing,
+		"loras": _get_loras_payload(),
 	}
 	if control_type != 'none':
 		imgen_params["control_type"] = control_type
@@ -133,8 +137,9 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"models": models,
 		"r2": r2,
 		"shared": shared,
+#		"workers": ["dc0704ab-5b42-4c65-8471-561be16ad696"], # debug
 	}
-	#print_debug(submit_dict)
+	print_debug(submit_dict)
 	if source_image:
 		submit_dict["source_image"] = get_img2img_b64(source_image)
 		submit_dict["params"]["denoising_strength"] = denoising_strength
@@ -150,6 +155,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
+		state = States.READY
 		emit_signal("request_failed",error_msg)
 	emit_signal("request_initiated")
 
@@ -299,3 +305,13 @@ func get_img2img_b64(image: Image) -> String:
 	var imgbuffer = image.save_png_to_buffer()
 	return(Marshalls.raw_to_base64(imgbuffer))
 	
+func _get_loras_payload() -> Array:
+	"""We replace the name with the ID, to ensure we find it easy on the worker"""
+	var loras_array = []
+	for item in lora:
+		var new_item = item.duplicate()
+		if new_item.has("id") and not new_item["name"].is_valid_integer():
+			new_item["name"] = str(new_item["id"])
+		loras_array.append(new_item)
+	return loras_array
+		

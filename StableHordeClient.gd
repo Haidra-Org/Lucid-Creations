@@ -67,11 +67,13 @@ onready var control_type = $"%ControlType"
 onready var image_is_control = $"%ImageIsControl"
 # model
 onready var model = $"%Model"
+onready var lora = $"%Lora"
 # ratings
 onready var aesthetic_rating = $"%AestheticRating"
 onready var artifacts_rating = $"%ArtifactsRating"
 onready var best_of = $"%BestOf"
 onready var submit_ratings = $"%SubmitRatings"
+
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -98,6 +100,7 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	cancel_button.connect("pressed",self,"_on_CancelButton_pressed")
 	model.connect("prompt_inject_requested",self,"_on_prompt_inject")
+	lora.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	# Ratings
 	EventBus.connect("shared_toggled", self, "_on_shared_toggled")
 	best_of.connect("toggled",self,"on_bestof_toggled")
@@ -106,6 +109,7 @@ func _ready():
 	submit_ratings.connect("pressed", self, "_on_submit_ratings_pressed")
 	stable_horde_rate_generation.connect("generation_rated",self, "_on_generation_rated")
 	stable_horde_rate_generation.connect("request_failed",self, "_on_generation_rating_failed")
+	nsfw.connect("toggled", self,"_on_nsfw_toggled")
 	_on_shared_toggled()
 	_check_html5()
 	if globals.config.has_section("Parameters"):
@@ -175,6 +179,7 @@ func _on_GenerateButton_pressed():
 	stable_horde_client.set("shared", globals.config.get_value("Options", "share", true))
 	stable_horde_client.set("gen_seed", seed_edit.text)
 	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
+	stable_horde_client.set("lora", globals.config.get_value("Parameters", "loras", stable_horde_client.lora))
 	if prompt_line_edit.text != '':
 		stable_horde_client.prompt = prompt_line_edit.text
 	else:
@@ -204,8 +209,8 @@ func _on_CancelButton_pressed():
 func _on_images_generated(completed_payload: Dictionary):
 	_reset_input()
 	save_all.disabled = false
-	status_text.bbcode_text = "[color=green]Your images are ready.[/color] "\
-		+ "[color=yellow]Remember to rate them to receive a kudos refund![/color]"
+	status_text.bbcode_text = "[color=green]Your images are ready![/color]"
+#		+ "[color=yellow]Remember to rate them to receive a kudos refund![/color]"
 	status_text.modulate = Color(1,1,1)
 	for texture in completed_payload["image_textures"]:
 		var tr := GRID_TEXTURE_RECT.instance()
@@ -596,3 +601,6 @@ func _on_generation_rating_failed(message: String) -> void:
 	status_text.modulate = Color(1,1,0)
 	status_text.bbcode_text = message
 	submit_ratings.disabled = true
+
+func _on_nsfw_toggled(button_pressed: bool) -> void:
+	lora.lora_reference_node.nsfw = button_pressed

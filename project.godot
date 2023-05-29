@@ -14,6 +14,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/stable_horde_client/AIImageTexture.gd"
 }, {
+"base": "StableHordeHTTPRequest",
+"class": "CivitAILoraReference",
+"language": "GDScript",
+"path": "res://addons/stable_horde_client/civitai_lora_reference.gd"
+}, {
+"base": "HTTPRequest",
+"class": "CivitAIShowcase",
+"language": "GDScript",
+"path": "res://addons/stable_horde_client/civitai_showcase.gd"
+}, {
 "base": "PanelContainer",
 "class": "GridTextureRect",
 "language": "GDScript",
@@ -71,6 +81,8 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AIImageTexture": "",
+"CivitAILoraReference": "",
+"CivitAIShowcase": "",
 "GridTextureRect": "",
 "R2ImageRetriever": "",
 "StableHordeClient": "",
