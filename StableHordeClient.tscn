@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -12,10 +12,6 @@
 [ext_resource path="res://Model.gd" type="Script" id=10]
 [ext_resource path="res://Options.gd" type="Script" id=11]
 [ext_resource path="res://ImagePreview.gd" type="Script" id=12]
-[ext_resource path="res://assets/icons/info_w.png" type="Texture" id=13]
-[ext_resource path="res://assets/icons/lever_w.png" type="Texture" id=14]
-[ext_resource path="res://theme/gantari/Gantari[wght].ttf" type="DynamicFontData" id=15]
-[ext_resource path="res://assets/icons/circle.png" type="Texture" id=16]
 [ext_resource path="res://PopupInfoPanel.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/backgrounds/1668640648_2362995226.webp" type="Texture" id=18]
 [ext_resource path="res://Background.gd" type="Script" id=19]
@@ -28,6 +24,7 @@
 [ext_resource path="res://TextAutoComplete.tscn" type="PackedScene" id=26]
 [ext_resource path="res://src/Lora/Lora.gd" type="Script" id=27]
 [ext_resource path="res://addons/stable_horde_client/civitai_showcase.gd" type="Script" id=28]
+[ext_resource path="res://TextAutoComplete.gd" type="Script" id=29]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -54,13 +51,6 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-
-[sub_resource type="DynamicFont" id=3]
-size = 23
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 15 )
 
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0, 0, 0, 0.756863 )
@@ -269,7 +259,7 @@ scroll_horizontal_enabled = false
 [node name="Basic" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
 margin_right = 300.0
-margin_bottom = 687.0
+margin_bottom = 663.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 20
@@ -282,59 +272,79 @@ margin_bottom = 63.0
 unique_name_in_owner = true
 margin_top = 83.0
 margin_right = 300.0
-margin_bottom = 169.0
+margin_bottom = 145.0
 script = ExtResource( 10 )
 
 [node name="ModelButtons" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model"]
 margin_right = 300.0
-margin_bottom = 41.0
+margin_bottom = 17.0
 
 [node name="ModelSelectLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons"]
-margin_top = 12.0
 margin_right = 45.0
-margin_bottom = 29.0
+margin_bottom = 17.0
 text = "Model"
 
-[node name="ModelInfo" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons"]
-unique_name_in_owner = true
-margin_left = 49.0
-margin_right = 99.0
-margin_bottom = 41.251
-rect_min_size = Vector2( 50, 0 )
-icon = ExtResource( 13 )
-flat = true
-expand_icon = true
+[node name="ModelAutocompleteHBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model"]
+margin_top = 21.0
+margin_right = 300.0
+margin_bottom = 62.0
 
-[node name="ModelTrigger" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons"]
+[node name="ModelAutoComplete" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelAutocompleteHBC" instance=ExtResource( 26 )]
 unique_name_in_owner = true
-margin_left = 103.0
-margin_right = 153.0
-margin_bottom = 41.251
-rect_min_size = Vector2( 50, 0 )
-icon = ExtResource( 14 )
-flat = true
-expand_icon = true
+margin_right = 246.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = ""
+placeholder_text = "Start tping a model name"
+script = ExtResource( 29 )
+seek_keys = [ "name" ]
+description_keys = [ "style", "worker_count" ]
+description_format = "{item}: {style} ({worker_count})"
+popup_position = 1
 
-[node name="TriggerSelection" type="PopupMenu" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/ModelTrigger"]
+[node name="ShowAllModels" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelAutocompleteHBC"]
 unique_name_in_owner = true
-margin_right = 20.0
-margin_bottom = 20.0
+margin_left = 250.0
+margin_right = 300.324
+margin_bottom = 41.251
+text = "ALL"
+
+[node name="StableHordeModels" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelAutocompleteHBC"]
+unique_name_in_owner = true
+script = ExtResource( 9 )
+
+[node name="SelectedModels" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model"]
+unique_name_in_owner = true
+visible = false
+margin_top = 90.0
+margin_right = 300.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 0, 50 )
+bbcode_enabled = true
+fit_content_height = true
+
+[node name="LoraTriggerSelection" type="PopupMenu" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/SelectedModels"]
+margin_left = 43.0
+margin_top = -63.0
+margin_right = 63.0
+margin_bottom = -43.0
 hide_on_checkable_item_selection = false
 
-[node name="ModelInfoCard" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons"]
+[node name="ModelInfoCard" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/SelectedModels"]
 unique_name_in_owner = true
 margin_left = 157.0
+margin_top = -63.0
 margin_right = 677.0
-margin_bottom = 114.0
+margin_bottom = 51.0
 custom_styles/panel = SubResource( 8 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/ModelInfoCard"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/SelectedModels/ModelInfoCard"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 510.0
-margin_bottom = 104.0
+margin_bottom = 504.0
 
-[node name="ModelInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/ModelInfoCard/VBoxContainer"]
+[node name="ModelInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/SelectedModels/ModelInfoCard/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 500.0
 margin_bottom = 90.0
@@ -352,55 +362,37 @@ blah blah blah
 url: https://example.com"
 fit_content_height = true
 
-[node name="ModelShowcase" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/ModelInfoCard/VBoxContainer"]
+[node name="ModelShowcase" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/SelectedModels/ModelInfoCard/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 94.0
 margin_right = 500.0
-margin_bottom = 94.0
+margin_bottom = 494.0
+rect_min_size = Vector2( 400, 400 )
 expand = true
 stretch_mode = 6
 
-[node name="StableHordeModelShowcase" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/ModelInfoCard/VBoxContainer/ModelShowcase"]
+[node name="StableHordeModelShowcase" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/SelectedModels/ModelInfoCard/VBoxContainer/ModelShowcase"]
 unique_name_in_owner = true
 script = ExtResource( 24 )
 
-[node name="CC" type="CenterContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons"]
-margin_left = 157.0
-margin_right = 197.0
-margin_bottom = 41.0
-rect_min_size = Vector2( 40, 40 )
-
-[node name="ModelHealth" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/CC"]
+[node name="TriggerSelection" type="PopupMenu" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/SelectedModels"]
 unique_name_in_owner = true
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 40 )
-texture = ExtResource( 16 )
-expand = true
-stretch_mode = 6
-
-[node name="ModelETA" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelButtons/CC"]
-unique_name_in_owner = true
-margin_left = 12.0
-margin_top = 6.0
-margin_right = 27.0
-margin_bottom = 34.0
-custom_fonts/font = SubResource( 3 )
-text = "0"
+margin_left = 49.0
+margin_top = -90.0
+margin_right = 69.0
+margin_bottom = -70.0
+hide_on_checkable_item_selection = false
 
 [node name="ModelSelect" type="OptionButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model"]
 unique_name_in_owner = true
-margin_top = 45.0
+visible = false
+margin_top = 90.0
 margin_right = 300.0
-margin_bottom = 86.251
+margin_bottom = 131.251
 text = "Any model"
 clip_text = true
 items = [ "Any model", null, false, 0, null, "stable_diffusion", null, false, 1, null ]
 selected = 0
-
-[node name="StableHordeModels" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelSelect"]
-unique_name_in_owner = true
-script = ExtResource( 9 )
 
 [node name="PopupInfo" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model"]
 unique_name_in_owner = true
@@ -431,9 +423,9 @@ deselect_on_focus_loss_enabled = false
 
 [node name="Lora" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 189.0
+margin_top = 165.0
 margin_right = 300.0
-margin_bottom = 251.0
+margin_bottom = 227.0
 script = ExtResource( 27 )
 
 [node name="LoraSelectLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora"]
@@ -573,23 +565,23 @@ showcase_index = 1
 
 [node name="NegativePrompt" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 271.0
+margin_top = 247.0
 margin_right = 300.0
-margin_bottom = 331.251
+margin_bottom = 307.251
 size_flags_horizontal = 3
 text = "Negative Prompt"
 
 [node name="TrustedWorkers" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 351.0
+margin_top = 327.0
 margin_right = 300.0
-margin_bottom = 411.251
+margin_bottom = 387.251
 text = "Require Trusted Workers"
 
 [node name="HBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 431.0
+margin_top = 407.0
 margin_right = 300.0
-margin_bottom = 491.0
+margin_bottom = 467.0
 
 [node name="NSFW" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC"]
 unique_name_in_owner = true
@@ -608,9 +600,9 @@ pressed = true
 text = "Censored"
 
 [node name="HBC2" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 511.0
+margin_top = 487.0
 margin_right = 300.0
-margin_bottom = 552.0
+margin_bottom = 528.0
 
 [node name="SaveAll" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
@@ -635,14 +627,14 @@ unique_name_in_owner = true
 script = ExtResource( 25 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 572.0
+margin_top = 548.0
 margin_right = 300.0
-margin_bottom = 572.0
+margin_bottom = 548.0
 
 [node name="PP" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic" instance=ExtResource( 22 )]
 unique_name_in_owner = true
-margin_top = 592.0
-margin_bottom = 687.0
+margin_top = 568.0
+margin_bottom = 663.0
 
 [node name="Advanced" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 visible = false

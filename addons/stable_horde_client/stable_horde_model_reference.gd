@@ -44,6 +44,9 @@ func process_request(json_ret) -> void:
 func get_model_info(model_name: String) -> Dictionary:
 	return(model_reference.get(model_name, {}))
 
+func is_model(model_name: String) -> bool:
+	return(model_reference.has(model_name))
+
 func _store_to_file() -> void:
 	var file = File.new()
 	file.open("user://model_reference", File.WRITE)

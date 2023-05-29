@@ -30,8 +30,6 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	lora_trigger_selection.connect("id_pressed", self,"_on_trigger_selection_id_pressed")
 	# warning-ignore:return_value_discarded
-	lora_info_label.connect("meta_clicked", self, "_on_lora_info_meta_clicked")
-	# warning-ignore:return_value_discarded
 	civitai_showcase0.connect("showcase_retrieved",self, "_on_showcase0_retrieved")
 	civitai_showcase1.connect("showcase_retrieved",self, "_on_showcase1_retrieved")
 	# warning-ignore:return_value_discarded

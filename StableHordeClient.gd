@@ -489,8 +489,6 @@ func _connect_hover_signals() -> void:
 	for node in [
 		negative_prompt,
 		amount,
-		$"%ModelInfo",
-		$"%ModelTrigger",
 		$"%ModelSelect",
 		trusted_workers,
 		nsfw,
