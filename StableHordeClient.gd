@@ -209,8 +209,8 @@ func _on_CancelButton_pressed():
 func _on_images_generated(completed_payload: Dictionary):
 	_reset_input()
 	save_all.disabled = false
-	status_text.bbcode_text = "[color=green]Your images are ready.[/color] "\
-		+ "[color=yellow]Remember to rate them to receive a kudos refund![/color]"
+	status_text.bbcode_text = "[color=green]Your images are ready![/color]"
+#		+ "[color=yellow]Remember to rate them to receive a kudos refund![/color]"
 	status_text.modulate = Color(1,1,1)
 	for texture in completed_payload["image_textures"]:
 		var tr := GRID_TEXTURE_RECT.instance()
