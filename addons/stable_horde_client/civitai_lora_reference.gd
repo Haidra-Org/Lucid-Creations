@@ -89,7 +89,7 @@ func calculate_downloaded_loras() -> int:
 func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 	var lora_details = {
 		"name": civitai_entry["name"],
-		"id": civitai_entry["id"],
+		"id": int(civitai_entry["id"]),
 		"description": civitai_entry["description"],
 	}
 	if not lora_details["description"]:

@@ -178,6 +178,7 @@ func _on_GenerateButton_pressed():
 	stable_horde_client.set("shared", globals.config.get_value("Options", "share", true))
 	stable_horde_client.set("gen_seed", seed_edit.text)
 	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
+	stable_horde_client.set("lora", globals.config.get_value("Parameters", "loras", stable_horde_client.lora))
 	if prompt_line_edit.text != '':
 		stable_horde_client.prompt = prompt_line_edit.text
 	else:

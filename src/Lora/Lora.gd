@@ -52,6 +52,7 @@ func _on_lora_selected(lora_name: String) -> void:
 			"name": lora_name,
 			"model": 1.0,
 			"clip": 1.0,
+			"id": lora_reference_node.get_lora_info(lora_name)["id"],
 		}
 	)
 	globals.set_setting("loras",selected_loras_list)
