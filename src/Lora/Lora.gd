@@ -54,7 +54,6 @@ func _on_lora_selected(lora_name: String) -> void:
 			"id": lora_reference_node.get_lora_info(lora_name)["id"],
 		}
 	)
-	globals.set_setting("loras",selected_loras_list)
 	_update_selected_loras_label()
 
 func _on_reference_retrieved(model_reference: Dictionary):
@@ -89,7 +88,6 @@ func _on_selected_loras_meta_clicked(meta) -> void:
 		"delete":
 			selected_loras_list.remove(int(meta_split[1]))
 			_update_selected_loras_label()
-			globals.set_setting("loras",selected_loras_list)
 		"trigger":
 			_on_lora_trigger_pressed(int(meta_split[1]))
 

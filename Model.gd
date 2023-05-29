@@ -154,34 +154,6 @@ func _get_model_performance(model_name: String) -> Dictionary:
 		"workers": model_performance['count'],
 	}
 
-#
-#func _on_model_health_mouse_enterred() -> void:
-#	popup_info.show()
-#	popup_info.rect_global_position = get_global_mouse_position() + Vector2(30,-40)
-#	_update_popup_info_label()
-
-#
-#func _on_model_health_mouse_exited() -> void:
-#	popup_info.hide()
-
-
-#func _update_popup_info_label() -> void:
-#	if get_selected_model() == "Any model":
-#		popup_info_label.bbcode_text = "'Any model' will process your request the fastest of all options, but the model which will process each image can differ."
-#		return
-#	var model_performance := get_model_performance()
-#	var t = "Available workers: {count}\n"\
-#			+ "Average Speed per worker: {performance} MPS/s\n"\
-#			+ "Queued MPS: {mps}\nEst. time to clear queue: {eta} seconds."
-#	var fmt = {
-#		"count": model_performance["count"],
-#		"performance": stepify(model_performance["performance"] / 1000000, 0.1),
-#		"mps": stepify(model_performance["queued"] / 1000000, 0.1),
-#		"eta": model_performance["eta"],
-#	}
-#	popup_info_label.bbcode_text = t.format(fmt)
-
-
 func _on_trigger_selection_id_pressed(id: int) -> void:
 	if trigger_selection.is_item_checkable(id):
 		trigger_selection.toggle_item_checked(id)
@@ -251,11 +223,11 @@ func _on_selected_models_meta_hover_started(meta: String) -> void:
 	var info = ''
 	match meta_split[0]:
 		"hover":
-			info = "LoRaHover"
+			info = "ModelHover"
 		"delete":
-			info = "LoRaDelete"
+			info = "ModelDelete"
 		"trigger":
-			info = "LoRaTrigger"
+			info = "ModelTrigger"
 	EventBus.emit_signal("rtl_meta_hovered",selected_models,info)
 
 

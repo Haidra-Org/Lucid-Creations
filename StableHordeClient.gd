@@ -166,6 +166,9 @@ func _on_GenerateButton_pressed():
 	var models = model.selected_models_list
 	stable_horde_client.set("models", models)
 	globals.set_setting("models", models)
+	var loras = lora.selected_loras_list
+	globals.set_setting("loras",loras)
+	stable_horde_client.set("lora", loras)
 	stable_horde_client.set("api_key", options.get_api_key())
 	stable_horde_client.set("karras", karras.pressed)
 	globals.set_setting("karras", karras.pressed)
