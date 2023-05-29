@@ -37,10 +37,8 @@ func _ready():
 	show_all_models.connect("pressed",self,"_on_show_all_models_pressed")
 # warning-ignore:return_value_discarded
 	model_info_card.connect("hide",self,"_on_models_info_card_hide")
-	
-#	init_refresh_models()
-	yield(get_tree().create_timer(2), "timeout")
-#	_refresh_model_info()
+	stable_horde_models.emit_models_retrieved()
+	yield(get_tree().create_timer(0.2), "timeout")
 	selected_models_list = globals.config.get_value("Parameters", "models", [])
 	_update_selected_models_label()
 

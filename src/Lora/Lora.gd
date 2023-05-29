@@ -22,9 +22,9 @@ var previous_selection: String
 func _ready():
 	lora_reference_node = CivitAILoraReference.new()
 	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
+	lora_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
 	add_child(lora_reference_node)
 	# warning-ignore:return_value_discarded
-	lora_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
 	# warning-ignore:return_value_discarded
 	lora_auto_complete.connect("item_selected", self,"_on_lora_selected")
 	# warning-ignore:return_value_discarded
