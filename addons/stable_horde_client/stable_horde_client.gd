@@ -137,7 +137,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"models": models,
 		"r2": r2,
 		"shared": shared,
-		"workers": ["dc0704ab-5b42-4c65-8471-561be16ad696"], # debug
+#		"workers": ["dc0704ab-5b42-4c65-8471-561be16ad696"], # debug
 	}
 	print_debug(submit_dict)
 	if source_image:
@@ -155,6 +155,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
+		state = States.READY
 		emit_signal("request_failed",error_msg)
 	emit_signal("request_initiated")
 

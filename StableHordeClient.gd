@@ -109,6 +109,7 @@ func _ready():
 	submit_ratings.connect("pressed", self, "_on_submit_ratings_pressed")
 	stable_horde_rate_generation.connect("generation_rated",self, "_on_generation_rated")
 	stable_horde_rate_generation.connect("request_failed",self, "_on_generation_rating_failed")
+	nsfw.connect("toggled", self,"_on_nsfw_toggled")
 	_on_shared_toggled()
 	_check_html5()
 	if globals.config.has_section("Parameters"):
@@ -600,3 +601,6 @@ func _on_generation_rating_failed(message: String) -> void:
 	status_text.modulate = Color(1,1,0)
 	status_text.bbcode_text = message
 	submit_ratings.disabled = true
+
+func _on_nsfw_toggled(button_pressed: bool) -> void:
+	lora.lora_reference_node.nsfw = button_pressed

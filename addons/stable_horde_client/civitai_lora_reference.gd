@@ -8,26 +8,28 @@ export(String) var loras_refence_url := "https://civitai.com/api/v1/models?types
 
 var lora_reference := {}
 var models_retrieved = false
-var nsfw = true
+var nsfw = true setget set_nsfw
 
 func _ready() -> void:
 	service_name = "CivitAI"
 	# We pick the first reference immediately as we enter the scene
 	timeout = 60
-	get_lora_reference()
+	_load_from_file()
+	# We do not call it from here, as set_nsfw() will also call it
+	#get_lora_reference()
 
 
 func get_lora_reference() -> void:
-	_load_from_file()
 	if state != States.READY:
 		push_warning("CivitAI Lora Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
 		return
 	state = States.WORKING
-	var final_url = loras_refence_url + '&' + str(nsfw).to_lower()
+	var final_url = loras_refence_url + '&nsfw=' + str(nsfw).to_lower()
 	var error = request(final_url, [], false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)
+		state = States.READY
 		emit_signal("request_failed",error_msg)
 
 func fetch_next_page(json_ret: Dictionary) -> void:
@@ -145,3 +147,7 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 			continue
 		lora_details["images"].append(img["url"])
 	return lora_details
+
+func set_nsfw(value) -> void:
+	nsfw = value
+	get_lora_reference()

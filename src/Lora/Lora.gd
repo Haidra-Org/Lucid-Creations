@@ -21,6 +21,7 @@ var previous_selection: String
 
 func _ready():
 	lora_reference_node = CivitAILoraReference.new()
+	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
 	add_child(lora_reference_node)
 	# warning-ignore:return_value_discarded
 	lora_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
@@ -117,10 +118,15 @@ func _update_selected_loras_label() -> void:
 	var bbtext := []
 	for index in range(selected_loras_list.size()):
 		var lora_text = "[url={lora_hover}]{lora_name}[/url] ([url={lora_trigger}]T[/url])([url={lora_remove}]X[/url])"
-		if lora_reference_node.get_lora_info(selected_loras_list[index]["name"])["triggers"].size() == 0:
+		var lora_name = selected_loras_list[index]["name"]
+		# This might happen for example when we added a NSFW lora
+		# but then disabled NSFW which refreshed loras to only show SFW
+		if not lora_reference_node.is_lora(lora_name):
+			continue
+		if lora_reference_node.get_lora_info(lora_name)["triggers"].size() == 0:
 			lora_text = "[url={lora_hover}]{lora_name}[/url] ([url={lora_remove}]X[/url])"
 		var lora_fmt = {
-			"lora_name": selected_loras_list[index]["name"],
+			"lora_name": lora_name,
 			"lora_hover": 'hover:' + str(index),
 			"lora_remove": 'delete:' + str(index),
 			"lora_trigger": 'trigger:' + str(index),

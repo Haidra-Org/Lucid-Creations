@@ -24,6 +24,7 @@ func get_models() -> void:
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
+		state = States.READY
 		emit_signal("request_failed",error_msg)
 
 
