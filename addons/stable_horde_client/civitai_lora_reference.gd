@@ -139,4 +139,9 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 	lora_details["base_model"] = versions[0]["baseModel"]
 	for file in versions[0]["files"]:
 		lora_details["size_mb"] = round(file["sizeKB"] / 1024)
+	lora_details["images"] = []
+	for img in versions[0]["images"]:
+		if img["nsfw"] in ["Mature", "X"]:
+			continue
+		lora_details["images"].append(img["url"])
 	return lora_details

@@ -19,18 +19,17 @@ func _ready():
 	for item in selections:
 		auto_complete_select.add_item(item)
 	
-func _process(_delta):
-	pass
-	
-func _on_TextAutoComplete_text_changed(new_text):
-	if new_text == '':
+func _on_TextAutoComplete_text_changed(new_text: String, show_all=false):
+	if new_text == '' and not show_all:
 		auto_complete_select.get_popup().hide()
 		return
 	auto_complete_select.clear()
 	auto_complete_select.add_item('None')
 	var iter = 0
 	for item in selections:
-		if new_text.to_lower() in item.to_lower():
+		if show_all:
+			auto_complete_select.add_item(item)
+		elif new_text.to_lower() in item.to_lower():
 			auto_complete_select.add_item(item)
 			iter += 1
 		else:
@@ -41,7 +40,7 @@ func _on_TextAutoComplete_text_changed(new_text):
 					auto_complete_select.add_item(item)
 					iter += 1
 					break
-		if iter >= 6:
+		if iter >= 6 and not show_all:
 			break
 	auto_complete_select.get_popup().rect_size = Vector2(0,0)
 	auto_complete_select.get_popup().show()
@@ -57,3 +56,6 @@ func _on_TextAutoComplete_text_changed(new_text):
 func _on_AutoCompleteSelect_item_selected(index):
 	emit_signal("item_selected", auto_complete_select.get_item_text(index))
 	self.text = ''
+
+func select_from_all() -> void:
+	_on_TextAutoComplete_text_changed('', true)

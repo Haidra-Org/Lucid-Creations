@@ -67,11 +67,13 @@ onready var control_type = $"%ControlType"
 onready var image_is_control = $"%ImageIsControl"
 # model
 onready var model = $"%Model"
+onready var lora = $"%Lora"
 # ratings
 onready var aesthetic_rating = $"%AestheticRating"
 onready var artifacts_rating = $"%ArtifactsRating"
 onready var best_of = $"%BestOf"
 onready var submit_ratings = $"%SubmitRatings"
+
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -98,6 +100,7 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	cancel_button.connect("pressed",self,"_on_CancelButton_pressed")
 	model.connect("prompt_inject_requested",self,"_on_prompt_inject")
+	lora.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	# Ratings
 	EventBus.connect("shared_toggled", self, "_on_shared_toggled")
 	best_of.connect("toggled",self,"on_bestof_toggled")

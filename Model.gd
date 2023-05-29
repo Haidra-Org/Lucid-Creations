@@ -275,7 +275,7 @@ func _on_trigger_selection_id_pressed(id: int) -> void:
 		emit_signal("prompt_inject_requested", selected_triggers)
 
 
-func _on_showcase_retrieved(img:ImageTexture, model_name) -> void:
+func _on_showcase_retrieved(img:ImageTexture, _model_name) -> void:
 	model_showcase.texture = img
 	model_showcase.rect_min_size = Vector2(400,400)
 
