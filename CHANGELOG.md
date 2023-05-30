@@ -1,5 +1,17 @@
 # Changelog
 
+## [v1.18.2](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.18.2) (2023-05-30)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.18.1...v1.18.2)
+
+**Closed issues:**
+
+- Discord invite is not working [\#87](https://github.com/Haidra-Org/Lucid-Creations/issues/87)
+
+**Merged pull requests:**
+
+- feat: Added rest PP [\#88](https://github.com/Haidra-Org/Lucid-Creations/pull/88) ([db0](https://github.com/db0))
+
 ## [v1.18.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.18.1) (2023-05-30)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.18.0...v1.18.1)
