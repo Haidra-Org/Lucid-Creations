@@ -9,6 +9,11 @@ const POST_PROCESSORS = [
 	"GFPGAN",
 	"RealESRGAN_x4plus",
 	"CodeFormers",
+	"strip_background",
+	"RealESRGAN_x2plus", 
+	"RealESRGAN_x4plus_anime_6B", 
+	"NMKD_Siax",
+	"4x_AnimeSharp"
 ]
 
 var selected_pp := []
