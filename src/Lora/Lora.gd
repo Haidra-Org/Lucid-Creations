@@ -135,7 +135,7 @@ func _update_selected_loras_label() -> void:
 		if selected_loras_list[index]["clip"] != 1:
 			strengths_string += ' C:'+str(selected_loras_list[index]["clip"])
 		var lora_fmt = {
-			"lora_name": lora_name,
+			"lora_name": lora_name.left(25),
 			"lora_hover": 'hover:' + str(index),
 			"lora_remove": 'delete:' + str(index),
 			"lora_trigger": 'trigger:' + str(index),
