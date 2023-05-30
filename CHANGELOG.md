@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.18.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.18.1) (2023-05-30)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.18.0...v1.18.1)
+
+**Merged pull requests:**
+
+- fix: truncate very long lora names [\#86](https://github.com/Haidra-Org/Lucid-Creations/pull/86) ([db0](https://github.com/db0))
+
 ## [v1.18.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.18.0) (2023-05-30)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.17.0...v1.18.0)
