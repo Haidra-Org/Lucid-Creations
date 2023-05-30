@@ -9,6 +9,7 @@ export(String) var loras_refence_url := "https://civitai.com/api/v1/models?types
 var lora_reference := {}
 var models_retrieved = false
 var nsfw = true setget set_nsfw
+var initialized := false
 
 func _ready() -> void:
 	service_name = "CivitAI"
@@ -33,6 +34,29 @@ func get_lora_reference() -> void:
 		state = States.READY
 		emit_signal("request_failed",error_msg)
 
+
+func seek_online(query: String) -> void:
+	if state != States.READY:
+		push_warning("CivitAI Lora Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
+		return
+	var final_url : String = ''
+	state = States.WORKING
+	if query.is_valid_integer():
+		final_url = "https://civitai.com/api/v1/models/" + query
+	# This refreshes the information of the top models
+	elif query == '':
+		final_url = loras_refence_url + '&nsfw=' + str(nsfw).to_lower()
+		initialized = false
+	else:
+		final_url = loras_refence_url + '&nsfw=' + str(nsfw).to_lower() + '&query=' + query
+#	print_debug(final_url)
+	var error = request(final_url, [], false, HTTPClient.METHOD_GET)
+	if error != OK:
+		var error_msg := "Something went wrong when initiating the request"
+		push_error(error_msg)
+		state = States.READY
+		emit_signal("request_failed",error_msg)
+
 func fetch_next_page(json_ret: Dictionary) -> void:
 	var next_page_url = json_ret["metadata"]["nextPage"]
 	var error = request(next_page_url, [], false, HTTPClient.METHOD_GET)
@@ -49,9 +73,11 @@ func process_request(json_ret) -> void:
 		emit_signal("request_failed",error_msg)
 		state = States.READY
 		return
-	lora_reference = {}
+	if not json_ret.has("items"):
+		# Quick hack to treat individual items the same way
+		json_ret["items"] = [json_ret]
 	for entry in json_ret["items"]:
-		if calculate_downloaded_loras() < 10000:
+		if initialized or calculate_downloaded_loras() < 10000:
 			var lora = _parse_civitai_lora_data(entry)
 			if lora.has("size_mb"):
 				lora_reference[entry["name"]] = _parse_civitai_lora_data(entry)
@@ -61,6 +87,7 @@ func process_request(json_ret) -> void:
 		fetch_next_page(json_ret)
 	else:
 		state = States.READY
+	initialized = true
 
 func is_lora(lora_name: String) -> bool:
 	return(lora_reference.has(lora_name))
@@ -80,12 +107,16 @@ func _load_from_file() -> void:
 	var filevar = file.get_var()
 	if filevar:
 		lora_reference = filevar
+	for lora in lora_reference.values():
+		lora["cached"] = true
 	file.close()
 	emit_signal("reference_retrieved", lora_reference)
 
 func calculate_downloaded_loras() -> int:
 	var total_size = 0
 	for lora in self.lora_reference:
+		if self.lora_reference[lora].get("cached", false):
+			continue
 		total_size += self.lora_reference[lora]["size_mb"]
 	return total_size
 

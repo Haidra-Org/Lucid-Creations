@@ -48,12 +48,12 @@ func _on_TextAutoComplete_text_changed(new_text: String, show_all=false):
 	auto_complete_select.rect_size = Vector2(0,0)
 	auto_complete_select.show()
 	if popup_position == PopupPosition.BELOW:
-		auto_complete_select.rect_global_position.y = self.rect_global_position.y + self.rect_size.y
+		auto_complete_select.rect_global_position.y = get_parent().rect_global_position.y + get_parent().rect_size.y
 	elif popup_position == PopupPosition.RIGHT:
-		auto_complete_select.rect_global_position.x = self.rect_global_position.x + self.rect_size.x
-		auto_complete_select.rect_global_position.y = self.rect_global_position.y - (auto_complete_select.rect_size.y / 2)
+		auto_complete_select.rect_global_position.x = get_parent().rect_global_position.x + get_parent().rect_size.x
+		auto_complete_select.rect_global_position.y = get_parent().rect_global_position.y - (auto_complete_select.rect_size.y / 2)
 	elif popup_position == PopupPosition.BOTH:
-		auto_complete_select.rect_global_position = self.rect_global_position + self.rect_size
+		auto_complete_select.rect_global_position = get_parent().rect_global_position + get_parent().rect_size
 
 func _add_item(item_key, id: int) -> void:
 	var fmt = {
@@ -76,3 +76,6 @@ func _on_AutoCompleteSelect_index_pressed(index):
 
 func select_from_all() -> void:
 	_on_TextAutoComplete_text_changed('', true)
+
+func initiate_search() -> void:
+	_on_TextAutoComplete_text_changed(text)
