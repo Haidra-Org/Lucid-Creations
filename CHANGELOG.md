@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.19.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.1) (2023-05-30)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.0...v1.19.1)
+
+**Merged pull requests:**
+
+- fix: Inform about unusable loras [\#90](https://github.com/Haidra-Org/Lucid-Creations/pull/90) ([db0](https://github.com/db0))
+
 ## [v1.19.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.0) (2023-05-30)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.18.2...v1.19.0)
