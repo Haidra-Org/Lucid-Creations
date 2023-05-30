@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.19.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.0) (2023-05-30)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.18.2...v1.19.0)
+
+**Merged pull requests:**
+
+- feat: Adhoc loras [\#89](https://github.com/Haidra-Org/Lucid-Creations/pull/89) ([db0](https://github.com/db0))
+
 ## [v1.18.2](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.18.2) (2023-05-30)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.18.1...v1.18.2)
