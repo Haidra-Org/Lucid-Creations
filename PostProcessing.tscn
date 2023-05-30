@@ -29,7 +29,7 @@ mouse_filter = 1
 size_flags_horizontal = 3
 text = "Select"
 flat = false
-items = [ "GFPGAN", null, 0, false, false, 0, 0, null, "", false, "RealESRGAN_x4plus", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "GFPGAN", null, 0, false, false, 0, 0, null, "", false, "RealESRGAN_x4plus", null, 0, false, false, 1, 0, null, "", false, "RealESRGAN_x2plus", null, 0, false, false, 2, 0, null, "", false, "RealESRGAN_x4plus_anime_6B", null, 0, false, false, 3, 0, null, "", false, "NMKD_Siax", null, 0, false, false, 4, 0, null, "", false, "4x_AnimeSharp", null, 0, false, false, 5, 0, null, "", false, "CodeFormers", null, 0, false, false, 6, 0, null, "", false, "strip_background", null, 0, false, false, 7, 0, null, "", false ]
 
 [node name="PPSelected" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
