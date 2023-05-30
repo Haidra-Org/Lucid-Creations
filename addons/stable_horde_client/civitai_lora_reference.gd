@@ -125,6 +125,7 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 		"name": civitai_entry["name"],
 		"id": int(civitai_entry["id"]),
 		"description": civitai_entry["description"],
+		"unusable": false,
 	}
 	if not lora_details["description"]:
 		lora_details["description"] = ''
@@ -142,7 +143,7 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 		"<br />": '\n',
 		"<br/>": '\n',
 		"<br>": '\n',
-		"<h1>": '[b][color=red]',
+		"<h1>": '[b][color=yellow]',
 		"</h1>": '[/color][/b]\n',
 		"<h2>": '[b]',
 		"</h2>": '[/b]\n',
@@ -172,7 +173,16 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 	lora_details["version"] = versions[0]["name"]
 	lora_details["base_model"] = versions[0]["baseModel"]
 	for file in versions[0]["files"]:
+		if not file.get("name", "").ends_with(".safetensors"):
+			continue
 		lora_details["size_mb"] = round(file["sizeKB"] / 1024)
+		# We only store these two to check if they would be present in the workers
+		lora_details["sha256"] = file.get("hashes", {}).get("SHA256")
+		lora_details["url"] = file.get("downloadUrl", "")
+	# If these two fields are not defined, the workers are not going to download it
+	# so we ignore it as well
+	if not lora_details["sha256"] or not lora_details["url"]:
+		lora_details["unusable"] = true
 	lora_details["images"] = []
 	for img in versions[0]["images"]:
 		if img["nsfw"] in ["Mature", "X"]:

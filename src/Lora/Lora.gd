@@ -77,12 +77,16 @@ func _show_lora_details(lora_name: String) -> void:
 		civitai_showcase0.get_model_showcase(lora_reference)
 		civitai_showcase1.get_model_showcase(lora_reference)
 		var fmt = {
+			"name": lora_reference['name'],
 			"description": lora_reference['description'],
 			"version": lora_reference['version'],
 			"trigger": ", ".join(lora_reference['triggers']),
 			"url": "https://civitai.com/models/" + str(lora_reference['id']),
+			"unusable": "",
 		}
-		var label_text = "Description: {description}\nVersion: {version}\n".format(fmt)
+		if lora_reference.get("unusable"):
+			fmt["unusable"] = "[color=red]Attention! This LoRa is unusable because it does not provide file validation[/color]"
+		var label_text = "{unusable}[b]Name: {name}[/b]\nDescription: {description}\nVersion: {version}\n".format(fmt)
 		label_text += "\nTriggers: {trigger}".format(fmt)
 		label_text += "\nCivitAI page: [url={url}]{url}[/url]".format(fmt)
 		lora_info_label.bbcode_text = label_text
@@ -136,6 +140,8 @@ func _update_selected_loras_label() -> void:
 			continue
 		if lora_reference_node.get_lora_info(lora_name)["triggers"].size() == 0:
 			lora_text = "[url={lora_hover}]{lora_name}[/url]{strengths} ([url={lora_remove}]X[/url])"
+		if lora_reference_node.get_lora_info(lora_name).get("unusable"):
+			lora_text = "[color=red]" + lora_text + "[/color]"
 		var strengths_string = ''
 		if selected_loras_list[index]["model"] != 1:
 			strengths_string += ' M:'+str(selected_loras_list[index]["model"])
