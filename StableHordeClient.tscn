@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -13,6 +13,8 @@
 [ext_resource path="res://Options.gd" type="Script" id=11]
 [ext_resource path="res://ImagePreview.gd" type="Script" id=12]
 [ext_resource path="res://src/Lora/LoraSlider.tscn" type="PackedScene" id=13]
+[ext_resource path="res://assets/icons/magnifying-glass.png" type="Texture" id=14]
+[ext_resource path="res://assets/icons/archive-research.png" type="Texture" id=15]
 [ext_resource path="res://PopupInfoPanel.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/backgrounds/1668640648_2362995226.webp" type="Texture" id=18]
 [ext_resource path="res://Background.gd" type="Script" id=19]
@@ -259,7 +261,7 @@ scroll_horizontal_enabled = false
 [node name="Basic" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
 margin_right = 300.0
-margin_bottom = 621.0
+margin_bottom = 639.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 20
@@ -272,17 +274,17 @@ margin_bottom = 63.0
 unique_name_in_owner = true
 margin_top = 83.0
 margin_right = 300.0
-margin_bottom = 124.0
+margin_bottom = 133.0
 script = ExtResource( 10 )
 
 [node name="ModelAutocompleteHBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model"]
 margin_right = 300.0
-margin_bottom = 41.0
+margin_bottom = 50.0
 
 [node name="ModelSelectLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelAutocompleteHBC"]
-margin_top = 12.0
+margin_top = 16.0
 margin_right = 50.0
-margin_bottom = 29.0
+margin_bottom = 33.0
 rect_min_size = Vector2( 50, 0 )
 text = "Model"
 
@@ -290,10 +292,10 @@ text = "Model"
 unique_name_in_owner = true
 margin_left = 54.0
 margin_right = 246.0
-margin_bottom = 41.0
+margin_bottom = 50.0
 size_flags_horizontal = 3
 text = ""
-placeholder_text = "Start typing a name"
+placeholder_text = "Model Name"
 seek_keys = [ "name" ]
 description_keys = [ "style", "worker_count" ]
 description_format = "{item}: {style} ({worker_count})"
@@ -302,9 +304,13 @@ popup_position = 1
 [node name="ShowAllModels" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelAutocompleteHBC"]
 unique_name_in_owner = true
 margin_left = 250.0
-margin_right = 300.324
-margin_bottom = 41.251
-text = "ALL"
+margin_right = 300.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+icon = ExtResource( 15 )
+flat = true
+icon_align = 1
+expand_icon = true
 
 [node name="StableHordeModels" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelAutocompleteHBC"]
 unique_name_in_owner = true
@@ -420,39 +426,54 @@ deselect_on_focus_loss_enabled = false
 
 [node name="Lora" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 144.0
+margin_top = 153.0
 margin_right = 300.0
-margin_bottom = 185.0
+margin_bottom = 203.0
 script = ExtResource( 27 )
 
 [node name="LoraAutocompleteHBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora"]
 margin_right = 300.0
-margin_bottom = 41.0
+margin_bottom = 50.0
 
 [node name="LoraSelectLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC"]
-margin_top = 12.0
+margin_top = 16.0
 margin_right = 50.0
-margin_bottom = 29.0
+margin_bottom = 33.0
 rect_min_size = Vector2( 50, 0 )
 text = "LoRa"
 
 [node name="LoraAutoComplete" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC" instance=ExtResource( 26 )]
 unique_name_in_owner = true
 margin_left = 54.0
-margin_right = 246.0
-margin_bottom = 41.0
+margin_right = 192.0
+margin_bottom = 50.0
 size_flags_horizontal = 3
 text = ""
-placeholder_text = "LoRa Name (max 5)"
+placeholder_text = "LoRa Name"
 seek_keys = [ "name", "description", "id" ]
 popup_position = 1
+
+[node name="FetchFromCivitAI" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC"]
+unique_name_in_owner = true
+margin_left = 196.0
+margin_right = 246.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+disabled = true
+icon = ExtResource( 14 )
+flat = true
+icon_align = 1
+expand_icon = true
 
 [node name="ShowAllLoras" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC"]
 unique_name_in_owner = true
 margin_left = 250.0
-margin_right = 300.324
-margin_bottom = 41.251
-text = "ALL"
+margin_right = 300.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+icon = ExtResource( 15 )
+flat = true
+expand_icon = true
 
 [node name="LoraPopupInfo" type="PopupPanel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora"]
 margin_top = 63.0
@@ -516,6 +537,7 @@ unique_name_in_owner = true
 margin_right = 500.0
 margin_bottom = 90.0
 rect_min_size = Vector2( 500, 0 )
+focus_mode = 2
 bbcode_enabled = true
 bbcode_text = "This is some model info
 
@@ -528,6 +550,7 @@ blah blah blah
 
 url: https://example.com"
 fit_content_height = true
+selection_enabled = true
 
 [node name="LoraModelStrength" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer" instance=ExtResource( 13 )]
 unique_name_in_owner = true
@@ -576,23 +599,23 @@ showcase_index = 1
 
 [node name="NegativePrompt" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 205.0
+margin_top = 223.0
 margin_right = 300.0
-margin_bottom = 265.251
+margin_bottom = 283.251
 size_flags_horizontal = 3
 text = "Negative Prompt"
 
 [node name="TrustedWorkers" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 285.0
+margin_top = 303.0
 margin_right = 300.0
-margin_bottom = 345.251
+margin_bottom = 363.251
 text = "Require Trusted Workers"
 
 [node name="HBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 365.0
+margin_top = 383.0
 margin_right = 300.0
-margin_bottom = 425.0
+margin_bottom = 443.0
 
 [node name="NSFW" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC"]
 unique_name_in_owner = true
@@ -611,9 +634,9 @@ pressed = true
 text = "Censored"
 
 [node name="HBC2" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 445.0
+margin_top = 463.0
 margin_right = 300.0
-margin_bottom = 486.0
+margin_bottom = 504.0
 
 [node name="SaveAll" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
@@ -638,14 +661,14 @@ unique_name_in_owner = true
 script = ExtResource( 25 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 506.0
+margin_top = 524.0
 margin_right = 300.0
-margin_bottom = 506.0
+margin_bottom = 524.0
 
 [node name="PP" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic" instance=ExtResource( 22 )]
 unique_name_in_owner = true
-margin_top = 526.0
-margin_bottom = 621.0
+margin_top = 544.0
+margin_bottom = 639.0
 
 [node name="Advanced" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 visible = false

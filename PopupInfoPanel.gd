@@ -29,6 +29,9 @@ const DESCRIPTIONS = {
 	"SubmitRatings": "Will submit the aesthetic ratings and best-of selection. It's disabled until you've rated at least one image in the set. You can only rate images if you've selected to share them (in the options menu). Rating your images will refund some of the kudos used for the generations.",
 	"ControlType": "By selecting a Control Type, you will request that the horde utilize the ControlNet technology to process the source image, which will provide significantly more accurate conversion, at the cost of processing time. Using this option will triple the kudos cost for this request and limit the amount of steps you can use.",
 	"ImageIsControl": "When this option is selected, the source image will be treated the intermediate step of a ControlNet processing.",
+	"FetchFromCivitAI": "Will search CivitAI for LoRa which match the provided text.",
+	"ShowAllModels": "Will display an list of all known models, from which to select one manually.",
+	"ShowAllLoras": "Will display an list of all known LoRas, from which to select one manually.",
 }
 
 const META_DESCRIPTIONS = {

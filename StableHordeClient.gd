@@ -513,6 +513,9 @@ func _connect_hover_signals() -> void:
 		submit_ratings,
 		control_type,
 		image_is_control,
+		$"%FetchFromCivitAI",
+		$"%ShowAllModels",
+		$"%ShowAllLoras",
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])

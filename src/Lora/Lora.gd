@@ -5,6 +5,7 @@ signal prompt_inject_requested(tokens)
 var lora_reference_node: CivitAILoraReference
 var selected_loras_list : Array = []
 var viewed_lora_index : int = 0
+var civitai_search_initiated = false
 
 onready var lora_auto_complete = $"%LoraAutoComplete"
 onready var stable_horde_models := $"%StableHordeModels"
@@ -19,6 +20,7 @@ onready var selected_loras = $"%SelectedLoras"
 onready var show_all_loras = $"%ShowAllLoras"
 onready var lora_model_strength = $"%LoraModelStrength"
 onready var lora_clip_strength = $"%LoraClipStrength"
+onready var fetch_from_civitai = $"%FetchFromCivitAI"
 
 func _ready():
 	lora_reference_node = CivitAILoraReference.new()
@@ -42,6 +44,7 @@ func _ready():
 	lora_info_card.connect("hide",self,"_on_lora_info_card_hide")
 	lora_model_strength.connect("value_changed",self,"_on_lora_model_strength_value_changed")
 	lora_clip_strength.connect("value_changed",self,"_on_lora_clip_strength_value_changed")
+	fetch_from_civitai.connect("pressed",self,"_on_fetch_from_civitai_pressed")
 	_on_reference_retrieved(lora_reference_node.lora_reference)
 	selected_loras_list = globals.config.get_value("Parameters", "loras", [])
 	_update_selected_loras_label()
@@ -61,6 +64,10 @@ func _on_lora_selected(lora_name: String) -> void:
 
 func _on_reference_retrieved(model_reference: Dictionary):
 	lora_auto_complete.selections = model_reference
+	fetch_from_civitai.disabled = false
+	if civitai_search_initiated:
+		civitai_search_initiated = false
+		lora_auto_complete.initiate_search()
 
 func _show_lora_details(lora_name: String) -> void:
 	var lora_reference := lora_reference_node.get_lora_info(lora_name)
@@ -201,3 +208,8 @@ func _on_lora_model_strength_value_changed(value) -> void:
 
 func _on_lora_clip_strength_value_changed(value) -> void:
 	selected_loras_list[viewed_lora_index]["clip"] = value
+
+func _on_fetch_from_civitai_pressed() -> void:
+	fetch_from_civitai.disabled = true
+	civitai_search_initiated = true
+	lora_reference_node.seek_online(lora_auto_complete.text)
