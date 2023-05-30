@@ -69,6 +69,8 @@ export(Array) var post_processing := []
 export(Array) var lora := []
 # If set to True, will enable the karras noise scheduler
 export(bool) var karras := true
+# If set to True, will activate the HiRes Fix
+export(bool) var hires_fix := false
 # If set to True, will mark this generation as NSFW and only workers which accept NSFW requests
 # Will fulfill it
 export(bool) var nsfw := false
@@ -119,13 +121,15 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"steps": steps,
 		"sampler_name": sampler_name,
 		"karras": karras,
+		"hires_fix": hires_fix,
 		"cfg_scale": cfg_scale,
 		"seed": gen_seed,
 		"post_processing": post_processing,
-		"loras": _get_loras_payload(),
 	}
 	if control_type != 'none':
 		imgen_params["control_type"] = control_type
+	if lora.size() > 0:
+		imgen_params["loras"] = _get_loras_payload()
 	for param in replacement_params:
 		imgen_params[param] = replacement_params[param]
 	var submit_dict = {
@@ -139,13 +143,14 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"shared": shared,
 #		"workers": ["dc0704ab-5b42-4c65-8471-561be16ad696"], # debug
 	}
-	print_debug(submit_dict)
+#	print_debug(submit_dict)
 	if source_image:
 		submit_dict["source_image"] = get_img2img_b64(source_image)
 		submit_dict["params"]["denoising_strength"] = denoising_strength
 	if replacement_prompt != '':
 		submit_dict['prompt'] = replacement_prompt
 	var body = to_json(submit_dict)
+#	print_debug(body)
 	var headers = [
 		"Content-Type: application/json", 
 		"apikey: " + api_key,
@@ -161,6 +166,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 
 # Function to overwrite to process valid return from the horde
 func process_request(json_ret) -> void:
+#	print_debug(json_ret)
 	if typeof(json_ret) == TYPE_ARRAY:
 		_extract_images(json_ret)
 		return
@@ -196,8 +202,8 @@ func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 		url = "https://aihorde.net/api/v2/generate/status/" + async_request_id
 		method = HTTPClient.METHOD_DELETE
 		delete_sent = true
-	push_warning('Op:' + str(operation))
-	push_warning('State:' + str(state))
+#	push_warning('Op:' + str(operation))
+#	push_warning('State:' + str(state))
 	var error = request(
 		url, 
 		["Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":db0#1625"], 
@@ -311,6 +317,7 @@ func _get_loras_payload() -> Array:
 	for item in lora:
 		var new_item = item.duplicate()
 		if new_item.has("id") and not new_item["name"].is_valid_integer():
+			new_item["original_name"] = str(new_item["name"])
 			new_item["name"] = str(new_item["id"])
 		loras_array.append(new_item)
 	return loras_array

@@ -28,6 +28,7 @@ onready var steps_slider := $"%StepsSlider"
 onready var generate_button := $"%GenerateButton"
 onready var sampler_method := $"%SamplerMethod"
 onready var karras := $"%Karras"
+onready var hires_fix = $"%HiResFix"
 onready var grid_scroll = $"%GridScroll"
 onready var display_focus = $"%DisplayFocus"
 onready var focused_image = $"%FocusedImage"
@@ -121,6 +122,7 @@ func _ready():
 	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	karras.pressed = stable_horde_client.karras
+	hires_fix.pressed = stable_horde_client.hires_fix
 	negative_prompt.pressed = globals.config.get_value("Options", "negative_prompt", false)
 	nsfw.pressed = stable_horde_client.nsfw
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
@@ -161,15 +163,17 @@ func _on_GenerateButton_pressed():
 	var cn_name = control_type.get_item_text(control_type.selected)
 	stable_horde_client.set("control_type", cn_name)
 	globals.set_setting("control_type", cn_name)
-	var model_name = model.get_selected_model()
-	var models = []
-	if model_name != "Any model":
-		models = [model_name]
+	var models = model.selected_models_list
 	stable_horde_client.set("models", models)
 	globals.set_setting("models", models)
+	var loras = lora.selected_loras_list
+	globals.set_setting("loras",loras)
+	stable_horde_client.set("lora", loras)
 	stable_horde_client.set("api_key", options.get_api_key())
 	stable_horde_client.set("karras", karras.pressed)
 	globals.set_setting("karras", karras.pressed)
+	stable_horde_client.set("hires_fix", hires_fix.pressed)
+	globals.set_setting("hires_fix", hires_fix.pressed)
 	stable_horde_client.set("nsfw", nsfw.pressed)
 	globals.set_setting("nsfw", nsfw.pressed)
 	stable_horde_client.set("censor_nsfw", censor_nsfw.pressed)
@@ -485,8 +489,6 @@ func _connect_hover_signals() -> void:
 	for node in [
 		negative_prompt,
 		amount,
-		$"%ModelInfo",
-		$"%ModelTrigger",
 		$"%ModelSelect",
 		trusted_workers,
 		nsfw,
@@ -499,6 +501,7 @@ func _connect_hover_signals() -> void:
 		sampler_method,
 		seed_edit,
 		karras,
+		hires_fix,
 		denoising_strength,
 		$"%PP",
 		$"%RememberPrompt",

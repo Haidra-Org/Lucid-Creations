@@ -25,6 +25,7 @@ func get_lora_reference() -> void:
 		return
 	state = States.WORKING
 	var final_url = loras_refence_url + '&nsfw=' + str(nsfw).to_lower()
+#	print_debug(final_url)
 	var error = request(final_url, [], false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"

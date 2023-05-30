@@ -4,6 +4,7 @@ signal prompt_inject_requested(tokens)
 
 var lora_reference_node: CivitAILoraReference
 var selected_loras_list : Array = []
+var viewed_lora_index : int = 0
 
 onready var lora_auto_complete = $"%LoraAutoComplete"
 onready var stable_horde_models := $"%StableHordeModels"
@@ -16,21 +17,19 @@ onready var lora_showcase0 = $"%LoraShowcase0"
 onready var lora_showcase1 = $"%LoraShowcase1"
 onready var selected_loras = $"%SelectedLoras"
 onready var show_all_loras = $"%ShowAllLoras"
-
-var previous_selection: String
+onready var lora_model_strength = $"%LoraModelStrength"
+onready var lora_clip_strength = $"%LoraClipStrength"
 
 func _ready():
 	lora_reference_node = CivitAILoraReference.new()
 	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
+	lora_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
 	add_child(lora_reference_node)
 	# warning-ignore:return_value_discarded
-	lora_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
 	# warning-ignore:return_value_discarded
 	lora_auto_complete.connect("item_selected", self,"_on_lora_selected")
 	# warning-ignore:return_value_discarded
 	lora_trigger_selection.connect("id_pressed", self,"_on_trigger_selection_id_pressed")
-	# warning-ignore:return_value_discarded
-	lora_info_label.connect("meta_clicked", self, "_on_lora_info_meta_clicked")
 	# warning-ignore:return_value_discarded
 	civitai_showcase0.connect("showcase_retrieved",self, "_on_showcase0_retrieved")
 	civitai_showcase1.connect("showcase_retrieved",self, "_on_showcase1_retrieved")
@@ -41,6 +40,8 @@ func _ready():
 	lora_info_label.connect("meta_clicked",self,"_on_lora_info_label_meta_clicked")
 	show_all_loras.connect("pressed",self,"_on_show_all_loras_pressed")
 	lora_info_card.connect("hide",self,"_on_lora_info_card_hide")
+	lora_model_strength.connect("value_changed",self,"_on_lora_model_strength_value_changed")
+	lora_clip_strength.connect("value_changed",self,"_on_lora_clip_strength_value_changed")
 	_on_reference_retrieved(lora_reference_node.lora_reference)
 	selected_loras_list = globals.config.get_value("Parameters", "loras", [])
 	_update_selected_loras_label()
@@ -56,7 +57,6 @@ func _on_lora_selected(lora_name: String) -> void:
 			"id": lora_reference_node.get_lora_info(lora_name)["id"],
 		}
 	)
-	globals.set_setting("loras",selected_loras_list)
 	_update_selected_loras_label()
 
 func _on_reference_retrieved(model_reference: Dictionary):
@@ -87,11 +87,13 @@ func _on_selected_loras_meta_clicked(meta) -> void:
 	var meta_split = meta.split(":")
 	match meta_split[0]:
 		"hover":
-			_show_lora_details(selected_loras_list[int(meta_split[1])]["name"])
+			viewed_lora_index = int(meta_split[1])
+			lora_model_strength.set_value(selected_loras_list[viewed_lora_index]["model"])
+			lora_clip_strength.set_value(selected_loras_list[viewed_lora_index]["clip"])
+			_show_lora_details(selected_loras_list[viewed_lora_index]["name"])
 		"delete":
 			selected_loras_list.remove(int(meta_split[1]))
 			_update_selected_loras_label()
-			globals.set_setting("loras",selected_loras_list)
 		"trigger":
 			_on_lora_trigger_pressed(int(meta_split[1]))
 
@@ -118,7 +120,7 @@ func _update_selected_loras_label() -> void:
 	var bbtext := []
 	var indexes_to_remove = []
 	for index in range(selected_loras_list.size()):
-		var lora_text = "[url={lora_hover}]{lora_name}[/url] ([url={lora_trigger}]T[/url])([url={lora_remove}]X[/url])"
+		var lora_text = "[url={lora_hover}]{lora_name}[/url]{strengths} ([url={lora_trigger}]T[/url])([url={lora_remove}]X[/url])"
 		var lora_name = selected_loras_list[index]["name"]
 		# This might happen for example when we added a NSFW lora
 		# but then disabled NSFW which refreshed loras to only show SFW
@@ -126,12 +128,18 @@ func _update_selected_loras_label() -> void:
 			indexes_to_remove.append(index)
 			continue
 		if lora_reference_node.get_lora_info(lora_name)["triggers"].size() == 0:
-			lora_text = "[url={lora_hover}]{lora_name}[/url] ([url={lora_remove}]X[/url])"
+			lora_text = "[url={lora_hover}]{lora_name}[/url]{strengths} ([url={lora_remove}]X[/url])"
+		var strengths_string = ''
+		if selected_loras_list[index]["model"] != 1:
+			strengths_string += ' M:'+str(selected_loras_list[index]["model"])
+		if selected_loras_list[index]["clip"] != 1:
+			strengths_string += ' C:'+str(selected_loras_list[index]["clip"])
 		var lora_fmt = {
 			"lora_name": lora_name,
 			"lora_hover": 'hover:' + str(index),
 			"lora_remove": 'delete:' + str(index),
 			"lora_trigger": 'trigger:' + str(index),
+			"strengths": strengths_string,
 		}
 		bbtext.append(lora_text.format(lora_fmt))
 	selected_loras.bbcode_text = ", ".join(bbtext)
@@ -183,6 +191,13 @@ func clear_textures() -> void:
 
 func _on_lora_info_card_hide() -> void:
 	clear_textures()
+	_update_selected_loras_label()
 
 func _on_show_all_loras_pressed() -> void:
 	lora_auto_complete.select_from_all()
+
+func _on_lora_model_strength_value_changed(value) -> void:
+	selected_loras_list[viewed_lora_index]["model"] = value
+
+func _on_lora_clip_strength_value_changed(value) -> void:
+	selected_loras_list[viewed_lora_index]["clip"] = value

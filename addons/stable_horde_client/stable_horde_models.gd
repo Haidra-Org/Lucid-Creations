@@ -57,3 +57,6 @@ func _load_from_file() -> void:
 	if filevar:
 		model_performances = filevar
 	file.close()
+	
+func emit_models_retrieved() -> void:
+	emit_signal("models_retrieved", model_performances, model_reference.model_reference)

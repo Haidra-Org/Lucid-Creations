@@ -12,10 +12,10 @@ var models_retrieved = false
 func _ready() -> void:
 	# We pick the first reference immediately as we enter the scene
 	timeout = 2
+	_load_from_file()
 	get_model_reference()
 
 func get_model_reference() -> void:
-	_load_from_file()
 	if state != States.READY:
 		push_warning("Model Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
 		return
@@ -43,6 +43,9 @@ func process_request(json_ret) -> void:
 
 func get_model_info(model_name: String) -> Dictionary:
 	return(model_reference.get(model_name, {}))
+
+func is_model(model_name: String) -> bool:
+	return(model_reference.has(model_name))
 
 func _store_to_file() -> void:
 	var file = File.new()
