@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.18.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.18.0) (2023-05-30)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.17.0...v1.18.0)
+
+**Merged pull requests:**
+
+- Multiple models. Lora strengths. HiRes Fix [\#85](https://github.com/Haidra-Org/Lucid-Creations/pull/85) ([db0](https://github.com/db0))
+
 ## [v1.17.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.17.0) (2023-05-29)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.16.0...v1.17.0)
