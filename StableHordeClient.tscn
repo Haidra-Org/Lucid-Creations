@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Model.gd" type="Script" id=10]
 [ext_resource path="res://Options.gd" type="Script" id=11]
 [ext_resource path="res://ImagePreview.gd" type="Script" id=12]
+[ext_resource path="res://src/Lora/LoraSlider.tscn" type="PackedScene" id=13]
 [ext_resource path="res://PopupInfoPanel.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/backgrounds/1668640648_2362995226.webp" type="Texture" id=18]
 [ext_resource path="res://Background.gd" type="Script" id=19]
@@ -508,7 +509,7 @@ custom_styles/panel = SubResource( 8 )
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 614.0
-margin_bottom = 404.0
+margin_bottom = 496.0
 
 [node name="LoraInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer"]
 unique_name_in_owner = true
@@ -527,6 +528,18 @@ blah blah blah
 
 url: https://example.com"
 fit_content_height = true
+
+[node name="LoraModelStrength" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer" instance=ExtResource( 13 )]
+unique_name_in_owner = true
+margin_right = 243.0
+margin_bottom = 95.0
+slider_name = "Model Strength"
+
+[node name="LoraClipStrength" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer" instance=ExtResource( 13 )]
+unique_name_in_owner = true
+margin_right = 243.0
+margin_bottom = 95.0
+slider_name = "Clip Strength"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer"]
 margin_right = 500.0
