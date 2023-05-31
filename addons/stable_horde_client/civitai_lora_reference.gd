@@ -48,6 +48,9 @@ func _get_url(query: String) -> String:
 	return final_url
 
 func seek_online(query: String) -> void:
+	if query == '':
+		get_lora_reference()
+		return
 	fetch_lora_metadata(query)
 
 func fetch_next_page(json_ret: Dictionary) -> void:
@@ -70,6 +73,7 @@ func process_request(json_ret) -> void:
 	if typeof(json_ret) == TYPE_ARRAY:
 		for id in json_ret:
 			fetch_lora_metadata(str(id))
+		state = States.READY
 		return
 	if typeof(json_ret) != TYPE_DICTIONARY:
 		var error_msg : String = "Unexpected model reference received"
