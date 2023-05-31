@@ -202,8 +202,6 @@ func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 		url = "https://aihorde.net/api/v2/generate/status/" + async_request_id
 		method = HTTPClient.METHOD_DELETE
 		delete_sent = true
-#	push_warning('Op:' + str(operation))
-#	push_warning('State:' + str(state))
 	var error = request(
 		url, 
 		["Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":db0#1625"], 
@@ -221,6 +219,9 @@ func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 
 func _extract_images(generations_array: Array) -> void:
 	var timestamp := OS.get_unix_time()
+	if generations_array.size() == 0:
+		complete_image_request()
+		return
 	for img_dict in generations_array:
 		var error
 		var image: Image

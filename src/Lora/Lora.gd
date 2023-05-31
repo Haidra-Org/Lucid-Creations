@@ -25,6 +25,7 @@ onready var fetch_from_civitai = $"%FetchFromCivitAI"
 func _ready():
 	lora_reference_node = CivitAILoraReference.new()
 	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
+	# warning-ignore:return_value_discarded
 	lora_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
 	add_child(lora_reference_node)
 	# warning-ignore:return_value_discarded
@@ -85,7 +86,7 @@ func _show_lora_details(lora_name: String) -> void:
 			"unusable": "",
 		}
 		if lora_reference.get("unusable"):
-			fmt["unusable"] = "[color=red]Attention! This LoRa is unusable because it does not provide file validation[/color]"
+			fmt["unusable"] = "[color=red]" + lora_reference.get("unusable") + "[/color]\n"
 		var label_text = "{unusable}[b]Name: {name}[/b]\nDescription: {description}\nVersion: {version}\n".format(fmt)
 		label_text += "\nTriggers: {trigger}".format(fmt)
 		label_text += "\nCivitAI page: [url={url}]{url}[/url]".format(fmt)
