@@ -25,6 +25,7 @@ onready var fetch_from_civitai = $"%FetchFromCivitAI"
 func _ready():
 	lora_reference_node = CivitAILoraReference.new()
 	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
+	# warning-ignore:return_value_discarded
 	lora_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
 	add_child(lora_reference_node)
 	# warning-ignore:return_value_discarded

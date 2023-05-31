@@ -20,6 +20,7 @@ func _ready() -> void:
 	_load_from_file()
 	# We do not call it from here, as set_nsfw() will also call it
 	#get_lora_reference()
+	get_lora_reference()
 
 
 func get_lora_reference() -> void:
@@ -27,7 +28,6 @@ func get_lora_reference() -> void:
 		push_warning("CivitAI Lora Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
 		return
 	state = States.WORKING
-#	print_debug(final_url)
 	var error = request(horde_default_loras, [], false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
@@ -222,4 +222,3 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 
 func set_nsfw(value) -> void:
 	nsfw = value
-	get_lora_reference()
