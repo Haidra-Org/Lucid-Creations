@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.19.3](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.3) (2023-05-31)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.2...v1.19.3)
+
+**Merged pull requests:**
+
+- feat: Inform about NSFW loras better [\#92](https://github.com/Haidra-Org/Lucid-Creations/pull/92) ([db0](https://github.com/db0))
+
 ## [v1.19.2](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.2) (2023-05-31)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.1...v1.19.2)
