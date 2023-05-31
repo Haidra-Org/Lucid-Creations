@@ -109,6 +109,16 @@ func _load_from_file() -> void:
 		lora_reference = filevar
 	for lora in lora_reference.values():
 		lora["cached"] = true
+		# Temporary while changing approach
+		var unusable = lora.get("unusable", false)
+		if "Easter" in lora["name"]:
+			print_debug(unusable)
+		if typeof(unusable) == TYPE_BOOL and unusable == false:
+			lora["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
+		elif typeof(unusable) == TYPE_BOOL:
+			lora["unusable"] = ''
+		if "Easter" in lora["name"]:
+			print_debug(lora["unusable"])
 	file.close()
 	emit_signal("reference_retrieved", lora_reference)
 
@@ -125,7 +135,7 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 		"name": civitai_entry["name"],
 		"id": int(civitai_entry["id"]),
 		"description": civitai_entry["description"],
-		"unusable": false,
+		"unusable": '',
 	}
 	if not lora_details["description"]:
 		lora_details["description"] = ''
@@ -181,8 +191,12 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 		lora_details["url"] = file.get("downloadUrl", "")
 	# If these two fields are not defined, the workers are not going to download it
 	# so we ignore it as well
-	if not lora_details["sha256"] or not lora_details["url"]:
-		lora_details["unusable"] = true
+	if not lora_details["sha256"]:
+		lora_details["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
+	elif not lora_details["url"]:
+		lora_details["unusable"] = 'Attention! This LoRa is unusable because it appears to have no valid safetensors upload.'
+	elif lora_details["size_mb"] > 150:
+		lora_details["unusable"] = 'Attention! This LoRa is unusable because is exceeds the max 150Mb filesize we allow on the AI Horde.'
 	lora_details["images"] = []
 	for img in versions[0]["images"]:
 		if img["nsfw"] in ["Mature", "X"]:
