@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.19.2](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.2) (2023-05-31)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.1...v1.19.2)
+
+**Merged pull requests:**
+
+- Use curated LoRas [\#91](https://github.com/Haidra-Org/Lucid-Creations/pull/91) ([db0](https://github.com/db0))
+
 ## [v1.19.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.1) (2023-05-30)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.0...v1.19.1)
