@@ -610,3 +610,4 @@ func _on_generation_rating_failed(message: String) -> void:
 
 func _on_nsfw_toggled(button_pressed: bool) -> void:
 	lora.lora_reference_node.nsfw = button_pressed
+	lora.update_selected_loras_label()

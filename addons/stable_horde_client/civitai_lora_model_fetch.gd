@@ -4,6 +4,7 @@ extends StableHordeHTTPRequest
 signal lora_info_retrieved(lora_details)
 signal lora_info_gathering_finished
 var url: String
+var default_ids : Array
 
 func _ready() -> void:
 	service_name = "CivitAI"
@@ -44,6 +45,7 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 		"id": int(civitai_entry["id"]),
 		"description": civitai_entry["description"],
 		"unusable": '',
+		"nsfw": civitai_entry["nsfw"],
 	}
 	if not lora_details["description"]:
 		lora_details["description"] = ''
@@ -99,11 +101,12 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 		lora_details["url"] = file.get("downloadUrl", "")
 	# If these two fields are not defined, the workers are not going to download it
 	# so we ignore it as well
-	if not lora_details["sha256"]:
+	var is_default = int(lora_details["id"]) in default_ids
+	if not is_default and not lora_details["sha256"]:
 		lora_details["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
 	elif not lora_details["url"]:
 		lora_details["unusable"] = 'Attention! This LoRa is unusable because it appears to have no valid safetensors upload.'
-	elif lora_details["size_mb"] > 150:
+	elif not is_default and lora_details["size_mb"] > 150:
 		lora_details["unusable"] = 'Attention! This LoRa is unusable because is exceeds the max 150Mb filesize we allow on the AI Horde.'
 	lora_details["images"] = []
 	for img in versions[0]["images"]:

@@ -48,7 +48,7 @@ func _ready():
 	fetch_from_civitai.connect("pressed",self,"_on_fetch_from_civitai_pressed")
 	_on_reference_retrieved(lora_reference_node.lora_reference)
 	selected_loras_list = globals.config.get_value("Parameters", "loras", [])
-	_update_selected_loras_label()
+	update_selected_loras_label()
 
 func _on_lora_selected(lora_name: String) -> void:
 	if selected_loras_list.size() >= 5:
@@ -61,7 +61,7 @@ func _on_lora_selected(lora_name: String) -> void:
 			"id": lora_reference_node.get_lora_info(lora_name)["id"],
 		}
 	)
-	_update_selected_loras_label()
+	update_selected_loras_label()
 
 func _on_reference_retrieved(model_reference: Dictionary):
 	lora_auto_complete.selections = model_reference
@@ -87,6 +87,8 @@ func _show_lora_details(lora_name: String) -> void:
 		}
 		if lora_reference.get("unusable"):
 			fmt["unusable"] = "[color=red]" + lora_reference.get("unusable") + "[/color]\n"
+		elif not lora_reference_node.nsfw and lora_reference.get("nsfw", false):
+			fmt["unusable"] = "[color=#FF00FF]SFW workers which pick up the request, will ignore this LoRA.[/color]\n"
 		var label_text = "{unusable}[b]Name: {name}[/b]\nDescription: {description}\nVersion: {version}\n".format(fmt)
 		label_text += "\nTriggers: {trigger}".format(fmt)
 		label_text += "\nCivitAI page: [url={url}]{url}[/url]".format(fmt)
@@ -105,7 +107,7 @@ func _on_selected_loras_meta_clicked(meta) -> void:
 			_show_lora_details(selected_loras_list[viewed_lora_index]["name"])
 		"delete":
 			selected_loras_list.remove(int(meta_split[1]))
-			_update_selected_loras_label()
+			update_selected_loras_label()
 		"trigger":
 			_on_lora_trigger_pressed(int(meta_split[1]))
 
@@ -128,7 +130,7 @@ func _on_selected_loras_meta_hover_ended(_meta: String) -> void:
 func _on_lora_info_label_meta_clicked(meta) -> void:
 	OS.shell_open(meta)
 
-func _update_selected_loras_label() -> void:
+func update_selected_loras_label() -> void:
 	var bbtext := []
 	var indexes_to_remove = []
 	for index in range(selected_loras_list.size()):
@@ -139,10 +141,14 @@ func _update_selected_loras_label() -> void:
 		if not lora_reference_node.is_lora(lora_name):
 			indexes_to_remove.append(index)
 			continue
-		if lora_reference_node.get_lora_info(lora_name)["triggers"].size() == 0:
+		var lora_reference = lora_reference_node.get_lora_info(lora_name)
+		if lora_reference["triggers"].size() == 0:
 			lora_text = "[url={lora_hover}]{lora_name}[/url]{strengths} ([url={lora_remove}]X[/url])"
-		if lora_reference_node.get_lora_info(lora_name).get("unusable"):
+		if lora_reference.get("unusable"):
 			lora_text = "[color=red]" + lora_text + "[/color]"
+		elif not lora_reference_node.nsfw and lora_reference.get("nsfw", false):
+			lora_text = "[color=#FF00FF]" + lora_text + "[/color]"
+			
 		var strengths_string = ''
 		if selected_loras_list[index]["model"] != 1:
 			strengths_string += ' M:'+str(selected_loras_list[index]["model"])
@@ -205,7 +211,7 @@ func clear_textures() -> void:
 
 func _on_lora_info_card_hide() -> void:
 	clear_textures()
-	_update_selected_loras_label()
+	update_selected_loras_label()
 
 func _on_show_all_loras_pressed() -> void:
 	lora_auto_complete.select_from_all()

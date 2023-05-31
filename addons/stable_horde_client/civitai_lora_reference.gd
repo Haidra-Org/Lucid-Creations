@@ -11,6 +11,7 @@ var lora_reference := {}
 var models_retrieved = false
 var nsfw = true setget set_nsfw
 var initialized := false
+var default_ids : Array
 
 
 func _ready() -> void:
@@ -65,13 +66,15 @@ func fetch_lora_metadata(lora_id: String) -> void:
 	var new_fetch = CivitAIModelFetch.new()
 	new_fetch.connect("lora_info_retrieved",self,"_on_lora_info_retrieved")
 	new_fetch.connect("lora_info_gathering_finished",self,"_on_lora_info_gathering_finished", [new_fetch])
+	new_fetch.default_ids = default_ids
 	add_child(new_fetch)
 	new_fetch.fetch_metadata(_get_url(lora_id))
 
 # Function to overwrite to process valid return from the horde
 func process_request(json_ret) -> void:
 	if typeof(json_ret) == TYPE_ARRAY:
-		for id in json_ret:
+		default_ids = json_ret
+		for id in default_ids:
 			fetch_lora_metadata(str(id))
 		state = States.READY
 		return
