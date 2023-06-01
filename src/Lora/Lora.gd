@@ -261,8 +261,11 @@ func check_baseline_compatibility(lora_name) -> int:
 		"SD 1.5": "stable diffusion 1",
 		"SD 2.1 768": "stable diffusion 2",
 		"SD 2.1 512": "stable diffusion 2",
+		"Other": null,
 	}
 	var lora_baseline = lora_to_model_baseline_map[lora_reference_node.get_lora_info(lora_name)["base_model"]]
+	if lora_baseline == null:
+		return LoraCompatible.NO
 	if lora_baseline in baselines:
 		if baselines.size() > 1:
 			return LoraCompatible.MAYBE
