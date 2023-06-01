@@ -76,7 +76,8 @@ func fetch_lora_metadata(query) -> void:
 # Function to overwrite to process valid return from the horde
 func process_request(json_ret) -> void:
 	if typeof(json_ret) == TYPE_ARRAY:
-		fetch_lora_metadata(json_ret)
+		default_ids = json_ret
+		fetch_lora_metadata(default_ids)
 		state = States.READY
 		return
 	if typeof(json_ret) != TYPE_DICTIONARY:
