@@ -13,6 +13,8 @@ signal rtl_meta_hovered(rtlabel, string_id)
 # warning-ignore:unused_signal
 signal rtl_meta_unhovered(rtlabel)
 signal shared_toggled()
+signal lora_selected(lora_details)
+signal model_selected(model_details)
 
 func _on_node_hovered(node: Control):
 	emit_signal("node_hovered", node)

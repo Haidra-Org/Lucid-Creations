@@ -46,6 +46,7 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 		"description": civitai_entry["description"],
 		"unusable": '',
 		"nsfw": civitai_entry["nsfw"],
+		"sha256": null,
 	}
 	if not lora_details["description"]:
 		lora_details["description"] = ''

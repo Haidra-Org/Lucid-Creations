@@ -36,9 +36,12 @@ func get_lora_reference() -> void:
 		state = States.READY
 		emit_signal("request_failed",error_msg)
 
-func _get_url(query: String) -> String:
+func _get_url(query) -> String:
 	var final_url : String = ''
-	if query.is_valid_integer():
+	if typeof(query) == TYPE_ARRAY:
+		var idsq = '&ids='.join(query)
+		final_url = "https://civitai.com/api/v1/models?limit=100&" + idsq
+	elif query.is_valid_integer():
 		final_url = "https://civitai.com/api/v1/models/" + query
 	# This refreshes the information of the top models
 	elif query == '':
@@ -52,7 +55,7 @@ func seek_online(query: String) -> void:
 	if query == '':
 		get_lora_reference()
 		return
-	fetch_lora_metadata(query)
+	fetch_lora_metadata([query])
 
 func fetch_next_page(json_ret: Dictionary) -> void:
 	var next_page_url = json_ret["metadata"]["nextPage"]
@@ -62,20 +65,18 @@ func fetch_next_page(json_ret: Dictionary) -> void:
 		push_error(error_msg)
 		emit_signal("request_failed",error_msg)
 
-func fetch_lora_metadata(lora_id: String) -> void:
+func fetch_lora_metadata(lora_ids: Array) -> void:
 	var new_fetch = CivitAIModelFetch.new()
 	new_fetch.connect("lora_info_retrieved",self,"_on_lora_info_retrieved")
 	new_fetch.connect("lora_info_gathering_finished",self,"_on_lora_info_gathering_finished", [new_fetch])
 	new_fetch.default_ids = default_ids
 	add_child(new_fetch)
-	new_fetch.fetch_metadata(_get_url(lora_id))
+	new_fetch.fetch_metadata(_get_url(lora_ids))
 
 # Function to overwrite to process valid return from the horde
 func process_request(json_ret) -> void:
 	if typeof(json_ret) == TYPE_ARRAY:
-		default_ids = json_ret
-		for id in default_ids:
-			fetch_lora_metadata(str(id))
+		fetch_lora_metadata(json_ret)
 		state = States.READY
 		return
 	if typeof(json_ret) != TYPE_DICTIONARY:

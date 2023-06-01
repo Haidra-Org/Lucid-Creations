@@ -1,11 +1,18 @@
 extends Control
 
+enum LoraCompatible {
+	YES=0
+	NO
+	MAYBE
+}
+
 signal prompt_inject_requested(tokens)
 
 var lora_reference_node: CivitAILoraReference
 var selected_loras_list : Array = []
 var viewed_lora_index : int = 0
 var civitai_search_initiated = false
+var current_models := []
 
 onready var lora_auto_complete = $"%LoraAutoComplete"
 onready var stable_horde_models := $"%StableHordeModels"
@@ -23,6 +30,7 @@ onready var lora_clip_strength = $"%LoraClipStrength"
 onready var fetch_from_civitai = $"%FetchFromCivitAI"
 
 func _ready():
+	EventBus.connect("model_selected",self,"on_model_selection_changed")
 	lora_reference_node = CivitAILoraReference.new()
 	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
 	# warning-ignore:return_value_discarded
@@ -62,6 +70,7 @@ func _on_lora_selected(lora_name: String) -> void:
 		}
 	)
 	update_selected_loras_label()
+	EventBus.emit_signal("lora_selected", lora_reference_node.get_lora_info(lora_name))
 
 func _on_reference_retrieved(model_reference: Dictionary):
 	lora_auto_complete.selections = model_reference
@@ -85,8 +94,13 @@ func _show_lora_details(lora_name: String) -> void:
 			"url": "https://civitai.com/models/" + str(lora_reference['id']),
 			"unusable": "",
 		}
+		var compatibility = check_baseline_compatibility(lora_name)
 		if lora_reference.get("unusable"):
 			fmt["unusable"] = "[color=red]" + lora_reference.get("unusable") + "[/color]\n"
+		elif compatibility == LoraCompatible.NO:
+			fmt["unusable"] = "[color=red]This LoRa base model version is impatible with the selected Model[/color]\n"
+		elif compatibility == LoraCompatible.MAYBE:
+			fmt["unusable"] = "[color=yellow]You have selected multiple models of varying base versions. This LoRa is not compatible with all of them and will be ignored by the incompatible ones.[/color]\n"
 		elif not lora_reference_node.nsfw and lora_reference.get("nsfw", false):
 			fmt["unusable"] = "[color=#FF00FF]SFW workers which pick up the request, will ignore this LoRA.[/color]\n"
 		var label_text = "{unusable}[b]Name: {name}[/b]\nDescription: {description}\nVersion: {version}\n".format(fmt)
@@ -144,8 +158,13 @@ func update_selected_loras_label() -> void:
 		var lora_reference = lora_reference_node.get_lora_info(lora_name)
 		if lora_reference["triggers"].size() == 0:
 			lora_text = "[url={lora_hover}]{lora_name}[/url]{strengths} ([url={lora_remove}]X[/url])"
+		var compatibility = check_baseline_compatibility(lora_name)
 		if lora_reference.get("unusable"):
 			lora_text = "[color=red]" + lora_text + "[/color]"
+		elif compatibility == LoraCompatible.NO:
+			lora_text = "[color=red]" + lora_text + "[/color]"
+		elif compatibility == LoraCompatible.MAYBE:
+			lora_text = "[color=yellow]" + lora_text + "[/color]"
 		elif not lora_reference_node.nsfw and lora_reference.get("nsfw", false):
 			lora_text = "[color=#FF00FF]" + lora_text + "[/color]"
 			
@@ -226,3 +245,27 @@ func _on_fetch_from_civitai_pressed() -> void:
 	fetch_from_civitai.disabled = true
 	civitai_search_initiated = true
 	lora_reference_node.seek_online(lora_auto_complete.text)
+
+func on_model_selection_changed(models_list) -> void:
+	current_models = models_list
+	update_selected_loras_label()
+
+func check_baseline_compatibility(lora_name) -> int:
+	var baselines = []
+	for model in current_models:
+		if not model["baseline"] in baselines:
+			baselines.append(model["baseline"])
+	if baselines.size() == 0:
+		return LoraCompatible.MAYBE
+	var lora_to_model_baseline_map = {
+		"SD 1.5": "stable diffusion 1",
+		"SD 2.1 768": "stable diffusion 2",
+		"SD 2.1 512": "stable diffusion 2",
+	}
+	var lora_baseline = lora_to_model_baseline_map[lora_reference_node.get_lora_info(lora_name)["base_model"]]
+	if lora_baseline in baselines:
+		if baselines.size() > 1:
+			return LoraCompatible.MAYBE
+		else:
+			return LoraCompatible.YES
+	return LoraCompatible.NO
