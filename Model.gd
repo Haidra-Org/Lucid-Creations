@@ -41,6 +41,8 @@ func _ready():
 	yield(get_tree().create_timer(0.2), "timeout")
 	selected_models_list = globals.config.get_value("Parameters", "models", [])
 	_update_selected_models_label()
+	_emit_selected_models()
+	
 
 func _process(delta):
 	model_refresh += delta
@@ -167,6 +169,17 @@ func _on_model_selected(model_name: String) -> void:
 		return
 	selected_models_list.append(model_name)
 	_update_selected_models_label()
+	_emit_selected_models()
+
+func _get_selected_models() -> Array:
+	var model_defs = []
+	for model_name in selected_models_list:
+		model_defs.append(get_model_reference(model_name))
+	return model_defs
+	
+
+func _emit_selected_models() -> void:
+	EventBus.emit_signal("model_selected", _get_selected_models())
 
 
 func _update_selected_models_label() -> void:
@@ -198,7 +211,6 @@ func _update_selected_models_label() -> void:
 	else:
 		selected_models.hide()
 
-
 func _on_selected_models_meta_clicked(meta) -> void:
 	var meta_split = meta.split(":")
 	match meta_split[0]:
@@ -207,7 +219,7 @@ func _on_selected_models_meta_clicked(meta) -> void:
 		"delete":
 			selected_models_list.remove(int(meta_split[1]))
 			_update_selected_models_label()
-#			globals.set_setting("loras",selected_models_list)
+			_emit_selected_models()
 		"trigger":
 			_on_model_trigger_pressed(selected_models_list[int(meta_split[1])])
 
