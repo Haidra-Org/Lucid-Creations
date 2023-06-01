@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.19.4](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.4) (2023-06-01)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.3...v1.19.4)
+
+**Merged pull requests:**
+
+- feat: compare lora baselines [\#93](https://github.com/Haidra-Org/Lucid-Creations/pull/93) ([db0](https://github.com/db0))
+
 ## [v1.19.3](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.3) (2023-05-31)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.2...v1.19.3)
