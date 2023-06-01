@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.19.7](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.7) (2023-06-01)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.6...v1.19.7)
+
+**Merged pull requests:**
+
+- fix: Handle 'Other' model baseline [\#96](https://github.com/Haidra-Org/Lucid-Creations/pull/96) ([db0](https://github.com/db0))
+
 ## [v1.19.6](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.6) (2023-06-01)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.5...v1.19.6)
