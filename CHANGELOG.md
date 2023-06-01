@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.19.5](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.5) (2023-06-01)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.4...v1.19.5)
+
+**Merged pull requests:**
+
+- fix: broken civitai seek [\#94](https://github.com/Haidra-Org/Lucid-Creations/pull/94) ([db0](https://github.com/db0))
+
 ## [v1.19.4](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.4) (2023-06-01)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.3...v1.19.4)
