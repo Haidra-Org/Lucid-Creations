@@ -55,7 +55,7 @@ func seek_online(query: String) -> void:
 	if query == '':
 		get_lora_reference()
 		return
-	fetch_lora_metadata([query])
+	fetch_lora_metadata(query)
 
 func fetch_next_page(json_ret: Dictionary) -> void:
 	var next_page_url = json_ret["metadata"]["nextPage"]
@@ -65,13 +65,13 @@ func fetch_next_page(json_ret: Dictionary) -> void:
 		push_error(error_msg)
 		emit_signal("request_failed",error_msg)
 
-func fetch_lora_metadata(lora_ids: Array) -> void:
+func fetch_lora_metadata(query) -> void:
 	var new_fetch = CivitAIModelFetch.new()
 	new_fetch.connect("lora_info_retrieved",self,"_on_lora_info_retrieved")
 	new_fetch.connect("lora_info_gathering_finished",self,"_on_lora_info_gathering_finished", [new_fetch])
 	new_fetch.default_ids = default_ids
 	add_child(new_fetch)
-	new_fetch.fetch_metadata(_get_url(lora_ids))
+	new_fetch.fetch_metadata(_get_url(query))
 
 # Function to overwrite to process valid return from the horde
 func process_request(json_ret) -> void:
