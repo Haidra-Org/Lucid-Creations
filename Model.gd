@@ -57,6 +57,7 @@ func _on_models_retrieved(model_performances: Array, model_reference: Dictionary
 		if merged_reference.has(model_name):
 			merged_reference[model_name]["worker_count"] = model_performance['count']
 		else:
+			merged_reference[model_name] = {}
 			merged_reference[model_name]["worker_count"] = 0
 	model_auto_complete.selections = merged_reference
 
