@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.19.8](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.8) (2023-06-04)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.7...v1.19.8)
+
+**Merged pull requests:**
+
+- fix: handle models not in reference [\#97](https://github.com/Haidra-Org/Lucid-Creations/pull/97) ([db0](https://github.com/db0))
+
 ## [v1.19.7](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.19.7) (2023-06-01)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.6...v1.19.7)
