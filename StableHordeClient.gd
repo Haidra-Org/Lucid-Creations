@@ -401,8 +401,6 @@ func _reset_input() -> void:
 func on_img2img_toggled(pressed: bool) -> void:
 	for node in [denoising_strength,select_image,image_preview,control_net,control_type]:
 		node.visible = pressed
-	if not pressed:
-		stable_horde_client.source_image = null
 
 func on_image_select_pressed() -> void:
 	var prev_path = globals.config.get_value("Options", "last_img2img_path", open_image.current_dir)
@@ -581,9 +579,6 @@ func _accept_settings() -> void:
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
 	stable_horde_client.set("sampler_name", sampler_name)
 	globals.set_setting("sampler_name", sampler_name)
-	var cn_name = control_type.get_item_text(control_type.selected)
-	stable_horde_client.set("control_type", cn_name)
-	globals.set_setting("control_type", cn_name)
 	var models = model.selected_models_list
 	stable_horde_client.set("models", models)
 	globals.set_setting("models", models)
@@ -611,6 +606,15 @@ func _accept_settings() -> void:
 		stable_horde_client.prompt = prompt_line_edit.placeholder_text
 	if globals.config.get_value("Options", "negative_prompt", false) and negative_prompt_line_edit.text != '':
 		stable_horde_client.prompt += '###' + negative_prompt_line_edit.text
+	if img_2_img_enabled.pressed:
+		stable_horde_client.source_image = image_preview.source_image
+		var cn_name = control_type.get_item_text(control_type.selected)
+		stable_horde_client.set("control_type", cn_name)
+		globals.set_setting("control_type", cn_name)
+	else:
+		stable_horde_client.source_image = null
+		stable_horde_client.control_type = "none"
+		globals.set_setting("control_type", "none")
 
 
 func _on_load_from_disk_gensettings_loaded(settings) -> void:
@@ -638,12 +642,15 @@ func _on_load_from_disk_gensettings_loaded(settings) -> void:
 		for idx in range(control_type.get_item_count()):
 			if control_type.get_item_text(idx) == settings["control_type"]:
 				control_type.select(idx)
+				_on_ControlType_item_selected(idx)
 	if settings.has("source_image_path"):
-		image_preview.load_image_from_path(settings["source_image_path"])
-		stable_horde_client.source_image = image_preview.source_image
-		on_img2img_toggled(true)
+		if image_preview.load_image_from_path(settings["source_image_path"]):
+			stable_horde_client.source_image = image_preview.source_image
+			on_img2img_toggled(true)
+			img_2_img_enabled.pressed = true
 	else:
 		on_img2img_toggled(false)
+		img_2_img_enabled.pressed = false
 		stable_horde_client.source_image = null
 		stable_horde_client.control_type = "none"
 
