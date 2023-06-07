@@ -8,6 +8,7 @@ export(String) var horde_default_loras := "https://raw.githubusercontent.com/Hai
 
 
 var lora_reference := {}
+var lora_id_index := {}
 var models_retrieved = false
 var nsfw = true setget set_nsfw
 var initialized := false
@@ -93,14 +94,14 @@ func process_request(json_ret) -> void:
 		if initialized:
 			var lora = _parse_civitai_lora_data(entry)
 			if lora.has("size_mb"):
-				lora_reference[entry["name"]] = lora
+				_store_lora(lora)
 	_store_to_file()
 	emit_signal("reference_retrieved", lora_reference)
 	initialized = true
 	state = States.READY
 
 func _on_lora_info_retrieved(lora_details: Dictionary) -> void:
-	lora_reference[lora_details["name"]] = lora_details
+	_store_lora(lora_details)
 	_store_to_file()
 
 func _on_lora_info_gathering_finished(fetch_node: CivitAIModelFetch) -> void:
@@ -113,12 +114,20 @@ func _on_lora_info_gathering_finished(fetch_node: CivitAIModelFetch) -> void:
 	_store_to_file()
 	emit_signal("reference_retrieved", lora_reference)
 		
-
 func is_lora(lora_name: String) -> bool:
+	if lora_id_index.has(int(lora_name)):
+		return true
 	return(lora_reference.has(lora_name))
 
 func get_lora_info(lora_name: String) -> Dictionary:
-	return(lora_reference.get(lora_name, {}))
+	if lora_id_index.has(int(lora_name)):
+		return lora_reference[lora_id_index[int(lora_name)]]
+	return lora_reference.get(lora_name, {})
+
+func get_lora_name(lora_name: String) -> String:
+	if lora_id_index.has(int(lora_name)):
+		return lora_reference[lora_id_index[int(lora_name)]]["name"]
+	return lora_reference.get(lora_name, {}).get("name", 'N/A')
 
 func _store_to_file() -> void:
 	var file = File.new()
@@ -133,6 +142,7 @@ func _load_from_file() -> void:
 	if filevar:
 		lora_reference = filevar
 	for lora in lora_reference.values():
+		lora_id_index[int(lora["id"])] = lora["name"]
 		lora["cached"] = true
 		# Temporary while changing approach
 		var unusable = lora.get("unusable", false)
@@ -227,3 +237,8 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 
 func set_nsfw(value) -> void:
 	nsfw = value
+
+func _store_lora(lora_data: Dictionary) -> void:
+	var lora_name = lora_data["name"]
+	lora_reference[lora_name] = lora_data
+	lora_id_index[int(lora_data["id"])] = lora_name

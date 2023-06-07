@@ -44,6 +44,11 @@ func on_index_pressed(index: int) -> void:
 	globals.set_setting("post_processing",selected_pp)
 	_update_pp_label()
 
+func replace_pp(pp_list: Array) -> void:
+	selected_pp = pp_list
+	globals.set_setting("post_processing",selected_pp)
+	_update_pp_label()
+
 func _update_pp_label() -> void:
 	var bbtext := []
 	for index in range(selected_pp.size()):

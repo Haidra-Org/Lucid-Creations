@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://src/Lora/LoraSlider.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/icons/magnifying-glass.png" type="Texture" id=14]
 [ext_resource path="res://assets/icons/archive-research.png" type="Texture" id=15]
+[ext_resource path="res://src/Buttons/LoadFromDisk.tscn" type="PackedScene" id=16]
 [ext_resource path="res://PopupInfoPanel.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/backgrounds/1668640648_2362995226.webp" type="Texture" id=18]
 [ext_resource path="res://Background.gd" type="Script" id=19]
@@ -638,8 +639,11 @@ margin_top = 463.0
 margin_right = 300.0
 margin_bottom = 504.0
 
+[node name="LoadFromDisk" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2" instance=ExtResource( 16 )]
+
 [node name="SaveAll" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
+margin_left = 152.0
 margin_right = 300.0
 margin_bottom = 41.251
 size_flags_horizontal = 3
@@ -649,8 +653,8 @@ text = "Save All"
 [node name="SubmitRatings" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
 visible = false
-margin_left = 152.0
-margin_right = 300.0
+margin_left = 228.0
+margin_right = 361.324
 margin_bottom = 41.251
 size_flags_horizontal = 3
 disabled = true
