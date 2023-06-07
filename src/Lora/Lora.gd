@@ -58,6 +58,12 @@ func _ready():
 	selected_loras_list = globals.config.get_value("Parameters", "loras", [])
 	update_selected_loras_label()
 
+func replace_loras(loras: Array) -> void:
+	selected_loras_list = loras
+	for lora in selected_loras_list:
+		lora["name"] = lora_reference_node.get_lora_name(lora["name"])
+	update_selected_loras_label()
+
 func _on_lora_selected(lora_name: String) -> void:
 	if selected_loras_list.size() >= 5:
 		return

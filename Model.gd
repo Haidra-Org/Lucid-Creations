@@ -165,6 +165,11 @@ func _on_showcase_retrieved(img:ImageTexture, _model_name) -> void:
 	model_showcase.texture = img
 	model_showcase.rect_min_size = Vector2(400,400)
 
+func replace_models(models_list: Array) -> void:
+	selected_models_list = models_list
+	_update_selected_models_label()
+	_emit_selected_models()
+
 func _on_model_selected(model_name: String) -> void:
 	if model_name in selected_models_list:
 		return
@@ -178,10 +183,8 @@ func _get_selected_models() -> Array:
 		model_defs.append(get_model_reference(model_name))
 	return model_defs
 	
-
 func _emit_selected_models() -> void:
 	EventBus.emit_signal("model_selected", _get_selected_models())
-
 
 func _update_selected_models_label() -> void:
 	var bbtext := []
@@ -236,14 +239,12 @@ func _on_selected_models_meta_hover_started(meta: String) -> void:
 			info = "ModelTrigger"
 	EventBus.emit_signal("rtl_meta_hovered",selected_models,info)
 
-
 func _on_selected_models_meta_hover_ended(_meta: String) -> void:
 	EventBus.emit_signal("rtl_meta_unhovered",selected_models)
 
 func _on_lora_info_models_meta_clicked(meta) -> void:
 # warning-ignore:return_value_discarded
 	OS.shell_open(meta)
-
 
 func _on_show_all_models_pressed() -> void:
 	model_auto_complete.select_from_all()

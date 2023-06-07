@@ -26,7 +26,7 @@ onready var seed_edit := $"%Seed"
 onready var config_slider := $"%ConfigSlider"
 onready var steps_slider := $"%StepsSlider"
 onready var generate_button := $"%GenerateButton"
-onready var sampler_method := $"%SamplerMethod"
+onready var sampler_method : OptionButton = $"%SamplerMethod"
 onready var karras := $"%Karras"
 onready var hires_fix = $"%HiResFix"
 onready var grid_scroll = $"%GridScroll"
@@ -43,6 +43,7 @@ onready var worker_name = $"%WorkerName"
 onready var worker_id = $"%WorkerID"
 onready var save = $"%Save"
 onready var save_all = $"%SaveAll"
+onready var load_from_disk = $"%LoadFromDisk"
 onready var status_text = $"%StatusText"
 onready var controls_basic := $"%Basic"
 onready var control_advanced := $"%Advanced"
@@ -69,6 +70,8 @@ onready var image_is_control = $"%ImageIsControl"
 # model
 onready var model = $"%Model"
 onready var lora = $"%Lora"
+# post-processing
+onready var pp = $"%PP"
 # ratings
 onready var aesthetic_rating = $"%AestheticRating"
 onready var artifacts_rating = $"%ArtifactsRating"
@@ -90,12 +93,11 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	img_2_img_enabled.connect("toggled",self,"on_img2img_toggled")
 	# warning-ignore:return_value_discarded
-	select_image.connect("pressed",self,"on_image_select_pressed")
-	# warning-ignore:return_value_discarded
-	open_image.connect("file_selected",self,"_on_source_image_selected")
+	select_image.connect("image_selected",self,"_on_source_image_selected")
 	_connect_hover_signals()
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
+	load_from_disk.connect("gensettings_loaded", self, "_on_load_from_disk_gensettings_loaded")
 	# warning-ignore:return_value_discarded
 	generate_button.connect("pressed",self,"_on_GenerateButton_pressed")
 	# warning-ignore:return_value_discarded
@@ -154,42 +156,7 @@ func _ready():
 
 func _on_GenerateButton_pressed():
 	status_text.text = ''
-	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
-		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
-		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
-	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
-	stable_horde_client.set("sampler_name", sampler_name)
-	globals.set_setting("sampler_name", sampler_name)
-	var cn_name = control_type.get_item_text(control_type.selected)
-	stable_horde_client.set("control_type", cn_name)
-	globals.set_setting("control_type", cn_name)
-	var models = model.selected_models_list
-	stable_horde_client.set("models", models)
-	globals.set_setting("models", models)
-	var loras = lora.selected_loras_list
-	globals.set_setting("loras",loras)
-	stable_horde_client.set("lora", loras)
-	stable_horde_client.set("api_key", options.get_api_key())
-	stable_horde_client.set("karras", karras.pressed)
-	globals.set_setting("karras", karras.pressed)
-	stable_horde_client.set("hires_fix", hires_fix.pressed)
-	globals.set_setting("hires_fix", hires_fix.pressed)
-	stable_horde_client.set("nsfw", nsfw.pressed)
-	globals.set_setting("nsfw", nsfw.pressed)
-	stable_horde_client.set("censor_nsfw", censor_nsfw.pressed)
-	globals.set_setting("censor_nsfw", censor_nsfw.pressed)
-	stable_horde_client.set("trusted_workers", trusted_workers.pressed)
-	globals.set_setting("trusted_workers", trusted_workers.pressed)
-	stable_horde_client.set("shared", globals.config.get_value("Options", "share", true))
-	stable_horde_client.set("gen_seed", seed_edit.text)
-	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
-	stable_horde_client.set("lora", globals.config.get_value("Parameters", "loras", stable_horde_client.lora))
-	if prompt_line_edit.text != '':
-		stable_horde_client.prompt = prompt_line_edit.text
-	else:
-		stable_horde_client.prompt = prompt_line_edit.placeholder_text
-	if globals.config.get_value("Options", "negative_prompt", false) and negative_prompt_line_edit.text != '':
-		stable_horde_client.prompt += '###' + negative_prompt_line_edit.text
+	_accept_settings()
 	close_focus()
 	for child in grid.get_children():
 		child.queue_free()
@@ -432,17 +399,8 @@ func _reset_input() -> void:
 func on_img2img_toggled(pressed: bool) -> void:
 	for node in [denoising_strength,select_image,image_preview,control_net,control_type]:
 		node.visible = pressed
-	if not pressed:
-		stable_horde_client.source_image = null
-
-func on_image_select_pressed() -> void:
-	var prev_path = globals.config.get_value("Options", "last_img2img_path", open_image.current_dir)
-	if prev_path:
-		open_image.current_dir = prev_path
-	open_image.popup_centered(Vector2(500,500))
 
 func _on_source_image_selected(path: String) -> void:
-	globals.set_setting("last_img2img_path", open_image.current_dir, "Options")
 	image_preview.load_image_from_path(path)
 	stable_horde_client.source_image = image_preview.source_image
 
@@ -458,14 +416,7 @@ func _on_NegativePrompt_toggled(pressed: bool) -> void:
 	$"%NegPromptHBC".visible = pressed
 	
 func _on_PromptLine_text_changed(new_text: String) -> void:
-	if '###' in new_text:
-		var textsplit = new_text.split('###')
-		_on_NegativePrompt_toggled(true)
-		if negative_prompt_line_edit.text == '':
-			negative_prompt_line_edit.text = textsplit[1]
-		else:
-			negative_prompt_line_edit.text += ', ' + textsplit[1]
-		prompt_line_edit.text = textsplit[0]
+	if not _set_prompt(new_text):
 		status_text.bbcode_text = "It appears you have enterred a negative prompt. Please use the negative prompt textbox"
 		status_text.modulate = Color(1,1,0)
 
@@ -506,6 +457,7 @@ func _connect_hover_signals() -> void:
 		$"%PP",
 		$"%RememberPrompt",
 		$"%LargerValues",
+		$"%LoadSeedFromDisk",
 		$"%Shared",
 		aesthetic_rating,
 		artifacts_rating,
@@ -568,7 +520,6 @@ func set_submit_button_state() -> void:
 
 
 func _on_shared_toggled() -> void:
-
 	best_of.disabled = !globals.config.get_value("Options", "shared", true)
 	aesthetic_rating.disabled = !globals.config.get_value("Options", "shared", true)
 	submit_ratings.disabled = !globals.config.get_value("Options", "shared", true)
@@ -611,3 +562,102 @@ func _on_generation_rating_failed(message: String) -> void:
 func _on_nsfw_toggled(button_pressed: bool) -> void:
 	lora.lora_reference_node.nsfw = button_pressed
 	lora.update_selected_loras_label()
+
+func _accept_settings() -> void:
+	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
+		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
+		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
+	var sampler_name = sampler_method.get_item_text(sampler_method.selected)
+	stable_horde_client.set("sampler_name", sampler_name)
+	globals.set_setting("sampler_name", sampler_name)
+	var models = model.selected_models_list
+	stable_horde_client.set("models", models)
+	globals.set_setting("models", models)
+	var loras = lora.selected_loras_list
+	globals.set_setting("loras",loras)
+	stable_horde_client.set("lora", loras)
+	stable_horde_client.set("api_key", options.get_api_key())
+	stable_horde_client.set("karras", karras.pressed)
+	globals.set_setting("karras", karras.pressed)
+	stable_horde_client.set("hires_fix", hires_fix.pressed)
+	globals.set_setting("hires_fix", hires_fix.pressed)
+	stable_horde_client.set("nsfw", nsfw.pressed)
+	globals.set_setting("nsfw", nsfw.pressed)
+	stable_horde_client.set("censor_nsfw", censor_nsfw.pressed)
+	globals.set_setting("censor_nsfw", censor_nsfw.pressed)
+	stable_horde_client.set("trusted_workers", trusted_workers.pressed)
+	globals.set_setting("trusted_workers", trusted_workers.pressed)
+	stable_horde_client.set("shared", globals.config.get_value("Options", "share", true))
+	stable_horde_client.set("gen_seed", seed_edit.text)
+	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
+	stable_horde_client.set("lora", globals.config.get_value("Parameters", "loras", stable_horde_client.lora))
+	if prompt_line_edit.text != '':
+		stable_horde_client.prompt = prompt_line_edit.text
+	else:
+		stable_horde_client.prompt = prompt_line_edit.placeholder_text
+	if globals.config.get_value("Options", "negative_prompt", false) and negative_prompt_line_edit.text != '':
+		stable_horde_client.prompt += '###' + negative_prompt_line_edit.text
+	if img_2_img_enabled.pressed:
+		stable_horde_client.source_image = image_preview.source_image
+		var cn_name = control_type.get_item_text(control_type.selected)
+		stable_horde_client.set("control_type", cn_name)
+		globals.set_setting("control_type", cn_name)
+	else:
+		stable_horde_client.source_image = null
+		stable_horde_client.control_type = "none"
+		globals.set_setting("control_type", "none")
+
+
+func _on_load_from_disk_gensettings_loaded(settings) -> void:
+	width.set_value(settings["width"])
+	height.set_value(settings["height"])
+	steps_slider.set_value(settings["steps"])
+	config_slider.set_value(settings["cfg_scale"])
+	for idx in range(sampler_method.get_item_count()):
+		if sampler_method.get_item_text(idx) == settings["sampler_name"]:
+			sampler_method.select(idx)
+	karras.pressed = settings.get("karras", true)
+	hires_fix.pressed = settings.get("hires_fix", false)
+	if globals.config.get_value("Options", "load_seed_from_disk", false):
+		seed_edit.text = settings["seed"]
+	if _set_prompt(settings["prompt"], true) == false:
+		negative_prompt_line_edit.text = ''
+	pp.replace_pp(settings["post_processing"])
+	model.replace_models([settings["model"]])
+	if settings.has("loras"):
+		lora.replace_loras(settings["loras"])
+	else:
+		lora.replace_loras([])
+	denoising_strength.set_value(settings.get("denoising_strength", 0.7))
+	if settings.has("control_type"):
+		for idx in range(control_type.get_item_count()):
+			if control_type.get_item_text(idx) == settings["control_type"]:
+				control_type.select(idx)
+				_on_ControlType_item_selected(idx)
+	if settings.has("source_image_path"):
+		if image_preview.load_image_from_path(settings["source_image_path"]):
+			stable_horde_client.source_image = image_preview.source_image
+			on_img2img_toggled(true)
+			img_2_img_enabled.pressed = true
+	else:
+		on_img2img_toggled(false)
+		img_2_img_enabled.pressed = false
+		stable_horde_client.source_image = null
+		stable_horde_client.control_type = "none"
+
+func _set_prompt(prompt: String, replace_negprompt = false) -> bool:
+	"""Sets prompt and negative prompt
+	Returns true if there's negative text
+	else returns false
+	"""
+	if not '###' in prompt:
+		prompt_line_edit.text = prompt
+		return false
+	var textsplit = prompt.split('###')
+	_on_NegativePrompt_toggled(true)
+	if negative_prompt_line_edit.text == '' or replace_negprompt:
+		negative_prompt_line_edit.text = textsplit[1]
+	else:
+		negative_prompt_line_edit.text += ', ' + textsplit[1]
+	prompt_line_edit.text = textsplit[0]
+	return true

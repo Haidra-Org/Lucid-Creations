@@ -10,12 +10,15 @@ onready var api_key := $"%APIKey"
 onready var api_key_label := $"%APIKeyLabel"
 onready var login_button = $"%LoginButton"
 onready var stable_horde_login = $"%StableHordeLogin"
+onready var load_seed_from_disk = $"%LoadSeedFromDisk"
 
 func _ready():
 	remember_prompt.pressed = globals.config.get_value("Options", "remember_prompt", false)
 	remember_prompt.connect("toggled",self,"_on_remember_prompt_pressed")
 	larger_values.pressed = globals.config.get_value("Options", "larger_values", false)
 	larger_values.connect("toggled",self,"_on_larger_values_pressed")
+	load_seed_from_disk.pressed = globals.config.get_value("Options", "load_seed_from_disk", false)
+	load_seed_from_disk.connect("toggled",self,"_on_load_seed_from_disk_pressed")
 	shared.pressed = globals.config.get_value("Options", "shared", true)
 	shared.connect("toggled",self,"_on_shared_pressed")
 	# warning-ignore:return_value_discarded
@@ -50,6 +53,9 @@ func _on_remember_prompt_pressed(pressed: bool) -> void:
 
 func _on_larger_values_pressed(pressed: bool) -> void:
 	globals.set_setting("larger_values", pressed, "Options")
+
+func _on_load_seed_from_disk_pressed(pressed: bool) -> void:
+	globals.set_setting("load_seed_from_disk", pressed, "Options")
 
 func _on_shared_pressed(pressed: bool) -> void:
 	globals.set_setting("shared", pressed, "Options")

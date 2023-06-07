@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://src/Lora/LoraSlider.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/icons/magnifying-glass.png" type="Texture" id=14]
 [ext_resource path="res://assets/icons/archive-research.png" type="Texture" id=15]
+[ext_resource path="res://src/Buttons/LoadFromDisk.tscn" type="PackedScene" id=16]
 [ext_resource path="res://PopupInfoPanel.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/backgrounds/1668640648_2362995226.webp" type="Texture" id=18]
 [ext_resource path="res://Background.gd" type="Script" id=19]
@@ -27,6 +28,7 @@
 [ext_resource path="res://TextAutoComplete.tscn" type="PackedScene" id=26]
 [ext_resource path="res://src/Lora/Lora.gd" type="Script" id=27]
 [ext_resource path="res://addons/stable_horde_client/civitai_showcase.gd" type="Script" id=28]
+[ext_resource path="res://src/Buttons/SelectImage.tscn" type="PackedScene" id=29]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -638,8 +640,11 @@ margin_top = 463.0
 margin_right = 300.0
 margin_bottom = 504.0
 
+[node name="LoadFromDisk" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2" instance=ExtResource( 16 )]
+
 [node name="SaveAll" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
+margin_left = 152.0
 margin_right = 300.0
 margin_bottom = 41.251
 size_flags_horizontal = 3
@@ -649,8 +654,8 @@ text = "Save All"
 [node name="SubmitRatings" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
 visible = false
-margin_left = 152.0
-margin_right = 300.0
+margin_left = 228.0
+margin_right = 361.324
 margin_bottom = 41.251
 size_flags_horizontal = 3
 disabled = true
@@ -795,23 +800,7 @@ margin_top = 80.0
 margin_bottom = 183.0
 config_setting = "denoising_strength"
 
-[node name="OpenImage" type="FileDialog" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
-unique_name_in_owner = true
-margin_top = 80.0
-margin_right = 342.0
-margin_bottom = 269.0
-window_title = "Open a File"
-mode = 0
-access = 2
-filters = PoolStringArray( "*.png, *.jpg, *.jpeg, *.webp ; Supported Images\"" )
-
-[node name="SelectImage" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
-unique_name_in_owner = true
-visible = false
-margin_top = 80.0
-margin_right = 300.0
-margin_bottom = 121.251
-text = "Select Image"
+[node name="SelectImage" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img" instance=ExtResource( 29 )]
 
 [node name="ImagePreview" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
 unique_name_in_owner = true
@@ -1185,6 +1174,13 @@ margin_top = 197.0
 margin_right = 507.0
 margin_bottom = 257.251
 text = "Larger Values"
+
+[node name="LoadSeedFromDisk" type="CheckButton" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
+unique_name_in_owner = true
+margin_top = 261.0
+margin_right = 507.0
+margin_bottom = 321.251
+text = "Recover Saved Seeds"
 
 [node name="Shared" type="CheckButton" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
 unique_name_in_owner = true
