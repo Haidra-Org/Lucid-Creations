@@ -468,6 +468,7 @@ func _connect_hover_signals() -> void:
 		$"%PP",
 		$"%RememberPrompt",
 		$"%LargerValues",
+		$"%LoadSeedFromDisk",
 		$"%Shared",
 		aesthetic_rating,
 		artifacts_rating,
@@ -622,7 +623,8 @@ func _on_load_from_disk_gensettings_loaded(settings) -> void:
 			sampler_method.select(idx)
 	karras.pressed = settings.get("karras", true)
 	hires_fix.pressed = settings.get("hires_fix", false)
-	seed_edit.text = settings["seed"]
+	if globals.config.get_value("Options", "load_seed_from_disk", false):
+		seed_edit.text = settings["seed"]
 	if _set_prompt(settings["prompt"], true) == false:
 		negative_prompt_line_edit.text = ''
 	pp.replace_pp(settings["post_processing"])
@@ -631,7 +633,19 @@ func _on_load_from_disk_gensettings_loaded(settings) -> void:
 		lora.replace_loras(settings["loras"])
 	else:
 		lora.replace_loras([])
-	
+	denoising_strength.set_value(settings.get("denoising_strength", 0.7))
+	if settings.has("control_type"):
+		for idx in range(control_type.get_item_count()):
+			if control_type.get_item_text(idx) == settings["control_type"]:
+				control_type.select(idx)
+	if settings.has("source_image_path"):
+		image_preview.load_image_from_path(settings["source_image_path"])
+		stable_horde_client.source_image = image_preview.source_image
+		on_img2img_toggled(true)
+	else:
+		on_img2img_toggled(false)
+		stable_horde_client.source_image = null
+		stable_horde_client.control_type = "none"
 
 func _set_prompt(prompt: String, replace_negprompt = false) -> bool:
 	"""Sets prompt and negative prompt

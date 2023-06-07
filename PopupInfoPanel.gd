@@ -22,6 +22,7 @@ const DESCRIPTIONS = {
 	"PP": "Performing post-processing on the image incurs an extra 20% Kudos consumption per post-processor. Mouse over each selected post-processor to see what it does.",
 	"RememberPrompt": "It will remember your prompt you had when you shut down Lucid Creations.",
 	"LargerValues": "It allows you to specify very high values for resolution and steps. You will need to have the kudos upfront to request these.",
+	"LoadSeedFromDisk": "If enabled, seeds will be also preset when loading previous generation jsons from disk",
 	"Shared": "text2img images generated and their prompt, will be stored permanently and made accessible to the LAION non-profit to help train improved models. Shared resolutions receive a kudos discount as they cost less to store by the stable horde.",
 	"AestheticRating": "How much do you like this image, subjectively an in isolation from the other images? Please rate it from 1 (I hate it) to 10 (I am in love with it!)\nEach rating will refund 5 kudos.\nRemember to press the submit ratings button once you've rated all images.!",
 	"ArtifactsRating": "The artifacts rating for this image.\n0 for flawless generation that perfectly fits to the prompt.\n1 for small, hardly recognizable flaws.\n2 small flaws that can easily be spotted, but don not harm the aesthetic experience.\n3 for flaws that look obviously wrong, but only mildly harm the aesthetic experience.\n4 for flaws that look obviously wrong & significantly harm the aesthetic experience.\n5 for flaws that make the image look like total garbage",
