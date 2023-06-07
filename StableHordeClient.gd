@@ -93,9 +93,7 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	img_2_img_enabled.connect("toggled",self,"on_img2img_toggled")
 	# warning-ignore:return_value_discarded
-	select_image.connect("pressed",self,"on_image_select_pressed")
-	# warning-ignore:return_value_discarded
-	open_image.connect("file_selected",self,"_on_source_image_selected")
+	select_image.connect("image_selected",self,"_on_source_image_selected")
 	_connect_hover_signals()
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
@@ -402,14 +400,7 @@ func on_img2img_toggled(pressed: bool) -> void:
 	for node in [denoising_strength,select_image,image_preview,control_net,control_type]:
 		node.visible = pressed
 
-func on_image_select_pressed() -> void:
-	var prev_path = globals.config.get_value("Options", "last_img2img_path", open_image.current_dir)
-	if prev_path:
-		open_image.current_dir = prev_path
-	open_image.popup_centered(Vector2(500,500))
-
 func _on_source_image_selected(path: String) -> void:
-	globals.set_setting("last_img2img_path", open_image.current_dir, "Options")
 	image_preview.load_image_from_path(path)
 	stable_horde_client.source_image = image_preview.source_image
 

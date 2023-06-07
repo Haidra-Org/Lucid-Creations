@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://TextAutoComplete.tscn" type="PackedScene" id=26]
 [ext_resource path="res://src/Lora/Lora.gd" type="Script" id=27]
 [ext_resource path="res://addons/stable_horde_client/civitai_showcase.gd" type="Script" id=28]
+[ext_resource path="res://src/Buttons/SelectImage.tscn" type="PackedScene" id=29]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -89,7 +90,6 @@ unique_name_in_owner = true
 script = ExtResource( 2 )
 
 [node name="Generate" type="MarginContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 27.0
@@ -800,23 +800,7 @@ margin_top = 80.0
 margin_bottom = 183.0
 config_setting = "denoising_strength"
 
-[node name="OpenImage" type="FileDialog" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
-unique_name_in_owner = true
-margin_top = 80.0
-margin_right = 342.0
-margin_bottom = 269.0
-window_title = "Open a File"
-mode = 0
-access = 2
-filters = PoolStringArray( "*.png, *.jpg, *.jpeg, *.webp ; Supported Images\"" )
-
-[node name="SelectImage" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
-unique_name_in_owner = true
-visible = false
-margin_top = 80.0
-margin_right = 300.0
-margin_bottom = 121.251
-text = "Select Image"
+[node name="SelectImage" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img" instance=ExtResource( 29 )]
 
 [node name="ImagePreview" type="TextureRect" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
 unique_name_in_owner = true
@@ -1058,6 +1042,7 @@ columns = 9
 
 [node name="Options" type="MarginContainer" parent="TabContainer"]
 unique_name_in_owner = true
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 27.0
