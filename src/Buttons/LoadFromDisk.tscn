@@ -16,7 +16,7 @@ unique_name_in_owner = true
 script = ExtResource( 1 )
 title = "Load generation json from disk"
 initial_path = "user://"
-filters = PoolStringArray( "*.json ; All Files" )
+filters = PoolStringArray( "*.png ; Image Files", "*.json ; json files", "*.png, *.json ; all files" )
 
 [connection signal="pressed" from="." to="." method="_on_LoadFromDisk_pressed"]
 [connection signal="files_selected" from="LoadFromDiskNativeDialogOpenFile" to="." method="_on_LoadFromDiskNativeDialogOpenFile_files_selected"]
