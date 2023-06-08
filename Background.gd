@@ -7,3 +7,4 @@ func _ready():
 	if not globals.config.get_value("Options", "tutorial_seen", false):
 		tutorial.popup_centered_clamped(Vector2(0,0), 0.5)
 		globals.set_setting("tutorial_seen", true, "Options")
+	

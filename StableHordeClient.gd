@@ -428,7 +428,6 @@ func _on_NegativePrompt_toggled(pressed: bool) -> void:
 	
 func _on_PromptLine_text_changed() -> void:
 	var new_text = prompt_line_edit.text
-	print_debug(new_text)
 	if _set_prompt(new_text):
 		status_text.bbcode_text = "It appears you have enterred a negative prompt. Please use the negative prompt textbox"
 		status_text.modulate = Color(1,1,0)
