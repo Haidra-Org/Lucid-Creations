@@ -51,6 +51,7 @@ onready var generations_processing = $"%GenerationsProcessing"
 onready var generations_done = $"%GenerationsDone"
 onready var cancel_button = $"%CancelButton"
 onready var _tween = $"%Tween"
+onready var prompt_cc = $"%PromptCC"
 onready var progress_text = $"%ProgressText"
 onready var prompt_cover = $"%PromptCover"
 onready var nsfw = $"%NSFW"
@@ -146,7 +147,7 @@ func _ready():
 	_on_viewport_resized()
 	randomize()
 	var rand_index : int = randi() % placeholder_prompts.size()
-	prompt_line_edit.placeholder_text = placeholder_prompts[rand_index]
+#	prompt_line_edit.placeholder_text = placeholder_prompts[rand_index]
 	
 #	var tween2 = create_tween()
 #	print_debug(tween2)
@@ -168,6 +169,7 @@ func _on_GenerateButton_pressed():
 	cancel_button.visible = true
 	prompt_cover.visible = true
 	progress_text.visible = true
+	prompt_cc.collapse()
 	stable_horde_client.generate()
 	globals.set_setting("saved_prompt", prompt_line_edit.text, "Options")
 	globals.set_setting("saved_negative_prompt", negative_prompt_line_edit.text, "Options")
@@ -415,8 +417,10 @@ func _on_NegativePrompt_toggled(pressed: bool) -> void:
 	globals.set_setting("negative_prompt", negative_prompt.pressed, "Options")
 	$"%NegPromptHBC".visible = pressed
 	
-func _on_PromptLine_text_changed(new_text: String) -> void:
-	if not _set_prompt(new_text):
+func _on_PromptLine_text_changed() -> void:
+	var new_text = prompt_line_edit.text
+	print_debug(new_text)
+	if _set_prompt(new_text):
 		status_text.bbcode_text = "It appears you have enterred a negative prompt. Please use the negative prompt textbox"
 		status_text.modulate = Color(1,1,0)
 
@@ -645,17 +649,18 @@ func _on_load_from_disk_gensettings_loaded(settings) -> void:
 		stable_horde_client.source_image = null
 		stable_horde_client.control_type = "none"
 
-func _set_prompt(prompt: String, replace_negprompt = false) -> bool:
+func _set_prompt(prompt: String, force = false) -> bool:
 	"""Sets prompt and negative prompt
 	Returns true if there's negative text
 	else returns false
 	"""
 	if not '###' in prompt:
-		prompt_line_edit.text = prompt
+		if force: 
+			prompt_line_edit.text = prompt
 		return false
 	var textsplit = prompt.split('###')
 	_on_NegativePrompt_toggled(true)
-	if negative_prompt_line_edit.text == '' or replace_negprompt:
+	if negative_prompt_line_edit.text == '' or force:
 		negative_prompt_line_edit.text = textsplit[1]
 	else:
 		negative_prompt_line_edit.text += ', ' + textsplit[1]
