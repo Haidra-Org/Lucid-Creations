@@ -5,7 +5,6 @@ onready var larger_values = $"%LargerValues"
 onready var shared = $"%Shared"
 onready var save_dir = $"%SaveDir"
 onready var save_dir_browse_button = $"%SaveDirBrowseButton"
-onready var save_dir_browse = $"%SaveDirBrowse"
 onready var api_key := $"%APIKey"
 onready var api_key_label := $"%APIKeyLabel"
 onready var login_button = $"%LoginButton"
@@ -23,11 +22,9 @@ func _ready():
 	shared.connect("toggled",self,"_on_shared_pressed")
 	# warning-ignore:return_value_discarded
 	login_button.connect("pressed",self,"_on_login_pressed")
-	# warning-ignore:return_value_discarded
-	save_dir_browse_button.connect("pressed",self,"_on_browse_pressed")
 #	save_dir.connect("text_changed",self,"_on_savedir_changed")
 	# warning-ignore:return_value_discarded
-	save_dir_browse.connect("dir_selected",self,"_on_savedir_selected")
+	save_dir_browse_button.connect("savedir_path_set",self,"_on_savedir_selected")
 	stable_horde_login.connect("login_successful",self, "_on_login_succesful")
 	stable_horde_login.connect("request_failed", self, "_on_login_failed")
 	var default_save_dir = globals.config.get_value("Options", "default_save_dir", "user://")
@@ -91,13 +88,6 @@ func _set_default_savedir_path(only_placholder = false) -> void:
 			if not only_placholder:
 				save_dir.text = '~/Library/Application Support/Godot/app_userdata/Lucid Creations/'
 			save_dir.placeholder_text = '~/Library/Application Support/Godot/app_userdata/Lucid Creations/'
-
-
-func _on_browse_pressed() -> void:
-	var prev_path = globals.config.get_value("Options", "default_save_dir", "user://")
-	if prev_path:
-		save_dir_browse.current_dir = prev_path
-	save_dir_browse.popup_centered(Vector2(500,500))
 
 func _on_savedir_selected(path: String) -> void:
 	globals.set_setting("default_save_dir", path, "Options")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -29,6 +29,7 @@
 [ext_resource path="res://src/Lora/Lora.gd" type="Script" id=27]
 [ext_resource path="res://addons/stable_horde_client/civitai_showcase.gd" type="Script" id=28]
 [ext_resource path="res://src/Buttons/SelectImage.tscn" type="PackedScene" id=29]
+[ext_resource path="res://src/Options/SaveDirBrowseButton.tscn" type="PackedScene" id=30]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -1127,7 +1128,7 @@ unique_name_in_owner = true
 margin_top = 67.0
 margin_right = 507.0
 margin_bottom = 84.0
-text = "Save Directory"
+text = "Image Save Directory"
 autowrap = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
@@ -1145,21 +1146,7 @@ clear_button_enabled = true
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="SaveDirBrowseButton" type="Button" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft/HBoxContainer"]
-unique_name_in_owner = true
-margin_left = 429.0
-margin_right = 507.324
-margin_bottom = 41.251
-text = "Browse"
-
-[node name="SaveDirBrowse" type="FileDialog" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
-unique_name_in_owner = true
-margin_top = 183.0
-margin_right = 342.0
-margin_bottom = 372.0
-window_title = "Open a Directory"
-mode = 2
-access = 2
+[node name="SaveDirBrowseButton" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft/HBoxContainer" instance=ExtResource( 30 )]
 
 [node name="RememberPrompt" type="CheckButton" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
 unique_name_in_owner = true
