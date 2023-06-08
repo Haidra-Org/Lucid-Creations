@@ -1,4 +1,4 @@
-# Lucid-Creations [v1.20.0](CHANGELOG.md)
+# Lucid-Creations [v1.21.0](CHANGELOG.md)
 
 Generate images using the Stable Diffusion Generative AI. This Godot Engine program is using the [Godot AI Horde Client Addon](https://github.com/Haidra-Org/AI-Horde-Client-Addon) to take advantage of the [AI Horde](https://aihorde.net/) crowdsourcing.
 

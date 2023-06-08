@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.21.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.21.0) (2023-06-08)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.20.0...v1.21.0)
+
+**Merged pull requests:**
+
+- Uses native OS to browse for folder [\#103](https://github.com/Haidra-Org/Lucid-Creations/pull/103) ([db0](https://github.com/db0))
+
 ## [v1.20.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.20.0) (2023-06-07)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.19.8...v1.20.0)
