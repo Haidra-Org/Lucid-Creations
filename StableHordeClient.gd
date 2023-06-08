@@ -50,12 +50,15 @@ onready var control_advanced := $"%Advanced"
 onready var generations_processing = $"%GenerationsProcessing"
 onready var generations_done = $"%GenerationsDone"
 onready var cancel_button = $"%CancelButton"
+# Prompts
 onready var _tween = $"%Tween"
 onready var prompt_cc = $"%PromptCC"
 onready var progress_text = $"%ProgressText"
 onready var prompt_cover = $"%PromptCover"
-onready var nsfw = $"%NSFW"
 onready var negative_prompt = $"%NegativePrompt"
+onready var neg_prompt_hbc = $"%NegPromptHBC"
+## 
+onready var nsfw = $"%NSFW"
 onready var censor_nsfw = $"%CensorNSFW"
 onready var trusted_workers = $"%TrustedWorkers"
 onready var controls = $"%Controls"
@@ -146,13 +149,18 @@ func _ready():
 	get_viewport().connect("size_changed", self, '_on_viewport_resized')
 	_on_viewport_resized()
 	randomize()
-	var rand_index : int = randi() % placeholder_prompts.size()
-#	prompt_line_edit.placeholder_text = placeholder_prompts[rand_index]
+	if prompt_line_edit.text == '':
+		prompt_line_edit.text = _get_random_placeholder_prompt()
 	
 #	var tween2 = create_tween()
 #	print_debug(tween2)
 #	var t = tween2.tween_property(generations_processing, "value", 15, 2)
 #	print_debug(t)
+
+func _get_random_placeholder_prompt() -> String:
+	var rand_index : int = randi() % placeholder_prompts.size()
+	return placeholder_prompts[rand_index]	
+
 
 
 func _on_GenerateButton_pressed():
@@ -170,6 +178,7 @@ func _on_GenerateButton_pressed():
 	prompt_cover.visible = true
 	progress_text.visible = true
 	prompt_cc.collapse()
+	neg_prompt_hbc.collapse()
 	stable_horde_client.generate()
 	globals.set_setting("saved_prompt", prompt_line_edit.text, "Options")
 	globals.set_setting("saved_negative_prompt", negative_prompt_line_edit.text, "Options")
@@ -595,10 +604,9 @@ func _accept_settings() -> void:
 	stable_horde_client.set("gen_seed", seed_edit.text)
 	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
 	stable_horde_client.set("lora", globals.config.get_value("Parameters", "loras", stable_horde_client.lora))
-	if prompt_line_edit.text != '':
-		stable_horde_client.prompt = prompt_line_edit.text
-	else:
-		stable_horde_client.prompt = prompt_line_edit.placeholder_text
+	if prompt_line_edit.text == '':
+		prompt_line_edit.text = _get_random_placeholder_prompt()
+	stable_horde_client.prompt = prompt_line_edit.text
 	if globals.config.get_value("Options", "negative_prompt", false) and negative_prompt_line_edit.text != '':
 		stable_horde_client.prompt += '###' + negative_prompt_line_edit.text
 	if img_2_img_enabled.pressed:

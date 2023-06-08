@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -31,6 +31,7 @@
 [ext_resource path="res://src/Buttons/SelectImage.tscn" type="PackedScene" id=29]
 [ext_resource path="res://src/Options/SaveDirBrowseButton.tscn" type="PackedScene" id=30]
 [ext_resource path="res://src/PromptLine.gd" type="Script" id=31]
+[ext_resource path="res://src/NegPromptLine.gd" type="Script" id=32]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -124,7 +125,6 @@ margin_right = 1446.0
 margin_bottom = 45.0
 size_flags_horizontal = 3
 smooth_scrolling = true
-wrap_enabled = true
 caret_blink = true
 caret_blink_speed = 0.5
 
@@ -212,6 +212,7 @@ visible = false
 margin_top = 44.0
 margin_right = 1562.0
 margin_bottom = 82.0
+script = ExtResource( 32 )
 
 [node name="PanelContainer" type="PanelContainer" parent="TabContainer/Generate/VBoxContainer/NegPromptHBC"]
 margin_right = 10.0
@@ -223,14 +224,14 @@ margin_right = 130.0
 margin_bottom = 27.0
 text = "Negative Prompt:"
 
-[node name="NegativePromptLine" type="LineEdit" parent="TabContainer/Generate/VBoxContainer/NegPromptHBC"]
+[node name="NegativePromptLine" type="TextEdit" parent="TabContainer/Generate/VBoxContainer/NegPromptHBC"]
 unique_name_in_owner = true
 margin_left = 134.0
 margin_right = 1562.0
 margin_bottom = 38.4343
+rect_min_size = Vector2( 0, 41 )
 size_flags_horizontal = 3
-clear_button_enabled = true
-placeholder_text = "Any text here will be avoided. Increase CFG if it doesn't seem to work."
+smooth_scrolling = true
 caret_blink = true
 caret_blink_speed = 0.5
 
