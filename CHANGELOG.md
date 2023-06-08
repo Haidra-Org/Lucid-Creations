@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.21.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.21.1) (2023-06-08)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.21.0...v1.21.1)
+
+**Merged pull requests:**
+
+- fix: remove debug [\#105](https://github.com/Haidra-Org/Lucid-Creations/pull/105) ([db0](https://github.com/db0))
+
 ## [v1.21.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.21.0) (2023-06-08)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.20.0...v1.21.0)
