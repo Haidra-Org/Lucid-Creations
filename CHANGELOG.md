@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- fix: Disable library validation [\#104](https://github.com/Haidra-Org/Lucid-Creations/pull/104) ([db0](https://github.com/db0))
 - Uses native OS to browse for folder [\#103](https://github.com/Haidra-Org/Lucid-Creations/pull/103) ([db0](https://github.com/db0))
 
 ## [v1.20.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.20.0) (2023-06-07)
