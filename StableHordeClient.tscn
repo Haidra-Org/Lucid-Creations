@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -29,6 +29,9 @@
 [ext_resource path="res://src/Lora/Lora.gd" type="Script" id=27]
 [ext_resource path="res://addons/stable_horde_client/civitai_showcase.gd" type="Script" id=28]
 [ext_resource path="res://src/Buttons/SelectImage.tscn" type="PackedScene" id=29]
+[ext_resource path="res://src/Options/SaveDirBrowseButton.tscn" type="PackedScene" id=30]
+[ext_resource path="res://src/PromptLine.gd" type="Script" id=31]
+[ext_resource path="res://src/NegPromptLine.gd" type="Script" id=32]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -107,21 +110,21 @@ custom_constants/separation = 3
 
 [node name="Generate" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer"]
 margin_right = 1570.0
-margin_bottom = 41.0
+margin_bottom = 45.0
 
 [node name="PromptCC" type="MarginContainer" parent="TabContainer/Generate/VBoxContainer/Generate"]
 unique_name_in_owner = true
 margin_right = 1446.0
-margin_bottom = 41.0
+margin_bottom = 45.0
 size_flags_horizontal = 3
+script = ExtResource( 31 )
 
-[node name="PromptLine" type="LineEdit" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
+[node name="PromptLine" type="TextEdit" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1446.0
-margin_bottom = 41.0
+margin_bottom = 45.0
 size_flags_horizontal = 3
-clear_button_enabled = true
-placeholder_text = "A horde of cute blue robots with gears on their head."
+smooth_scrolling = true
 caret_blink = true
 caret_blink_speed = 0.5
 
@@ -129,12 +132,12 @@ caret_blink_speed = 0.5
 unique_name_in_owner = true
 visible = false
 margin_right = 1446.0
-margin_bottom = 41.0
+margin_bottom = 45.0
 
 [node name="GenerationsProcessing" type="TextureProgress" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1446.0
-margin_bottom = 41.0
+margin_bottom = 45.0
 mouse_filter = 2
 max_value = 20.0
 step = 0.01
@@ -149,7 +152,7 @@ stretch_margin_bottom = 6
 [node name="GenerationsDone" type="TextureProgress" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1446.0
-margin_bottom = 41.0
+margin_bottom = 45.0
 mouse_filter = 2
 max_value = 20.0
 step = 0.01
@@ -163,9 +166,9 @@ stretch_margin_bottom = 6
 [node name="ProgressText" type="Label" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 visible = false
-margin_top = 12.0
+margin_top = 14.0
 margin_right = 1446.0
-margin_bottom = 29.0
+margin_bottom = 31.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
 text = "0 Done. 1 Processing. 3 Waiting. ETA 100 Sec"
@@ -174,24 +177,34 @@ align = 1
 [node name="Tween" type="Tween" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 
-[node name="GenerateButton" type="Button" parent="TabContainer/Generate/VBoxContainer/Generate"]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/Generate"]
 margin_left = 1450.0
 margin_right = 1570.0
+margin_bottom = 45.0
+
+[node name="GenerateButton" type="Button" parent="TabContainer/Generate/VBoxContainer/Generate/VBoxContainer"]
+unique_name_in_owner = true
+margin_right = 120.0
 margin_bottom = 41.251
 rect_min_size = Vector2( 120, 0 )
 text = "Generate"
 
-[node name="CancelButton" type="Button" parent="TabContainer/Generate/VBoxContainer/Generate"]
+[node name="CancelButton" type="Button" parent="TabContainer/Generate/VBoxContainer/Generate/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
-margin_left = 1458.0
-margin_right = 1578.0
+margin_left = 8.0
+margin_right = 128.0
 margin_bottom = 41.251
 rect_min_size = Vector2( 120, 0 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_styles/disabled = SubResource( 2 )
 text = "Cancel"
+
+[node name="GenButtonPush" type="Control" parent="TabContainer/Generate/VBoxContainer/Generate/VBoxContainer"]
+margin_top = 45.0
+margin_right = 120.0
+margin_bottom = 45.0
+size_flags_vertical = 3
 
 [node name="NegPromptHBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer"]
 unique_name_in_owner = true
@@ -199,6 +212,7 @@ visible = false
 margin_top = 44.0
 margin_right = 1562.0
 margin_bottom = 82.0
+script = ExtResource( 32 )
 
 [node name="PanelContainer" type="PanelContainer" parent="TabContainer/Generate/VBoxContainer/NegPromptHBC"]
 margin_right = 10.0
@@ -210,21 +224,21 @@ margin_right = 130.0
 margin_bottom = 27.0
 text = "Negative Prompt:"
 
-[node name="NegativePromptLine" type="LineEdit" parent="TabContainer/Generate/VBoxContainer/NegPromptHBC"]
+[node name="NegativePromptLine" type="TextEdit" parent="TabContainer/Generate/VBoxContainer/NegPromptHBC"]
 unique_name_in_owner = true
 margin_left = 134.0
 margin_right = 1562.0
 margin_bottom = 38.4343
+rect_min_size = Vector2( 0, 41 )
 size_flags_horizontal = 3
-clear_button_enabled = true
-placeholder_text = "Any text here will be avoided. Increase CFG if it doesn't seem to work."
+smooth_scrolling = true
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="StatusPanel" type="PanelContainer" parent="TabContainer/Generate/VBoxContainer"]
-margin_top = 44.0
+margin_top = 48.0
 margin_right = 1570.0
-margin_bottom = 74.0
+margin_bottom = 78.0
 
 [node name="StatusText" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/StatusPanel"]
 unique_name_in_owner = true
@@ -238,7 +252,7 @@ fit_content_height = true
 scroll_active = false
 
 [node name="MainArea" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer"]
-margin_top = 77.0
+margin_top = 81.0
 margin_right = 1570.0
 margin_bottom = 843.0
 size_flags_horizontal = 3
@@ -248,7 +262,7 @@ custom_constants/separation = 20
 [node name="Controls" type="TabContainer" parent="TabContainer/Generate/VBoxContainer/MainArea"]
 unique_name_in_owner = true
 margin_right = 310.0
-margin_bottom = 766.0
+margin_bottom = 762.0
 
 [node name="Basic" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 anchor_right = 1.0
@@ -846,7 +860,7 @@ text = "Image is control"
 unique_name_in_owner = true
 margin_left = 330.0
 margin_right = 1570.0
-margin_bottom = 766.0
+margin_bottom = 762.0
 size_flags_horizontal = 3
 
 [node name="DisplayFocus" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display"]
@@ -1028,14 +1042,14 @@ text = "Best"
 [node name="GridScroll" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
 margin_right = 1240.0
-margin_bottom = 766.0
+margin_bottom = 762.0
 rect_min_size = Vector2( 900, 600 )
 size_flags_vertical = 3
 
 [node name="Grid" type="GridContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/GridScroll"]
 unique_name_in_owner = true
 margin_right = 1240.0
-margin_bottom = 766.0
+margin_bottom = 762.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9
@@ -1127,7 +1141,7 @@ unique_name_in_owner = true
 margin_top = 67.0
 margin_right = 507.0
 margin_bottom = 84.0
-text = "Save Directory"
+text = "Image Save Directory"
 autowrap = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
@@ -1145,21 +1159,7 @@ clear_button_enabled = true
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="SaveDirBrowseButton" type="Button" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft/HBoxContainer"]
-unique_name_in_owner = true
-margin_left = 429.0
-margin_right = 507.324
-margin_bottom = 41.251
-text = "Browse"
-
-[node name="SaveDirBrowse" type="FileDialog" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
-unique_name_in_owner = true
-margin_top = 183.0
-margin_right = 342.0
-margin_bottom = 372.0
-window_title = "Open a Directory"
-mode = 2
-access = 2
+[node name="SaveDirBrowseButton" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft/HBoxContainer" instance=ExtResource( 30 )]
 
 [node name="RememberPrompt" type="CheckButton" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
 unique_name_in_owner = true

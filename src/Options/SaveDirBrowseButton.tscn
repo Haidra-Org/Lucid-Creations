@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/native_dialogs/bin/native_dialog_select_folder.gdns" type="Script" id=1]
+[ext_resource path="res://src/Options/SaveDirBrowseButton.gd" type="Script" id=2]
+
+[node name="SaveDirBrowseButton" type="Button"]
+unique_name_in_owner = true
+margin_left = 429.0
+margin_right = 507.324
+margin_bottom = 41.251
+text = "Browse"
+script = ExtResource( 2 )
+
+[node name="SaveDirBrowseNativeDialogSelectFolder" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource( 1 )
+title = "Image Save Directory"
+initial_path = "user://"
+
+[connection signal="pressed" from="." to="." method="_on_SaveDirBrowseButton_pressed"]
+[connection signal="folder_selected" from="SaveDirBrowseNativeDialogSelectFolder" to="." method="_on_SaveDirBrowseNativeDialogSelectFolder_folder_selected"]
