@@ -20,7 +20,7 @@ func get_models() -> void:
 		print_debug("Models currently working. Cannot do more than 1 request at a time with the same Stable Horde Models.")
 		return
 	state = States.WORKING
-	var error = request("https://aihorde.net/api/v2/status/models", [], false, HTTPClient.METHOD_GET)
+	var error = request("https://dev.stablehorde.net/api/v2/status/models", [], false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)

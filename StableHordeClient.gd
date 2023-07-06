@@ -540,7 +540,7 @@ func _on_shared_toggled() -> void:
 
 
 func _on_submit_ratings_pressed() -> void:
-	submit_ratings.disabled = true
+#	submit_ratings.disabled = true
 	var submit_dict := {}
 	for tr in grid.get_children():
 		if tr.bestof:
@@ -585,6 +585,12 @@ func _accept_settings() -> void:
 	var models = model.selected_models_list
 	stable_horde_client.set("models", models)
 	globals.set_setting("models", models)
+	if "SDXL_beta::stability.ai#6901" in models:
+		globals.set_setting("shared", true, "Options")
+		EventBus.emit_signal("shared_toggled")
+	else:
+		globals.set_setting("shared", false, "Options")
+		EventBus.emit_signal("shared_toggled")
 	var loras = lora.selected_loras_list
 	globals.set_setting("loras",loras)
 	stable_horde_client.set("lora", loras)

@@ -156,7 +156,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"apikey: " + api_key,
 		"Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":db0#1625",
 	]
-	var error = request("https://aihorde.net/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
+	var error = request("https://dev.stablehorde.net/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
@@ -194,12 +194,12 @@ func process_request(json_ret) -> void:
 func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 	# We do one check request per second
 	yield(get_tree().create_timer(1), "timeout")
-	var url = "https://aihorde.net/api/v2/generate/check/" + async_request_id
+	var url = "https://dev.stablehorde.net/api/v2/generate/check/" + async_request_id
 	var method = HTTPClient.METHOD_GET
 	if operation == OngoingRequestOperations.GET:
-		url = "https://aihorde.net/api/v2/generate/status/" + async_request_id
+		url = "https://dev.stablehorde.net/api/v2/generate/status/" + async_request_id
 	elif operation == OngoingRequestOperations.CANCEL:
-		url = "https://aihorde.net/api/v2/generate/status/" + async_request_id
+		url = "https://dev.stablehorde.net/api/v2/generate/status/" + async_request_id
 		method = HTTPClient.METHOD_DELETE
 		delete_sent = true
 	var error = request(
