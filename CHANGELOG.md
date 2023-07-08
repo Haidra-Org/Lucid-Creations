@@ -1,5 +1,17 @@
 # Changelog
 
+## [v1.22.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.22.0) (2023-07-08)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.21.1...v1.22.0)
+
+**Closed issues:**
+
+- Lucid creation problem or no [\#107](https://github.com/Haidra-Org/Lucid-Creations/issues/107)
+
+**Merged pull requests:**
+
+- feat: SDXL Beta [\#108](https://github.com/Haidra-Org/Lucid-Creations/pull/108) ([db0](https://github.com/db0))
+
 ## [v1.21.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.21.1) (2023-06-08)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.21.0...v1.21.1)
