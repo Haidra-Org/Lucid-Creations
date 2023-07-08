@@ -277,7 +277,7 @@ scroll_horizontal_enabled = false
 [node name="Basic" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
 margin_right = 300.0
-margin_bottom = 639.0
+margin_bottom = 700.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 20
@@ -665,29 +665,28 @@ size_flags_horizontal = 3
 disabled = true
 text = "Save All"
 
-[node name="SubmitRatings" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
+[node name="SubmitRatings" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-visible = false
-margin_left = 228.0
-margin_right = 361.324
-margin_bottom = 41.251
+margin_top = 524.0
+margin_right = 300.0
+margin_bottom = 565.251
 size_flags_horizontal = 3
 disabled = true
 text = "Submit Ratings"
 
-[node name="StableHordeRateGeneration" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2/SubmitRatings"]
+[node name="StableHordeRateGeneration" type="HTTPRequest" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/SubmitRatings"]
 unique_name_in_owner = true
 script = ExtResource( 25 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 524.0
+margin_top = 585.0
 margin_right = 300.0
-margin_bottom = 524.0
+margin_bottom = 585.0
 
 [node name="PP" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic" instance=ExtResource( 22 )]
 unique_name_in_owner = true
-margin_top = 544.0
-margin_bottom = 639.0
+margin_top = 605.0
+margin_bottom = 700.0
 
 [node name="Advanced" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
 visible = false
@@ -984,7 +983,6 @@ disabled = true
 text = "Save Image"
 
 [node name="Ratings" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/DisplayFocus/ImageButtons"]
-visible = false
 margin_left = 200.0
 margin_right = 679.0
 margin_bottom = 60.0
@@ -1185,9 +1183,9 @@ text = "Recover Saved Seeds"
 [node name="Shared" type="CheckButton" parent="TabContainer/Options/MarginContainer/VBC/HBC/VBCLeft"]
 unique_name_in_owner = true
 visible = false
-margin_top = 261.0
+margin_top = 325.0
 margin_right = 507.0
-margin_bottom = 321.251
+margin_bottom = 385.251
 text = "Share Images"
 
 [node name="VBCMiddle" type="VBoxContainer" parent="TabContainer/Options/MarginContainer/VBC/HBC"]

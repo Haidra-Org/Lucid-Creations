@@ -180,7 +180,15 @@ func _on_model_selected(model_name: String) -> void:
 func _get_selected_models() -> Array:
 	var model_defs = []
 	for model_name in selected_models_list:
-		model_defs.append(get_model_reference(model_name))
+		if model_name == "SDXL_beta::stability.ai#6901":
+			model_defs.append({
+				"name": "SDXL_beta::stability.ai#6901",
+				"baseline": "SDXL",
+				"type": "SDXL",
+				"version": "beta",
+			})
+		else:
+			model_defs.append(get_model_reference(model_name))
 	return model_defs
 	
 func _emit_selected_models() -> void:
@@ -194,7 +202,7 @@ func _update_selected_models_label() -> void:
 		var model_name = selected_models_list[index]
 		# This might happen for example when we added a NSFW lora
 		# but then disabled NSFW which refreshed loras to only show SFW
-		if not stable_horde_models.model_reference.is_model(model_name):
+		if not stable_horde_models.model_reference.is_model(model_name) and model_name != "SDXL_beta::stability.ai#6901":
 			indexes_to_remove.append(index)
 			continue
 		if stable_horde_models.model_reference.get_model_info(model_name).get("trigger",[]).size() == 0:
