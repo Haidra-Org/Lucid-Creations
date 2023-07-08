@@ -4,7 +4,7 @@ signal setting_changed(setting_name)
 
 const CONFIG_FILENAME = "user://settings.cfg"
 var config = ConfigFile.new()
-
+var aihorde_url = "https://aihorde.net"
 
 func _ready() -> void:
 	init_config_from_file()
