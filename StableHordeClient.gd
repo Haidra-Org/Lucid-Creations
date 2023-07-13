@@ -109,7 +109,7 @@ func _ready():
 	model.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	lora.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	# Ratings
-	EventBus.connect("shared_toggled", self, "_on_shared_toggled")
+	ParamBus.connect("shared_toggled", self, "_on_shared_toggled")
 	best_of.connect("toggled",self,"on_bestof_toggled")
 	aesthetic_rating.connect("item_selected",self,"on_aethetic_rating_selected")
 	artifacts_rating.connect("item_selected",self,"on_artifacts_rating_selected")
@@ -160,8 +160,6 @@ func _ready():
 func _get_random_placeholder_prompt() -> String:
 	var rand_index : int = randi() % placeholder_prompts.size()
 	return placeholder_prompts[rand_index]	
-
-
 
 func _on_GenerateButton_pressed():
 	status_text.text = ''
@@ -587,10 +585,10 @@ func _accept_settings() -> void:
 	globals.set_setting("models", models)
 	if "SDXL_beta::stability.ai#6901" in models:
 		globals.set_setting("shared", true, "Options")
-		EventBus.emit_signal("shared_toggled")
+		ParamBus.emit_signal("shared_toggled")
 	else:
 		globals.set_setting("shared", false, "Options")
-		EventBus.emit_signal("shared_toggled")
+		ParamBus.emit_signal("shared_toggled")
 	var loras = lora.selected_loras_list
 	globals.set_setting("loras",loras)
 	stable_horde_client.set("lora", loras)

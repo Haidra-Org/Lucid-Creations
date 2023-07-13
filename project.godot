@@ -114,6 +114,7 @@ config/windows_native_icon="res://icon.ico"
 
 globals="*res://globals.gd"
 EventBus="*res://bus.gd"
+ParamBus="*res://src/ParamBus.gd"
 
 [display]
 

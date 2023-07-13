@@ -30,7 +30,7 @@ onready var lora_clip_strength = $"%LoraClipStrength"
 onready var fetch_from_civitai = $"%FetchFromCivitAI"
 
 func _ready():
-	EventBus.connect("model_selected",self,"on_model_selection_changed")
+	ParamBus.connect("model_selected",self,"on_model_selection_changed")
 	lora_reference_node = CivitAILoraReference.new()
 	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
 	# warning-ignore:return_value_discarded
@@ -76,7 +76,7 @@ func _on_lora_selected(lora_name: String) -> void:
 		}
 	)
 	update_selected_loras_label()
-	EventBus.emit_signal("lora_selected", lora_reference_node.get_lora_info(lora_name))
+	ParamBus.emit_signal("lora_selected", lora_reference_node.get_lora_info(lora_name))
 
 func _on_reference_retrieved(model_reference: Dictionary):
 	lora_auto_complete.selections = model_reference

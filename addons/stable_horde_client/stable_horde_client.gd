@@ -92,6 +92,7 @@ export(bool) var r2 := true
 # top help train future models
 export(bool) var shared := true
 export(String, "none", "canny", "hed", "depth", "normal", "openpose", "seg", "scribble", "fakescribbles", "hough") var control_type := "none"
+export(bool) var dry_run := false
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -141,6 +142,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"models": models,
 		"r2": r2,
 		"shared": shared,
+		"dry_run": dry_run,
 #		"workers": ["dc0704ab-5b42-4c65-8471-561be16ad696"], # debug
 	}
 #	print_debug(submit_dict)

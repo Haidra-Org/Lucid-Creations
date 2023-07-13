@@ -1,10 +1,6 @@
 extends Node
 
 # warning-ignore:unused_signal
-signal width_changed(hslider)
-# warning-ignore:unused_signal
-signal height_changed(hslider)
-# warning-ignore:unused_signal
 signal node_hovered(node)
 # warning-ignore:unused_signal
 signal node_unhovered(node)
@@ -12,9 +8,7 @@ signal node_unhovered(node)
 signal rtl_meta_hovered(rtlabel, string_id)
 # warning-ignore:unused_signal
 signal rtl_meta_unhovered(rtlabel)
-signal shared_toggled()
-signal lora_selected(lora_details)
-signal model_selected(model_details)
+
 
 func _on_node_hovered(node: Control):
 	emit_signal("node_hovered", node)

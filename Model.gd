@@ -192,7 +192,7 @@ func _get_selected_models() -> Array:
 	return model_defs
 	
 func _emit_selected_models() -> void:
-	EventBus.emit_signal("model_selected", _get_selected_models())
+	ParamBus.emit_signal("model_selected", _get_selected_models())
 
 func _update_selected_models_label() -> void:
 	var bbtext := []

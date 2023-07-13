@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -32,6 +32,7 @@
 [ext_resource path="res://src/Options/SaveDirBrowseButton.tscn" type="PackedScene" id=30]
 [ext_resource path="res://src/PromptLine.gd" type="Script" id=31]
 [ext_resource path="res://src/NegPromptLine.gd" type="Script" id=32]
+[ext_resource path="res://src/KudosCost.gd" type="Script" id=33]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -91,6 +92,10 @@ script = ExtResource( 1 )
 [node name="StableHordeClient" type="HTTPRequest" parent="TabContainer"]
 unique_name_in_owner = true
 script = ExtResource( 2 )
+
+[node name="KudosCost" type="HTTPRequest" parent="TabContainer"]
+script = ExtResource( 33 )
+dry_run = true
 
 [node name="Generate" type="MarginContainer" parent="TabContainer"]
 anchor_right = 1.0
