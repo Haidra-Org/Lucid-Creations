@@ -1,3 +1,4 @@
+class_name PostProcessingSelection
 extends VBoxContainer
 
 # warning-ignore:unused_signal

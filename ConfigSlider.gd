@@ -1,4 +1,5 @@
 tool
+class_name ConfigSlider
 extends VBoxContainer
 
 signal value_changed
@@ -58,10 +59,10 @@ func _ready():
 	globals.connect("setting_changed", self, "_on_setting_changed")
 	if config_setting == "width":
 		# warning-ignore:return_value_discarded
-		ParamBus.connect("height", self, "_on_wh_changed")
+		EventBus.connect("height_changed", self, "_on_wh_changed")
 	if config_setting == "height":
 		# warning-ignore:return_value_discarded
-		ParamBus.connect("width", self, "_on_wh_changed")
+		EventBus.connect("width_changed", self, "_on_wh_changed")
 
 func set_value(value) -> void:
 	$"%HSlider".value = value
@@ -101,9 +102,9 @@ func _adapt_to_config_name() -> void:
 func _on_HSlider_value_changed(value):
 	config_value.text = str(value)
 	if config_setting == "width":
-		ParamBus.emit_signal("width", self)
+		EventBus.emit_signal("width_changed", self)
 	elif config_setting == "height":
-		ParamBus.emit_signal("height", self)
+		EventBus.emit_signal("height_changed", self)
 	elif upfront_limit != null and upfront_limit < value:
 		config_value.modulate = Color(1,0,0)
 		$"%HSlider".modulate = Color(1,0,0)
