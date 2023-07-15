@@ -9,6 +9,7 @@ onready var prompt_line = $"%PromptLine"
 func _ready():
 	prompt_context_menu = prompt_line.get_menu()
 	prompt_context_menu.add_item("Expand", 100)
+	# warning-ignore:return_value_discarded
 	prompt_context_menu.connect("id_pressed", self, "_on_menu_id_pressed")
 	expand_idx = prompt_context_menu.get_item_index(100)
 

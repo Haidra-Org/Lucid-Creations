@@ -22,6 +22,7 @@ func _ready():
 	shared.connect("toggled",self,"_on_shared_pressed")
 	# warning-ignore:return_value_discarded
 	login_button.connect("pressed",self,"_on_login_pressed")
+	EventBus.connect("generation_completed",self,"_on_generation_completed")
 #	save_dir.connect("text_changed",self,"_on_savedir_changed")
 	# warning-ignore:return_value_discarded
 	save_dir_browse_button.connect("savedir_path_set",self,"_on_savedir_selected")
@@ -124,7 +125,11 @@ func _on_login_succesful(_user_data) -> void:
 	$"%LoggedInKudos".text = "Kudos: " + str(stable_horde_login.get_kudos())
 	$"%LoggedInWorkers".text = "Workers: " + str(stable_horde_login.get_worker_count())
 	api_key.modulate = Color(1,1,1)
+	globals.user_kudos = stable_horde_login.get_kudos()
 
 func _on_login_failed(_error_msg) -> void:
 	$"%LoggedInDetails".visible = false
 	api_key.modulate = Color(1,0,0)
+
+func _on_generation_completed() -> void:
+	stable_horde_login.login()

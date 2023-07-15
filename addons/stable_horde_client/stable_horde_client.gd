@@ -3,6 +3,7 @@ extends StableHordeHTTPRequest
 
 signal images_generated(completed_payload)
 signal image_processing(stats)
+signal kudos_calculated(kudos)
 
 enum SamplerMethods {
 	k_lms = 0
@@ -56,7 +57,9 @@ export(int,1,100) var steps := 30
 # Advanced: The sampler used to generate. Provides slight variations on the same prompt.
 export(String, "k_lms", "k_heun", "k_euler", "k_euler_a", "k_dpm_2", "k_dpm_2_a", "k_dpm_fast", "k_dpm_adaptive", "k_dpmpp_2s_a", "k_dpmpp_2m", "dpmsolver") var sampler_name := "k_euler_a"
 # How closely to follow the prompt given
-export(float,-40,30,0.5) var cfg_scale := 7.5
+export(float,0,30,0.5) var cfg_scale := 7.5
+# The number of CLIP language processor layers to skip.
+export(int,1,12,1) var clip_skip := 1
 # How closely to follow the source image in img2img
 export(float,0,1,0.01) var denoising_strength := 0.7
 # The unique seed for the prompt. If you pass a value in the seed and keep all the values the same
@@ -92,6 +95,7 @@ export(bool) var r2 := true
 # top help train future models
 export(bool) var shared := true
 export(String, "none", "canny", "hed", "depth", "normal", "openpose", "seg", "scribble", "fakescribbles", "hough") var control_type := "none"
+export(bool) var dry_run := false
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -125,6 +129,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"cfg_scale": cfg_scale,
 		"seed": gen_seed,
 		"post_processing": post_processing,
+		"clip_skip": clip_skip,
 	}
 	if control_type != 'none':
 		imgen_params["control_type"] = control_type
@@ -141,6 +146,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"models": models,
 		"r2": r2,
 		"shared": shared,
+		"dry_run": dry_run,
 #		"workers": ["dc0704ab-5b42-4c65-8471-561be16ad696"], # debug
 	}
 #	print_debug(submit_dict)
@@ -172,6 +178,9 @@ func process_request(json_ret) -> void:
 		return
 	if 'generations' in json_ret:
 		_extract_images(json_ret['generations'])
+		return
+	if 'kudos' in json_ret and dry_run:
+		complete_dry_run_request(json_ret["kudos"])
 		return
 	if delete_sent:
 		_return_empty()
@@ -284,6 +293,15 @@ func complete_image_request() -> void:
 	}
 	request_start_time = 0
 	emit_signal("images_generated",completed_payload)
+	state = States.READY
+
+func complete_dry_run_request(kudos: int) -> void:
+	var completed_payload = {
+		"kudos": kudos,
+		"elapsed_time": OS.get_ticks_msec() - request_start_time
+	}
+	request_start_time = 0
+	emit_signal("kudos_calculated",completed_payload)
 	state = States.READY
 
 func _on_r2_retrieval_success(image_bytes: PoolByteArray, img_dict: Dictionary, timestamp: int, expected_amount: int) -> void:

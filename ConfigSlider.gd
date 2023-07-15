@@ -1,4 +1,5 @@
 tool
+class_name ConfigSlider
 extends VBoxContainer
 
 signal value_changed
@@ -34,9 +35,15 @@ const CONFIG := {
 	},
 	"cfg_scale": {
 		"label": "Guidance",
-		"min": -40,
+		"min": 0,
 		"max": 30,
 		"step": 0.5,
+	},
+	"clip_skip": {
+		"label": "Clip Skip",
+		"min": 1,
+		"max": 12,
+		"step": 1,
 	},
 	"denoising_strength": {
 		"label": "Denoising Strength (how strongly the image should follow the source image)",
@@ -46,11 +53,13 @@ const CONFIG := {
 	},
 }
 var upfront_limit = null
+var stored_sister_slider = null
+var generation_kudos = 0
 onready var h_slider = $"%HSlider"
 onready var config_name = $"%ConfigName"
 onready var config_value = $"%ConfigValue"
 
-export(String, "amount", "width", "height", "steps", "cfg_scale", "denoising_strength") var config_setting := 'amount' setget set_config_name
+export(String, "amount", "width", "height", "steps", "cfg_scale", "clip_skip", "denoising_strength") var config_setting := 'amount' setget set_config_name
 
 func _ready():
 	_adapt_to_config_name()
@@ -62,6 +71,11 @@ func _ready():
 	if config_setting == "height":
 		# warning-ignore:return_value_discarded
 		EventBus.connect("width_changed", self, "_on_wh_changed")
+	if config_setting in ["width", "height"]:
+		# warning-ignore:return_value_discarded
+		ParamBus.connect("models_changed",self,"_on_models_changed")
+# warning-ignore:return_value_discarded
+	EventBus.connect("kudos_calculated", self, "_on_kudos_calculated")
 
 func set_value(value) -> void:
 	$"%HSlider".value = value
@@ -97,19 +111,14 @@ func _adapt_to_config_name() -> void:
 	$"%HSlider".step = CONFIG[config_setting].step
 	reset_max_value()
 
-
 func _on_HSlider_value_changed(value):
 	config_value.text = str(value)
 	if config_setting == "width":
 		EventBus.emit_signal("width_changed", self)
 	elif config_setting == "height":
 		EventBus.emit_signal("height_changed", self)
-	elif upfront_limit != null and upfront_limit < value:
-		config_value.modulate = Color(1,0,0)
-		$"%HSlider".modulate = Color(1,0,0)
 	else:
-		config_value.modulate = Color(1,1,1)
-		$"%HSlider".modulate = Color(1,1,1)
+		_on_config_slider_changed()
 
 func _on_setting_changed(setting_name):
 	if setting_name == "larger_values" and CONFIG[config_setting].has('upfront_limit'):
@@ -117,10 +126,29 @@ func _on_setting_changed(setting_name):
 			$"%HSlider".max_value = CONFIG[config_setting].max
 		else:
 			$"%HSlider".max_value = CONFIG[config_setting].upfront_limit
-			
 
-func _on_wh_changed(sister_slider):
-	if sister_slider.h_slider.value * h_slider.value > upfront_limit * upfront_limit:
+# Only called for width/height changes
+func _on_config_slider_changed() -> void:
+	if upfront_limit != null and upfront_limit < h_slider.value and globals.user_kudos < generation_kudos:
+		config_value.modulate = Color(1,0,0)
+		$"%HSlider".modulate = Color(1,0,0)
+	else:
+		config_value.modulate = Color(1,1,1)
+		$"%HSlider".modulate = Color(1,1,1)
+
+# Only called for width/height changes
+func _on_wh_changed(sister_slider) -> void:
+	stored_sister_slider = sister_slider
+	if not ParamBus.models_node:
+		return
+	var baselines = ParamBus.models_node.get_all_baselines()
+	if "stable diffusion 1" in baselines:
+		upfront_limit = 576
+	if "stable diffusion 2" in baselines:
+		upfront_limit = 768
+	if "SDXL" in baselines:
+		upfront_limit = 1024
+	if sister_slider.h_slider.value * h_slider.value > upfront_limit * upfront_limit and globals.user_kudos < generation_kudos:
 		for n in [sister_slider, self]:
 			n.config_value.modulate = Color(1,0,0)
 			n.h_slider.modulate = Color(1,0,0)
@@ -129,3 +157,15 @@ func _on_wh_changed(sister_slider):
 			n.config_value.modulate = Color(1,1,1)
 			n.h_slider.modulate = Color(1,1,1)
 		
+
+func _on_models_changed(_models) -> void:
+	if not stored_sister_slider:
+		return
+	_on_wh_changed(stored_sister_slider)
+
+func _on_kudos_calculated(kudos) -> void:
+	generation_kudos = kudos
+	if config_setting in ["width", "height"]:
+		_on_wh_changed(stored_sister_slider)
+	else:
+		_on_config_slider_changed()

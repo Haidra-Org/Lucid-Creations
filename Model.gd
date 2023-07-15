@@ -1,6 +1,8 @@
+class_name ModelSelection
 extends Control
 
 signal prompt_inject_requested(tokens)
+signal model_modified(models_list)
 
 var selected_models_list : Array = []
 var model_refresh: float
@@ -190,9 +192,17 @@ func _get_selected_models() -> Array:
 		else:
 			model_defs.append(get_model_reference(model_name))
 	return model_defs
-	
+
+func get_all_baselines() -> Array:
+	var baselines := []
+	for model in _get_selected_models():
+		if not model["baseline"] in baselines:
+			baselines.append(model["baseline"])
+	return baselines
+
 func _emit_selected_models() -> void:
 	EventBus.emit_signal("model_selected", _get_selected_models())
+	emit_signal("model_modified", _get_selected_models())
 
 func _update_selected_models_label() -> void:
 	var bbtext := []

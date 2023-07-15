@@ -16,11 +16,11 @@ func _on_LoraSliderValue_text_entered(new_text: String):
 	if not new_text.is_valid_float():
 		lora_slider_value.text = ''
 	var new_value = float(new_text)
-	if new_value > 1:
-		new_value = 1
+	if new_value > 2:
+		new_value = 2
 		lora_slider_value.text = '1'
-	if new_value < 0:
-		new_value = 0
+	if new_value < -2:
+		new_value = -2
 		lora_slider_value.text = '0'
 	lora_slider.value = new_value
 	emit_signal("value_changed",int(new_text))

@@ -15,9 +15,9 @@ func submit_rating(request_id: String, ratings_payload: Dictionary) -> void:
 		"Content-Type: application/json", 
 		"Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":(discord)db0#1625"
 	]
-	print_debug(url)
-	print_debug(body)
-	print_debug(headers)
+#	print_debug(url)
+#	print_debug(body)
+#	print_debug(headers)
 	var error = request(url, headers, false, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"

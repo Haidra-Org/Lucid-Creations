@@ -2,20 +2,20 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/1668640648_612798516.webp-ab73fe0452ad0ffe24f83923274efa49.stex"
+path="res://.import/1689451763_2559822992.webp-48ae039397a8d644746275b95002d801.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/backgrounds/1668640648_612798516.webp"
-dest_files=[ "res://.import/1668640648_612798516.webp-ab73fe0452ad0ffe24f83923274efa49.stex" ]
+source_file="res://assets/backgrounds/1689451763_2559822992.webp"
+dest_files=[ "res://.import/1689451763_2559822992.webp-48ae039397a8d644746275b95002d801.stex" ]
 
 [params]
 
-compress/mode=1
-compress/lossy_quality=0.9
+compress/mode=0
+compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0

@@ -1,9 +1,11 @@
+class_name PostProcessingSelection
 extends VBoxContainer
 
 # warning-ignore:unused_signal
 signal meta_hovered(description)
 # warning-ignore:unused_signal
 signal meta_unhovered
+signal pp_modified(pp_list)
 
 const POST_PROCESSORS = [
 	"GFPGAN",
@@ -60,6 +62,7 @@ func _update_pp_label() -> void:
 		}
 		bbtext.append(pp_text.format(pp_fmt))
 	pp_selected.bbcode_text = ", ".join(bbtext)
+	emit_signal("pp_modified", selected_pp)
 
 func _on_pp_meta_clicked(index: String) -> void:
 	if "hover" in index:
