@@ -8,6 +8,7 @@ enum LoraCompatible {
 }
 
 signal prompt_inject_requested(tokens)
+signal loras_modified(loras_list)
 
 var lora_reference_node: CivitAILoraReference
 var selected_loras_list : Array = []
@@ -64,6 +65,7 @@ func replace_loras(loras: Array) -> void:
 	for lora in selected_loras_list:
 		lora["name"] = lora_reference_node.get_lora_name(lora["name"])
 	update_selected_loras_label()
+	emit_signal("loras_modified", selected_loras_list)
 
 func _on_lora_selected(lora_name: String) -> void:
 	if selected_loras_list.size() >= 5:
@@ -78,6 +80,7 @@ func _on_lora_selected(lora_name: String) -> void:
 	)
 	update_selected_loras_label()
 	EventBus.emit_signal("lora_selected", lora_reference_node.get_lora_info(lora_name))
+	emit_signal("loras_modified", selected_loras_list)
 
 func _on_reference_retrieved(model_reference: Dictionary):
 	lora_auto_complete.selections = model_reference
@@ -129,6 +132,7 @@ func _on_selected_loras_meta_clicked(meta) -> void:
 		"delete":
 			selected_loras_list.remove(int(meta_split[1]))
 			update_selected_loras_label()
+			emit_signal("loras_modified", selected_loras_list)
 		"trigger":
 			_on_lora_trigger_pressed(int(meta_split[1]))
 
@@ -143,7 +147,6 @@ func _on_selected_loras_meta_hover_started(meta: String) -> void:
 		"trigger":
 			info = "LoRaTrigger"
 	EventBus.emit_signal("rtl_meta_hovered",selected_loras,info)
-
 
 func _on_selected_loras_meta_hover_ended(_meta: String) -> void:
 	EventBus.emit_signal("rtl_meta_unhovered",selected_loras)

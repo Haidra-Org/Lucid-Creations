@@ -132,6 +132,12 @@ func setup(
 		shared_node
 	]:
 		cbutton.connect("pressed", self, "_on_cbutton_changed", [cbutton])
+	# warning-ignore:return_value_discarded
+	post_processing_node.connect("pp_modified",self,"_on_listnode_changed")
+	# warning-ignore:return_value_discarded
+	models_node.connect("model_modified",self,"_on_listnode_changed")
+	# warning-ignore:return_value_discarded
+	loras_node.connect("loras_modified",self,"_on_listnode_changed")
 	
 
 func get_prompt() -> String:
@@ -198,7 +204,7 @@ func get_control_type() -> String:
 func get_loras() -> Array:
 	return loras_node.selected_loras_list
 
-func _on_line_edit_changed(_value, line_edit_node) -> void:
+func _on_line_edit_changed(_value, line_edit_node: LineEdit) -> void:
 	match line_edit_node:
 		prompt_node:
 			emit_signal("prompt_changed", get_prompt())
@@ -206,7 +212,7 @@ func _on_line_edit_changed(_value, line_edit_node) -> void:
 			emit_signal("seed_changed", get_seed())
 	emit_signal("params_changed")
 
-func _on_hslider_changed(_value, hslider) -> void:
+func _on_hslider_changed(_value, hslider: ConfigSlider) -> void:
 	match hslider:
 		amount_node:
 			emit_signal("amount_changed", get_amount())
@@ -222,7 +228,7 @@ func _on_hslider_changed(_value, hslider) -> void:
 			emit_signal("denoising_strength_changed", get_denoising_strength())
 	emit_signal("params_changed")
 
-func _on_cbutton_changed(cbutton) -> void:
+func _on_cbutton_changed(cbutton: CheckButton) -> void:
 	match cbutton:
 		karras_node:
 			emit_signal("karras_changed", get_karras())
@@ -238,4 +244,14 @@ func _on_cbutton_changed(cbutton) -> void:
 			emit_signal("img2img_changed", get_source_image())
 		shared_node:
 			emit_signal("shared_changed", get_shared())
+	emit_signal("params_changed")
+
+func _on_listnode_changed(_thing_list: Array, thing_node: Node) -> void:
+	match thing_node:
+		post_processing_node:
+			emit_signal("post_processing_changed", get_post_processing())
+		models_node:
+			emit_signal("models_changed", get_models())
+		loras_node:
+			emit_signal("loras_changed", get_loras())
 	emit_signal("params_changed")

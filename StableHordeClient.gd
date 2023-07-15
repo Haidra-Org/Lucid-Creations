@@ -66,7 +66,6 @@ onready var controls = $"%Controls"
 onready var img_2_img_enabled = $"%Img2ImgEnabled"
 onready var denoising_strength = $"%DenoisingStrength"
 onready var select_image = $"%SelectImage"
-onready var open_image = $"%OpenImage"
 onready var image_preview = $"%ImagePreview"
 onready var control_net = $"%ControlNet"
 onready var control_type = $"%ControlType"
@@ -621,7 +620,30 @@ func _accept_settings() -> void:
 		stable_horde_client.source_image = null
 		stable_horde_client.control_type = "none"
 		globals.set_setting("control_type", "none")
-
+	ParamBus.setup(
+		prompt_line_edit,
+		amount,
+		width,
+		height,
+		steps_slider,
+		sampler_name,
+		config_slider,
+		denoising_strength,
+		seed_edit,
+		pp,
+		karras,
+		hires_fix,
+		nsfw,
+		censor_nsfw,
+		trusted_workers,
+		model,
+		image_preview,
+		img_2_img_enabled,
+		options.shared,
+		control_type,
+		lora
+		
+	)
 
 func _on_load_from_disk_gensettings_loaded(settings) -> void:
 	width.set_value(settings["width"])
