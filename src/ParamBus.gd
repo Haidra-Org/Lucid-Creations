@@ -54,6 +54,7 @@ var height_node: ConfigSlider
 var steps_node: ConfigSlider
 var sampler_name_node: OptionButton
 var cfg_scale_node: ConfigSlider
+var clip_skip_node: ConfigSlider
 var denoising_strength_node: ConfigSlider
 var gen_seed_node: LineEdit
 var post_processing_node: PostProcessingSelection
@@ -79,6 +80,7 @@ func setup(
 	_height_node: ConfigSlider,
 	_sampler_name_node: OptionButton,
 	_cfg_scale_node: ConfigSlider,
+	_clip_skip_node: ConfigSlider,
 	_denoising_strength_node: ConfigSlider,
 	_gen_seed_node: LineEdit,
 	_post_processing_node: PostProcessingSelection,
@@ -103,6 +105,7 @@ func setup(
 	steps_node = _steps_node
 	sampler_name_node = _sampler_name_node
 	cfg_scale_node = _cfg_scale_node
+	clip_skip_node = _clip_skip_node
 	denoising_strength_node = _denoising_strength_node
 	gen_seed_node = _gen_seed_node
 	post_processing_node = _post_processing_node
@@ -126,6 +129,7 @@ func setup(
 		height_node,
 		steps_node,
 		cfg_scale_node,
+		clip_skip_node,
 		denoising_strength_node
 	]:
 		# warning-ignore:return_value_discarded
@@ -174,6 +178,9 @@ func get_sampler_name() -> String:
 
 func get_cfg_scale() -> float:
 	return cfg_scale_node.h_slider.value
+
+func get_clip_skip() -> float:
+	return clip_skip_node.h_slider.value
 
 func get_denoising_strength() -> float:
 	return denoising_strength_node.h_slider.value

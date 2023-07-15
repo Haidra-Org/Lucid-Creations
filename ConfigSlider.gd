@@ -39,6 +39,12 @@ const CONFIG := {
 		"max": 30,
 		"step": 0.5,
 	},
+	"clip_skip": {
+		"label": "Clip Skip",
+		"min": 1,
+		"max": 12,
+		"step": 1,
+	},
 	"denoising_strength": {
 		"label": "Denoising Strength (how strongly the image should follow the source image)",
 		"min": 0,
@@ -53,7 +59,7 @@ onready var h_slider = $"%HSlider"
 onready var config_name = $"%ConfigName"
 onready var config_value = $"%ConfigValue"
 
-export(String, "amount", "width", "height", "steps", "cfg_scale", "denoising_strength") var config_setting := 'amount' setget set_config_name
+export(String, "amount", "width", "height", "steps", "cfg_scale", "clip_skip", "denoising_strength") var config_setting := 'amount' setget set_config_name
 
 func _ready():
 	_adapt_to_config_name()

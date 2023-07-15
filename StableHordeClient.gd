@@ -25,6 +25,7 @@ onready var height := $"%Height"
 onready var amount := $"%Amount"
 onready var seed_edit := $"%Seed"
 onready var config_slider := $"%ConfigSlider"
+onready var clip_skip_slider := $"%ClipSkipSlider"
 onready var steps_slider := $"%StepsSlider"
 onready var generate_button := $"%GenerateButton"
 onready var sampler_method : OptionButton = $"%SamplerMethod"
@@ -165,6 +166,7 @@ func _ready():
 		height,
 		sampler_method,
 		config_slider,
+		clip_skip_slider,
 		denoising_strength,
 		seed_edit,
 		pp,
@@ -496,6 +498,7 @@ func _connect_hover_signals() -> void:
 		height,
 		steps_slider,
 		config_slider,
+		clip_skip_slider,
 		sampler_method,
 		seed_edit,
 		karras,
@@ -611,7 +614,15 @@ func _on_nsfw_toggled(button_pressed: bool) -> void:
 	lora.update_selected_loras_label()
 
 func _accept_settings() -> void:
-	for slider_config in [width,height,config_slider,steps_slider,amount,denoising_strength]:
+	for slider_config in [
+		width,
+		height,
+		config_slider,
+		steps_slider,
+		amount,
+		denoising_strength,
+		clip_skip_slider
+	]:
 		stable_horde_client.set(slider_config.config_setting, slider_config.h_slider.value)
 		globals.set_setting(slider_config.config_setting, slider_config.h_slider.value)
 	var sampler_name = sampler_method.get_item_text(sampler_method.selected)

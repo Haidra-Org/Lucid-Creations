@@ -14,6 +14,7 @@ const DESCRIPTIONS = {
 	"Height": "The height of the image to generate.\nValues over 576x576 require upfront kudos to generate.",
 	"StepsSlider": "How many iterations to take to create a good image.\nKeep this value between 30 and 40 for best time-to-result value.\nValues over 50 (or 25 for some samplers) require upfront kudos to generate.",
 	"ConfigSlider": "How strongly the image should follow the prompt.\nHigher values will respect your prompt more. Lower values will let the AI be more creative.\nAKA 'Classifier Free Guidance Scale' or 'CFG'.",
+	"ClipSkipSlider": "The number of CLIP language processor layers to skip",
 	"SamplerMethod": "All samplers are very similar for the same seed, but might produce slightly different results.\bSamplers ending with _a tend to be better, but more random.\nk_heun, and k_dpm_2* double generation time and kudos cost for the same steps but converge faster.",
 	"Seed": "You can provide your own seed (to regenerate a previous image), or leave blank to get a random seed",
 	"Karras": "Improves image generation at lower steps. Basically magic.",
