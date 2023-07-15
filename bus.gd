@@ -21,6 +21,7 @@ signal lora_selected(lora_details)
 # warning-ignore:unused_signal
 signal model_selected(model_details)
 signal kudos_calculated(kudos)
+signal generation_completed
 
 func _on_node_hovered(node: Control):
 	emit_signal("node_hovered", node)

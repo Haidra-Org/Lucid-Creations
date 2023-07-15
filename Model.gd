@@ -192,7 +192,14 @@ func _get_selected_models() -> Array:
 		else:
 			model_defs.append(get_model_reference(model_name))
 	return model_defs
-	
+
+func get_all_baselines() -> Array:
+	var baselines := []
+	for model in _get_selected_models():
+		if not model["baseline"] in baselines:
+			baselines.append(model["baseline"])
+	return baselines
+
 func _emit_selected_models() -> void:
 	EventBus.emit_signal("model_selected", _get_selected_models())
 	emit_signal("model_modified", _get_selected_models())

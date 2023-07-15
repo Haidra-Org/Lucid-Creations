@@ -155,7 +155,6 @@ func _ready():
 	randomize()
 	if prompt_line_edit.text == '':
 		prompt_line_edit.text = _get_random_placeholder_prompt()
-	print_debug(img_2_img_enabled)
 	ParamBus.setup(
 		options.api_key,
 		prompt_line_edit,
@@ -236,6 +235,7 @@ func _on_images_generated(completed_payload: Dictionary):
 		tr.connect("left_mouse_mouse_clicked", self, "_on_grid_texture_left_clicked", [tr])
 #		tr.connect("right_mouse_mouse_clicked", self, "_on_grid_texture_right_clicked", [tr])
 		grid.add_child(tr)
+	EventBus.emit_signal("generation_completed")
 
 func _on_image_process_update(stats: Dictionary) -> void:
 #	print_debug(stats)
@@ -720,5 +720,5 @@ func _on_kudos_calculated(kudos: int) -> void:
 		"kudos": str(kudos)
 	}
 	if kudos > options.stable_horde_login.get_kudos():
-		fmt["color"] = "red"
+		fmt["color"] = "#FFA500"
 	kudos_text.bbcode_text = "[color={color}]Kudos: {kudos}[/color]".format(fmt)

@@ -4,7 +4,9 @@ var kudos : float = 0
 var countdown_timer : float = 0
 
 func _ready():
+	# warning-ignore:return_value_discarded
 	ParamBus.connect("params_changed",self,"_on_params_changed")
+	# warning-ignore:return_value_discarded
 	connect("kudos_calculated", self, "_on_kudos_calculated")
 	dry_run = true
 
