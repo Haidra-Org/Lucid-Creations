@@ -3,6 +3,7 @@ extends StableHordeHTTPRequest
 
 signal images_generated(completed_payload)
 signal image_processing(stats)
+signal kudos_calculated(kudos)
 
 enum SamplerMethods {
 	k_lms = 0
@@ -175,6 +176,9 @@ func process_request(json_ret) -> void:
 	if 'generations' in json_ret:
 		_extract_images(json_ret['generations'])
 		return
+	if 'kudos' in json_ret and dry_run:
+		complete_dry_run_request(json_ret["kudos"])
+		return
 	if delete_sent:
 		_return_empty()
 		return
@@ -286,6 +290,15 @@ func complete_image_request() -> void:
 	}
 	request_start_time = 0
 	emit_signal("images_generated",completed_payload)
+	state = States.READY
+
+func complete_dry_run_request(kudos: int) -> void:
+	var completed_payload = {
+		"kudos": kudos,
+		"elapsed_time": OS.get_ticks_msec() - request_start_time
+	}
+	request_start_time = 0
+	emit_signal("kudos_calculated",completed_payload)
 	state = States.READY
 
 func _on_r2_retrieval_success(image_bytes: PoolByteArray, img_dict: Dictionary, timestamp: int, expected_amount: int) -> void:

@@ -5,6 +5,8 @@ var countdown_timer : float = 0
 
 func _ready():
 	ParamBus.connect("params_changed",self,"_on_params_changed")
+	connect("kudos_calculated", self, "_on_kudos_calculated")
+	dry_run = true
 
 func _process(delta):
 	if countdown_timer > 0:
@@ -13,31 +15,32 @@ func _process(delta):
 			_init_calculate_kudos()
 
 func _on_params_changed() -> void:
-	countdown_timer = 2
+	if state == States.READY:
+		countdown_timer = 0.5
 
 func _init_calculate_kudos() -> void:
+	api_key = ParamBus.get_api_key()
 	prompt = ParamBus.get_prompt()
-	
-	
-	EventBus.emit_signal("kudos_calculated",kudos)
-#	prompt_node = _prompt_node
-#	amount_node = _amount_node
-#	width_node = _width_node
-#	height_node = _height_node
-#	steps_node = _steps_node
-#	sampler_name_node = _sampler_name_node
-#	cfg_scale_node = _cfg_scale_node
-#	denoising_strength_node = _denoising_strength_node
-#	gen_seed_node = _gen_seed_node
-#	post_processing_node = _post_processing_node
-#	karras_node = _karras_node
-#	hires_fix_node = _hires_fix_node
-#	nsfw_node = _nsfw_node
-#	censor_nsfw_node = _censor_nsfw_node
-#	trusted_workers_node = _trusted_workers_node
-#	models_node = _models_node
-#	source_image_node = _source_image_node
-#	img2img_node = _img2img_node
-#	shared_node = _shared_node
-#	control_type_node = _control_type_node
-#	loras_node = _loras_node
+	amount = ParamBus.get_amount()
+	width = ParamBus.get_width()
+	height = ParamBus.get_height()
+	steps = ParamBus.get_steps()
+	sampler_name = ParamBus.get_sampler_name()
+	cfg_scale = ParamBus.get_cfg_scale()
+	denoising_strength = ParamBus.get_denoising_strength()
+	gen_seed = ParamBus.get_gen_seed()
+	post_processing = ParamBus.get_post_processing()
+	karras = ParamBus.get_karras()
+	hires_fix = ParamBus.get_hires_fix()
+	nsfw = ParamBus.get_nsfw()
+	censor_nsfw = ParamBus.get_censor_nsfw()
+	trusted_workers = ParamBus.get_trusted_workers()
+	models = ParamBus.get_models()
+	source_image = ParamBus.get_source_image()
+	shared = ParamBus.get_shared()
+	control_type = ParamBus.get_control_type()
+	lora = ParamBus.get_loras()
+	generate()
+
+func _on_kudos_calculated(kudos_payload: Dictionary) -> void:
+	EventBus.emit_signal("kudos_calculated", kudos_payload["kudos"])

@@ -3,6 +3,8 @@ extends Node
 # warning-ignore:unused_signal
 signal params_changed
 # warning-ignore:unused_signal
+signal api_key_changed(text)
+# warning-ignore:unused_signal
 signal prompt_changed(text)
 # warning-ignore:unused_signal
 signal amount_changed(number)
@@ -43,7 +45,9 @@ signal control_type_changed(text)
 # warning-ignore:unused_signal
 signal loras_changed(list)
 
-var prompt_node: LineEdit
+var api_key_node: LineEdit
+var prompt_node: TextEdit
+var negprompt_node: TextEdit
 var amount_node: ConfigSlider
 var width_node: ConfigSlider
 var height_node: ConfigSlider
@@ -66,7 +70,9 @@ var control_type_node: OptionButton
 var loras_node: LoraSelection
 
 func setup(
-	_prompt_node: LineEdit,
+	_api_key_node: LineEdit,
+	_prompt_node: TextEdit,
+	_negprompt_node: TextEdit,
 	_amount_node: ConfigSlider,
 	_steps_node: ConfigSlider,
 	_width_node: ConfigSlider,
@@ -88,7 +94,9 @@ func setup(
 	_control_type_node: OptionButton,
 	_loras_node: LoraSelection
 ) -> void:
+	api_key_node = _api_key_node
 	prompt_node = _prompt_node
+	negprompt_node = _negprompt_node
 	amount_node = _amount_node
 	width_node = _width_node
 	height_node = _height_node
@@ -109,7 +117,7 @@ func setup(
 	shared_node = _shared_node
 	control_type_node = _control_type_node
 	loras_node = _loras_node
-	for le_node in [prompt_node, gen_seed_node]:
+	for le_node in [prompt_node, negprompt_node, gen_seed_node, api_key_node]:
 		# warning-ignore:return_value_discarded
 		le_node.connect("text_changed", self, "_on_line_edit_changed", [le_node])
 	for slider in [
@@ -133,15 +141,21 @@ func setup(
 	]:
 		cbutton.connect("pressed", self, "_on_cbutton_changed", [cbutton])
 	# warning-ignore:return_value_discarded
-	post_processing_node.connect("pp_modified",self,"_on_listnode_changed")
+	post_processing_node.connect("pp_modified",self,"_on_listnode_changed", [post_processing_node])
 	# warning-ignore:return_value_discarded
-	models_node.connect("model_modified",self,"_on_listnode_changed")
+	models_node.connect("model_modified",self,"_on_listnode_changed", [models_node])
 	# warning-ignore:return_value_discarded
-	loras_node.connect("loras_modified",self,"_on_listnode_changed")
+	loras_node.connect("loras_modified",self,"_on_listnode_changed", [loras_node])
 	
 
 func get_prompt() -> String:
-	return prompt_node.text
+	if negprompt_node.text == '':
+		return prompt_node.text
+	else:
+		return prompt_node.text + "###" + negprompt_node.text
+
+func get_api_key() -> String:
+	return api_key_node.text
 
 func get_amount() -> int:
 	return amount_node.h_slider.value
@@ -155,7 +169,7 @@ func get_height() -> int:
 func get_steps() -> int:
 	return steps_node.h_slider.value
 
-func get_sampler_name_node() -> String:
+func get_sampler_name() -> String:
 	return sampler_name_node.get_item_text(sampler_name_node.selected)
 
 func get_cfg_scale() -> float:
@@ -164,7 +178,7 @@ func get_cfg_scale() -> float:
 func get_denoising_strength() -> float:
 	return denoising_strength_node.h_slider.value
 
-func get_seed() -> String:
+func get_gen_seed() -> String:
 	return gen_seed_node.text
 
 func get_post_processing() -> Array:
@@ -204,15 +218,15 @@ func get_control_type() -> String:
 func get_loras() -> Array:
 	return loras_node.selected_loras_list
 
-func _on_line_edit_changed(_value, line_edit_node: LineEdit) -> void:
+func _on_line_edit_changed(_value, line_edit_node) -> void:
 	match line_edit_node:
-		prompt_node:
+		prompt_node, negprompt_node:
 			emit_signal("prompt_changed", get_prompt())
 		gen_seed_node:
-			emit_signal("seed_changed", get_seed())
+			emit_signal("gen_seed_changed", get_gen_seed())
 	emit_signal("params_changed")
 
-func _on_hslider_changed(_value, hslider: ConfigSlider) -> void:
+func _on_hslider_changed(hslider: ConfigSlider) -> void:
 	match hslider:
 		amount_node:
 			emit_signal("amount_changed", get_amount())

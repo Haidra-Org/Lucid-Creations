@@ -32,6 +32,7 @@ onready var lora_clip_strength = $"%LoraClipStrength"
 onready var fetch_from_civitai = $"%FetchFromCivitAI"
 
 func _ready():
+	# warning-ignore:return_value_discarded
 	EventBus.connect("model_selected",self,"on_model_selection_changed")
 	lora_reference_node = CivitAILoraReference.new()
 	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")

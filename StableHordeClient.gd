@@ -14,6 +14,7 @@ var placeholder_prompts := [
 
 onready var options = $"%Options"
 onready var stable_horde_client := $"%StableHordeClient"
+onready var kudos_cost := $"%KudosCost"
 onready var stable_horde_rate_generation := $"%StableHordeRateGeneration"
 onready var grid := $"%Grid"
 onready var prompt_line_edit := $"%PromptLine"
@@ -45,6 +46,7 @@ onready var save = $"%Save"
 onready var save_all = $"%SaveAll"
 onready var load_from_disk = $"%LoadFromDisk"
 onready var status_text = $"%StatusText"
+onready var kudos_text = $"%KudosText"
 onready var controls_basic := $"%Basic"
 onready var control_advanced := $"%Advanced"
 onready var generations_processing = $"%GenerationsProcessing"
@@ -97,6 +99,9 @@ func _ready():
 	img_2_img_enabled.connect("toggled",self,"on_img2img_toggled")
 	# warning-ignore:return_value_discarded
 	select_image.connect("image_selected",self,"_on_source_image_selected")
+	# warning-ignore:return_value_discarded
+	EventBus.connect("kudos_calculated",self, "_on_kudos_calculated")
+
 	_connect_hover_signals()
 	save.connect("pressed", self, "_on_save_pressed")
 	save_all.connect("pressed", self, "_on_save_all_pressed")
@@ -150,7 +155,40 @@ func _ready():
 	randomize()
 	if prompt_line_edit.text == '':
 		prompt_line_edit.text = _get_random_placeholder_prompt()
-	
+	print_debug(img_2_img_enabled)
+	ParamBus.setup(
+		options.api_key,
+		prompt_line_edit,
+		negative_prompt_line_edit,
+		amount,
+		steps_slider,
+		width,
+		height,
+		sampler_method,
+		config_slider,
+		denoising_strength,
+		seed_edit,
+		pp,
+		karras,
+		hires_fix,
+		nsfw,
+		censor_nsfw,
+		trusted_workers,
+		model,
+		img_2_img_enabled,
+		image_preview,
+		options.shared,
+		control_type,
+		lora
+	)
+#	_models_node: ModelSelection,
+#	_img2img_node: CheckButton,
+#	_source_image_node: TextureRect,
+#	_shared_node: CheckButton,
+#	_control_type_node: OptionButton,
+#	_loras_node: LoraSelection
+
+
 #	var tween2 = create_tween()
 #	print_debug(tween2)
 #	var t = tween2.tween_property(generations_processing, "value", 15, 2)
@@ -620,30 +658,6 @@ func _accept_settings() -> void:
 		stable_horde_client.source_image = null
 		stable_horde_client.control_type = "none"
 		globals.set_setting("control_type", "none")
-	ParamBus.setup(
-		prompt_line_edit,
-		amount,
-		width,
-		height,
-		steps_slider,
-		sampler_name,
-		config_slider,
-		denoising_strength,
-		seed_edit,
-		pp,
-		karras,
-		hires_fix,
-		nsfw,
-		censor_nsfw,
-		trusted_workers,
-		model,
-		image_preview,
-		img_2_img_enabled,
-		options.shared,
-		control_type,
-		lora
-		
-	)
 
 func _on_load_from_disk_gensettings_loaded(settings) -> void:
 	width.set_value(settings["width"])
@@ -699,3 +713,12 @@ func _set_prompt(prompt: String, force = false) -> bool:
 		negative_prompt_line_edit.text += ', ' + textsplit[1]
 	prompt_line_edit.text = textsplit[0]
 	return true
+
+func _on_kudos_calculated(kudos: int) -> void:
+	var fmt = {
+		"color": "white",
+		"kudos": str(kudos)
+	}
+	if kudos > options.stable_horde_login.get_kudos():
+		fmt["color"] = "red"
+	kudos_text.bbcode_text = "[color={color}]Kudos: {kudos}[/color]".format(fmt)
