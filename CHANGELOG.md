@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.23.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.23.0) (2023-07-15)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.22.0...v1.23.0)
+
+**Merged pull requests:**
+
+- Lora Strength, Clip Slip, Kudos and Backgrounds [\#109](https://github.com/Haidra-Org/Lucid-Creations/pull/109) ([db0](https://github.com/db0))
+
 ## [v1.22.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.22.0) (2023-07-08)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.21.1...v1.22.0)
