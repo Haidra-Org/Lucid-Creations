@@ -17,7 +17,6 @@
 [ext_resource path="res://assets/icons/archive-research.png" type="Texture" id=15]
 [ext_resource path="res://src/Buttons/LoadFromDisk.tscn" type="PackedScene" id=16]
 [ext_resource path="res://PopupInfoPanel.tscn" type="PackedScene" id=17]
-[ext_resource path="res://assets/backgrounds/1668640648_2362995226.webp" type="Texture" id=18]
 [ext_resource path="res://Background.gd" type="Script" id=19]
 [ext_resource path="res://icon.png" type="Texture" id=20]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_login.gd" type="Script" id=21]
@@ -33,6 +32,10 @@
 [ext_resource path="res://src/PromptLine.gd" type="Script" id=31]
 [ext_resource path="res://src/NegPromptLine.gd" type="Script" id=32]
 [ext_resource path="res://src/KudosCost.gd" type="Script" id=33]
+
+[sub_resource type="StreamTexture" id=9]
+flags = 4
+load_path = "res://.import/1668640648_2362995226.webp-1e698017ae2c0fe36068bdcc83f07659.stex"
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -77,7 +80,7 @@ func _ready():
 [node name="Background" type="TextureRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 18 )
+texture = SubResource( 9 )
 expand = true
 stretch_mode = 7
 script = ExtResource( 19 )
