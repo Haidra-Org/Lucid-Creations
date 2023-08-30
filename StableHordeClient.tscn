@@ -2,7 +2,7 @@
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
-[ext_resource path="res://theme/kenneyUI-blue.tres" type="Theme" id=3]
+[ext_resource path="res://theme/dark.tres" type="Theme" id=3]
 [ext_resource path="res://Infodump.gd" type="Script" id=4]
 [ext_resource path="res://ConfigSlider.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Credits.gd" type="Script" id=6]
@@ -35,7 +35,6 @@
 
 [sub_resource type="StreamTexture" id=9]
 flags = 4
-load_path = "res://.import/1668640648_2362995226.webp-1e698017ae2c0fe36068bdcc83f07659.stex"
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
@@ -103,7 +102,7 @@ script = ExtResource( 33 )
 [node name="Generate" type="MarginContainer" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 27.0
+margin_top = 32.0
 custom_constants/margin_right = 15
 custom_constants/margin_top = 15
 custom_constants/margin_left = 15
@@ -113,24 +112,24 @@ custom_constants/margin_bottom = 15
 margin_left = 15.0
 margin_top = 15.0
 margin_right = 1585.0
-margin_bottom = 858.0
+margin_bottom = 853.0
 custom_constants/separation = 3
 
 [node name="Generate" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer"]
 margin_right = 1570.0
-margin_bottom = 45.0
+margin_bottom = 32.0
 
 [node name="PromptCC" type="MarginContainer" parent="TabContainer/Generate/VBoxContainer/Generate"]
 unique_name_in_owner = true
 margin_right = 1446.0
-margin_bottom = 45.0
+margin_bottom = 32.0
 size_flags_horizontal = 3
 script = ExtResource( 31 )
 
 [node name="PromptLine" type="TextEdit" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1446.0
-margin_bottom = 45.0
+margin_bottom = 32.0
 size_flags_horizontal = 3
 smooth_scrolling = true
 caret_blink = true
@@ -140,12 +139,12 @@ caret_blink_speed = 0.5
 unique_name_in_owner = true
 visible = false
 margin_right = 1446.0
-margin_bottom = 45.0
+margin_bottom = 32.0
 
 [node name="GenerationsProcessing" type="TextureProgress" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1446.0
-margin_bottom = 45.0
+margin_bottom = 32.0
 mouse_filter = 2
 max_value = 20.0
 step = 0.01
@@ -160,7 +159,7 @@ stretch_margin_bottom = 6
 [node name="GenerationsDone" type="TextureProgress" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 margin_right = 1446.0
-margin_bottom = 45.0
+margin_bottom = 32.0
 mouse_filter = 2
 max_value = 20.0
 step = 0.01
@@ -174,9 +173,9 @@ stretch_margin_bottom = 6
 [node name="ProgressText" type="Label" parent="TabContainer/Generate/VBoxContainer/Generate/PromptCC"]
 unique_name_in_owner = true
 visible = false
-margin_top = 14.0
+margin_top = 6.0
 margin_right = 1446.0
-margin_bottom = 31.0
+margin_bottom = 26.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
 text = "0 Done. 1 Processing. 3 Waiting. ETA 100 Sec"
@@ -188,12 +187,12 @@ unique_name_in_owner = true
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/Generate"]
 margin_left = 1450.0
 margin_right = 1570.0
-margin_bottom = 45.0
+margin_bottom = 32.0
 
 [node name="GenerateButton" type="Button" parent="TabContainer/Generate/VBoxContainer/Generate/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 120.0
-margin_bottom = 41.251
+margin_bottom = 28.0
 rect_min_size = Vector2( 120, 0 )
 text = "Generate"
 
@@ -209,9 +208,9 @@ custom_styles/disabled = SubResource( 2 )
 text = "Cancel"
 
 [node name="GenButtonPush" type="Control" parent="TabContainer/Generate/VBoxContainer/Generate/VBoxContainer"]
-margin_top = 45.0
+margin_top = 32.0
 margin_right = 120.0
-margin_bottom = 45.0
+margin_bottom = 32.0
 size_flags_vertical = 3
 
 [node name="NegPromptHBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer"]
@@ -244,38 +243,38 @@ caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="HBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer"]
-margin_top = 48.0
+margin_top = 35.0
 margin_right = 1570.0
-margin_bottom = 78.0
+margin_bottom = 68.0
 size_flags_horizontal = 3
 
 [node name="KudosPanel" type="PanelContainer" parent="TabContainer/Generate/VBoxContainer/HBC"]
-margin_right = 110.0
-margin_bottom = 30.0
+margin_right = 112.0
+margin_bottom = 33.0
 
 [node name="KudosText" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/HBC/KudosPanel"]
 unique_name_in_owner = true
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 105.0
-margin_bottom = 25.0
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 106.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 100, 20 )
 bbcode_enabled = true
 fit_content_height = true
 scroll_active = false
 
 [node name="StatusPanel" type="PanelContainer" parent="TabContainer/Generate/VBoxContainer/HBC"]
-margin_left = 114.0
+margin_left = 116.0
 margin_right = 1570.0
-margin_bottom = 30.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
 
 [node name="StatusText" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/HBC/StatusPanel"]
 unique_name_in_owner = true
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 1451.0
-margin_bottom = 25.0
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 1448.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 0, 20 )
 size_flags_horizontal = 3
 bbcode_enabled = true
@@ -283,64 +282,63 @@ fit_content_height = true
 scroll_active = false
 
 [node name="MainArea" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer"]
-margin_top = 81.0
+margin_top = 71.0
 margin_right = 1570.0
-margin_bottom = 843.0
+margin_bottom = 838.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 20
 
 [node name="Controls" type="TabContainer" parent="TabContainer/Generate/VBoxContainer/MainArea"]
 unique_name_in_owner = true
-margin_right = 310.0
-margin_bottom = 762.0
+margin_right = 312.0
+margin_bottom = 767.0
 
 [node name="Basic" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+margin_left = 6.0
+margin_top = 38.0
+margin_right = -6.0
+margin_bottom = -6.0
 rect_min_size = Vector2( 300, 0 )
 scroll_horizontal_enabled = false
 
 [node name="Basic" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic"]
 unique_name_in_owner = true
 margin_right = 300.0
-margin_bottom = 700.0
+margin_bottom = 388.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
-custom_constants/separation = 20
+custom_constants/separation = 8
 
 [node name="Amount" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_bottom = 63.0
+margin_bottom = 30.0
 
 [node name="Model" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 83.0
+margin_top = 38.0
 margin_right = 300.0
-margin_bottom = 133.0
+margin_bottom = 70.0
 script = ExtResource( 10 )
 
 [node name="ModelAutocompleteHBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model"]
 margin_right = 300.0
-margin_bottom = 50.0
+margin_bottom = 32.0
 
 [node name="ModelSelectLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelAutocompleteHBC"]
-margin_top = 16.0
+margin_top = 6.0
 margin_right = 50.0
-margin_bottom = 33.0
+margin_bottom = 26.0
 rect_min_size = Vector2( 50, 0 )
 text = "Model"
 
 [node name="ModelAutoComplete" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelAutocompleteHBC" instance=ExtResource( 26 )]
 unique_name_in_owner = true
 margin_left = 54.0
-margin_right = 246.0
-margin_bottom = 50.0
+margin_right = 264.0
+margin_bottom = 32.0
 size_flags_horizontal = 3
 text = ""
 placeholder_text = "Model Name"
@@ -351,10 +349,10 @@ popup_position = 1
 
 [node name="ShowAllModels" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/ModelAutocompleteHBC"]
 unique_name_in_owner = true
-margin_left = 250.0
+margin_left = 268.0
 margin_right = 300.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 50, 50 )
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
 icon = ExtResource( 15 )
 flat = true
 icon_align = 1
@@ -393,7 +391,7 @@ custom_styles/panel = SubResource( 8 )
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 510.0
-margin_bottom = 504.0
+margin_bottom = 519.0
 
 [node name="ModelInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/SelectedModels/ModelInfoCard/VBoxContainer"]
 unique_name_in_owner = true
@@ -453,10 +451,10 @@ margin_bottom = 98.0
 
 [node name="PopupInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Model/PopupInfo"]
 unique_name_in_owner = true
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 504.0
-margin_bottom = 94.0
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 506.0
+margin_bottom = 111.0
 rect_min_size = Vector2( 500, 0 )
 bbcode_enabled = true
 bbcode_text = "This is some model info
@@ -474,27 +472,27 @@ deselect_on_focus_loss_enabled = false
 
 [node name="Lora" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 153.0
+margin_top = 78.0
 margin_right = 300.0
-margin_bottom = 203.0
+margin_bottom = 110.0
 script = ExtResource( 27 )
 
 [node name="LoraAutocompleteHBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora"]
 margin_right = 300.0
-margin_bottom = 50.0
+margin_bottom = 32.0
 
 [node name="LoraSelectLabel" type="Label" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC"]
-margin_top = 16.0
+margin_top = 6.0
 margin_right = 50.0
-margin_bottom = 33.0
+margin_bottom = 26.0
 rect_min_size = Vector2( 50, 0 )
 text = "LoRa"
 
 [node name="LoraAutoComplete" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC" instance=ExtResource( 26 )]
 unique_name_in_owner = true
 margin_left = 54.0
-margin_right = 192.0
-margin_bottom = 50.0
+margin_right = 228.0
+margin_bottom = 32.0
 size_flags_horizontal = 3
 text = ""
 placeholder_text = "LoRa Name"
@@ -503,10 +501,10 @@ popup_position = 1
 
 [node name="FetchFromCivitAI" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC"]
 unique_name_in_owner = true
-margin_left = 196.0
-margin_right = 246.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 50, 50 )
+margin_left = 232.0
+margin_right = 264.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
 disabled = true
 icon = ExtResource( 14 )
 flat = true
@@ -515,10 +513,10 @@ expand_icon = true
 
 [node name="ShowAllLoras" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraAutocompleteHBC"]
 unique_name_in_owner = true
-margin_left = 250.0
+margin_left = 268.0
 margin_right = 300.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 50, 50 )
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
 icon = ExtResource( 15 )
 flat = true
 expand_icon = true
@@ -529,10 +527,10 @@ margin_right = 508.0
 margin_bottom = 161.0
 
 [node name="LoraPopupInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/LoraPopupInfo"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 504.0
-margin_bottom = 94.0
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 506.0
+margin_bottom = 111.0
 rect_min_size = Vector2( 500, 0 )
 bbcode_enabled = true
 bbcode_text = "This is some model info
@@ -578,7 +576,7 @@ custom_styles/panel = SubResource( 8 )
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 614.0
-margin_bottom = 496.0
+margin_bottom = 483.0
 
 [node name="LoraInfoLabel" type="RichTextLabel" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer"]
 unique_name_in_owner = true
@@ -647,28 +645,28 @@ showcase_index = 1
 
 [node name="NegativePrompt" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 223.0
+margin_top = 118.0
 margin_right = 300.0
-margin_bottom = 283.251
+margin_bottom = 146.0
 size_flags_horizontal = 3
 text = "Negative Prompt"
 
 [node name="TrustedWorkers" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 303.0
+margin_top = 154.0
 margin_right = 300.0
-margin_bottom = 363.251
+margin_bottom = 182.0
 text = "Require Trusted Workers"
 
 [node name="HBC" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 383.0
+margin_top = 190.0
 margin_right = 300.0
-margin_bottom = 443.0
+margin_bottom = 218.0
 
 [node name="NSFW" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC"]
 unique_name_in_owner = true
 margin_right = 148.0
-margin_bottom = 60.251
+margin_bottom = 28.0
 size_flags_horizontal = 3
 text = "NSFW"
 
@@ -676,32 +674,33 @@ text = "NSFW"
 unique_name_in_owner = true
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 60.251
+margin_bottom = 28.0
 size_flags_horizontal = 3
 pressed = true
 text = "Censored"
 
 [node name="HBC2" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 463.0
+margin_top = 226.0
 margin_right = 300.0
-margin_bottom = 504.0
+margin_bottom = 254.0
 
 [node name="LoadFromDisk" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2" instance=ExtResource( 16 )]
+margin_bottom = 28.0
 
 [node name="SaveAll" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic/HBC2"]
 unique_name_in_owner = true
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 41.251
+margin_bottom = 28.0
 size_flags_horizontal = 3
 disabled = true
 text = "Save All"
 
 [node name="SubmitRatings" type="Button" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
 unique_name_in_owner = true
-margin_top = 524.0
+margin_top = 262.0
 margin_right = 300.0
-margin_bottom = 565.251
+margin_bottom = 290.0
 size_flags_horizontal = 3
 disabled = true
 text = "Submit Ratings"
@@ -711,16 +710,17 @@ unique_name_in_owner = true
 script = ExtResource( 25 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic"]
-margin_top = 585.0
+margin_top = 298.0
 margin_right = 300.0
-margin_bottom = 585.0
+margin_bottom = 298.0
 
 [node name="PP" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Basic/Basic" instance=ExtResource( 22 )]
 unique_name_in_owner = true
-margin_top = 605.0
-margin_bottom = 700.0
+margin_top = 306.0
+margin_bottom = 388.0
 
 [node name="Advanced" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -733,9 +733,9 @@ scroll_horizontal_enabled = false
 [node name="Advanced" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced"]
 unique_name_in_owner = true
 margin_right = 300.0
-margin_bottom = 668.0
+margin_bottom = 454.0
 rect_min_size = Vector2( 300, 0 )
-custom_constants/separation = 20
+custom_constants/separation = 8
 
 [node name="Width" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/Advanced/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
@@ -833,9 +833,9 @@ scroll_horizontal_enabled = false
 [node name="img2img" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img"]
 unique_name_in_owner = true
 margin_right = 300.0
-margin_bottom = 60.0
+margin_bottom = 28.0
 rect_min_size = Vector2( 300, 0 )
-custom_constants/separation = 20
+custom_constants/separation = 8
 
 [node name="Img2ImgEnabled" type="CheckButton" parent="TabContainer/Generate/VBoxContainer/MainArea/Controls/img2img/img2img"]
 unique_name_in_owner = true
@@ -894,9 +894,9 @@ text = "Image is control"
 
 [node name="Display" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea"]
 unique_name_in_owner = true
-margin_left = 330.0
+margin_left = 332.0
 margin_right = 1570.0
-margin_bottom = 762.0
+margin_bottom = 767.0
 size_flags_horizontal = 3
 
 [node name="DisplayFocus" type="VBoxContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display"]
@@ -1076,15 +1076,15 @@ text = "Best"
 
 [node name="GridScroll" type="ScrollContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display"]
 unique_name_in_owner = true
-margin_right = 1240.0
-margin_bottom = 762.0
+margin_right = 1238.0
+margin_bottom = 767.0
 rect_min_size = Vector2( 900, 600 )
 size_flags_vertical = 3
 
 [node name="Grid" type="GridContainer" parent="TabContainer/Generate/VBoxContainer/MainArea/Display/GridScroll"]
 unique_name_in_owner = true
-margin_right = 1240.0
-margin_bottom = 762.0
+margin_right = 1238.0
+margin_bottom = 767.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9

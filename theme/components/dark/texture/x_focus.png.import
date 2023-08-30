@@ -2,23 +2,23 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/info.png-0664219dec01b9721117969bf4ea03d2.stex"
+path="res://.import/x_focus.png-1e3b6fa3c1e7dd75b2e86b9b35ba4911.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/info.png"
-dest_files=[ "res://.import/info.png-0664219dec01b9721117969bf4ea03d2.stex" ]
+source_file="res://theme/components/dark/texture/x_focus.png"
+dest_files=[ "res://.import/x_focus.png-1e3b6fa3c1e7dd75b2e86b9b35ba4911.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=3
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
-compress/normal_map=0
+compress/normal_map=2
 flags/repeat=0
 flags/filter=true
 flags/mipmaps=true
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

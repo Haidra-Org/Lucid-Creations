@@ -148,7 +148,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/native_dialogs/plugin.cfg", "res://addons/stable_horde_client/plugin.cfg" )
+enabled=PoolStringArray(  )
 
 [global]
 

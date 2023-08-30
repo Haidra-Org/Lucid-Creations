@@ -1,0 +1,254 @@
+[gd_resource type="Theme" load_steps=43 format=2]
+
+[ext_resource path="res://theme/fonts/noto/type/type_body.tres" type="DynamicFont" id=1]
+[ext_resource path="res://theme/components/dark/texture/x_focus.png" type="Texture" id=2]
+[ext_resource path="res://theme/components/dark/texture/x_highlight.png" type="Texture" id=3]
+[ext_resource path="res://theme/components/dark/texture/grab_v.png" type="Texture" id=4]
+[ext_resource path="res://theme/components/dark/texture/radio_empty.png" type="Texture" id=5]
+[ext_resource path="res://theme/components/dark/texture/radio_fill.png" type="Texture" id=6]
+[ext_resource path="res://theme/components/dark/texture/check_box_empty.png" type="Texture" id=7]
+[ext_resource path="res://theme/components/dark/texture/check_box_fill.png" type="Texture" id=8]
+[ext_resource path="res://theme/components/dark/texture/check_radio_fill.png" type="Texture" id=9]
+[ext_resource path="res://theme/components/dark/medium_accent_0.tres" type="StyleBox" id=10]
+[ext_resource path="res://theme/components/dark/style_window.tres" type="StyleBox" id=11]
+[ext_resource path="res://theme/components/dark/style_focus.tres" type="StyleBox" id=12]
+[ext_resource path="res://theme/components/dark/small_normal_0.tres" type="StyleBox" id=13]
+[ext_resource path="res://theme/components/dark/texture/check_radio_empty.png" type="Texture" id=14]
+[ext_resource path="res://theme/components/dark/small_normal_2.tres" type="StyleBox" id=15]
+[ext_resource path="res://theme/components/dark/medium_normal_1.tres" type="StyleBox" id=16]
+[ext_resource path="res://theme/components/dark/small_accent_0.tres" type="StyleBox" id=17]
+[ext_resource path="res://theme/components/dark/small_bright_0.tres" type="StyleBox" id=18]
+[ext_resource path="res://theme/components/dark/medium_normal_0.tres" type="StyleBox" id=19]
+[ext_resource path="res://theme/components/dark/medium_primary_0.tres" type="StyleBox" id=20]
+[ext_resource path="res://theme/components/dark/small_bright_1.tres" type="StyleBox" id=21]
+[ext_resource path="res://theme/components/dark/small_normal_1.tres" type="StyleBox" id=22]
+[ext_resource path="res://theme/components/dark/small_primary_0.tres" type="StyleBox" id=23]
+[ext_resource path="res://theme/fonts/noto/type/type_body_large.tres" type="DynamicFont" id=24]
+[ext_resource path="res://theme/components/dark/small_bright_2.tres" type="StyleBox" id=25]
+[ext_resource path="res://theme/components/dark/texture/grab_h.png" type="Texture" id=26]
+[ext_resource path="res://theme/components/dark/texture/blank.tres" type="Texture" id=27]
+[ext_resource path="res://theme/fonts/noto/type/type_body_strong.tres" type="DynamicFont" id=28]
+[ext_resource path="res://theme/components/dark/medium_bright_0.tres" type="StyleBox" id=29]
+
+[sub_resource type="ImageTexture" id=7]
+
+[sub_resource type="Image" id=44]
+data = {
+"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 58, 58, 58, 0, 180, 180, 180, 4, 246, 246, 246, 29, 184, 184, 184, 7, 62, 62, 62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 58, 58, 58, 0, 237, 237, 237, 47, 248, 248, 248, 170, 248, 248, 248, 186, 248, 248, 248, 179, 247, 247, 247, 68, 60, 60, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 179, 179, 179, 4, 248, 248, 248, 170, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 181, 240, 240, 240, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 246, 246, 246, 28, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 184, 184, 6, 248, 248, 248, 178, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 185, 246, 246, 246, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 62, 62, 0, 247, 247, 247, 69, 248, 248, 248, 181, 248, 248, 248, 186, 248, 248, 248, 185, 228, 228, 228, 94, 104, 104, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 60, 60, 0, 240, 240, 240, 22, 248, 248, 248, 59, 247, 247, 247, 30, 104, 104, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"format": "RGBA8",
+"height": 11,
+"mipmaps": false,
+"width": 11
+}
+
+[sub_resource type="ImageTexture" id=12]
+image = SubResource( 44 )
+size = Vector2( 11, 11 )
+
+[sub_resource type="StyleBoxTexture" id=43]
+content_margin_left = 1.86
+content_margin_right = 1.86
+content_margin_top = 1.86
+content_margin_bottom = 1.86
+texture = SubResource( 12 )
+region_rect = Rect2( 0, 0, 1, 1 )
+
+[sub_resource type="StyleBoxTexture" id=22]
+content_margin_left = 1.86
+content_margin_right = 1.86
+content_margin_top = 1.86
+content_margin_bottom = 1.86
+texture = SubResource( 12 )
+region_rect = Rect2( 0, 0, 11, 11 )
+margin_left = 4.65
+margin_right = 4.65
+margin_top = 4.65
+margin_bottom = 4.65
+
+[sub_resource type="Image" id=45]
+data = {
+"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 1, 255, 255, 255, 5, 191, 191, 191, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 1, 255, 255, 255, 17, 255, 255, 255, 21, 255, 255, 255, 19, 191, 191, 191, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 5, 255, 255, 255, 21, 255, 255, 255, 21, 255, 255, 255, 21, 255, 255, 255, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 1, 255, 255, 255, 19, 255, 255, 255, 21, 255, 255, 255, 20, 255, 255, 255, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 2, 255, 255, 255, 8, 255, 255, 255, 3, 64, 64, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"format": "RGBA8",
+"height": 11,
+"mipmaps": false,
+"width": 11
+}
+
+[sub_resource type="ImageTexture" id=18]
+image = SubResource( 45 )
+size = Vector2( 11, 11 )
+
+[sub_resource type="StyleBoxTexture" id=41]
+texture = SubResource( 18 )
+region_rect = Rect2( 0, 0, 1, 1 )
+modulate_color = Color( 1, 1, 1, 0.392157 )
+
+[sub_resource type="StyleBoxEmpty" id=35]
+
+[sub_resource type="BitmapFont" id=6]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 1, 1, 0.309804 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.309804 )
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 1, 1, 1, 0.709804 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.709804 )
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxEmpty" id=30]
+
+[resource]
+default_font = ExtResource( 1 )
+Button/constants/hseparation = 4
+Button/fonts/font = ExtResource( 28 )
+Button/styles/disabled = ExtResource( 13 )
+Button/styles/focus = ExtResource( 12 )
+Button/styles/hover = ExtResource( 13 )
+Button/styles/normal = ExtResource( 15 )
+Button/styles/pressed = ExtResource( 17 )
+CheckBox/fonts/font = ExtResource( 28 )
+CheckBox/icons/checked = ExtResource( 8 )
+CheckBox/icons/checked_disabled = ExtResource( 8 )
+CheckBox/icons/radio_checked = ExtResource( 9 )
+CheckBox/icons/radio_checked_disabled = ExtResource( 9 )
+CheckBox/icons/radio_unchecked = ExtResource( 14 )
+CheckBox/icons/radio_unchecked_disabled = ExtResource( 14 )
+CheckBox/icons/unchecked = ExtResource( 7 )
+CheckBox/icons/unchecked_disabled = ExtResource( 7 )
+CheckButton/fonts/font = ExtResource( 28 )
+CheckButton/icons/off = ExtResource( 5 )
+CheckButton/icons/off_disabled = ExtResource( 5 )
+CheckButton/icons/on = ExtResource( 6 )
+CheckButton/icons/on_disabled = ExtResource( 6 )
+ColorPicker/constants/h_width = 24
+ColorPicker/constants/margin = 0
+ColorPicker/constants/sv_height = 192
+ColorPicker/constants/sv_width = 192
+FileDialog/colors/folder_icon_modulate = Color( 0.322, 0.5612, 0.92, 0.87451 )
+Fonts/fonts/large = ExtResource( 24 )
+Fonts/fonts/normal = ExtResource( 1 )
+HScrollBar/icons/decrement = SubResource( 7 )
+HScrollBar/icons/decrement_highlight = SubResource( 7 )
+HScrollBar/icons/decrement_pressed = SubResource( 7 )
+HScrollBar/icons/increment = SubResource( 7 )
+HScrollBar/icons/increment_highlight = SubResource( 7 )
+HScrollBar/icons/increment_pressed = SubResource( 7 )
+HScrollBar/styles/grabber = SubResource( 43 )
+HScrollBar/styles/grabber_highlight = SubResource( 22 )
+HScrollBar/styles/grabber_pressed = SubResource( 22 )
+HScrollBar/styles/scroll = SubResource( 41 )
+HScrollBar/styles/scroll_focus = SubResource( 41 )
+HSlider/icons/grabber = ExtResource( 27 )
+HSlider/icons/grabber_disabled = ExtResource( 27 )
+HSlider/icons/grabber_highlight = ExtResource( 27 )
+HSlider/styles/grabber_area = ExtResource( 18 )
+HSlider/styles/grabber_area_highlight = ExtResource( 21 )
+HSlider/styles/slider = ExtResource( 25 )
+HSplitContainer/constants/autohide = 0
+HSplitContainer/constants/separation = 10
+HSplitContainer/icons/grabber = ExtResource( 26 )
+HSplitContainer/styles/bg = SubResource( 35 )
+ItemList/colors/guide_color = Color( 1, 1, 1, 0 )
+ItemList/styles/bg = ExtResource( 19 )
+ItemList/styles/selected = ExtResource( 23 )
+ItemList/styles/selected_focus = ExtResource( 17 )
+LineEdit/styles/focus = ExtResource( 12 )
+LineEdit/styles/normal = ExtResource( 22 )
+LineEdit/styles/read_only = ExtResource( 15 )
+MenuButton/fonts/font = ExtResource( 28 )
+MenuButton/styles/normal = ExtResource( 15 )
+OptionButton/fonts/font = ExtResource( 28 )
+OptionButton/styles/disabled = ExtResource( 15 )
+OptionButton/styles/normal = ExtResource( 15 )
+OptionButton/styles/pressed = ExtResource( 17 )
+Panel/styles/panel = ExtResource( 19 )
+PanelContainer/styles/panel = ExtResource( 19 )
+PanelContainerSB/base_type = "PanelContainer"
+PanelContainerSB/styles/panel = ExtResource( 29 )
+PopupDialog/styles/panel = ExtResource( 19 )
+PopupMenu/icons/checked = ExtResource( 8 )
+PopupMenu/icons/radio_checked = ExtResource( 9 )
+PopupMenu/icons/radio_unchecked = ExtResource( 14 )
+PopupMenu/icons/unchecked = ExtResource( 7 )
+PopupMenu/styles/panel = ExtResource( 16 )
+PopupPanel/styles/panel = ExtResource( 19 )
+ProgressBar/colors/font_color = Color( 0.00392157, 0.00392157, 0.00392157, 1 )
+ProgressBar/colors/font_color_shadow = Color( 1, 1, 1, 1 )
+ProgressBar/fonts/font = SubResource( 6 )
+ProgressBar/styles/bg = SubResource( 2 )
+ProgressBar/styles/fg = SubResource( 3 )
+TabContainer/fonts/font = ExtResource( 28 )
+TabContainer/styles/panel = ExtResource( 19 )
+TabContainer/styles/tab_bg = ExtResource( 16 )
+TabContainer/styles/tab_disabled = ExtResource( 19 )
+TabContainer/styles/tab_fg = ExtResource( 10 )
+Tabs/styles/button = ExtResource( 18 )
+TextEdit/styles/focus = ExtResource( 12 )
+TextEdit/styles/normal = ExtResource( 22 )
+TextEdit/styles/read_only = ExtResource( 15 )
+TooltipLabel/colors/font_color = Color( 1, 1, 1, 1 )
+TooltipPanel/styles/panel = ExtResource( 20 )
+Tree/colors/font_color = Color( 1, 1, 1, 1 )
+Tree/colors/font_color_selected = Color( 1, 1, 1, 1 )
+Tree/colors/relationship_line_color = Color( 0.27451, 0.27451, 0.27451, 1 )
+Tree/constants/button_margin = 10
+Tree/constants/draw_guides = 0
+Tree/constants/draw_relationship_lines = 1
+Tree/constants/hseparation = 10
+Tree/constants/item_margin = 14
+Tree/constants/vseparation = 6
+Tree/fonts/font = ExtResource( 28 )
+Tree/fonts/title_button_font = ExtResource( 28 )
+Tree/icons/checked = ExtResource( 8 )
+Tree/icons/unchecked = ExtResource( 7 )
+Tree/styles/bg = ExtResource( 13 )
+Tree/styles/button_pressed = ExtResource( 17 )
+Tree/styles/custom_button = ExtResource( 15 )
+Tree/styles/selected = ExtResource( 23 )
+Tree/styles/selected_focus = ExtResource( 12 )
+VScrollBar/icons/decrement = SubResource( 7 )
+VScrollBar/icons/decrement_highlight = SubResource( 7 )
+VScrollBar/icons/decrement_pressed = SubResource( 7 )
+VScrollBar/icons/increment = SubResource( 7 )
+VScrollBar/icons/increment_highlight = SubResource( 7 )
+VScrollBar/icons/increment_pressed = SubResource( 7 )
+VScrollBar/styles/grabber = SubResource( 43 )
+VScrollBar/styles/grabber_highlight = SubResource( 43 )
+VScrollBar/styles/grabber_pressed = SubResource( 43 )
+VScrollBar/styles/scroll = SubResource( 43 )
+VScrollBar/styles/scroll_focus = SubResource( 43 )
+VSlider/icons/grabber = ExtResource( 27 )
+VSlider/icons/grabber_disabled = ExtResource( 27 )
+VSlider/icons/grabber_highlight = ExtResource( 27 )
+VSlider/styles/grabber_area = ExtResource( 18 )
+VSlider/styles/grabber_area_highlight = ExtResource( 21 )
+VSlider/styles/slider = ExtResource( 25 )
+VSplitContainer/constants/autohide = 0
+VSplitContainer/constants/separation = 10
+VSplitContainer/icons/grabber = ExtResource( 4 )
+VSplitContainer/styles/bg = SubResource( 30 )
+WindowDialog/colors/title_color = Color( 0.52, 0.52, 0.52, 0.87451 )
+WindowDialog/constants/close_h_ofs = 26
+WindowDialog/constants/close_v_ofs = 18
+WindowDialog/constants/scaleborder_size = 8
+WindowDialog/constants/title_height = 20
+WindowDialog/fonts/title_font = ExtResource( 28 )
+WindowDialog/icons/close = ExtResource( 3 )
+WindowDialog/icons/close_highlight = ExtResource( 2 )
+WindowDialog/styles/panel = ExtResource( 11 )
