@@ -225,7 +225,7 @@ func get_control_type() -> String:
 func get_loras() -> Array:
 	return loras_node.selected_loras_list
 
-func _on_line_edit_changed(_value, line_edit_node) -> void:
+func _on_line_edit_changed(line_edit_node) -> void:
 	match line_edit_node:
 		prompt_node, negprompt_node:
 			emit_signal("prompt_changed", get_prompt())
