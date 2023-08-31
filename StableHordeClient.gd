@@ -644,6 +644,9 @@ func _accept_settings() -> void:
 	var loras = lora.selected_loras_list
 	globals.set_setting("loras",loras)
 	stable_horde_client.set("lora", loras)
+	var tis = ti.selected_loras_list
+	globals.set_setting("tis",tis)
+	stable_horde_client.set("tis", tis)
 	stable_horde_client.set("api_key", options.get_api_key())
 	stable_horde_client.set("karras", karras.pressed)
 	globals.set_setting("karras", karras.pressed)
@@ -659,6 +662,7 @@ func _accept_settings() -> void:
 	stable_horde_client.set("gen_seed", seed_edit.text)
 	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
 	stable_horde_client.set("lora", globals.config.get_value("Parameters", "loras", stable_horde_client.lora))
+	stable_horde_client.set("tis", globals.config.get_value("Parameters", "tis", stable_horde_client.tis))
 	if prompt_line_edit.text == '':
 		prompt_line_edit.text = _get_random_placeholder_prompt()
 	stable_horde_client.prompt = prompt_line_edit.text

@@ -70,6 +70,7 @@ export(Array) var post_processing := []
 # Loras to use. Each entry needs to be a dictionary in the form of
 #{"name": String, "model": float, "clip": float}
 export(Array) var lora := []
+export(Array) var tis := []
 # If set to True, will enable the karras noise scheduler
 export(bool) var karras := true
 # If set to True, will activate the HiRes Fix
@@ -135,6 +136,8 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		imgen_params["control_type"] = control_type
 	if lora.size() > 0:
 		imgen_params["loras"] = _get_loras_payload()
+	if tis.size() > 0:
+		imgen_params["ti"] = _get_tis_payload()
 	for param in replacement_params:
 		imgen_params[param] = replacement_params[param]
 	var submit_dict = {
@@ -340,4 +343,15 @@ func _get_loras_payload() -> Array:
 			new_item["name"] = str(new_item["id"])
 		loras_array.append(new_item)
 	return loras_array
+		
+func _get_tis_payload() -> Array:
+	"""We replace the name with the ID, to ensure we find it easy on the worker"""
+	var tis_array = []
+	for item in tis:
+		var new_item = item.duplicate()
+		if new_item.has("id") and not new_item["name"].is_valid_integer():
+			new_item["original_name"] = str(new_item["name"])
+			new_item["name"] = str(new_item["id"])
+		tis_array.append(new_item)
+	return tis_array
 		

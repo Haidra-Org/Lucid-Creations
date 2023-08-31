@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -43,6 +43,7 @@
 [ext_resource path="res://Panel.gd" type="Script" id=41]
 [ext_resource path="res://theme/components/dark/small_normal_0.tres" type="StyleBox" id=42]
 [ext_resource path="res://src/Lora/TextualInversion.gd" type="Script" id=43]
+[ext_resource path="res://src/Lora/TIInject.tscn" type="PackedScene" id=44]
 
 [sub_resource type="StreamTexture" id=9]
 flags = 4
@@ -984,6 +985,8 @@ margin_top = 109.0
 margin_right = 604.0
 margin_bottom = 137.0
 slider_name = "Model Strength"
+
+[node name="TIInject" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer" instance=ExtResource( 44 )]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer"]
 margin_top = 173.0
