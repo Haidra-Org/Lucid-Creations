@@ -109,22 +109,22 @@ jobs:
         ITCH_USER: dbzer0
         PACKAGE: HTML5.zip
         VERSION: "${{ steps.release.outputs.version }}"
-    - name: "🔧 Publish all versions with Steamworks"
-      if: ${{ steps.release.outputs.version != '' }}
-      uses: game-ci/steam-deploy@v1
-      with:
-        username: ${{ secrets.STEAM_USERNAME }}
-        password: ${{ secrets.STEAM_PASSWORD }}
-        configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
-        ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
-        ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
-        appId: 2197290
-        buildDescription: "${{ steps.release.outputs.version }}"
-        # buildDescription: "${{ steps.release.outputs.version }}"
-        rootPath: build
-        depot1Path: StandaloneLinux64
-        depot2Path: StandaloneWindows64
-        releaseBranch: prerelease
+    # - name: "🔧 Publish all versions with Steamworks"
+    #   if: ${{ steps.release.outputs.version != '' }}
+    #   uses: game-ci/steam-deploy@v1
+    #   with:
+    #     username: ${{ secrets.STEAM_USERNAME }}
+    #     password: ${{ secrets.STEAM_PASSWORD }}
+    #     configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
+    #     ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
+    #     ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
+    #     appId: 2197290
+    #     buildDescription: "${{ steps.release.outputs.version }}"
+    #     # buildDescription: "${{ steps.release.outputs.version }}"
+    #     rootPath: build
+    #     depot1Path: StandaloneLinux64
+    #     depot2Path: StandaloneWindows64
+    #     releaseBranch: prerelease
     - name: "Inform with Discord Webhook"
       if: ${{ steps.release.outputs.version != '' }}
       uses: tsickert/discord-webhook@v5.3.0
