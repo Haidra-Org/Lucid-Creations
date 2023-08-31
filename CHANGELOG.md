@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.0.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.0.1) (2023-08-31)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.0.0...v2.0.1)
+
+**Merged pull requests:**
+
+- cd: disable steamworks deployment [\#111](https://github.com/Haidra-Org/Lucid-Creations/pull/111) ([db0](https://github.com/db0))
+
 ## [v2.0.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.0.0) (2023-08-31)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.23.0...v2.0.0)
