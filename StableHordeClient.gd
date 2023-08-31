@@ -1,4 +1,4 @@
-extends TabContainer
+extends Control
 
 const GRID_TEXTURE_RECT = preload("res://GridTextureRect.tscn")
 var placeholder_prompts := [
@@ -572,6 +572,7 @@ func set_submit_button_state() -> void:
 func _on_shared_toggled() -> void:
 	best_of.disabled = !globals.config.get_value("Options", "shared", true)
 	aesthetic_rating.disabled = !globals.config.get_value("Options", "shared", true)
+	artifacts_rating.disabled = !globals.config.get_value("Options", "shared", true)
 	submit_ratings.disabled = !globals.config.get_value("Options", "shared", true)
 	if not has_any_ratings():
 		submit_ratings.disabled = true

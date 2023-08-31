@@ -1,0 +1,35 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/check_radio_fill.png-34fbcddacc74f593507ab4a548d092fa.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://theme/components/dark/texture/check_radio_fill.png"
+dest_files=[ "res://.import/check_radio_fill.png-34fbcddacc74f593507ab4a548d092fa.stex" ]
+
+[params]
+
+compress/mode=3
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=2
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=true
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

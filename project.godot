@@ -148,7 +148,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/native_dialogs/plugin.cfg", "res://addons/stable_horde_client/plugin.cfg" )
+enabled=PoolStringArray(  )
 
 [global]
 
@@ -157,6 +157,12 @@ icon=false
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+theme/custom="res://theme/dark.tres"
+theme/custom_font="res://theme/fonts/noto/type/type_body.tres"
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [physics]
 

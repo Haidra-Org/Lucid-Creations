@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends Control
 
 
 var expand_idx: int
@@ -26,11 +26,11 @@ func toggle_expand_collapse() -> void:
 
 func expand() -> void:
 	prompt_context_menu.set_item_text(expand_idx, "Collapse")
-	negprompt_line.wrap_enabled = true
+	#negprompt_line.wrap_enabled = true
 	rect_min_size.y = 300
 
 func collapse() -> void:
 	prompt_context_menu.set_item_text(expand_idx, "Expand")
-	negprompt_line.wrap_enabled = false
+	#negprompt_line.wrap_enabled = false
 	rect_min_size.y = 0
 	
