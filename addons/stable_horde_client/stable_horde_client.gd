@@ -137,7 +137,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 	if lora.size() > 0:
 		imgen_params["loras"] = _get_loras_payload()
 	if tis.size() > 0:
-		imgen_params["ti"] = _get_tis_payload()
+		imgen_params["tis"] = _get_tis_payload()
 	for param in replacement_params:
 		imgen_params[param] = replacement_params[param]
 	var submit_dict = {

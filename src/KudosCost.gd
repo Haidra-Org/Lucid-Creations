@@ -42,6 +42,7 @@ func _init_calculate_kudos() -> void:
 	shared = ParamBus.get_shared()
 	control_type = ParamBus.get_control_type()
 	lora = ParamBus.get_loras()
+	tis = ParamBus.get_tis()
 	generate()
 
 func _on_kudos_calculated(kudos_payload: Dictionary) -> void:
