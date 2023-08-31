@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.0.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.0.0) (2023-08-31)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.23.0...v2.0.0)
+
+**Merged pull requests:**
+
+- Theme & Layout [\#110](https://github.com/Haidra-Org/Lucid-Creations/pull/110) ([illlustr](https://github.com/illlustr))
+
 ## [v1.23.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v1.23.0) (2023-07-15)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v1.22.0...v1.23.0)
