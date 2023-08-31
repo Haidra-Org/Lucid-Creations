@@ -32,8 +32,10 @@ const DESCRIPTIONS = {
 	"ControlType": "By selecting a Control Type, you will request that the horde utilize the ControlNet technology to process the source image, which will provide significantly more accurate conversion, at the cost of processing time. Using this option will triple the kudos cost for this request and limit the amount of steps you can use.",
 	"ImageIsControl": "When this option is selected, the source image will be treated the intermediate step of a ControlNet processing.",
 	"FetchFromCivitAI": "Will search CivitAI for LoRa which match the provided text.",
+	"FetchTIsFromCivitAI": "Will search CivitAI for Textual Inversions which match the provided text.",
 	"ShowAllModels": "Will display an list of all known models, from which to select one manually.",
 	"ShowAllLoras": "Will display an list of all known LoRas, from which to select one manually.",
+	"ShowAllTIs": "Will display an list of all known Textual Inversions, from which to select one manually.",
 }
 
 const META_DESCRIPTIONS = {
@@ -46,6 +48,10 @@ const META_DESCRIPTIONS = {
 	"LoRaHover": "Click to show information about this LoRa.",
 	"LoRaDelete": "Click to remove this LoRa from the list.",
 	"LoRaTrigger": "Click to inject this LoRa's triggers into your prompt.",
+	"TIHover": "Click to show information about this Textual Inversion.",
+	"TIDelete": "Click to remove this Textual Inversion from the list.",
+	"TITrigger": "Click to inject this Textual Inversion's triggers into your prompt.",
+	"TIEmbed": "Click to inject this Textual Inversion's embedding and strength into your prompt. Use this only if you've not autoinjecting this into your prompt.",
 }
 
 var current_hovered_node: Control

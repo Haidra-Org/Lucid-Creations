@@ -248,9 +248,11 @@ func _on_show_all_loras_pressed() -> void:
 
 func _on_lora_model_strength_value_changed(value) -> void:
 	selected_loras_list[viewed_lora_index]["model"] = value
+	emit_signal("loras_modified", selected_loras_list)
 
 func _on_lora_clip_strength_value_changed(value) -> void:
 	selected_loras_list[viewed_lora_index]["clip"] = value
+	emit_signal("loras_modified", selected_loras_list)
 
 func _on_fetch_from_civitai_pressed() -> void:
 	fetch_from_civitai.disabled = true

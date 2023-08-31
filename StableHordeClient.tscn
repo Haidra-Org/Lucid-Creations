@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -42,6 +42,8 @@
 [ext_resource path="res://theme/fonts/noto/type/type_body_strong.tres" type="DynamicFont" id=40]
 [ext_resource path="res://Panel.gd" type="Script" id=41]
 [ext_resource path="res://theme/components/dark/small_normal_0.tres" type="StyleBox" id=42]
+[ext_resource path="res://src/Lora/TextualInversion.gd" type="Script" id=43]
+[ext_resource path="res://src/Lora/TIInject.tscn" type="PackedScene" id=44]
 
 [sub_resource type="StreamTexture" id=9]
 flags = 4
@@ -843,6 +845,176 @@ expand = true
 stretch_mode = 6
 
 [node name="CivitAIShowcase1" type="HTTPRequest" parent="Margin/Panel/Display/Panels/Controls/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer/HBoxContainer/LoraShowcase1"]
+unique_name_in_owner = true
+script = ExtResource( 28 )
+showcase_index = 1
+
+[node name="TextualInversions" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic"]
+unique_name_in_owner = true
+margin_top = 84.0
+margin_right = 320.0
+margin_bottom = 116.0
+script = ExtResource( 43 )
+
+[node name="TIAutocompleteHBC" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions"]
+margin_right = 320.0
+margin_bottom = 32.0
+
+[node name="TISelectLabel" type="Label" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/TIAutocompleteHBC"]
+margin_top = 6.0
+margin_right = 50.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 50, 0 )
+custom_fonts/font = ExtResource( 40 )
+text = "Textual Inversions"
+
+[node name="TIAutoComplete" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/TIAutocompleteHBC" instance=ExtResource( 26 )]
+unique_name_in_owner = true
+margin_left = 54.0
+margin_right = 248.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+text = ""
+placeholder_text = "TI Name"
+seek_keys = [ "name", "description", "id" ]
+popup_position = 1
+
+[node name="FetchTIsFromCivitAI" type="Button" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/TIAutocompleteHBC"]
+unique_name_in_owner = true
+margin_left = 252.0
+margin_right = 284.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+disabled = true
+icon = ExtResource( 14 )
+flat = true
+icon_align = 1
+expand_icon = true
+
+[node name="ShowAllTIs" type="Button" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/TIAutocompleteHBC"]
+unique_name_in_owner = true
+margin_left = 288.0
+margin_right = 320.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+icon = ExtResource( 15 )
+flat = true
+expand_icon = true
+
+[node name="TIPopupInfo" type="PopupPanel" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions"]
+margin_top = 36.0
+margin_right = 512.0
+margin_bottom = 153.0
+
+[node name="TIPopupInfoLabel" type="RichTextLabel" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/TIPopupInfo"]
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 506.0
+margin_bottom = 111.0
+rect_min_size = Vector2( 500, 0 )
+bbcode_enabled = true
+bbcode_text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+fit_content_height = true
+deselect_on_focus_loss_enabled = false
+
+[node name="SelectedTIs" type="RichTextLabel" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions"]
+unique_name_in_owner = true
+visible = false
+margin_top = 36.0
+margin_right = 320.0
+margin_bottom = 86.0
+rect_min_size = Vector2( 0, 50 )
+bbcode_enabled = true
+fit_content_height = true
+
+[node name="TITriggerSelection" type="PopupMenu" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs"]
+unique_name_in_owner = true
+margin_left = 43.0
+margin_top = -63.0
+margin_right = 63.0
+margin_bottom = -43.0
+hide_on_checkable_item_selection = false
+
+[node name="TIInfoCard" type="PopupPanel" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs"]
+unique_name_in_owner = true
+margin_left = 151.0
+margin_top = -63.0
+margin_right = 671.0
+margin_bottom = 51.0
+custom_styles/panel = ExtResource( 39 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 614.0
+margin_bottom = 483.0
+
+[node name="TIInfoLabel" type="RichTextLabel" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer"]
+unique_name_in_owner = true
+margin_right = 604.0
+margin_bottom = 105.0
+rect_min_size = Vector2( 500, 0 )
+focus_mode = 2
+bbcode_enabled = true
+bbcode_text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+fit_content_height = true
+selection_enabled = true
+
+[node name="TIModelStrength" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer" instance=ExtResource( 13 )]
+unique_name_in_owner = true
+margin_left = 0.0
+margin_top = 109.0
+margin_right = 604.0
+margin_bottom = 137.0
+slider_name = "Model Strength"
+
+[node name="TIInject" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer" instance=ExtResource( 44 )]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer"]
+margin_top = 173.0
+margin_right = 604.0
+margin_bottom = 473.0
+
+[node name="TIShowcase0" type="TextureRect" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_right = 300.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 300, 300 )
+expand = true
+stretch_mode = 6
+
+[node name="TICivitAIShowcase0" type="HTTPRequest" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer/HBoxContainer/TIShowcase0"]
+unique_name_in_owner = true
+script = ExtResource( 28 )
+
+[node name="TIShowcase1" type="TextureRect" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 304.0
+margin_right = 604.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 300, 300 )
+expand = true
+stretch_mode = 6
+
+[node name="TICivitAIShowcase1" type="HTTPRequest" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer/HBoxContainer/TIShowcase1"]
 unique_name_in_owner = true
 script = ExtResource( 28 )
 showcase_index = 1

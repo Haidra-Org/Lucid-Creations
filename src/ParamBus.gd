@@ -44,6 +44,8 @@ signal shared_changed(boolean)
 signal control_type_changed(text)
 # warning-ignore:unused_signal
 signal loras_changed(list)
+# warning-ignore:unused_signal
+signal tis_changed(list)
 
 var api_key_node: LineEdit
 var prompt_node: TextEdit
@@ -69,6 +71,7 @@ var source_image_node: TextureRect
 var shared_node: CheckButton
 var control_type_node: OptionButton
 var loras_node: LoraSelection
+var tis_node: TISelection
 
 func setup(
 	_api_key_node: LineEdit,
@@ -94,7 +97,8 @@ func setup(
 	_source_image_node: TextureRect,
 	_shared_node: CheckButton,
 	_control_type_node: OptionButton,
-	_loras_node: LoraSelection
+	_loras_node: LoraSelection,
+	_tis_node: TISelection
 ) -> void:
 	api_key_node = _api_key_node
 	prompt_node = _prompt_node
@@ -120,6 +124,7 @@ func setup(
 	shared_node = _shared_node
 	control_type_node = _control_type_node
 	loras_node = _loras_node
+	tis_node = _tis_node
 	for le_node in [prompt_node, negprompt_node, gen_seed_node, api_key_node]:
 		# warning-ignore:return_value_discarded
 		le_node.connect("text_changed", self, "_on_line_edit_changed", [le_node])
@@ -150,6 +155,7 @@ func setup(
 	models_node.connect("model_modified",self,"_on_listnode_changed", [models_node])
 	# warning-ignore:return_value_discarded
 	loras_node.connect("loras_modified",self,"_on_listnode_changed", [loras_node])
+	tis_node.connect("tis_modified",self,"_on_listnode_changed", [tis_node])
 	
 
 func get_prompt() -> String:
@@ -225,7 +231,11 @@ func get_control_type() -> String:
 func get_loras() -> Array:
 	return loras_node.selected_loras_list
 
-func _on_line_edit_changed(_value, line_edit_node) -> void:
+func get_tis() -> Array:
+	print_debug(tis_node.selected_tis_list)
+	return tis_node.selected_tis_list
+
+func _on_line_edit_changed(line_edit_node) -> void:
 	match line_edit_node:
 		prompt_node, negprompt_node:
 			emit_signal("prompt_changed", get_prompt())
@@ -275,4 +285,6 @@ func _on_listnode_changed(_thing_list: Array, thing_node: Node) -> void:
 			emit_signal("models_changed", get_models())
 		loras_node:
 			emit_signal("loras_changed", get_loras())
+		tis_node:
+			emit_signal("tis_changed", get_tis())
 	emit_signal("params_changed")

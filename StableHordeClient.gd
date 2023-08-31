@@ -76,6 +76,7 @@ onready var image_is_control = $"%ImageIsControl"
 # model
 onready var model = $"%Model"
 onready var lora = $"%Lora"
+onready var ti = $"%TextualInversions"
 # post-processing
 onready var pp = $"%PP"
 # ratings
@@ -113,6 +114,7 @@ func _ready():
 	cancel_button.connect("pressed",self,"_on_CancelButton_pressed")
 	model.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	lora.connect("prompt_inject_requested",self,"_on_prompt_inject")
+	ti.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	# Ratings
 	EventBus.connect("shared_toggled", self, "_on_shared_toggled")
 	best_of.connect("toggled",self,"on_bestof_toggled")
@@ -180,7 +182,8 @@ func _ready():
 		image_preview,
 		options.shared,
 		control_type,
-		lora
+		lora,
+		ti
 	)
 #	_models_node: ModelSelection,
 #	_img2img_node: CheckButton,
@@ -269,7 +272,7 @@ func _on_image_process_update(stats: Dictionary) -> void:
 		stats_format["restarted"] = " Restarted:" + str(stats.restarted) + '.'
 	progress_text.text = " {waiting} Waiting. {processing} Processing.{restarted} {finished} Finished. ETA {eta} sec. Elapsed {elapsed} sec.".format(stats_format)
 	if stats.queue_position == 0:
-		status_text.bbcode_text = "Thank you for using the horde! "\
+		status_text.bbcode_text = "Thank you for using the AI Horde! "\
 			+ "If you enjoy this service join us in [url=discord]discord[/url] or subscribe on [url=patreon]patreon[/url] if you haven't already."
 		status_text.modulate = Color(0,1,0)
 	elif stats.wait_time > 200 or stats.elapsed_time / 1000> 150:
@@ -518,6 +521,8 @@ func _connect_hover_signals() -> void:
 		$"%FetchFromCivitAI",
 		$"%ShowAllModels",
 		$"%ShowAllLoras",
+		$"%FetchTIsFromCivitAI",
+		$"%ShowAllTIs",
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])
@@ -612,7 +617,9 @@ func _on_generation_rating_failed(message: String) -> void:
 
 func _on_nsfw_toggled(button_pressed: bool) -> void:
 	lora.lora_reference_node.nsfw = button_pressed
+	ti.ti_reference_node.nsfw = button_pressed
 	lora.update_selected_loras_label()
+	ti.update_selected_tis_label()
 
 func _accept_settings() -> void:
 	for slider_config in [
@@ -641,6 +648,10 @@ func _accept_settings() -> void:
 	var loras = lora.selected_loras_list
 	globals.set_setting("loras",loras)
 	stable_horde_client.set("lora", loras)
+	var tis = ti.selected_tis_list
+	globals.set_setting("tis",tis)
+	stable_horde_client.set("tis", tis)
+	print_debug(tis)
 	stable_horde_client.set("api_key", options.get_api_key())
 	stable_horde_client.set("karras", karras.pressed)
 	globals.set_setting("karras", karras.pressed)
@@ -656,6 +667,7 @@ func _accept_settings() -> void:
 	stable_horde_client.set("gen_seed", seed_edit.text)
 	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
 	stable_horde_client.set("lora", globals.config.get_value("Parameters", "loras", stable_horde_client.lora))
+	stable_horde_client.set("tis", globals.config.get_value("Parameters", "tis", stable_horde_client.tis))
 	if prompt_line_edit.text == '':
 		prompt_line_edit.text = _get_random_placeholder_prompt()
 	stable_horde_client.prompt = prompt_line_edit.text
@@ -691,6 +703,10 @@ func _on_load_from_disk_gensettings_loaded(settings) -> void:
 		lora.replace_loras(settings["loras"])
 	else:
 		lora.replace_loras([])
+	if settings.has("tis"):
+		ti.replace_tis(settings["tis"])
+	else:
+		ti.replace_tis([])
 	denoising_strength.set_value(settings.get("denoising_strength", 0.7))
 	if settings.has("control_type"):
 		for idx in range(control_type.get_item_count()):
