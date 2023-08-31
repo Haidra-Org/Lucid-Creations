@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://PP.gd" type="Script" id=1]
+[ext_resource path="res://theme/fonts/noto/type/type_body_strong.tres" type="DynamicFont" id=2]
 
 [node name="PP" type="VBoxContainer"]
 margin_top = 510.0
@@ -13,10 +14,10 @@ margin_right = 300.0
 margin_bottom = 20.0
 
 [node name="PPLabel" type="Label" parent="HBC"]
-margin_top = 3.0
 margin_right = 148.0
-margin_bottom = 17.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 2 )
 text = "Post Processing"
 
 [node name="PPSelect" type="MenuButton" parent="HBC"]

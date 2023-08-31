@@ -1,4 +1,4 @@
-extends TabContainer
+extends Control
 
 const GRID_TEXTURE_RECT = preload("res://GridTextureRect.tscn")
 var placeholder_prompts := [
