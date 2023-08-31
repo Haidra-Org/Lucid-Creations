@@ -76,6 +76,7 @@ onready var image_is_control = $"%ImageIsControl"
 # model
 onready var model = $"%Model"
 onready var lora = $"%Lora"
+onready var ti = $"%TextualInversions"
 # post-processing
 onready var pp = $"%PP"
 # ratings
@@ -113,6 +114,7 @@ func _ready():
 	cancel_button.connect("pressed",self,"_on_CancelButton_pressed")
 	model.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	lora.connect("prompt_inject_requested",self,"_on_prompt_inject")
+	ti.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	# Ratings
 	EventBus.connect("shared_toggled", self, "_on_shared_toggled")
 	best_of.connect("toggled",self,"on_bestof_toggled")
@@ -180,7 +182,8 @@ func _ready():
 		image_preview,
 		options.shared,
 		control_type,
-		lora
+		lora,
+		ti
 	)
 #	_models_node: ModelSelection,
 #	_img2img_node: CheckButton,

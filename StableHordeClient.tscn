@@ -985,14 +985,6 @@ margin_right = 604.0
 margin_bottom = 137.0
 slider_name = "Model Strength"
 
-[node name="TIClipStrength" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer" instance=ExtResource( 13 )]
-unique_name_in_owner = true
-margin_left = 0.0
-margin_top = 141.0
-margin_right = 604.0
-margin_bottom = 169.0
-slider_name = "Clip Strength"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/SelectedTIs/TIInfoCard/VBoxContainer"]
 margin_top = 173.0
 margin_right = 604.0
