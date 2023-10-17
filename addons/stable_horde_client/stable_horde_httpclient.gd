@@ -11,6 +11,8 @@ enum States {
 	CANCELLING
 }
 # When set to true, we will abort the current generation and try to retrieve whatever images we can
+export(String) var aihorde_url = "https://aihorde.net"
+export(String) var client_agent = "AI Horde Godot Addon:2.7.0:db0#1625"
 var state : int = States.READY
 var service_name :String = "AI Horde"
 

@@ -232,7 +232,6 @@ func get_loras() -> Array:
 	return loras_node.selected_loras_list
 
 func get_tis() -> Array:
-	print_debug(tis_node.selected_tis_list)
 	return tis_node.selected_tis_list
 
 func _on_line_edit_changed(line_edit_node) -> void:

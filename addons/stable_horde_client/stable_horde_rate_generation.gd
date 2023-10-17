@@ -3,17 +3,16 @@ extends StableHordeHTTPRequest
 
 signal generation_rated(awarded_kudos)
 
-
 func submit_rating(request_id: String, ratings_payload: Dictionary) -> void:
 	if state != States.READY:
 		print_debug("Rating is already being processed")
 		return
 	state = States.WORKING
 	var body = to_json(ratings_payload)
-	var url = globals.aihorde_url + "/api/v2/generate/rate/" + request_id
+	var url = aihorde_url + "/api/v2/generate/rate/" + request_id
 	var headers = [
 		"Content-Type: application/json", 
-		"Client-Agent: " + "Lucid Creations:" + ToolConsts.VERSION + ":(discord)db0#1625"
+		"Client-Agent: " + client_agent
 	]
 #	print_debug(url)
 #	print_debug(body)
