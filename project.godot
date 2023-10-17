@@ -147,8 +147,8 @@ _global_script_class_icons={
 [application]
 
 config/name="Lucid Creations"
-config/description="Generate images using the Stable Diffusion AI and the Stable Horde crowdsourced cluster"
-run/main_scene="res://StableHordeClient.tscn"
+config/description="Generate images using the Stable Diffusion AI and the AI  Horde crowdsourced cluster"
+run/main_scene="res://LucidCreations.tscn"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 

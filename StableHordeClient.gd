@@ -103,6 +103,8 @@ func _ready():
 	select_image.connect("image_selected",self,"_on_source_image_selected")
 	# warning-ignore:return_value_discarded
 	EventBus.connect("kudos_calculated",self, "_on_kudos_calculated")
+	stable_horde_client.client_agent = "Lucid Creations:" + ToolConsts.VERSION + ":(discord)db0#1625"
+	stable_horde_client.aihorde_url = globals.aihorde_url
 
 	_connect_hover_signals()
 	save.connect("pressed", self, "_on_save_pressed")

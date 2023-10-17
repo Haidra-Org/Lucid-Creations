@@ -1357,7 +1357,7 @@ margin_bottom = 20.0
 [node name="Title" type="Label" parent="Margin/Panel/Display/Panels/Controls/Information/HBC"]
 margin_right = 130.0
 margin_bottom = 20.0
-text = "Stable Horde Client"
+text = "Lucid Creations"
 
 [node name="Version" type="Label" parent="Margin/Panel/Display/Panels/Controls/Information/HBC"]
 margin_left = 134.0
