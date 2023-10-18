@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.1.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.1.1) (2023-10-17)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.1.0...v2.1.1)
+
+**Merged pull requests:**
+
+- fix: Avoid problem in windows with linebreak at start of gen [\#114](https://github.com/Haidra-Org/Lucid-Creations/pull/114) ([db0](https://github.com/db0))
+
 ## [v2.1.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.1.0) (2023-08-31)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.0.1...v2.1.0)
