@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.2.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.2.0) (2023-11-12)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.1.1...v2.2.0)
+
+**Merged pull requests:**
+
+- feat: Added support for SDXL loras [\#115](https://github.com/Haidra-Org/Lucid-Creations/pull/115) ([db0](https://github.com/db0))
+
 ## [v2.1.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.1.1) (2023-10-17)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.1.0...v2.1.1)
