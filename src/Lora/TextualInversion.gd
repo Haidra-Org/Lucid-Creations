@@ -34,10 +34,12 @@ onready var fetch_tis_from_civitai = $"%FetchTIsFromCivitAI"
 func _ready():
 	# warning-ignore:return_value_discarded
 	EventBus.connect("model_selected",self,"on_model_selection_changed")
+	EventBus.connect("cache_wipe_requested",self,"on_cache_wipe_requested")
 	ti_reference_node = CivitAITIReference.new()
 	ti_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
 	# warning-ignore:return_value_discarded
 	ti_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
+	ti_reference_node.connect("cache_wiped",self, "_on_cache_wiped")
 	add_child(ti_reference_node)
 	# warning-ignore:return_value_discarded
 	# warning-ignore:return_value_discarded
@@ -311,3 +313,9 @@ func check_baseline_compatibility(ti_name) -> int:
 		else:
 			return TICompatible.YES
 	return TICompatible.NO
+
+func _on_cache_wiped() -> void:
+	replace_tis([])
+
+func on_cache_wipe_requested() -> void:
+	ti_reference_node.wipe_cache()

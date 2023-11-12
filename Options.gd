@@ -10,6 +10,7 @@ onready var api_key_label := $"%APIKeyLabel"
 onready var login_button = $"%LoginButton"
 onready var stable_horde_login = $"%StableHordeLogin"
 onready var load_seed_from_disk = $"%LoadSeedFromDisk"
+onready var wipe_cache = $"%WipeCache"
 
 func _ready():
 	remember_prompt.pressed = globals.config.get_value("Options", "remember_prompt", false)
@@ -22,6 +23,7 @@ func _ready():
 	shared.connect("toggled",self,"_on_shared_pressed")
 	# warning-ignore:return_value_discarded
 	login_button.connect("pressed",self,"_on_login_pressed")
+	wipe_cache.connect("pressed",self,"_on_wipe_cache_pressed")
 	EventBus.connect("generation_completed",self,"_on_generation_completed")
 #	save_dir.connect("text_changed",self,"_on_savedir_changed")
 	# warning-ignore:return_value_discarded
@@ -118,7 +120,10 @@ func _on_login_pressed() -> void:
 	stable_horde_login.login()
 	$"%LoggedInDetails".visible = false
 	api_key.modulate = Color(1,1,0)
-	
+
+func _on_wipe_cache_pressed() -> void:
+	EventBus.emit_signal("cache_wipe_requested")
+
 func _on_login_succesful(_user_data) -> void:
 	$"%LoggedInDetails".visible = true
 	$"%LoggedInUsername".text = "Username: " + stable_horde_login.get_username()

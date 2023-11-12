@@ -36,6 +36,7 @@ const DESCRIPTIONS = {
 	"ShowAllModels": "Will display an list of all known models, from which to select one manually.",
 	"ShowAllLoras": "Will display an list of all known LoRas, from which to select one manually.",
 	"ShowAllTIs": "Will display an list of all known Textual Inversions, from which to select one manually.",
+	"WipeCache": "Will remove all CivitAI cached information. You will have to search for your loras once more after this.",
 }
 
 const META_DESCRIPTIONS = {

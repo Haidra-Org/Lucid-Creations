@@ -34,10 +34,12 @@ onready var fetch_from_civitai = $"%FetchFromCivitAI"
 func _ready():
 	# warning-ignore:return_value_discarded
 	EventBus.connect("model_selected",self,"on_model_selection_changed")
+	EventBus.connect("cache_wipe_requested",self,"on_cache_wipe_requested")
 	lora_reference_node = CivitAILoraReference.new()
 	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
 	# warning-ignore:return_value_discarded
 	lora_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
+	lora_reference_node.connect("cache_wiped",self, "_on_cache_wiped")
 	add_child(lora_reference_node)
 	# warning-ignore:return_value_discarded
 	# warning-ignore:return_value_discarded
@@ -286,3 +288,9 @@ func check_baseline_compatibility(lora_name) -> int:
 		else:
 			return LoraCompatible.YES
 	return LoraCompatible.NO
+
+func _on_cache_wiped() -> void:
+	replace_loras([])
+
+func on_cache_wipe_requested() -> void:
+	lora_reference_node.wipe_cache()

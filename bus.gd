@@ -22,6 +22,7 @@ signal lora_selected(lora_details)
 signal model_selected(model_details)
 signal kudos_calculated(kudos)
 signal generation_completed
+signal cache_wipe_requested
 
 func _on_node_hovered(node: Control):
 	emit_signal("node_hovered", node)

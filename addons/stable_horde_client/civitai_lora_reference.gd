@@ -2,6 +2,7 @@ class_name CivitAILoraReference
 extends StableHordeHTTPRequest
 
 signal reference_retrieved(models_list)
+signal cache_wiped
 
 export(String) var loras_refence_url := "https://civitai.com/api/v1/models?types=LORA&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
 export(String) var horde_default_loras := "https://raw.githubusercontent.com/Haidra-Org/AI-Horde-image-model-reference/main/lora.json"
@@ -242,3 +243,10 @@ func _store_lora(lora_data: Dictionary) -> void:
 	var lora_name = lora_data["name"]
 	lora_reference[lora_name] = lora_data
 	lora_id_index[int(lora_data["id"])] = lora_name
+
+func wipe_cache() -> void:
+	var dir = Directory.new()
+	dir.remove("user://civitai_lora_reference")
+	emit_signal("cache_wiped")
+	lora_reference = {}
+	get_lora_reference()

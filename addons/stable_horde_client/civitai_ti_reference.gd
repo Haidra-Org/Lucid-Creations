@@ -2,6 +2,7 @@ class_name CivitAITIReference
 extends StableHordeHTTPRequest
 
 signal reference_retrieved(models_list)
+signal cache_wiped
 
 export(String) var tis_refence_url := "https://civitai.com/api/v1/models?types=TextualInversion&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
 
@@ -214,3 +215,9 @@ func _store_ti(ti_data: Dictionary) -> void:
 	var ti_name = ti_data["name"]
 	ti_reference[ti_name] = ti_data
 	ti_id_index[int(ti_data["id"])] = ti_name
+
+func wipe_cache() -> void:
+	var dir = Directory.new()
+	dir.remove("user://civitai_ti_reference")
+	emit_signal("cache_wiped")
+	ti_reference = {}

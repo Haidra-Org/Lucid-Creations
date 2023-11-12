@@ -1342,6 +1342,14 @@ margin_right = 507.0
 margin_bottom = 385.251
 text = "Share Images"
 
+[node name="WipeCache" type="Button" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
+unique_name_in_owner = true
+margin_left = 273.0
+margin_top = 25.0
+margin_right = 320.0
+margin_bottom = 53.0
+text = "Wipe CivitAI Cache"
+
 [node name="Information" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
 visible = false
 margin_left = 10.0
