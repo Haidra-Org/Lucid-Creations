@@ -103,6 +103,7 @@ func _ready():
 	select_image.connect("image_selected",self,"_on_source_image_selected")
 	# warning-ignore:return_value_discarded
 	EventBus.connect("kudos_calculated",self, "_on_kudos_calculated")
+	EventBus.connect("cache_wipe_requested",self, "_on_cache_wipe_requested")
 	stable_horde_client.client_agent = "Lucid Creations:" + ToolConsts.VERSION + ":(discord)db0#1625"
 	stable_horde_client.aihorde_url = globals.aihorde_url
 
@@ -525,6 +526,7 @@ func _connect_hover_signals() -> void:
 		$"%ShowAllLoras",
 		$"%FetchTIsFromCivitAI",
 		$"%ShowAllTIs",
+		$"%WipeCache",
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])
@@ -752,3 +754,6 @@ func _on_kudos_calculated(kudos: int) -> void:
 	if kudos > options.stable_horde_login.get_kudos():
 		fmt["color"] = "#FFA500"
 	kudos_text.bbcode_text = "[color={color}]Kudos: {kudos}[/color]".format(fmt)
+
+func _on_cache_wipe_requested() -> void:
+	status_text.text = 'CivitAI Caches Wiped'

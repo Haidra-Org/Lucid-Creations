@@ -2,6 +2,7 @@ class_name CivitAILoraReference
 extends StableHordeHTTPRequest
 
 signal reference_retrieved(models_list)
+signal cache_wiped
 
 export(String) var loras_refence_url := "https://civitai.com/api/v1/models?types=LORA&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
 export(String) var horde_default_loras := "https://raw.githubusercontent.com/Haidra-Org/AI-Horde-image-model-reference/main/lora.json"
@@ -226,8 +227,8 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 		lora_details["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
 	elif not lora_details["url"]:
 		lora_details["unusable"] = 'Attention! This LoRa is unusable because it appears to have no valid safetensors upload.'
-	elif lora_details["size_mb"] > 150:
-		lora_details["unusable"] = 'Attention! This LoRa is unusable because is exceeds the max 150Mb filesize we allow on the AI Horde.'
+	elif lora_details["size_mb"] > 230:
+		lora_details["unusable"] = 'Attention! This LoRa is unusable because is exceeds the max 230Mb filesize we allow on the AI Horde.'
 	lora_details["images"] = []
 	for img in versions[0]["images"]:
 		if img["nsfw"] in ["Mature", "X"]:
@@ -242,3 +243,10 @@ func _store_lora(lora_data: Dictionary) -> void:
 	var lora_name = lora_data["name"]
 	lora_reference[lora_name] = lora_data
 	lora_id_index[int(lora_data["id"])] = lora_name
+
+func wipe_cache() -> void:
+	var dir = Directory.new()
+	dir.remove("user://civitai_lora_reference")
+	emit_signal("cache_wiped")
+	lora_reference = {}
+	get_lora_reference()

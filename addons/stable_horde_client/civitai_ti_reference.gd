@@ -2,6 +2,7 @@ class_name CivitAITIReference
 extends StableHordeHTTPRequest
 
 signal reference_retrieved(models_list)
+signal cache_wiped
 
 export(String) var tis_refence_url := "https://civitai.com/api/v1/models?types=TextualInversion&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
 
@@ -198,8 +199,8 @@ func _parse_civitai_ti_data(civitai_entry) -> Dictionary:
 		ti_details["unusable"] = 'Attention! This Textual Inversion is unusable because it does not provide file validation.'
 	elif not ti_details["url"]:
 		ti_details["unusable"] = 'Attention! This Textual Inversion is unusable because it appears to have no valid safetensors upload.'
-	elif ti_details["size_mb"] > 150:
-		ti_details["unusable"] = 'Attention! This Textual Inversion is unusable because is exceeds the max 150Mb filesize we allow on the AI Horde.'
+	elif ti_details["size_mb"] > 230:
+		ti_details["unusable"] = 'Attention! This Textual Inversion is unusable because is exceeds the max 230Mb filesize we allow on the AI Horde.'
 	ti_details["images"] = []
 	for img in versions[0]["images"]:
 		if img["nsfw"] in ["Mature", "X"]:
@@ -214,3 +215,9 @@ func _store_ti(ti_data: Dictionary) -> void:
 	var ti_name = ti_data["name"]
 	ti_reference[ti_name] = ti_data
 	ti_id_index[int(ti_data["id"])] = ti_name
+
+func wipe_cache() -> void:
+	var dir = Directory.new()
+	dir.remove("user://civitai_ti_reference")
+	emit_signal("cache_wiped")
+	ti_reference = {}
