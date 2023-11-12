@@ -105,8 +105,8 @@ func _parse_civitai_ti_data(civitai_entry) -> Dictionary:
 		ti_details["unusable"] = 'Attention! This Textual Inversion is unusable because it does not provide file validation.'
 	elif not ti_details["url"]:
 		ti_details["unusable"] = 'Attention! This Textual Inversion is unusable because it appears to have no valid safetensors upload.'
-	elif not is_default and ti_details["size_mb"] > 150:
-		ti_details["unusable"] = 'Attention! This Textual Inversion is unusable because is exceeds the max 150Mb filesize we allow on the AI Horde.'
+	elif not is_default and ti_details["size_mb"] > 230:
+		ti_details["unusable"] = 'Attention! This Textual Inversion is unusable because is exceeds the max 230Mb filesize we allow on the AI Horde.'
 	ti_details["images"] = []
 	for img in versions[0]["images"]:
 		if img["nsfw"] in ["Mature", "X"]:

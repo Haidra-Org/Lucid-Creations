@@ -107,8 +107,8 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 		lora_details["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
 	elif not lora_details["url"]:
 		lora_details["unusable"] = 'Attention! This LoRa is unusable because it appears to have no valid safetensors upload.'
-	elif not is_default and lora_details["size_mb"] > 150:
-		lora_details["unusable"] = 'Attention! This LoRa is unusable because is exceeds the max 150Mb filesize we allow on the AI Horde.'
+	elif not is_default and lora_details["size_mb"] > 230:
+		lora_details["unusable"] = 'Attention! This LoRa is unusable because is exceeds the max 230Mb filesize we allow on the AI Horde.'
 	lora_details["images"] = []
 	for img in versions[0]["images"]:
 		if img["nsfw"] in ["Mature", "X"]:

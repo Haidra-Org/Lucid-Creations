@@ -150,5 +150,4 @@ static func sanitize_filename(filename: String) -> String:
 	]
 	for c in replace_chars:
 		filename = filename.replace(c,'_')
-	print_debug(filename)
 	return(filename)
