@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -46,6 +46,7 @@
 [ext_resource path="res://src/Lora/TIInject.tscn" type="PackedScene" id=44]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_workers.gd" type="Script" id=45]
 [ext_resource path="res://Workers.gd" type="Script" id=46]
+[ext_resource path="res://theme/assets/iconpark/worker.svg" type="Texture" id=47]
 
 [sub_resource type="StreamTexture" id=9]
 flags = 4
@@ -1469,8 +1470,8 @@ size_flags_horizontal = 3
 text = ""
 placeholder_text = "Worker Name or ID"
 seek_keys = [ "name" ]
-description_keys = [ "style", "worker_count" ]
-description_format = "{item}: {style} ({worker_count})"
+description_keys = [ "performance", "trusted" ]
+description_format = "{item}: {performance}"
 popup_position = 1
 
 [node name="ShowAllWorkers" type="Button" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC/WorkersAutocompleteHBC"]
@@ -1582,14 +1583,14 @@ margin_right = 1568.0
 margin_bottom = 868.0
 
 [node name="Config" type="PanelContainer" parent="Margin/Panel/Footer"]
-margin_right = 144.0
+margin_right = 178.0
 margin_bottom = 42.0
 size_flags_vertical = 8
 
 [node name="Buttons" type="HBoxContainer" parent="Margin/Panel/Footer/Config"]
 margin_left = 6.0
 margin_top = 6.0
-margin_right = 138.0
+margin_right = 172.0
 margin_bottom = 36.0
 size_flags_vertical = 4
 
@@ -1626,9 +1627,20 @@ icon = ExtResource( 18 )
 icon_align = 1
 expand_icon = true
 
-[node name="Advanced" type="Button" parent="Margin/Panel/Footer/Config/Buttons"]
+[node name="Workers" type="Button" parent="Margin/Panel/Footer/Config/Buttons"]
 margin_left = 102.0
 margin_right = 132.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+toggle_mode = true
+group = SubResource( 10 )
+icon = ExtResource( 47 )
+icon_align = 1
+expand_icon = true
+
+[node name="Advanced" type="Button" parent="Margin/Panel/Footer/Config/Buttons"]
+margin_left = 136.0
+margin_right = 166.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 30, 30 )
 toggle_mode = true
@@ -1638,8 +1650,8 @@ icon_align = 1
 expand_icon = true
 
 [node name="About" type="PanelContainer" parent="Margin/Panel/Footer"]
-margin_left = 148.0
-margin_right = 224.0
+margin_left = 182.0
+margin_right = 258.0
 margin_bottom = 42.0
 size_flags_vertical = 8
 
@@ -1672,7 +1684,7 @@ icon_align = 1
 expand_icon = true
 
 [node name="Progress" type="MarginContainer" parent="Margin/Panel/Footer"]
-margin_left = 228.0
+margin_left = 262.0
 margin_right = 1568.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
@@ -1680,7 +1692,7 @@ size_flags_horizontal = 3
 [node name="GenerationsProcessing" type="ProgressBar" parent="Margin/Panel/Footer/Progress"]
 unique_name_in_owner = true
 modulate = Color( 1, 1, 1, 0.392157 )
-margin_right = 1340.0
+margin_right = 1306.0
 margin_bottom = 42.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -1691,7 +1703,7 @@ max_value = 20.0
 
 [node name="GenerationsDone" type="ProgressBar" parent="Margin/Panel/Footer/Progress"]
 unique_name_in_owner = true
-margin_right = 1340.0
+margin_right = 1306.0
 margin_bottom = 42.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -1701,7 +1713,7 @@ custom_styles/bg = SubResource( 17 )
 max_value = 20.0
 
 [node name="Margin" type="MarginContainer" parent="Margin/Panel/Footer/Progress"]
-margin_right = 1340.0
+margin_right = 1306.0
 margin_bottom = 42.0
 custom_constants/margin_right = 8
 custom_constants/margin_top = 2
@@ -1711,7 +1723,7 @@ custom_constants/margin_bottom = 2
 [node name="Labels" type="HBoxContainer" parent="Margin/Panel/Footer/Progress/Margin"]
 margin_left = 8.0
 margin_top = 2.0
-margin_right = 1332.0
+margin_right = 1298.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1733,7 +1745,7 @@ scroll_active = false
 [node name="VBC" type="VBoxContainer" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
 margin_left = 100.0
 margin_top = 10.0
-margin_right = 1324.0
+margin_right = 1290.0
 margin_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1741,7 +1753,7 @@ custom_constants/separation = 0
 
 [node name="StatusText" type="RichTextLabel" parent="Margin/Panel/Footer/Progress/Margin/Labels/VBC"]
 unique_name_in_owner = true
-margin_right = 1224.0
+margin_right = 1190.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_horizontal = 3

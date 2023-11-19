@@ -20,6 +20,8 @@ signal shared_toggled()
 signal lora_selected(lora_details)
 # warning-ignore:unused_signal
 signal model_selected(model_details)
+# warning-ignore:unused_signal
+signal worker_selected(worker_details)
 signal kudos_calculated(kudos)
 signal generation_completed
 signal cache_wipe_requested
