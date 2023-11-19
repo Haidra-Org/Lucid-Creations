@@ -1577,6 +1577,13 @@ url: https://example.com"
 fit_content_height = true
 deselect_on_focus_loss_enabled = false
 
+[node name="BlockList" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC"]
+unique_name_in_owner = true
+margin_top = 36.0
+margin_right = 320.0
+margin_bottom = 64.0
+text = "Blocklist?"
+
 [node name="Footer" type="HBoxContainer" parent="Margin/Panel"]
 margin_top = 826.0
 margin_right = 1568.0

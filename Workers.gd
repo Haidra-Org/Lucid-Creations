@@ -6,6 +6,7 @@ signal worker_modified(workers_list)
 var selected_workers_list : Array = []
 var worker_refresh: float
 var current_models := []
+var blocklist := false
 
 onready var worker_auto_complete = $"%WorkerAutoComplete"
 onready var selected_workers = $"%SelectedWorkers"
@@ -17,6 +18,7 @@ onready var worker_info_card := $"%WorkerInfoCard"
 onready var worker_info_label := $"%WorkerInfoLabel"
 onready var popup_info := $"%WorkerPopupInfo"
 onready var popup_info_label := $"%WorkerPopupInfoLabel"
+onready var block_list = $"%BlockList"
 
 
 func _ready():
@@ -31,10 +33,13 @@ func _ready():
 	selected_workers.connect("meta_hover_ended",self,"_on_selected_workers_meta_hover_ended")
 	worker_info_label.connect("meta_clicked",self,"_on_worker_info_workers_meta_clicked")
 	show_all_workers.connect("pressed",self,"_on_show_all_workers_pressed")
+	block_list.connect("toggled",self,"_on_blocklist_enabled")
 # warning-ignore:return_value_discarded
 	worker_info_card.connect("hide",self,"_on_workers_info_card_hide")
 	yield(get_tree().create_timer(0.2), "timeout")
-	selected_workers_list = globals.config.get_value("Parameters", "workers", [])
+	selected_workers_list = globals.config.get_value("Options", "workers", [])
+	blocklist = globals.config.get_value("Options", "blocklist", false)
+	block_list.pressed = blocklist
 	_update_selected_workers_label()
 	_emit_selected_workers()
 	
@@ -56,7 +61,7 @@ func get_worker_reference(worker_name: String) -> Dictionary:
 func get_worker_performance(worker_name: String) -> Dictionary:
 	var worker = get_worker_reference(worker_name)
 	var default_perf_dict = {
-		"performance": int(worker["performance"].split(' ')[0]),
+		"performance": float(worker["performance"].split(' ')[0]),
 		"uptime": worker["uptime"] / (60*60*24),
 	}
 	return(default_perf_dict)
@@ -76,12 +81,17 @@ func _show_worker_details(worker_name: String) -> void:
 			"trusted": worker_reference['trusted'],
 			"info": worker_reference.get('info'),
 			"team": worker_reference['team']['name'],
-			"models": worker_reference["models"],
+			"models": ', '.join(worker_reference["models"]),
 			"health_color": "#" + perf["health_color"],
+			"trusted_color": "#" + perf["trusted_color"],
 			"performance": worker_reference['performance'],
 		}
+		if worker_reference["models"].size() > 30:
+			fmt["models"] = worker_reference["models"].size()
+		if not worker_reference.get('info'):
+			fmt["info"] = "N/A"
 		var label_text = "Name: {description}\nVersion: {version}\n".format(fmt)\
-				+ "Trusted: {trusted}.\n".format(fmt)\
+				+ "Trusted: [color={trusted_color}]{trusted}[/color].\n".format(fmt)\
 				+ "Performance: [color={health_color}]{performance}[/color].\n".format(fmt)\
 				+ "Models: {models}.\n\n".format(fmt)\
 				+ "Info: {info}".format(fmt)
@@ -92,6 +102,7 @@ func _show_worker_details(worker_name: String) -> void:
 
 func _get_worker_performance(worker_name: String) -> Dictionary:
 	var worker_performance := get_worker_performance(worker_name)
+	var worker_reference := get_worker_reference(worker_name)
 	var healthy := Color(0,1,0)
 	var maintenance := Color(1,0,0)
 	var unhealthy := Color(1,0,0)
@@ -99,9 +110,16 @@ func _get_worker_performance(worker_name: String) -> Dictionary:
 	var health_pct = worker_performance["performance"]
 	if worker_performance["performance"] > 1.0:
 		health_pct = 1
-	var health_color := unhealthy.linear_interpolate(healthy,health_pct)
+	var normalized = (health_pct - 0.5) / (1.0 - 0.5)
+	if normalized < 0:
+		normalized = 0
+	var health_color := unhealthy.linear_interpolate(healthy,normalized)
+	var trusted_color = Color(0,1,0)
+	if not worker_reference['trusted']:
+		trusted_color = Color(1,1,0)
 	return {
 		"health_color": health_color.to_html(false),
+		"trusted_color": trusted_color.to_html(false),
 	}
 
 func replace_workers(workers_list: Array) -> void:
@@ -110,12 +128,12 @@ func replace_workers(workers_list: Array) -> void:
 	_emit_selected_workers()
 
 func _on_worker_selected(worker_name: String) -> void:
+	if selected_workers_list.size() >= 5:
+		return
 	if worker_name in selected_workers_list:
 		return
 	selected_workers_list.append(worker_name)
-	print_debug([worker_name, selected_workers_list])
 	_update_selected_workers_label()
-	print_debug([worker_name, selected_workers_list])
 	_emit_selected_workers()
 
 func _get_selected_workers() -> Array:
@@ -189,6 +207,15 @@ func on_model_selection_changed(models_list) -> void:
 	current_models = models_list
 	_update_selected_workers_label()
 
+func _on_blocklist_enabled(value) -> void:
+	blocklist = value
+
+func get_worker_ids() -> Array:
+	var idlist = []
+	for worker_name in selected_workers_list:
+		var worker_reference := get_worker_reference(worker_name)
+		idlist.append(worker_reference["id"])
+	return idlist
 
 class WorkerSorter:
 	static func sort(m1, m2):

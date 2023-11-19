@@ -75,8 +75,9 @@ onready var control_type = $"%ControlType"
 onready var image_is_control = $"%ImageIsControl"
 # model
 onready var model = $"%Model"
-onready var lora = $"%Lora"
-onready var ti = $"%TextualInversions"
+onready var lora:LoraSelection = $"%Lora"
+onready var ti:TISelection = $"%TextualInversions"
+onready var workers: WorkerSelection = $"%WorkersVBC"
 # post-processing
 onready var pp = $"%PP"
 # ratings
@@ -528,6 +529,7 @@ func _connect_hover_signals() -> void:
 		$"%FetchTIsFromCivitAI",
 		$"%ShowAllTIs",
 		$"%WipeCache",
+		$"%BlockList",
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])
@@ -656,7 +658,11 @@ func _accept_settings() -> void:
 	var tis = ti.selected_tis_list
 	globals.set_setting("tis",tis)
 	stable_horde_client.set("tis", tis)
-	print_debug(tis)
+	var wks = workers.get_worker_ids()
+	globals.set_setting("workers", workers.selected_workers_list, "Options")
+	globals.set_setting("blocklist", workers.blocklist, "Options")
+	stable_horde_client.set("workers", wks)
+	stable_horde_client.set("worker_blacklist", workers.blocklist)
 	stable_horde_client.set("api_key", options.get_api_key())
 	stable_horde_client.set("karras", karras.pressed)
 	globals.set_setting("karras", karras.pressed)

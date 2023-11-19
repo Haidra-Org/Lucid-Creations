@@ -98,6 +98,8 @@ export(bool) var r2 := true
 export(bool) var shared := true
 export(String, "none", "canny", "hed", "depth", "normal", "openpose", "seg", "scribble", "fakescribbles", "hough") var control_type := "none"
 export(bool) var dry_run := false
+export(Array) var workers := []
+export(bool) var worker_blacklist := false
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -151,12 +153,13 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"r2": r2,
 		"shared": shared,
 		"dry_run": dry_run,
-		"workers": [
-			"ba9937fb-8558-4d42-9059-926de5f0fe4e", #pama
-			"dc0704ab-5b42-4c65-8471-561be16ad696", #portal
-		], # debug
+		"workers": workers,
+		"worker_blacklist": worker_blacklist,
+#		"workers": [
+#			"dc0704ab-5b42-4c65-8471-561be16ad696", #portal
+#		], # debug
 	}
-#	print_debug(submit_dict)
+	print_debug(submit_dict["workers"])
 	if source_image:
 		submit_dict["source_image"] = get_img2img_b64(source_image)
 		submit_dict["params"]["denoising_strength"] = denoising_strength

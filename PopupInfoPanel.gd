@@ -37,6 +37,7 @@ const DESCRIPTIONS = {
 	"ShowAllLoras": "Will display an list of all known LoRas, from which to select one manually.",
 	"ShowAllTIs": "Will display an list of all known Textual Inversions, from which to select one manually.",
 	"WipeCache": "Will remove all CivitAI cached information. You will have to search for your loras once more after this.",
+	"BlockList": "When enabled, the workers specified will NOT be used for generations (This option requires upfront kudos). When disabled only the workers specified will be used for the generation.",
 }
 
 const META_DESCRIPTIONS = {
