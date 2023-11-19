@@ -335,7 +335,7 @@ func _on_StatusText_meta_clicked(meta):
 			OS.shell_open("https://www.patreon.com/db0")
 		"worker":
 			# warning-ignore:return_value_discarded
-			OS.shell_open("https://github.com/db0/AI-Horde/blob/main/README_StableHorde.md#joining-the-horde")
+			OS.shell_open("https://github.com/Haidra-Org/AI-Horde/blob/main/README_StableHorde.md#joining-the-horde")
 
 func _on_ControlNet_meta_clicked(meta):
 	match meta:
@@ -530,6 +530,8 @@ func _connect_hover_signals() -> void:
 		$"%ShowAllTIs",
 		$"%WipeCache",
 		$"%BlockList",
+		$"%WorkerAutoComplete",
+		$"%ShowAllWorkers",
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])

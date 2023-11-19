@@ -38,6 +38,8 @@ const DESCRIPTIONS = {
 	"ShowAllTIs": "Will display an list of all known Textual Inversions, from which to select one manually.",
 	"WipeCache": "Will remove all CivitAI cached information. You will have to search for your loras once more after this.",
 	"BlockList": "When enabled, the workers specified will NOT be used for generations (This option requires upfront kudos). When disabled only the workers specified will be used for the generation.",
+	"WorkerAutoComplete": "Specify workers to use for this generation. Use the toggle below to specify using them as an allowlist or a blocklist. When models are selected, only workers which can generate any of those models will be shown.",
+	"ShowAllWorkers": "Press this button to display and select available workers for your selected model.",
 }
 
 const META_DESCRIPTIONS = {

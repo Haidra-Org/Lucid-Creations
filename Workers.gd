@@ -22,6 +22,7 @@ onready var block_list = $"%BlockList"
 
 
 func _ready():
+# warning-ignore:return_value_discarded
 	EventBus.connect("model_selected",self,"on_model_selection_changed")
 	# warning-ignore:return_value_discarded
 	stable_horde_workers.connect("workers_retrieved",self, "_on_workers_retrieved")
@@ -50,8 +51,8 @@ func _process(delta):
 		worker_refresh = 0
 		stable_horde_workers.get_workers()
 
-func _on_workers_retrieved(worker_reference: Dictionary):
-	worker_auto_complete.selections  = worker_reference.duplicate(true)
+func _on_workers_retrieved(_worker_reference: Dictionary):
+	worker_auto_complete.selections = stable_horde_workers.get_workers_with_models(current_models)
 
 
 func get_worker_reference(worker_name: String) -> Dictionary:
@@ -76,6 +77,7 @@ func _show_worker_details(worker_name: String) -> void:
 	else:
 		var perf = _get_worker_performance(worker_name)
 		var fmt = {
+			"id": worker_reference['id'],
 			"description": worker_reference['name'],
 			"version": worker_reference['bridge_agent'],
 			"trusted": worker_reference['trusted'],
@@ -90,7 +92,7 @@ func _show_worker_details(worker_name: String) -> void:
 			fmt["models"] = worker_reference["models"].size()
 		if not worker_reference.get('info'):
 			fmt["info"] = "N/A"
-		var label_text = "Name: {description}\nVersion: {version}\n".format(fmt)\
+		var label_text = "Name: {description}\nID: {id}\nVersion: {version}\n".format(fmt)\
 				+ "Trusted: [color={trusted_color}]{trusted}[/color].\n".format(fmt)\
 				+ "Performance: [color={health_color}]{performance}[/color].\n".format(fmt)\
 				+ "Models: {models}.\n\n".format(fmt)\
@@ -104,7 +106,6 @@ func _get_worker_performance(worker_name: String) -> Dictionary:
 	var worker_performance := get_worker_performance(worker_name)
 	var worker_reference := get_worker_reference(worker_name)
 	var healthy := Color(0,1,0)
-	var maintenance := Color(1,0,0)
 	var unhealthy := Color(1,0,0)
 	# Any speed above 1MPS is decent. However below 1MPS we consider it unhealthy
 	var health_pct = worker_performance["performance"]
@@ -205,6 +206,7 @@ func _on_show_all_workers_pressed() -> void:
 
 func on_model_selection_changed(models_list) -> void:
 	current_models = models_list
+	worker_auto_complete.selections = stable_horde_workers.get_workers_with_models(current_models)
 	_update_selected_workers_label()
 
 func _on_blocklist_enabled(value) -> void:
