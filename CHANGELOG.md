@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.3.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.3.0) (2023-11-20)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.2.0...v2.3.0)
+
+**Merged pull requests:**
+
+- feat: Adds worker selection [\#116](https://github.com/Haidra-Org/Lucid-Creations/pull/116) ([db0](https://github.com/db0))
+
 ## [v2.2.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.2.0) (2023-11-12)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.1.1...v2.2.0)
