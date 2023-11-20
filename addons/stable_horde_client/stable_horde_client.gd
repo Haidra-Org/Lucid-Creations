@@ -159,7 +159,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 #			"dc0704ab-5b42-4c65-8471-561be16ad696", #portal
 #		], # debug
 	}
-	print_debug(submit_dict["workers"])
+#	print_debug(submit_dict)
 	if source_image:
 		submit_dict["source_image"] = get_img2img_b64(source_image)
 		submit_dict["params"]["denoising_strength"] = denoising_strength
