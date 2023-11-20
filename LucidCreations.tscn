@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -44,6 +44,9 @@
 [ext_resource path="res://theme/components/dark/small_normal_0.tres" type="StyleBox" id=42]
 [ext_resource path="res://src/Lora/TextualInversion.gd" type="Script" id=43]
 [ext_resource path="res://src/Lora/TIInject.tscn" type="PackedScene" id=44]
+[ext_resource path="res://addons/stable_horde_client/stable_horde_workers.gd" type="Script" id=45]
+[ext_resource path="res://Workers.gd" type="Script" id=46]
+[ext_resource path="res://theme/assets/iconpark/worker.svg" type="Texture" id=47]
 
 [sub_resource type="StreamTexture" id=9]
 flags = 4
@@ -439,8 +442,10 @@ text = "Cancel"
 [node name="img2img" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
 visible = false
-margin_right = 300.0
-margin_bottom = 236.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 330.0
+margin_bottom = 340.0
 rect_min_size = Vector2( 320, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -448,7 +453,7 @@ custom_constants/separation = 8
 
 [node name="Img2ImgEnabled" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/img2img"]
 unique_name_in_owner = true
-margin_right = 300.0
+margin_right = 320.0
 margin_bottom = 28.0
 text = "Enabled"
 
@@ -507,7 +512,7 @@ visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
-margin_bottom = 360.0
+margin_bottom = 400.0
 rect_min_size = Vector2( 320, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -851,9 +856,9 @@ showcase_index = 1
 
 [node name="TextualInversions" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic"]
 unique_name_in_owner = true
-margin_top = 84.0
+margin_top = 124.0
 margin_right = 320.0
-margin_bottom = 116.0
+margin_bottom = 156.0
 script = ExtResource( 43 )
 
 [node name="TIAutocompleteHBC" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions"]
@@ -862,7 +867,7 @@ margin_bottom = 32.0
 
 [node name="TISelectLabel" type="Label" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/TIAutocompleteHBC"]
 margin_top = 6.0
-margin_right = 50.0
+margin_right = 127.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 50, 0 )
 custom_fonts/font = ExtResource( 40 )
@@ -870,7 +875,7 @@ text = "Textual Inversions"
 
 [node name="TIAutoComplete" parent="Margin/Panel/Display/Panels/Controls/Basic/TextualInversions/TIAutocompleteHBC" instance=ExtResource( 26 )]
 unique_name_in_owner = true
-margin_left = 54.0
+margin_left = 131.0
 margin_right = 248.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
@@ -1021,15 +1026,15 @@ showcase_index = 1
 
 [node name="TrustedWorkers" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Basic"]
 unique_name_in_owner = true
-margin_top = 124.0
+margin_top = 164.0
 margin_right = 320.0
-margin_bottom = 152.0
+margin_bottom = 192.0
 text = "Require Trusted Workers"
 
 [node name="HBC" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic"]
-margin_top = 160.0
+margin_top = 200.0
 margin_right = 320.0
-margin_bottom = 188.0
+margin_bottom = 228.0
 
 [node name="NSFW" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Basic/HBC"]
 unique_name_in_owner = true
@@ -1048,9 +1053,9 @@ pressed = true
 text = "Censored"
 
 [node name="HBC2" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic"]
-margin_top = 196.0
+margin_top = 236.0
 margin_right = 320.0
-margin_bottom = 224.0
+margin_bottom = 264.0
 
 [node name="LoadFromDisk" parent="Margin/Panel/Display/Panels/Controls/Basic/HBC2" instance=ExtResource( 16 )]
 margin_right = 158.0
@@ -1067,15 +1072,15 @@ text = "Save All"
 
 [node name="PP" parent="Margin/Panel/Display/Panels/Controls/Basic" instance=ExtResource( 22 )]
 unique_name_in_owner = true
-margin_top = 232.0
+margin_top = 272.0
 margin_right = 320.0
-margin_bottom = 314.0
+margin_bottom = 354.0
 
 [node name="SubmitRatings" type="Button" parent="Margin/Panel/Display/Panels/Controls/Basic"]
 unique_name_in_owner = true
-margin_top = 322.0
+margin_top = 362.0
 margin_right = 320.0
-margin_bottom = 350.0
+margin_bottom = 390.0
 size_flags_horizontal = 3
 disabled = true
 text = "Submit Ratings"
@@ -1184,19 +1189,18 @@ visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
-margin_bottom = 360.0
+margin_bottom = 378.0
 rect_min_size = Vector2( 320, 0 )
 script = ExtResource( 11 )
 
 [node name="VBC" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options"]
 margin_right = 320.0
-margin_bottom = 350.0
+margin_bottom = 368.0
 custom_constants/separation = 8
 
 [node name="VBCRight" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options/VBC"]
-margin_top = 215.0
 margin_right = 320.0
-margin_bottom = 310.0
+margin_bottom = 95.0
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
@@ -1245,8 +1249,9 @@ scroll_active = false
 selection_enabled = true
 
 [node name="VBCLeft" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options/VBC"]
+margin_top = 103.0
 margin_right = 320.0
-margin_bottom = 205.0
+margin_bottom = 368.0
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
@@ -1260,9 +1265,9 @@ text = "API Key (Register)"
 fit_content_height = true
 
 [node name="APIHBC" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
-margin_top = 25.0
+margin_top = 29.0
 margin_right = 320.0
-margin_bottom = 53.0
+margin_bottom = 57.0
 
 [node name="APIKey" type="LineEdit" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft/APIHBC"]
 unique_name_in_owner = true
@@ -1287,16 +1292,16 @@ script = ExtResource( 21 )
 
 [node name="SaveDirLabel" type="Label" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 57.0
+margin_top = 65.0
 margin_right = 320.0
-margin_bottom = 77.0
+margin_bottom = 85.0
 text = "Image Save Directory"
 autowrap = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
-margin_top = 81.0
+margin_top = 93.0
 margin_right = 320.0
-margin_bottom = 109.0
+margin_bottom = 121.0
 
 [node name="SaveDir" type="LineEdit" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft/HBoxContainer"]
 unique_name_in_owner = true
@@ -1315,23 +1320,23 @@ margin_bottom = 28.0
 
 [node name="RememberPrompt" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 113.0
+margin_top = 129.0
 margin_right = 320.0
-margin_bottom = 141.0
+margin_bottom = 157.0
 text = "Remember Prompt"
 
 [node name="LargerValues" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 145.0
+margin_top = 165.0
 margin_right = 320.0
-margin_bottom = 173.0
+margin_bottom = 193.0
 text = "Larger Values"
 
 [node name="LoadSeedFromDisk" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 177.0
+margin_top = 201.0
 margin_right = 320.0
-margin_bottom = 205.0
+margin_bottom = 229.0
 text = "Recover Saved Seeds"
 
 [node name="Shared" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
@@ -1344,10 +1349,9 @@ text = "Share Images"
 
 [node name="WipeCache" type="Button" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_left = 273.0
-margin_top = 25.0
+margin_top = 237.0
 margin_right = 320.0
-margin_bottom = 53.0
+margin_bottom = 265.0
 text = "Wipe CivitAI Cache"
 
 [node name="Information" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
@@ -1433,20 +1437,167 @@ margin_top = 350.0
 margin_right = 300.0
 margin_bottom = 350.0
 
+[node name="Workers" type="MarginContainer" parent="Margin/Panel/Display/Panels/Controls"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 330.0
+margin_bottom = 340.0
+
+[node name="WorkersVBC" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Workers"]
+unique_name_in_owner = true
+margin_right = 320.0
+margin_bottom = 330.0
+script = ExtResource( 46 )
+
+[node name="WorkersAutocompleteHBC" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC"]
+margin_right = 320.0
+margin_bottom = 32.0
+
+[node name="WorkerSelectLabel" type="Label" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC/WorkersAutocompleteHBC"]
+margin_top = 6.0
+margin_right = 52.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 50, 0 )
+custom_fonts/font = ExtResource( 40 )
+text = "Worker"
+
+[node name="WorkerAutoComplete" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC/WorkersAutocompleteHBC" instance=ExtResource( 26 )]
+unique_name_in_owner = true
+margin_left = 56.0
+margin_right = 284.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+text = ""
+placeholder_text = "Worker Name or ID"
+seek_keys = [ "name" ]
+description_keys = [ "performance", "trusted" ]
+description_format = "{item}: {performance}"
+popup_position = 1
+
+[node name="ShowAllWorkers" type="Button" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC/WorkersAutocompleteHBC"]
+unique_name_in_owner = true
+margin_left = 288.0
+margin_right = 320.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+icon = ExtResource( 15 )
+flat = true
+icon_align = 1
+expand_icon = true
+
+[node name="StableHordeWorkers" type="HTTPRequest" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC/WorkersAutocompleteHBC"]
+unique_name_in_owner = true
+script = ExtResource( 45 )
+
+[node name="SelectedWorkers" type="RichTextLabel" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC"]
+unique_name_in_owner = true
+visible = false
+margin_top = 36.0
+margin_right = 320.0
+margin_bottom = 86.0
+rect_min_size = Vector2( 0, 50 )
+bbcode_enabled = true
+fit_content_height = true
+
+[node name="WorkerInfoCard" type="PopupPanel" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC/SelectedWorkers"]
+unique_name_in_owner = true
+margin_left = 157.0
+margin_top = -63.0
+margin_right = 757.0
+margin_bottom = 62.0
+custom_styles/panel = ExtResource( 39 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC/SelectedWorkers/WorkerInfoCard"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 590.0
+margin_bottom = 115.0
+
+[node name="WorkerInfoLabel" type="RichTextLabel" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC/SelectedWorkers/WorkerInfoCard/VBoxContainer"]
+unique_name_in_owner = true
+margin_right = 500.0
+margin_bottom = 105.0
+rect_min_size = Vector2( 500, 0 )
+bbcode_enabled = true
+bbcode_text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+fit_content_height = true
+
+[node name="WorkerTriggerSelection" type="PopupMenu" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC/SelectedWorkers"]
+unique_name_in_owner = true
+margin_left = 49.0
+margin_top = -90.0
+margin_right = 69.0
+margin_bottom = -70.0
+hide_on_checkable_item_selection = false
+
+[node name="WorkerSelect" type="OptionButton" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC"]
+unique_name_in_owner = true
+visible = false
+margin_top = 36.0
+margin_right = 320.0
+margin_bottom = 64.0
+text = "Any model"
+clip_text = true
+items = [ "Any model", null, false, 0, null, "stable_diffusion", null, false, 1, null ]
+selected = 0
+
+[node name="WorkerPopupInfo" type="PopupPanel" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC"]
+unique_name_in_owner = true
+margin_top = 36.0
+margin_right = 512.0
+margin_bottom = 153.0
+
+[node name="WorkerPopupInfoLabel" type="RichTextLabel" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC/WorkerPopupInfo"]
+unique_name_in_owner = true
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 506.0
+margin_bottom = 111.0
+rect_min_size = Vector2( 500, 0 )
+bbcode_enabled = true
+bbcode_text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+text = "This is some model info
+
+blah blah blah
+
+url: https://example.com"
+fit_content_height = true
+deselect_on_focus_loss_enabled = false
+
+[node name="BlockList" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Workers/WorkersVBC"]
+unique_name_in_owner = true
+margin_top = 36.0
+margin_right = 320.0
+margin_bottom = 64.0
+text = "Blocklist?"
+
 [node name="Footer" type="HBoxContainer" parent="Margin/Panel"]
 margin_top = 826.0
 margin_right = 1568.0
 margin_bottom = 868.0
 
 [node name="Config" type="PanelContainer" parent="Margin/Panel/Footer"]
-margin_right = 144.0
+margin_right = 178.0
 margin_bottom = 42.0
 size_flags_vertical = 8
 
 [node name="Buttons" type="HBoxContainer" parent="Margin/Panel/Footer/Config"]
 margin_left = 6.0
 margin_top = 6.0
-margin_right = 138.0
+margin_right = 172.0
 margin_bottom = 36.0
 size_flags_vertical = 4
 
@@ -1483,9 +1634,20 @@ icon = ExtResource( 18 )
 icon_align = 1
 expand_icon = true
 
-[node name="Advanced" type="Button" parent="Margin/Panel/Footer/Config/Buttons"]
+[node name="Workers" type="Button" parent="Margin/Panel/Footer/Config/Buttons"]
 margin_left = 102.0
 margin_right = 132.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+toggle_mode = true
+group = SubResource( 10 )
+icon = ExtResource( 47 )
+icon_align = 1
+expand_icon = true
+
+[node name="Advanced" type="Button" parent="Margin/Panel/Footer/Config/Buttons"]
+margin_left = 136.0
+margin_right = 166.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 30, 30 )
 toggle_mode = true
@@ -1495,8 +1657,8 @@ icon_align = 1
 expand_icon = true
 
 [node name="About" type="PanelContainer" parent="Margin/Panel/Footer"]
-margin_left = 148.0
-margin_right = 224.0
+margin_left = 182.0
+margin_right = 258.0
 margin_bottom = 42.0
 size_flags_vertical = 8
 
@@ -1529,7 +1691,7 @@ icon_align = 1
 expand_icon = true
 
 [node name="Progress" type="MarginContainer" parent="Margin/Panel/Footer"]
-margin_left = 228.0
+margin_left = 262.0
 margin_right = 1568.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
@@ -1537,7 +1699,7 @@ size_flags_horizontal = 3
 [node name="GenerationsProcessing" type="ProgressBar" parent="Margin/Panel/Footer/Progress"]
 unique_name_in_owner = true
 modulate = Color( 1, 1, 1, 0.392157 )
-margin_right = 1340.0
+margin_right = 1306.0
 margin_bottom = 42.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -1548,7 +1710,7 @@ max_value = 20.0
 
 [node name="GenerationsDone" type="ProgressBar" parent="Margin/Panel/Footer/Progress"]
 unique_name_in_owner = true
-margin_right = 1340.0
+margin_right = 1306.0
 margin_bottom = 42.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -1558,7 +1720,7 @@ custom_styles/bg = SubResource( 17 )
 max_value = 20.0
 
 [node name="Margin" type="MarginContainer" parent="Margin/Panel/Footer/Progress"]
-margin_right = 1340.0
+margin_right = 1306.0
 margin_bottom = 42.0
 custom_constants/margin_right = 8
 custom_constants/margin_top = 2
@@ -1568,7 +1730,7 @@ custom_constants/margin_bottom = 2
 [node name="Labels" type="HBoxContainer" parent="Margin/Panel/Footer/Progress/Margin"]
 margin_left = 8.0
 margin_top = 2.0
-margin_right = 1332.0
+margin_right = 1298.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1590,7 +1752,7 @@ scroll_active = false
 [node name="VBC" type="VBoxContainer" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
 margin_left = 100.0
 margin_top = 10.0
-margin_right = 1324.0
+margin_right = 1290.0
 margin_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1598,7 +1760,7 @@ custom_constants/separation = 0
 
 [node name="StatusText" type="RichTextLabel" parent="Margin/Panel/Footer/Progress/Margin/Labels/VBC"]
 unique_name_in_owner = true
-margin_right = 1224.0
+margin_right = 1190.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_horizontal = 3

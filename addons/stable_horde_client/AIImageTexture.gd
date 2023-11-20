@@ -31,6 +31,7 @@ var attributes: Dictionary
 var timestamp: float
 var image_horde_id: String
 var control_type: String
+var request_id: String
 
 func _init(
 		_prompt: String, 
@@ -42,7 +43,8 @@ func _init(
 		_timestamp: float,
 		_control_type: String,
 		_image: Image,
-		_image_horde_id: String) -> void:
+		_image_horde_id: String,
+		_request_id: String) -> void:
 	._init()
 	prompt = _prompt
 	attributes = _imgen_params.duplicate(true)
@@ -64,6 +66,8 @@ func _init(
 	image = _image
 	image_horde_id = _image_horde_id
 	timestamp = _timestamp
+	request_id = _request_id
+	attributes['request_id'] = _request_id
 	
 # This can be used to provide metadata for the source image in img2img requests
 func set_source_image_path(image_path: String) -> void:

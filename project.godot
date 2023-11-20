@@ -104,6 +104,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/stable_horde_client/stable_horde_rate_generation.gd"
 }, {
+"base": "StableHordeHTTPRequest",
+"class": "StableHordeWorkers",
+"language": "GDScript",
+"path": "res://addons/stable_horde_client/stable_horde_workers.gd"
+}, {
 "base": "Control",
 "class": "TISelection",
 "language": "GDScript",
@@ -118,6 +123,11 @@ _global_script_classes=[ {
 "class": "Utils",
 "language": "GDScript",
 "path": "res://Utils.gd"
+}, {
+"base": "Control",
+"class": "WorkerSelection",
+"language": "GDScript",
+"path": "res://Workers.gd"
 } ]
 _global_script_class_icons={
 "AIImageTexture": "",
@@ -139,9 +149,11 @@ _global_script_class_icons={
 "StableHordeModelShowcase": "",
 "StableHordeModels": "",
 "StableHordeRateGeneration": "",
+"StableHordeWorkers": "",
 "TISelection": "",
 "ToolConsts": "",
-"Utils": ""
+"Utils": "",
+"WorkerSelection": ""
 }
 
 [application]
@@ -166,7 +178,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray(  )
+enabled=PoolStringArray( "res://addons/stable_horde_client/plugin.cfg" )
 
 [global]
 
