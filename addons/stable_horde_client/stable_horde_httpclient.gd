@@ -49,7 +49,7 @@ func _on_request_completed(_result, response_code, _headers, body):
 			emit_signal("request_failed",error_msg)
 			state = States.READY
 			return
-	if json_ret.has('message'):
+	if typeof(json_ret) == TYPE_DICTIONARY and json_ret.has('message'):
 		emit_signal("request_warning", json_ret['message'])
 	process_request(json_ret)
 

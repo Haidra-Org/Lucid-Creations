@@ -279,7 +279,10 @@ func check_baseline_compatibility(lora_name) -> int:
 		"SD 2.1 512": "stable diffusion 2",
 		"Other": null,
 	}
-	var lora_baseline = lora_to_model_baseline_map[lora_reference_node.get_lora_info(lora_name)["base_model"]]
+	var curr_baseline = lora_reference_node.get_lora_info(lora_name)["base_model"]
+	if not lora_to_model_baseline_map.has(curr_baseline):
+		return LoraCompatible.NO
+	var lora_baseline = lora_to_model_baseline_map[curr_baseline]
 	if lora_baseline == null:
 		return LoraCompatible.NO
 	if lora_baseline in baselines:
