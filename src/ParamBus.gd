@@ -46,6 +46,9 @@ signal control_type_changed(text)
 signal loras_changed(list)
 # warning-ignore:unused_signal
 signal tis_changed(list)
+# warning-ignore:unused_signal
+signal img2img_changed(source_image)
+
 
 var api_key_node: LineEdit
 var prompt_node: TextEdit
@@ -156,6 +159,11 @@ func setup(
 	# warning-ignore:return_value_discarded
 	loras_node.connect("loras_modified",self,"_on_listnode_changed", [loras_node])
 	tis_node.connect("tis_modified",self,"_on_listnode_changed", [tis_node])
+	for obutton in [
+		control_type_node,
+		sampler_name_node,
+	]:
+		obutton.connect("item_selected",self,"_on_option_changed", [obutton])
 	
 
 func get_prompt() -> String:
@@ -258,6 +266,14 @@ func _on_hslider_changed(hslider: ConfigSlider) -> void:
 			emit_signal("denoising_strength_changed", get_denoising_strength())
 	emit_signal("params_changed")
 
+func _on_option_changed(_index: int, option_button: OptionButton) -> void:
+	match option_button:
+		sampler_name_node:
+			emit_signal("sampler_name_changed")
+		control_type_node:
+			emit_signal("control_type_changed")
+	emit_signal("params_changed")
+
 func _on_cbutton_changed(cbutton: CheckButton) -> void:
 	match cbutton:
 		karras_node:
@@ -287,3 +303,20 @@ func _on_listnode_changed(_thing_list: Array, thing_node: Node) -> void:
 		tis_node:
 			emit_signal("tis_changed", get_tis())
 	emit_signal("params_changed")
+
+func is_lcm_payload() -> bool:
+	print_debug('www')
+	if loras_node.has_lcm_loras():
+		return true
+	print_debug(sampler_name_node.get_item_text(sampler_name_node.selected))
+	if sampler_name_node.get_item_text(sampler_name_node.selected) == 'lcm':
+		return true
+	return false
+
+func is_sdxl_payload() -> bool:
+	return models_node.get_all_baselines().has("stable_diffusion_xl")
+
+func has_controlnet() -> bool:
+	if not img2img_node.pressed:
+		return false
+	return control_type_node.selected == 0

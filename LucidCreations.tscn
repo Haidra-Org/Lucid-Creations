@@ -785,7 +785,7 @@ custom_styles/panel = ExtResource( 39 )
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 614.0
-margin_bottom = 483.0
+margin_bottom = 515.0
 
 [node name="LoraInfoLabel" type="RichTextLabel" parent="Margin/Panel/Display/Panels/Controls/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer"]
 unique_name_in_owner = true

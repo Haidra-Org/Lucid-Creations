@@ -7,6 +7,11 @@ enum LoraCompatible {
 	MAYBE
 }
 
+const LCM_LORAS := [
+	"216190",
+	"195519",
+]
+
 signal prompt_inject_requested(tokens)
 signal loras_modified(loras_list)
 
@@ -91,6 +96,7 @@ func replace_loras(loras: Array) -> void:
 		if not is_version:
 			lora["id"] = lora_reference_node.get_latest_version(lora["name"])
 			lora["is_version"] = true
+			lora["lora_id"] = lora_reference_node.get_lora_info(lora["id"], true)["id"]
 	update_selected_loras_label()
 	emit_signal("loras_modified", selected_loras_list)
 
@@ -110,7 +116,8 @@ func _on_lora_selected(lora_name: String, is_version = false) -> void:
 			"name": final_lora_name,
 			"model": 1.0,
 			"clip": 1.0,
-			"id": version_id,
+			"id": version_id, # ID holds just version ID. We always send version IDs
+			"lora_id": lora_reference_node.get_lora_info(version_id, true)["id"],
 			"is_version": true,
 		}
 	)
@@ -368,3 +375,9 @@ func _on_lora_version_selected(id: int) -> void:
 			return
 	# We expect the lora whose version is changing to always exist in the list
 	# We should never be adding to the list by changing versions
+
+func has_lcm_loras() -> bool:
+	for lora in selected_loras_list:
+		if LCM_LORAS.has(lora["lora_id"]):
+			return true
+	return false

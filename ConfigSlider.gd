@@ -76,6 +76,7 @@ func _ready():
 		ParamBus.connect("models_changed",self,"_on_models_changed")
 # warning-ignore:return_value_discarded
 	EventBus.connect("kudos_calculated", self, "_on_kudos_calculated")
+	ParamBus.connect("params_changed",self,"_on_params_changed")
 
 func set_value(value) -> void:
 	$"%HSlider".value = value
@@ -86,12 +87,21 @@ func set_max_value(max_value) -> void:
 		$"%ConfigValue".text = str(max_value)
 	$"%HSlider".max_value = max_value
 
+func set_upfront_limit(_upfront_limit) -> void:
+	upfront_limit = _upfront_limit
+	if not globals.config.get_value("Options", "larger_values", false):
+		$"%HSlider".max_value = upfront_limit
+
+func reset_upfront_limit() -> void:
+	if not CONFIG[config_setting].has('upfront_limit'):
+		return
+	upfront_limit = CONFIG[config_setting].upfront_limit
+	if not globals.config.get_value("Options", "larger_values", false):
+		$"%HSlider".max_value = upfront_limit
+
 func reset_max_value() -> void:
 	$"%HSlider".max_value = CONFIG[config_setting].max
-	if CONFIG[config_setting].has('upfront_limit'):
-		upfront_limit = CONFIG[config_setting].upfront_limit
-		if not globals.config.get_value("Options", "larger_values", false):
-			$"%HSlider".max_value = CONFIG[config_setting].upfront_limit
+	reset_upfront_limit()
 	
 func _on_HSlider_drag_ended(value_changed):
 	if not value_changed:
@@ -126,6 +136,7 @@ func _on_setting_changed(setting_name):
 			$"%HSlider".max_value = CONFIG[config_setting].max
 		else:
 			$"%HSlider".max_value = CONFIG[config_setting].upfront_limit
+		_on_params_changed()
 
 # Only called for width/height changes
 func _on_config_slider_changed() -> void:
@@ -135,7 +146,7 @@ func _on_config_slider_changed() -> void:
 	else:
 		config_value.modulate = Color(1,1,1)
 		$"%HSlider".modulate = Color(1,1,1)
-
+		
 # Only called for width/height changes
 func _on_wh_changed(sister_slider) -> void:
 	stored_sister_slider = sister_slider
@@ -146,8 +157,12 @@ func _on_wh_changed(sister_slider) -> void:
 		upfront_limit = 576
 	if "stable diffusion 2" in baselines:
 		upfront_limit = 768
-	if "SDXL" in baselines:
+	if "stable_diffusion_xl" in baselines:
 		upfront_limit = 1024
+	if not globals.config.get_value("Options", "larger_values", false):
+		$"%HSlider".max_value = upfront_limit
+		if int(config_value.text) > upfront_limit:
+			config_value.text = str(upfront_limit)
 	if sister_slider.h_slider.value * h_slider.value > upfront_limit * upfront_limit and globals.user_kudos < generation_kudos:
 		for n in [sister_slider, self]:
 			n.config_value.modulate = Color(1,0,0)
@@ -156,7 +171,7 @@ func _on_wh_changed(sister_slider) -> void:
 		for n in [sister_slider, self]:
 			n.config_value.modulate = Color(1,1,1)
 			n.h_slider.modulate = Color(1,1,1)
-		
+
 
 func _on_models_changed(_models) -> void:
 	if not stored_sister_slider:
@@ -169,3 +184,28 @@ func _on_kudos_calculated(kudos) -> void:
 		_on_wh_changed(stored_sister_slider)
 	else:
 		_on_config_slider_changed()
+
+func _on_params_changed() -> void:
+	if config_setting == "steps":
+		if ParamBus.has_controlnet() or ParamBus.is_lcm_payload():
+			if ParamBus.is_lcm_payload():
+				# Protect the user a bit during switching to LCM
+				if h_slider.value > 40:
+					h_slider.value = 8
+				set_upfront_limit(10)
+			else:
+				reset_upfront_limit()
+				if h_slider.value > 40:
+					h_slider.value = 20
+			set_max_value(40)
+		else:
+			reset_max_value()
+	if config_setting == "cfg_scale":
+		if ParamBus.is_lcm_payload():
+			# Protect the user a bit
+			if h_slider.value > 4:
+				h_slider.value = 2
+			set_max_value(4)
+		else:
+			reset_max_value()
+	

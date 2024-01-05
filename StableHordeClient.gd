@@ -160,7 +160,6 @@ func _ready():
 	_on_SamplerMethod_item_selected(sampler_method_id)
 	var control_type_id = stable_horde_client.get_control_type_id()
 	control_type.select(control_type_id)
-	_on_ControlType_item_selected(control_type_id)
 	# The stable horde client is set from the Parameters settings
 	options.set_api_key(stable_horde_client.api_key)
 	options.login()
@@ -298,7 +297,6 @@ func _on_image_process_update(stats: Dictionary) -> void:
 	else:
 		status_text.bbcode_text = "Your queue position is {queue}.".format({"queue":stats.queue_position})
 		status_text.modulate = Color(0,1,0)
-
 
 func _on_viewport_resized() -> void:
 	# Disabling now with the tabs
@@ -497,14 +495,7 @@ func _on_SamplerMethod_item_selected(index: int) -> void:
 	else:
 		steps_slider.h_slider.editable = true
 		steps_slider.config_value.text = str(steps_slider.h_slider.value)
-	
-func _on_ControlType_item_selected(index: int) -> void:
-	# Adaptive doesn't have steps
-	if index != 0:
-		steps_slider.set_max_value(40)
-	else:
-		steps_slider.reset_max_value()
-	
+
 func _connect_hover_signals() -> void:
 	for node in [
 		negative_prompt,
@@ -737,7 +728,6 @@ func _on_load_from_disk_gensettings_loaded(settings) -> void:
 		for idx in range(control_type.get_item_count()):
 			if control_type.get_item_text(idx) == settings["control_type"]:
 				control_type.select(idx)
-				_on_ControlType_item_selected(idx)
 	if settings.has("source_image_path"):
 		if image_preview.load_image_from_path(settings["source_image_path"]):
 			stable_horde_client.source_image = image_preview.source_image
