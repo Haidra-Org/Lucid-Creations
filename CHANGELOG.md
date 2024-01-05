@@ -1,5 +1,17 @@
 # Changelog
 
+## [v2.4.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.4.0) (2024-01-05)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.3.0...v2.4.0)
+
+**Closed issues:**
+
+- "Your images are ready" but no indication how to get them [\#117](https://github.com/Haidra-Org/Lucid-Creations/issues/117)
+
+**Merged pull requests:**
+
+- feat: LCM [\#118](https://github.com/Haidra-Org/Lucid-Creations/pull/118) ([db0](https://github.com/db0))
+
 ## [v2.3.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.3.0) (2023-11-20)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.2.0...v2.3.0)
