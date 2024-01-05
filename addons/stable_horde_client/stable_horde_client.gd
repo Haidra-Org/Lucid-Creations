@@ -18,6 +18,7 @@ enum SamplerMethods {
 	k_dpmpp_2m
 	k_dpmpp_sde
 	dpmsolver
+	lcm
 }
 
 enum ControlTypes {
@@ -56,7 +57,7 @@ export(int,64,1024,64) var height := 512
 # Generally there's usually no reason to go above 50 unless you know what you're doing.
 export(int,1,100) var steps := 30
 # Advanced: The sampler used to generate. Provides slight variations on the same prompt.
-export(String, "k_lms", "k_heun", "k_euler", "k_euler_a", "k_dpm_2", "k_dpm_2_a", "k_dpm_fast", "k_dpm_adaptive", "k_dpmpp_2s_a", "k_dpmpp_2m", "k_dpmpp_sde", "dpmsolver") var sampler_name := "k_euler_a"
+export(String, "k_lms", "k_heun", "k_euler", "k_euler_a", "k_dpm_2", "k_dpm_2_a", "k_dpm_fast", "k_dpm_adaptive", "k_dpmpp_2s_a", "k_dpmpp_2m", "k_dpmpp_sde", "dpmsolver", "lcm") var sampler_name := "k_euler_a"
 # How closely to follow the prompt given
 export(float,0,30,0.5) var cfg_scale := 7.5
 # The number of CLIP language processor layers to skip.

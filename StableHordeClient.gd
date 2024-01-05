@@ -109,23 +109,35 @@ func _ready():
 	stable_horde_client.aihorde_url = globals.aihorde_url
 
 	_connect_hover_signals()
+	# warning-ignore:return_value_discarded
 	save.connect("pressed", self, "_on_save_pressed")
+	# warning-ignore:return_value_discarded
 	save_all.connect("pressed", self, "_on_save_all_pressed")
 	load_from_disk.connect("gensettings_loaded", self, "_on_load_from_disk_gensettings_loaded")
 	# warning-ignore:return_value_discarded
 	generate_button.connect("pressed",self,"_on_GenerateButton_pressed")
 	# warning-ignore:return_value_discarded
 	cancel_button.connect("pressed",self,"_on_CancelButton_pressed")
+	# warning-ignore:return_value_discarded
 	model.connect("prompt_inject_requested",self,"_on_prompt_inject")
+	# warning-ignore:return_value_discarded
 	lora.connect("prompt_inject_requested",self,"_on_prompt_inject")
+	# warning-ignore:return_value_discarded
 	ti.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	# Ratings
+	# warning-ignore:return_value_discarded
 	EventBus.connect("shared_toggled", self, "_on_shared_toggled")
+	# warning-ignore:return_value_discarded
 	best_of.connect("toggled",self,"on_bestof_toggled")
+	# warning-ignore:return_value_discarded
 	aesthetic_rating.connect("item_selected",self,"on_aethetic_rating_selected")
+	# warning-ignore:return_value_discarded
 	artifacts_rating.connect("item_selected",self,"on_artifacts_rating_selected")
+	# warning-ignore:return_value_discarded
 	submit_ratings.connect("pressed", self, "_on_submit_ratings_pressed")
+	# warning-ignore:return_value_discarded
 	stable_horde_rate_generation.connect("generation_rated",self, "_on_generation_rated")
+	# warning-ignore:return_value_discarded
 	stable_horde_rate_generation.connect("request_failed",self, "_on_generation_rating_failed")
 	nsfw.connect("toggled", self,"_on_nsfw_toggled")
 	_on_shared_toggled()

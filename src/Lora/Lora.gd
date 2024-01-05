@@ -30,34 +30,51 @@ onready var show_all_loras = $"%ShowAllLoras"
 onready var lora_model_strength = $"%LoraModelStrength"
 onready var lora_clip_strength = $"%LoraClipStrength"
 onready var fetch_from_civitai = $"%FetchFromCivitAI"
+onready var lora_version_selection = $"%LoraVersionSelection"
 
 func _ready():
 	# warning-ignore:return_value_discarded
 	EventBus.connect("model_selected",self,"on_model_selection_changed")
+	# warning-ignore:return_value_discarded
 	EventBus.connect("cache_wipe_requested",self,"on_cache_wipe_requested")
 	lora_reference_node = CivitAILoraReference.new()
 	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
 	# warning-ignore:return_value_discarded
 	lora_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
+	# warning-ignore:return_value_discarded
 	lora_reference_node.connect("cache_wiped",self, "_on_cache_wiped")
 	add_child(lora_reference_node)
-	# warning-ignore:return_value_discarded
 	# warning-ignore:return_value_discarded
 	lora_auto_complete.connect("item_selected", self,"_on_lora_selected")
 	# warning-ignore:return_value_discarded
 	lora_trigger_selection.connect("id_pressed", self,"_on_trigger_selection_id_pressed")
 	# warning-ignore:return_value_discarded
+	lora_version_selection.get_popup().connect("id_pressed", self, "_on_lora_version_selected")
+	# warning-ignore:return_value_discarded
 	civitai_showcase0.connect("showcase_retrieved",self, "_on_showcase0_retrieved")
+	# warning-ignore:return_value_discarded
 	civitai_showcase1.connect("showcase_retrieved",self, "_on_showcase1_retrieved")
 	# warning-ignore:return_value_discarded
+	civitai_showcase0.connect("showcase_failed",self, "_on_showcase0_failed")
+	# warning-ignore:return_value_discarded
+	civitai_showcase1.connect("showcase_failed",self, "_on_showcase1_failed")
+	# warning-ignore:return_value_discarded
 	selected_loras.connect("meta_clicked",self,"_on_selected_loras_meta_clicked")
+	# warning-ignore:return_value_discarded
 	selected_loras.connect("meta_hover_started",self,"_on_selected_loras_meta_hover_started")
+	# warning-ignore:return_value_discarded
 	selected_loras.connect("meta_hover_ended",self,"_on_selected_loras_meta_hover_ended")
+	# warning-ignore:return_value_discarded
 	lora_info_label.connect("meta_clicked",self,"_on_lora_info_label_meta_clicked")
+	# warning-ignore:return_value_discarded
 	show_all_loras.connect("pressed",self,"_on_show_all_loras_pressed")
+	# warning-ignore:return_value_discarded
 	lora_info_card.connect("hide",self,"_on_lora_info_card_hide")
+	# warning-ignore:return_value_discarded
 	lora_model_strength.connect("value_changed",self,"_on_lora_model_strength_value_changed")
+	# warning-ignore:return_value_discarded
 	lora_clip_strength.connect("value_changed",self,"_on_lora_clip_strength_value_changed")
+	# warning-ignore:return_value_discarded
 	fetch_from_civitai.connect("pressed",self,"_on_fetch_from_civitai_pressed")
 	_on_reference_retrieved(lora_reference_node.lora_reference)
 	selected_loras_list = globals.config.get_value("Parameters", "loras", [])
@@ -66,19 +83,35 @@ func _ready():
 func replace_loras(loras: Array) -> void:
 	selected_loras_list = loras
 	for lora in selected_loras_list:
-		lora["name"] = lora_reference_node.get_lora_name(lora["name"])
+		var is_version = lora.get("is_version", false)
+		lora["name"] = lora_reference_node.get_lora_name(
+			lora["name"], 
+			is_version
+		)
+		if not is_version:
+			lora["id"] = lora_reference_node.get_latest_version(lora["name"])
+			lora["is_version"] = true
 	update_selected_loras_label()
 	emit_signal("loras_modified", selected_loras_list)
 
-func _on_lora_selected(lora_name: String) -> void:
+func _on_lora_selected(lora_name: String, is_version = false) -> void:
 	if selected_loras_list.size() >= 5:
 		return
+	var version_id: String
+	var final_lora_name: String
+	if is_version:
+		version_id = lora_name
+		final_lora_name = lora_reference_node.get_lora_name(lora_name)
+	else:
+		version_id = lora_reference_node.get_latest_version(lora_name)
+		final_lora_name = lora_name
 	selected_loras_list.append(
 		{
-			"name": lora_name,
+			"name": final_lora_name,
 			"model": 1.0,
 			"clip": 1.0,
-			"id": lora_reference_node.get_lora_info(lora_name)["id"],
+			"id": version_id,
+			"is_version": true,
 		}
 	)
 	update_selected_loras_label()
@@ -92,34 +125,42 @@ func _on_reference_retrieved(model_reference: Dictionary):
 		civitai_search_initiated = false
 		lora_auto_complete.initiate_search()
 
-func _show_lora_details(lora_name: String) -> void:
-	var lora_reference := lora_reference_node.get_lora_info(lora_name)
+func update_lora_details_texts(lora_reference, version_id) -> void:
+	var fmt = {
+		"name": lora_reference['name'],
+		"description": lora_reference['description'],
+		"trigger": ", ".join(lora_reference['versions'][version_id]['triggers']),
+		"url": "https://civitai.com/models/" + str(lora_reference['id']) + "?modelVersionId=" + str(version_id),
+		"unusable": "",
+	}
+	var compatibility = check_baseline_compatibility(version_id)
+	if lora_reference['versions'][version_id].get("unusable"):
+		fmt["unusable"] = "[color=red]" + lora_reference['versions'][version_id].get("unusable") + "[/color]\n"
+	elif compatibility == LoraCompatible.NO:
+		fmt["unusable"] = "[color=red]This LoRa base model version is impatible with the selected Model[/color]\n"
+	elif compatibility == LoraCompatible.MAYBE:
+		fmt["unusable"] = "[color=yellow]You have selected multiple models of varying base versions. This LoRa is not compatible with all of them and will be ignored by the incompatible ones.[/color]\n"
+	elif not lora_reference_node.nsfw and lora_reference['versions'][version_id].get("nsfw", false):
+		fmt["unusable"] = "[color=#FF00FF]SFW workers which pick up the request, will ignore this LoRA.[/color]\n"
+	var label_text = "{unusable}[b]Name: {name}[/b]\nDescription: {description}\n".format(fmt)
+	label_text += "\nTriggers: {trigger}".format(fmt)
+	label_text += "\nCivitAI page: [url={url}]{url}[/url]".format(fmt)
+	lora_info_label.bbcode_text = label_text
+	
+
+func _show_lora_details(version_id: String) -> void:
+	var lora_reference := lora_reference_node.get_lora_info(version_id, true)
 	if lora_reference.empty():
 		lora_info_label.bbcode_text = "No lora info could not be retrieved at this time."
 	else:
-		civitai_showcase0.get_model_showcase(lora_reference)
-		civitai_showcase1.get_model_showcase(lora_reference)
-		var fmt = {
-			"name": lora_reference['name'],
-			"description": lora_reference['description'],
-			"version": lora_reference['version'],
-			"trigger": ", ".join(lora_reference['triggers']),
-			"url": "https://civitai.com/models/" + str(lora_reference['id']),
-			"unusable": "",
-		}
-		var compatibility = check_baseline_compatibility(lora_name)
-		if lora_reference.get("unusable"):
-			fmt["unusable"] = "[color=red]" + lora_reference.get("unusable") + "[/color]\n"
-		elif compatibility == LoraCompatible.NO:
-			fmt["unusable"] = "[color=red]This LoRa base model version is impatible with the selected Model[/color]\n"
-		elif compatibility == LoraCompatible.MAYBE:
-			fmt["unusable"] = "[color=yellow]You have selected multiple models of varying base versions. This LoRa is not compatible with all of them and will be ignored by the incompatible ones.[/color]\n"
-		elif not lora_reference_node.nsfw and lora_reference.get("nsfw", false):
-			fmt["unusable"] = "[color=#FF00FF]SFW workers which pick up the request, will ignore this LoRA.[/color]\n"
-		var label_text = "{unusable}[b]Name: {name}[/b]\nDescription: {description}\nVersion: {version}\n".format(fmt)
-		label_text += "\nTriggers: {trigger}".format(fmt)
-		label_text += "\nCivitAI page: [url={url}]{url}[/url]".format(fmt)
-		lora_info_label.bbcode_text = label_text
+		civitai_showcase0.get_model_showcase(lora_reference, version_id)
+		civitai_showcase1.get_model_showcase(lora_reference, version_id)
+		update_lora_details_texts(lora_reference, version_id)
+	var lora_versions_popup :PopupMenu = lora_version_selection.get_popup()
+	lora_versions_popup.clear()
+	for version in lora_reference['versions'].values():
+		lora_versions_popup.add_item(version['name'], int(version['id']))
+	lora_version_selection.text = lora_reference['versions'][version_id]['name']
 	lora_info_card.rect_size = Vector2(0,0)
 	lora_info_card.popup()
 	lora_info_card.rect_global_position = get_global_mouse_position() + Vector2(30,-lora_info_card.rect_size.y/2)
@@ -131,7 +172,7 @@ func _on_selected_loras_meta_clicked(meta) -> void:
 			viewed_lora_index = int(meta_split[1])
 			lora_model_strength.set_value(selected_loras_list[viewed_lora_index]["model"])
 			lora_clip_strength.set_value(selected_loras_list[viewed_lora_index]["clip"])
-			_show_lora_details(selected_loras_list[viewed_lora_index]["name"])
+			_show_lora_details(selected_loras_list[viewed_lora_index]["id"])
 		"delete":
 			selected_loras_list.remove(int(meta_split[1]))
 			update_selected_loras_label()
@@ -161,18 +202,20 @@ func update_selected_loras_label() -> void:
 	var bbtext := []
 	var indexes_to_remove = []
 	for index in range(selected_loras_list.size()):
+		var selected_lora : Dictionary = selected_loras_list[index]
+		var version_id : String = selected_lora['id']
 		var lora_text = "[url={lora_hover}]{lora_name}[/url]{strengths} ([url={lora_trigger}]T[/url])([url={lora_remove}]X[/url])"
-		var lora_name = selected_loras_list[index]["name"]
+		var lora_name = selected_lora["name"]
 		# This might happen for example when we added a NSFW lora
 		# but then disabled NSFW which refreshed loras to only show SFW
 		if not lora_reference_node.is_lora(lora_name):
 			indexes_to_remove.append(index)
 			continue
-		var lora_reference = lora_reference_node.get_lora_info(lora_name)
-		if lora_reference["triggers"].size() == 0:
+		var lora_reference = lora_reference_node.get_lora_info(version_id, true)
+		if lora_reference["versions"][version_id]["triggers"].size() == 0:
 			lora_text = "[url={lora_hover}]{lora_name}[/url]{strengths} ([url={lora_remove}]X[/url])"
-		var compatibility = check_baseline_compatibility(lora_name)
-		if lora_reference.get("unusable"):
+		var compatibility = check_baseline_compatibility(version_id)
+		if lora_reference["versions"][version_id].get("unusable"):
 			lora_text = "[color=red]" + lora_text + "[/color]"
 		elif compatibility == LoraCompatible.NO:
 			lora_text = "[color=red]" + lora_text + "[/color]"
@@ -204,13 +247,14 @@ func update_selected_loras_label() -> void:
 		selected_loras.hide()
 
 func _on_lora_trigger_pressed(index: int) -> void:
-	var lora_reference := lora_reference_node.get_lora_info(selected_loras_list[index]["name"])
+	var version_id: String = selected_loras_list[index]["id"]
+	var lora_reference := lora_reference_node.get_lora_info(version_id)
 	var selected_triggers: Array = []
-	if lora_reference['triggers'].size() == 1:
-		selected_triggers = [lora_reference['triggers'][0]]
+	if lora_reference['versions'][version_id]['triggers'].size() == 1:
+		selected_triggers = [lora_reference['versions'][version_id]['triggers'][0]]
 	else:
 		lora_trigger_selection.clear()
-		for t in lora_reference['triggers']:
+		for t in lora_reference['versions'][version_id]['triggers']:
 			lora_trigger_selection.add_check_item(t)
 		lora_trigger_selection.add_item("Select")
 		lora_trigger_selection.popup()
@@ -233,9 +277,15 @@ func _on_showcase0_retrieved(img:ImageTexture, _model_name) -> void:
 	lora_showcase0.texture = img
 	lora_showcase0.rect_min_size = Vector2(300,300)
 
+func _on_showcase0_failed() -> void:
+	lora_showcase0.texture = null
+
 func _on_showcase1_retrieved(img:ImageTexture, _model_name) -> void:
 	lora_showcase1.texture = img
 	lora_showcase1.rect_min_size = Vector2(300,300)
+
+func _on_showcase1_failed() -> void:
+	lora_showcase1.texture = null
 
 func clear_textures() -> void:
 	lora_showcase1.texture = null
@@ -265,7 +315,7 @@ func on_model_selection_changed(models_list) -> void:
 	current_models = models_list
 	update_selected_loras_label()
 
-func check_baseline_compatibility(lora_name) -> int:
+func check_baseline_compatibility(version_id: String) -> int:
 	var baselines = []
 	for model in current_models:
 		if not model["baseline"] in baselines:
@@ -279,7 +329,8 @@ func check_baseline_compatibility(lora_name) -> int:
 		"SD 2.1 512": "stable diffusion 2",
 		"Other": null,
 	}
-	var curr_baseline = lora_reference_node.get_lora_info(lora_name)["base_model"]
+	var lora_details := lora_reference_node.get_lora_info(version_id, true)
+	var curr_baseline = lora_details["versions"][version_id]["base_model"]
 	if not lora_to_model_baseline_map.has(curr_baseline):
 		return LoraCompatible.NO
 	var lora_baseline = lora_to_model_baseline_map[curr_baseline]
@@ -297,3 +348,23 @@ func _on_cache_wiped() -> void:
 
 func on_cache_wipe_requested() -> void:
 	lora_reference_node.wipe_cache()
+
+func _on_lora_version_selected(id: int) -> void:
+	var version_id := str(id)
+	var lora_details = lora_reference_node.get_lora_info(version_id, true)
+	var lora_name: String = lora_details["name"]
+	for slora in selected_loras_list:
+		if slora["id"] == version_id:
+			return
+		if slora["name"] == lora_name:
+			slora["id"] = version_id
+			civitai_showcase0.get_model_showcase(lora_details, version_id)
+			civitai_showcase1.get_model_showcase(lora_details, version_id)
+			update_lora_details_texts(lora_details, version_id)
+			update_selected_loras_label()
+			EventBus.emit_signal("lora_selected", lora_details)
+			emit_signal("loras_modified", selected_loras_list)
+			lora_version_selection.text = lora_details['versions'][version_id]['name']
+			return
+	# We expect the lora whose version is changing to always exist in the list
+	# We should never be adding to the list by changing versions
