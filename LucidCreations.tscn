@@ -785,7 +785,7 @@ custom_styles/panel = ExtResource( 39 )
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 614.0
-margin_bottom = 483.0
+margin_bottom = 515.0
 
 [node name="LoraInfoLabel" type="RichTextLabel" parent="Margin/Panel/Display/Panels/Controls/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer"]
 unique_name_in_owner = true
@@ -822,6 +822,24 @@ margin_top = 141.0
 margin_right = 604.0
 margin_bottom = 169.0
 slider_name = "Clip Strength"
+
+[node name="LoraVersions" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="LoraVersionName" type="Label" parent="Margin/Panel/Display/Panels/Controls/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer/LoraVersions"]
+margin_right = 40.0
+margin_bottom = 20.0
+text = "Version: "
+
+[node name="LoraVersionSelection" type="MenuButton" parent="Margin/Panel/Display/Panels/Controls/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer/LoraVersions"]
+unique_name_in_owner = true
+margin_left = -118.0
+margin_top = -10.0
+margin_right = -98.0
+margin_bottom = 18.0
+toggle_mode = false
+flat = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Basic/Lora/SelectedLoras/LoraInfoCard/VBoxContainer"]
 margin_top = 173.0
@@ -1142,7 +1160,7 @@ margin_top = 218.0
 margin_right = 300.0
 margin_bottom = 246.0
 text = "k_lms"
-items = [ "k_lms", null, false, 0, null, "k_heun", null, false, 1, null, "k_euler", null, false, 2, null, "k_euler_a", null, false, 3, null, "k_dpm_2", null, false, 4, null, "k_dpm_2_a", null, false, 5, null, "k_dpm_fast", null, false, 6, null, "k_dpm_adaptive", null, false, 7, null, "k_dpmpp_2s_a", null, false, 8, null, "k_dpmpp_2m", null, false, 9, null, "dpmsolver", null, false, 10, null, "k_dpmpp_sde", null, false, 11, null ]
+items = [ "k_lms", null, false, 0, null, "k_heun", null, false, 1, null, "k_euler", null, false, 2, null, "k_euler_a", null, false, 3, null, "k_dpm_2", null, false, 4, null, "k_dpm_2_a", null, false, 5, null, "k_dpm_fast", null, false, 6, null, "k_dpm_adaptive", null, false, 7, null, "k_dpmpp_2s_a", null, false, 8, null, "k_dpmpp_2m", null, false, 9, null, "k_dpmpp_sde", null, false, 10, null, "dpmsolver", null, false, 11, null, "lcm", null, false, 12, null ]
 selected = 0
 
 [node name="SeedLabel" type="Label" parent="Margin/Panel/Display/Panels/Controls/Advanced"]

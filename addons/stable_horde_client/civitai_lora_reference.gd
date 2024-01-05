@@ -78,7 +78,8 @@ func fetch_lora_metadata(query) -> void:
 # Function to overwrite to process valid return from the horde
 func process_request(json_ret) -> void:
 	if typeof(json_ret) == TYPE_ARRAY:
-		default_ids = json_ret
+		for id in json_ret:
+			default_ids.append(str(id))
 		fetch_lora_metadata(default_ids)
 		state = States.READY
 		return
@@ -91,11 +92,11 @@ func process_request(json_ret) -> void:
 	if not json_ret.has("items"):
 		# Quick hack to treat individual items the same way
 		json_ret["items"] = [json_ret]
-	for entry in json_ret["items"]:
-		if initialized:
-			var lora = _parse_civitai_lora_data(entry)
-			if lora.has("size_mb"):
-				_store_lora(lora)
+#	for entry in json_ret["items"]:
+#		if initialized:
+#			var lora = _parse_civitai_lora_data(entry)
+#			if lora.has("versions"):
+#				_store_lora(lora)
 	_store_to_file()
 	emit_signal("reference_retrieved", lora_reference)
 	initialized = true
@@ -116,19 +117,40 @@ func _on_lora_info_gathering_finished(fetch_node: CivitAIModelFetch) -> void:
 	emit_signal("reference_retrieved", lora_reference)
 		
 func is_lora(lora_name: String) -> bool:
-	if lora_id_index.has(int(lora_name)):
+	if lora_id_index.has(lora_name):
+		return true
+	if _get_all_lora_ids().has(lora_name):
 		return true
 	return(lora_reference.has(lora_name))
 
-func get_lora_info(lora_name: String) -> Dictionary:
-	if lora_id_index.has(int(lora_name)):
-		return lora_reference[lora_id_index[int(lora_name)]]
+func get_lora_info(lora_name: String, is_version := false) -> Dictionary:
+	if is_version and lora_id_index.has(lora_name):
+		return lora_reference[lora_id_index[lora_name]]
+	var lora_ids := _get_all_lora_ids()
+	if lora_ids.has(lora_name):
+		return lora_reference[lora_ids[lora_name]]
 	return lora_reference.get(lora_name, {})
 
-func get_lora_name(lora_name: String) -> String:
-	if lora_id_index.has(int(lora_name)):
-		return lora_reference[lora_id_index[int(lora_name)]]["name"]
+func get_lora_name(lora_name: String, is_version := false) -> String:
+	if is_version and lora_id_index.has(lora_name):
+		return lora_reference[lora_id_index[lora_name]]["name"]
 	return lora_reference.get(lora_name, {}).get("name", 'N/A')
+
+func get_latest_version(lora_name: String) -> String:
+	var versions : Dictionary = lora_reference.get(lora_name, {}).get("versions", {})
+	if len(versions) == 0:
+		return "N/A"
+	var keys := [] 
+	for k in versions.keys():
+		keys.append(int(k))
+	keys.sort()
+	return str(keys.back())
+
+func _get_all_lora_ids() -> Dictionary:
+	var all_l_id = {}
+	for l in lora_reference.values():
+		all_l_id[l['id']] = l['name']
+	return all_l_id
 
 func _store_to_file() -> void:
 	var file = File.new()
@@ -140,10 +162,14 @@ func _load_from_file() -> void:
 	var file = File.new()
 	file.open("user://civitai_lora_reference", File.READ)
 	var filevar = file.get_var()
+	var old_reference: Dictionary
 	if filevar:
-		lora_reference = filevar
-	for lora in lora_reference.values():
-		lora_id_index[int(lora["id"])] = lora["name"]
+		old_reference = filevar
+	for lora in old_reference.values():
+		if not lora.has("versions"): 
+			continue
+		for version_id in lora["versions"].keys():
+			lora_id_index[version_id] = lora["name"]
 		lora["cached"] = true
 		# Temporary while changing approach
 		var unusable = lora.get("unusable", false)
@@ -151,6 +177,7 @@ func _load_from_file() -> void:
 			lora["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
 		elif typeof(unusable) == TYPE_BOOL:
 			lora["unusable"] = ''
+		lora_reference[lora["name"]] = lora
 	file.close()
 	emit_signal("reference_retrieved", lora_reference)
 
@@ -162,87 +189,14 @@ func calculate_downloaded_loras() -> int:
 		total_size += self.lora_reference[lora]["size_mb"]
 	return total_size
 
-func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
-	var lora_details = {
-		"name": civitai_entry["name"],
-		"id": int(civitai_entry["id"]),
-		"description": civitai_entry["description"],
-		"unusable": '',
-	}
-	if not lora_details["description"]:
-		lora_details["description"] = ''
-	var html_to_bbcode = {
-		"<p>": '',
-		"</p>": '\n',
-		"</b>": '[/b]',
-		"<b>": '[b]',
-		"</strong>": '[/b]',
-		"<strong>": '[b]',
-		"</em>": '[/i]',
-		"<em>": '[i]',
-		"</i>": '[/i]',
-		"<i>": '[i]',
-		"<br />": '\n',
-		"<br/>": '\n',
-		"<br>": '\n',
-		"<h1>": '[b][color=yellow]',
-		"</h1>": '[/color][/b]\n',
-		"<h2>": '[b]',
-		"</h2>": '[/b]\n',
-		"<h3>": '',
-		"</h3>": '',
-		"<u>": '[u]',
-		"</u>": '[/u]',
-		"<code>": '[code]',
-		"</code>": '[/code]',
-		"<ul>": '[ul]',
-		"</ul>": '[/ul]',
-		"<ol>": '[ol]',
-		"</ol>": '[/ol]',
-		"<li>": '',
-		"</li>": '\n',
-		"&lt;": '<',
-		"&gt;": '>',
-	}
-	for repl in html_to_bbcode:
-		lora_details["description"] = lora_details["description"].replace(repl,html_to_bbcode[repl])
-	if lora_details["description"].length() > 500:
-		lora_details["description"] = lora_details["description"].left(700) + ' [...]'
-	var versions = civitai_entry.get("modelVersions", {})
-	if versions.size() == 0:
-		return lora_details
-	lora_details["triggers"] = versions[0]["trainedWords"]
-	lora_details["version"] = versions[0]["name"]
-	lora_details["base_model"] = versions[0]["baseModel"]
-	for file in versions[0]["files"]:
-		if not file.get("name", "").ends_with(".safetensors"):
-			continue
-		lora_details["size_mb"] = round(file["sizeKB"] / 1024)
-		# We only store these two to check if they would be present in the workers
-		lora_details["sha256"] = file.get("hashes", {}).get("SHA256")
-		lora_details["url"] = file.get("downloadUrl", "")
-	# If these two fields are not defined, the workers are not going to download it
-	# so we ignore it as well
-	if not lora_details["sha256"]:
-		lora_details["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
-	elif not lora_details["url"]:
-		lora_details["unusable"] = 'Attention! This LoRa is unusable because it appears to have no valid safetensors upload.'
-	elif lora_details["size_mb"] > 230:
-		lora_details["unusable"] = 'Attention! This LoRa is unusable because is exceeds the max 230Mb filesize we allow on the AI Horde.'
-	lora_details["images"] = []
-	for img in versions[0]["images"]:
-		if img["nsfw"] in ["Mature", "X"]:
-			continue
-		lora_details["images"].append(img["url"])
-	return lora_details
-
 func set_nsfw(value) -> void:
 	nsfw = value
 
 func _store_lora(lora_data: Dictionary) -> void:
 	var lora_name = lora_data["name"]
 	lora_reference[lora_name] = lora_data
-	lora_id_index[int(lora_data["id"])] = lora_name
+	for version_id in lora_data.get("versions", {}).keys():
+		lora_id_index[version_id] = lora_name
 
 func wipe_cache() -> void:
 	var dir = Directory.new()

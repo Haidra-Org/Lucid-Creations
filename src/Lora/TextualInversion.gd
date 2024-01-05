@@ -34,30 +34,40 @@ onready var fetch_tis_from_civitai = $"%FetchTIsFromCivitAI"
 func _ready():
 	# warning-ignore:return_value_discarded
 	EventBus.connect("model_selected",self,"on_model_selection_changed")
+	# warning-ignore:return_value_discarded
 	EventBus.connect("cache_wipe_requested",self,"on_cache_wipe_requested")
 	ti_reference_node = CivitAITIReference.new()
 	ti_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
 	# warning-ignore:return_value_discarded
 	ti_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
+	# warning-ignore:return_value_discarded
 	ti_reference_node.connect("cache_wiped",self, "_on_cache_wiped")
 	add_child(ti_reference_node)
-	# warning-ignore:return_value_discarded
 	# warning-ignore:return_value_discarded
 	ti_auto_complete.connect("item_selected", self,"_on_ti_selected")
 	# warning-ignore:return_value_discarded
 	ti_trigger_selection.connect("id_pressed", self,"_on_trigger_selection_id_pressed")
 	# warning-ignore:return_value_discarded
 	civitai_showcase0.connect("showcase_retrieved",self, "_on_showcase0_retrieved")
+	# warning-ignore:return_value_discarded
 	civitai_showcase1.connect("showcase_retrieved",self, "_on_showcase1_retrieved")
 	# warning-ignore:return_value_discarded
 	selected_tis.connect("meta_clicked",self,"_on_selected_tis_meta_clicked")
+	# warning-ignore:return_value_discarded
 	selected_tis.connect("meta_hover_started",self,"_on_selected_tis_meta_hover_started")
+	# warning-ignore:return_value_discarded
 	selected_tis.connect("meta_hover_ended",self,"_on_selected_tis_meta_hover_ended")
+	# warning-ignore:return_value_discarded
 	ti_info_label.connect("meta_clicked",self,"_on_ti_info_label_meta_clicked")
+	# warning-ignore:return_value_discarded
 	show_all_tis.connect("pressed",self,"_on_show_all_tis_pressed")
+	# warning-ignore:return_value_discarded
 	ti_info_card.connect("hide",self,"_on_ti_info_card_hide")
+	# warning-ignore:return_value_discarded
 	ti_model_strength.connect("value_changed",self,"_on_ti_model_strength_value_changed")
+	# warning-ignore:return_value_discarded
 	ti_inject.connect("value_changed",self,"_on_ti_inject_value_changed")
+	# warning-ignore:return_value_discarded
 	fetch_tis_from_civitai.connect("pressed",self,"_on_fetch_tis_from_civitai_pressed")
 	_on_reference_retrieved(ti_reference_node.ti_reference)
 	selected_tis_list = globals.config.get_value("Parameters", "tis", [])

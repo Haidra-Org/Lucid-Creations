@@ -42,11 +42,8 @@ func process_request(json_ret) -> void:
 func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 	var lora_details = {
 		"name": civitai_entry["name"],
-		"id": int(civitai_entry["id"]),
+		"id": str(civitai_entry["id"]),
 		"description": civitai_entry["description"],
-		"unusable": '',
-		"nsfw": civitai_entry["nsfw"],
-		"sha256": null,
 	}
 	if not lora_details["description"]:
 		lora_details["description"] = ''
@@ -87,31 +84,38 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 		lora_details["description"] = lora_details["description"].replace(repl,html_to_bbcode[repl])
 	if lora_details["description"].length() > 500:
 		lora_details["description"] = lora_details["description"].left(700) + ' [...]'
-	var versions = civitai_entry.get("modelVersions", {})
+	var versions : Array = civitai_entry.get("modelVersions", {})
 	if versions.size() == 0:
 		return lora_details
-	lora_details["triggers"] = versions[0]["trainedWords"]
-	lora_details["version"] = versions[0]["name"]
-	lora_details["base_model"] = versions[0]["baseModel"]
-	for file in versions[0]["files"]:
-		if not file.get("name", "").ends_with(".safetensors"):
-			continue
-		lora_details["size_mb"] = round(file["sizeKB"] / 1024)
-		# We only store these two to check if they would be present in the workers
-		lora_details["sha256"] = file.get("hashes", {}).get("SHA256")
-		lora_details["url"] = file.get("downloadUrl", "")
-	# If these two fields are not defined, the workers are not going to download it
-	# so we ignore it as well
-	var is_default = int(lora_details["id"]) in default_ids
-	if not is_default and not lora_details["sha256"]:
-		lora_details["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
-	elif not lora_details["url"]:
-		lora_details["unusable"] = 'Attention! This LoRa is unusable because it appears to have no valid safetensors upload.'
-	elif not is_default and lora_details["size_mb"] > 230:
-		lora_details["unusable"] = 'Attention! This LoRa is unusable because is exceeds the max 230Mb filesize we allow on the AI Horde.'
-	lora_details["images"] = []
-	for img in versions[0]["images"]:
-		if img["nsfw"] in ["Mature", "X"]:
-			continue
-		lora_details["images"].append(img["url"])
+	lora_details["versions"] = {}
+	for version in versions:
+		var version_id := str(version["id"])
+		var new_version := {
+			"unusable": '',
+		}
+		new_version["id"] = version_id
+		new_version["triggers"] = version["trainedWords"]
+		new_version["name"] = version["name"]
+		new_version["base_model"] = version["baseModel"]
+		for file in version["files"]:
+			if not file.get("name", "").ends_with(".safetensors"):
+				continue
+			new_version["size_mb"] = round(file["sizeKB"] / 1024)
+			# We only store these two to check if they would be present in the workers
+			new_version["sha256"] = file.get("hashes", {}).get("SHA256")
+			new_version["url"] = file.get("downloadUrl", "")
+		# If these two fields are not defined, the workers are not going to download it
+		# so we ignore it as well
+		if not new_version.get("sha256"):
+			new_version["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
+		elif not new_version.get("url"):
+			new_version["unusable"] = 'Attention! This LoRa is unusable because it appears to have no valid safetensors upload.'
+		elif new_version["size_mb"] > 230 and not default_ids.has(lora_details["id"]):
+			new_version["unusable"] = 'Attention! This LoRa is unusable because is exceeds the max 230Mb filesize we allow on the AI Horde.'
+		new_version["images"] = []
+		for img in version["images"]:
+			if img["nsfw"] in ["Mature", "X"]:
+				continue
+			new_version["images"].append(img["url"])
+		lora_details["versions"][version_id] = new_version
 	return lora_details

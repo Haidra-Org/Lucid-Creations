@@ -185,7 +185,7 @@ func _get_selected_models() -> Array:
 		if model_name == "SDXL_beta::stability.ai#6901":
 			model_defs.append({
 				"name": "SDXL_beta::stability.ai#6901",
-				"baseline": "SDXL",
+				"baseline": "stable_diffusion_xl",
 				"type": "SDXL",
 				"version": "beta",
 			})

@@ -24,6 +24,7 @@ signal model_selected(model_details)
 signal worker_selected(worker_details)
 signal kudos_calculated(kudos)
 signal generation_completed
+# warning-ignore:unused_signal
 signal cache_wipe_requested
 
 func _on_node_hovered(node: Control):
