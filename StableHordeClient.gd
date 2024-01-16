@@ -372,7 +372,8 @@ func _get_test_images(n = 10) -> Array:
 			"none",
 			img,
 			'Test Image ID',
-			"Test Request ID")
+			"Test Request ID",
+			[])
 		new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
