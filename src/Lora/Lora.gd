@@ -255,7 +255,8 @@ func update_selected_loras_label() -> void:
 
 func _on_lora_trigger_pressed(index: int) -> void:
 	var version_id: String = selected_loras_list[index]["id"]
-	var lora_reference := lora_reference_node.get_lora_info(version_id)
+	var is_version: bool = selected_loras_list[index]["is_version"]
+	var lora_reference := lora_reference_node.get_lora_info(version_id, is_version)
 	var selected_triggers: Array = []
 	if lora_reference['versions'][version_id]['triggers'].size() == 1:
 		selected_triggers = [lora_reference['versions'][version_id]['triggers'][0]]

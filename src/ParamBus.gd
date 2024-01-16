@@ -305,10 +305,8 @@ func _on_listnode_changed(_thing_list: Array, thing_node: Node) -> void:
 	emit_signal("params_changed")
 
 func is_lcm_payload() -> bool:
-	print_debug('www')
 	if loras_node.has_lcm_loras():
 		return true
-	print_debug(sampler_name_node.get_item_text(sampler_name_node.selected))
 	if sampler_name_node.get_item_text(sampler_name_node.selected) == 'lcm':
 		return true
 	return false
