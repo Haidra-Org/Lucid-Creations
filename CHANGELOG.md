@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.4.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.4.1) (2024-01-16)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.4.0...v2.4.1)
+
+**Merged pull requests:**
+
+- fix: crashing when lora trigger is used [\#120](https://github.com/Haidra-Org/Lucid-Creations/pull/120) ([db0](https://github.com/db0))
+
 ## [v2.4.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.4.0) (2024-01-05)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.3.0...v2.4.0)
