@@ -17,7 +17,7 @@ func _ready():
 
 func get_model_showcase(
 		_model_reference: Dictionary, 
-		version_id: String, 
+		version_id: String = '', 
 		force_index = null
 	) -> void:
 	if force_index:
@@ -25,10 +25,18 @@ func get_model_showcase(
 	else:
 		used_image_index = showcase_index
 	model_reference = _model_reference
-	if model_reference["versions"][version_id]["images"].size() <= used_image_index:
-		emit_signal("showcase_failed")
-		return
-	var showcase_url = model_reference["versions"][version_id]["images"][used_image_index]
+	var showcase_url: String
+	if version_id != '':
+		if model_reference["versions"][version_id]["images"].size() <= used_image_index:
+			emit_signal("showcase_failed")
+			return
+		showcase_url = model_reference["versions"][version_id]["images"][used_image_index]
+	else: # TODO: Convert TIs to the same format as LoRas
+		if model_reference["images"].size() <= used_image_index:
+			emit_signal("showcase_failed")
+			return
+		showcase_url = model_reference["images"][used_image_index]
+		print_debug(showcase_url)
 	var error = request(showcase_url, [], false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
