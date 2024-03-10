@@ -1350,6 +1350,14 @@ margin_right = 320.0
 margin_bottom = 193.0
 text = "Larger Values"
 
+[node name="AllowDowngrade" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
+unique_name_in_owner = true
+margin_top = 165.0
+margin_right = 320.0
+margin_bottom = 193.0
+pressed = true
+text = "Allow Downgrade"
+
 [node name="LoadSeedFromDisk" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
 margin_top = 201.0
@@ -1769,9 +1777,9 @@ scroll_active = false
 
 [node name="VBC" type="VBoxContainer" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
 margin_left = 100.0
-margin_top = 10.0
+margin_top = 8.0
 margin_right = 1290.0
-margin_bottom = 28.0
+margin_bottom = 29.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_constants/separation = 0
@@ -1779,11 +1787,12 @@ custom_constants/separation = 0
 [node name="StatusText" type="RichTextLabel" parent="Margin/Panel/Footer/Progress/Margin/Labels/VBC"]
 unique_name_in_owner = true
 margin_right = 1190.0
-margin_bottom = 18.0
+margin_bottom = 21.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_horizontal = 3
 size_flags_vertical = 4
 bbcode_enabled = true
+fit_content_height = true
 scroll_active = false
 
 [node name="ProgressText" type="Label" parent="Margin/Panel/Footer/Progress/Margin/Labels/VBC"]

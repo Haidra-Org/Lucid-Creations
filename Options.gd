@@ -11,12 +11,15 @@ onready var login_button = $"%LoginButton"
 onready var stable_horde_login = $"%StableHordeLogin"
 onready var load_seed_from_disk = $"%LoadSeedFromDisk"
 onready var wipe_cache = $"%WipeCache"
+onready var allow_downgrade = $"%AllowDowngrade"
 
 func _ready():
 	remember_prompt.pressed = globals.config.get_value("Options", "remember_prompt", false)
 	remember_prompt.connect("toggled",self,"_on_remember_prompt_pressed")
 	larger_values.pressed = globals.config.get_value("Options", "larger_values", false)
 	larger_values.connect("toggled",self,"_on_larger_values_pressed")
+	allow_downgrade.pressed = globals.config.get_value("Options", "allow_downgrade", true)
+	allow_downgrade.connect("toggled",self,"_on_allow_downgrade_pressed")
 	load_seed_from_disk.pressed = globals.config.get_value("Options", "load_seed_from_disk", false)
 	load_seed_from_disk.connect("toggled",self,"_on_load_seed_from_disk_pressed")
 	shared.pressed = globals.config.get_value("Options", "shared", true)
@@ -53,6 +56,9 @@ func _on_remember_prompt_pressed(pressed: bool) -> void:
 
 func _on_larger_values_pressed(pressed: bool) -> void:
 	globals.set_setting("larger_values", pressed, "Options")
+
+func _on_allow_downgrade_pressed(pressed: bool) -> void:
+	globals.set_setting("allow_downgrade", pressed, "Options")
 
 func _on_load_seed_from_disk_pressed(pressed: bool) -> void:
 	globals.set_setting("load_seed_from_disk", pressed, "Options")

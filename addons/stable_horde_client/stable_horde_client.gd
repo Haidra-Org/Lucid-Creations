@@ -101,6 +101,7 @@ export(String, "none", "canny", "hed", "depth", "normal", "openpose", "seg", "sc
 export(bool) var dry_run := false
 export(Array) var workers := []
 export(bool) var worker_blacklist := false
+export(bool) var allow_downgrade := false
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -157,6 +158,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"workers": workers,
 		"replacement_filter": false,
 		"worker_blacklist": worker_blacklist,
+		"allow_downgrade": allow_downgrade,
 #		"workers": [
 #			"dc0704ab-5b42-4c65-8471-561be16ad696", #portal
 #		], # debug
@@ -174,6 +176,8 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"apikey: " + api_key,
 		"Client-Agent: " + client_agent,
 	]
+#	print_debug(body)
+#	print_debug(headers)
 	var error = request(aihorde_url + "/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"

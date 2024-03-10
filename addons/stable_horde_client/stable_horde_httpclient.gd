@@ -36,8 +36,8 @@ func _on_request_completed(_result, response_code, _headers, body):
 			return
 	var json_ret = parse_json(body.get_string_from_utf8())
 	var json_error = json_ret
-	if typeof(json_ret) == TYPE_DICTIONARY and json_ret.has('message'):
-		json_error = str(json_ret['message'])
+	if typeof(json_ret) == TYPE_DICTIONARY and json_ret.has('rc'):
+		json_error = '(rc:' + json_ret['rc'] + ') 	' + str(json_ret['message'])
 		if json_ret.has('errors'):
 			json_error += ': ' + str(json_ret['errors'])
 	if typeof(json_ret) == TYPE_NIL:
