@@ -155,6 +155,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"shared": shared,
 		"dry_run": dry_run,
 		"workers": workers,
+		"replacement_filter": false,
 		"worker_blacklist": worker_blacklist,
 #		"workers": [
 #			"dc0704ab-5b42-4c65-8471-561be16ad696", #portal

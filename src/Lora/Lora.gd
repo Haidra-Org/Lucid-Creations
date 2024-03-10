@@ -331,6 +331,7 @@ func check_baseline_compatibility(version_id: String) -> int:
 	if baselines.size() == 0:
 		return LoraCompatible.MAYBE
 	var lora_to_model_baseline_map = {
+		"Stable Cascade": "stable_cascade",
 		"SDXL 1.0": "stable_diffusion_xl",
 		"SD 1.5": "stable diffusion 1",
 		"SD 2.1 768": "stable diffusion 2",
