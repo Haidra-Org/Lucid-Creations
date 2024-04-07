@@ -114,7 +114,7 @@ func _parse_civitai_lora_data(civitai_entry) -> Dictionary:
 			new_version["unusable"] = 'Attention! This LoRa is unusable because is exceeds the max 230Mb filesize we allow on the AI Horde.'
 		new_version["images"] = []
 		for img in version["images"]:
-			if img["nsfw"] in ["Mature", "X"]:
+			if img["nsfwLevel"] > 2:
 				continue
 			new_version["images"].append(img["url"])
 		lora_details["versions"][version_id] = new_version

@@ -99,6 +99,7 @@ export(bool) var r2 := true
 export(bool) var shared := true
 export(String, "none", "canny", "hed", "depth", "normal", "openpose", "seg", "scribble", "fakescribbles", "hough") var control_type := "none"
 export(bool) var dry_run := false
+export(bool) var replacement_filter := true
 export(Array) var workers := []
 export(bool) var worker_blacklist := false
 
@@ -156,6 +157,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"dry_run": dry_run,
 		"workers": workers,
 		"worker_blacklist": worker_blacklist,
+		"replacement_filter": replacement_filter
 #		"workers": [
 #			"dc0704ab-5b42-4c65-8471-561be16ad696", #portal
 #		], # debug
