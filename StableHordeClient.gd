@@ -536,6 +536,7 @@ func _connect_hover_signals() -> void:
 		$"%BlockList",
 		$"%WorkerAutoComplete",
 		$"%ShowAllWorkers",
+		$"%AllowDowngrade",
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])
@@ -681,10 +682,12 @@ func _accept_settings() -> void:
 	stable_horde_client.set("trusted_workers", trusted_workers.pressed)
 	globals.set_setting("trusted_workers", trusted_workers.pressed)
 	stable_horde_client.set("shared", globals.config.get_value("Options", "share", true))
+	stable_horde_client.set("allow_downgrade", globals.config.get_value("Options", "allow_downgrade", true))
 	stable_horde_client.set("gen_seed", seed_edit.text)
 	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
 	stable_horde_client.set("lora", globals.config.get_value("Parameters", "loras", stable_horde_client.lora))
 	stable_horde_client.set("tis", globals.config.get_value("Parameters", "tis", stable_horde_client.tis))
+
 	if prompt_line_edit.text == '':
 		prompt_line_edit.text = _get_random_placeholder_prompt()
 	stable_horde_client.prompt = prompt_line_edit.text
