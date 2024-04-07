@@ -157,7 +157,6 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"shared": shared,
 		"dry_run": dry_run,
 		"workers": workers,
-		"replacement_filter": false,
 		"worker_blacklist": worker_blacklist,
 		"allow_downgrade": allow_downgrade,
 		"replacement_filter": replacement_filter
