@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.5.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.5.1) (2024-04-07)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.5.0...v2.5.1)
+
+**Merged pull requests:**
+
+- fix: civitai api changes [\#122](https://github.com/Haidra-Org/Lucid-Creations/pull/122) ([db0](https://github.com/db0))
+
 ## [v2.5.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.5.0) (2024-03-10)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.4.1...v2.5.0)
