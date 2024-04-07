@@ -99,6 +99,7 @@ export(bool) var r2 := true
 export(bool) var shared := true
 export(String, "none", "canny", "hed", "depth", "normal", "openpose", "seg", "scribble", "fakescribbles", "hough") var control_type := "none"
 export(bool) var dry_run := false
+export(bool) var replacement_filter := true
 export(Array) var workers := []
 export(bool) var worker_blacklist := false
 export(bool) var allow_downgrade := false
@@ -159,6 +160,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"replacement_filter": false,
 		"worker_blacklist": worker_blacklist,
 		"allow_downgrade": allow_downgrade,
+		"replacement_filter": replacement_filter
 #		"workers": [
 #			"dc0704ab-5b42-4c65-8471-561be16ad696", #portal
 #		], # debug
