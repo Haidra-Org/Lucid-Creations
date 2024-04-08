@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.5.2](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.5.2) (2024-04-08)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.5.1...v2.5.2)
+
+**Merged pull requests:**
+
+- chore: push new version [\#124](https://github.com/Haidra-Org/Lucid-Creations/pull/124) ([db0](https://github.com/db0))
+- fix: duplicate entry [\#123](https://github.com/Haidra-Org/Lucid-Creations/pull/123) ([db0](https://github.com/db0))
 
 ## [v2.5.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.5.1) (2024-04-07)
 
