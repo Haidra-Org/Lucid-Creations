@@ -31,7 +31,7 @@ signal generation_started
 # warning-ignore:unused_signal
 signal generation_cancelled
 
-func _on_node_hovered(node: Control, hovertext):
+func _on_node_hovered(node: Control, hovertext = null):
 	emit_signal("node_hovered", node, hovertext)
 
 func _on_node_unhovered(node: Control):

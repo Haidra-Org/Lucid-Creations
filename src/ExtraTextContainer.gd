@@ -24,6 +24,8 @@ func intiate_extra_text(reference_string: String, _is_optional: bool, descriptio
 	connect("mouse_exited", EventBus, "_on_node_unhovered", [self])
 	
 func get_and_store_extra_text():
+	if text.text == '':
+		return null
 	globals.config.set_value("ExtraTexts", reference.text, text.text)
 	return {
 		"reference": reference.text.rstrip('*'),

@@ -85,6 +85,9 @@ onready var aesthetic_rating = $"%AestheticRating"
 onready var artifacts_rating = $"%ArtifactsRating"
 onready var best_of = $"%BestOf"
 onready var submit_ratings = $"%SubmitRatings"
+# special
+onready var special = $"%Special"
+
 
 
 func _ready():
@@ -699,6 +702,8 @@ func _accept_settings() -> void:
 	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
 	stable_horde_client.set("lora", globals.config.get_value("Parameters", "loras", stable_horde_client.lora))
 	stable_horde_client.set("tis", globals.config.get_value("Parameters", "tis", stable_horde_client.tis))
+	stable_horde_client.set("workflow", special.get_workflow_name())
+	stable_horde_client.set("extra_texts", special.get_extra_texts())
 	
 	if prompt_line_edit.text == '':
 		prompt_line_edit.text = _get_random_placeholder_prompt()
@@ -754,6 +759,10 @@ func _on_load_from_disk_gensettings_loaded(settings) -> void:
 		img_2_img_enabled.pressed = false
 		stable_horde_client.source_image = null
 		stable_horde_client.control_type = "none"
+	if settings.has("workflow"):
+		special.set_workflow_to(settings['workflow'])
+	if settings.has("extra_texts"):
+		special.set_special_texts(settings['extra_texts'])
 
 func _set_prompt(prompt: String, force = false) -> bool:
 	"""Sets prompt and negative prompt

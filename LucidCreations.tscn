@@ -516,7 +516,6 @@ text = "Image is control"
 
 [node name="Basic" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
-visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
@@ -1217,6 +1216,7 @@ pressed = true
 text = "HiResFix"
 
 [node name="Special" parent="Margin/Panel/Display/Panels/Controls" instance=ExtResource( 51 )]
+visible = false
 
 [node name="Options" type="MarginContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true

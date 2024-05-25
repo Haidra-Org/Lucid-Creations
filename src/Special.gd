@@ -14,8 +14,8 @@ const WORKFLOWS = {
 	'auto-detect': [],
 	'qr_code': [
 		['qr_code',false, "The text which will be shown when scanning the generated QR code."],
-		['x_offstet',true, "The QR code will be placed this many pixels from the left of the image."],
-		['y_offstet',true, "The QR code will be placed this many pixels from the top of the image."],
+		['x_offset',true, "The QR code will be placed this many pixels from the left of the image."],
+		['y_offset',true, "The QR code will be placed this many pixels from the top of the image."],
 		['protocol',true, "If your URL QR code fails to generate the right text, You can specify 'http' or 'https' here and remove it from the 'qr_code' field."],
 		['module_drawer',true, "The QR Code type. Options are: " + str(QR_MODULE_DRAWERS)],
 		['function_layer_prompt',true, "An extra prompt which will guide the generation of the QR code anchors."],
@@ -55,12 +55,34 @@ func prepare_for_workflow():
 		extra_texts.add_child(new_et_scene)
 		new_et_scene.intiate_extra_text(et[0],et[1],et[2])
 
-func get_workflow_and_extra_texts():
+func get_extra_texts():
+	if workflow.get_item_text(workflow.get_selected_id()) == 'auto-detect':
+		return null
 	var extra_texts_array: = []
 	for etnode in extra_texts.get_children():
-		extra_texts_array.append(etnode.get_and_store_extra_text())
-	var workflow_name = workflow.get_item_text(workflow.get_selected_id())
-	return [workflow_name, extra_texts]
+		var et = etnode.get_and_store_extra_text()
+		if et != null:
+			extra_texts_array.append(et)
+	return extra_texts_array
+
+func get_workflow_name():
+	return workflow.get_item_text(workflow.get_selected_id())
 
 func _on_Workflow_item_selected(_index):
 	prepare_for_workflow()
+
+func set_workflow_to(workflow_name: String):
+	for idx in range(workflow.get_item_count()):
+		if workflow.get_item_text(idx) == workflow_name:
+			workflow.select(idx)
+			prepare_for_workflow()
+			return
+
+func set_special_texts(et_array: Array):
+	for et in et_array:
+		for etnode in extra_texts.get_children():
+			if etnode.is_queued_for_deletion():
+				continue
+			if etnode.reference.text.rstrip('*') == et['reference']:
+				etnode.text.text = str(et['text'])
+				break
