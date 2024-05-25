@@ -1,5 +1,14 @@
 # Changelog
 
+## [v2.6.2](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.6.2) (2024-05-25)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.6.1...v2.6.2)
+
+**Merged pull requests:**
+
+- fix: firebelley export upgrade [\#131](https://github.com/Haidra-Org/Lucid-Creations/pull/131) ([db0](https://github.com/db0))
+- fix: Project export workflow [\#130](https://github.com/Haidra-Org/Lucid-Creations/pull/130) ([db0](https://github.com/db0))
+
 ## [v2.6.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.6.1) (2024-05-25)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.6.0...v2.6.1)
