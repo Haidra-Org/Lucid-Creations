@@ -43,6 +43,8 @@ func _ready() -> void:
 	# we pass the button name to get panel name :D
 	for button in button_panels.group.get_buttons():
 		button.connect("toggled", self, "_show_panel", [button.name])
+		button.connect("mouse_entered", EventBus, "_on_node_hovered", [button])
+		button.connect("mouse_exited", EventBus, "_on_node_unhovered", [button])
 		if button.pressed:
 			_show_panel(true, button.name)
 	

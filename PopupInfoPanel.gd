@@ -41,6 +41,14 @@ const DESCRIPTIONS = {
 	"WorkerAutoComplete": "Specify workers to use for this generation. Use the toggle below to specify using them as an allowlist or a blocklist. When models are selected, only workers which can generate any of those models will be shown.",
 	"ShowAllWorkers": "Press this button to display and select available workers for your selected model.",
 	"AllowDowngrade": "When enabled and your account doesn't have enough kudos to generate the image, it will be downgraded in resolution and steps, so that it does not need upfront kudos, instead of failing.",
+	# Control Buttons
+	"Prompt": "Prompt: This tab allows you to specify the prompt which will generate the image",
+	"img2img": "Img2Img: This tab allows you to specify image-to-image functionality, such as the source image or controlnets.",
+	"Basic": "Basic: Controls for image generation.",
+	"Workers": "Workers: Allows you to control which workers will serve this request.",
+	"Advanced": "Advanced: Extra controls for image generation.",
+	"Options": "Options: Customize the Lucid Creations application.",
+	"Information": "Information: Learn about the Lucid Creations application.",
 }
 
 const META_DESCRIPTIONS = {
