@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.6.1](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.6.1) (2024-05-25)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.6.0...v2.6.1)
+
+**Merged pull requests:**
+
+- fix: asterisk typically denotes mandatory fields [\#129](https://github.com/Haidra-Org/Lucid-Creations/pull/129) ([db0](https://github.com/db0))
+
 ## [v2.6.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.6.0) (2024-05-25)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.5.2...v2.6.0)
