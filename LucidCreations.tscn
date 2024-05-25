@@ -392,14 +392,14 @@ size_flags_vertical = 3
 script = ExtResource( 32 )
 
 [node name="HSeparator" type="HSeparator" parent="Margin/Panel/Display/Panels/Controls/Prompt/NegPromptHBC"]
-margin_top = 125.0
 margin_right = 320.0
-margin_bottom = 129.0
+margin_bottom = 4.0
 
 [node name="NegativePromptLine" type="TextEdit" parent="Margin/Panel/Display/Panels/Controls/Prompt/NegPromptHBC"]
 unique_name_in_owner = true
+margin_top = 8.0
 margin_right = 320.0
-margin_bottom = 121.0
+margin_bottom = 129.0
 rect_min_size = Vector2( 0, 41 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1471,6 +1471,7 @@ margin_right = 300.0
 margin_bottom = 350.0
 
 [node name="Workers" type="MarginContainer" parent="Margin/Panel/Display/Panels/Controls"]
+visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0

@@ -26,10 +26,10 @@ func toggle_expand_collapse() -> void:
 func expand() -> void:
 	prompt_context_menu.set_item_text(expand_idx, "Collapse")
 	#prompt_line.wrap_enabled = true
-	rect_min_size.y = 300
+	rect_min_size.x = 1024
 
 func collapse() -> void:
 	prompt_context_menu.set_item_text(expand_idx, "Expand")
 	#prompt_line.wrap_enabled = false
-	rect_min_size.y = 0
+	rect_min_size.x = 0
 	
