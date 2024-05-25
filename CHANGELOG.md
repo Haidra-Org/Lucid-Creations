@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.6.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.6.0) (2024-05-25)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.5.2...v2.6.0)
+
+**Merged pull requests:**
+
+- feat: Qrcode generations [\#128](https://github.com/Haidra-Org/Lucid-Creations/pull/128) ([db0](https://github.com/db0))
+
 ## [v2.5.2](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.5.2) (2024-04-08)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.5.1...v2.5.2)
