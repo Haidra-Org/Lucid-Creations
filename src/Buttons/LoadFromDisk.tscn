@@ -18,5 +18,16 @@ title = "Load generation json from disk"
 initial_path = "user://"
 filters = PoolStringArray( "*.png ; Image Files", "*.json ; json files", "*.png, *.json ; all files" )
 
+[node name="FileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+margin_right = 307.0
+margin_bottom = 156.0
+rect_min_size = Vector2( 800, 600 )
+window_title = "Open a File"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.png ; Image Files", "*.json ; json files" )
+
 [connection signal="pressed" from="." to="." method="_on_LoadFromDisk_pressed"]
 [connection signal="files_selected" from="LoadFromDiskNativeDialogOpenFile" to="." method="_on_LoadFromDiskNativeDialogOpenFile_files_selected"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]

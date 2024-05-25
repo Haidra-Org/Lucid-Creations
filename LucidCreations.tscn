@@ -1217,6 +1217,7 @@ text = "HiResFix"
 
 [node name="Special" parent="Margin/Panel/Display/Panels/Controls" instance=ExtResource( 51 )]
 visible = false
+margin_bottom = 400.0
 
 [node name="Options" type="MarginContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
@@ -1224,13 +1225,13 @@ visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
-margin_bottom = 378.0
+margin_bottom = 450.0
 rect_min_size = Vector2( 320, 0 )
 script = ExtResource( 11 )
 
 [node name="VBC" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options"]
 margin_right = 320.0
-margin_bottom = 404.0
+margin_bottom = 440.0
 custom_constants/separation = 8
 
 [node name="VBCRight" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options/VBC"]
@@ -1286,7 +1287,7 @@ selection_enabled = true
 [node name="VBCLeft" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options/VBC"]
 margin_top = 103.0
 margin_right = 320.0
-margin_bottom = 368.0
+margin_bottom = 440.0
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
@@ -1353,33 +1354,40 @@ margin_left = 261.0
 margin_right = 320.0
 margin_bottom = 28.0
 
-[node name="RememberPrompt" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
+[node name="UseGodotBrowse" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
 margin_top = 129.0
 margin_right = 320.0
 margin_bottom = 157.0
+text = "Use Godot Browse"
+
+[node name="RememberPrompt" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
+unique_name_in_owner = true
+margin_top = 165.0
+margin_right = 320.0
+margin_bottom = 193.0
 text = "Remember Prompt"
 
 [node name="LargerValues" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 165.0
+margin_top = 201.0
 margin_right = 320.0
-margin_bottom = 193.0
+margin_bottom = 229.0
 text = "Larger Values"
 
 [node name="AllowDowngrade" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 165.0
+margin_top = 237.0
 margin_right = 320.0
-margin_bottom = 193.0
+margin_bottom = 265.0
 pressed = true
 text = "Allow Downgrade"
 
 [node name="LoadSeedFromDisk" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 201.0
+margin_top = 273.0
 margin_right = 320.0
-margin_bottom = 229.0
+margin_bottom = 301.0
 text = "Recover Saved Seeds"
 
 [node name="Shared" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
@@ -1392,9 +1400,9 @@ text = "Share Images"
 
 [node name="WipeCache" type="Button" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 237.0
+margin_top = 309.0
 margin_right = 320.0
-margin_bottom = 265.0
+margin_bottom = 337.0
 text = "Wipe CivitAI Cache"
 
 [node name="Information" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
