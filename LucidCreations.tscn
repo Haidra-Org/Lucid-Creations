@@ -318,8 +318,6 @@ size_flags_vertical = 3
 
 [node name="Grid" type="GridContainer" parent="Margin/Panel/Display/Gallery/GridScroll"]
 unique_name_in_owner = true
-margin_right = 1568.0
-margin_bottom = 818.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9
