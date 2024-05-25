@@ -1,5 +1,7 @@
 extends PopupPanel
 
+const GENERATE_BUTTON_TEXT = "Requests the image generation from the AI Horde servers."
+const CANCEL_BUTTON_TEXT = "Cancel the ongoing generation from the AI Horde servers and retrieves all images already generated."
 const DESCRIPTIONS = {
 	"NegativePrompt": "When enabled, will display the negative prompt line you can edit",
 	"Amount": "The amount of images to generate with this prompt",
@@ -41,6 +43,22 @@ const DESCRIPTIONS = {
 	"WorkerAutoComplete": "Specify workers to use for this generation. Use the toggle below to specify using them as an allowlist or a blocklist. When models are selected, only workers which can generate any of those models will be shown.",
 	"ShowAllWorkers": "Press this button to display and select available workers for your selected model.",
 	"AllowDowngrade": "When enabled and your account doesn't have enough kudos to generate the image, it will be downgraded in resolution and steps, so that it does not need upfront kudos, instead of failing.",
+	"UseGodotBrowse": "When enabled instead of using your OS' native browse dialog, it will use Godot Engine's built-in node.",
+	# Control Buttons
+	"Prompt": "Prompt: This tab allows you to specify the prompt which will generate the image",
+	"img2img": "Img2Img: This tab allows you to specify image-to-image functionality, such as the source image or controlnets.",
+	"Basic": "Basic: Controls for image generation.",
+	"Workers": "Workers: Allows you to control which workers will serve this request.",
+	"Advanced": "Advanced: Extra controls for image generation.",
+	"Special": "Special: Controls for unique generation options.",
+	"Options": "Options: Customize the Lucid Creations application.",
+	"Information": "Information: Learn about the Lucid Creations application.",
+	# Generate/Cancel
+	"GenerateButton": GENERATE_BUTTON_TEXT,
+	"GenerateFooterButton": GENERATE_BUTTON_TEXT,
+	"CancelButton": CANCEL_BUTTON_TEXT,
+	"CancelFooterButton": CANCEL_BUTTON_TEXT,
+	
 }
 
 const META_DESCRIPTIONS = {
@@ -73,8 +91,8 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	EventBus.connect("rtl_meta_unhovered",self, "_on_rtl_meta_unhovered")
 
-func _on_node_hovered(node: Control) -> void:
-	if not DESCRIPTIONS.has(node.name):
+func _on_node_hovered(node: Control, hovertext = null) -> void:
+	if not DESCRIPTIONS.has(node.name) and not hovertext:
 		return
 	info.rect_size = Vector2(0,0)
 	current_hovered_node = node
@@ -82,8 +100,11 @@ func _on_node_hovered(node: Control) -> void:
 	if rect_global_position.x > get_viewport().size.x:
 		rect_global_position.x = get_viewport().size.x - current_hovered_node.rect_size.x
 	if rect_global_position.y + info.rect_size.y > get_viewport().size.y:
-		rect_global_position.y = get_viewport().size.y - info.rect_size.y - 10 
-	info.text = DESCRIPTIONS[node.name]
+		rect_global_position.y = get_viewport().size.y - info.rect_size.y - 10
+	if hovertext: 
+		info.text = hovertext
+	else:
+		info.text = DESCRIPTIONS[node.name]
 	visible = true
 	rect_size = info.rect_size
 

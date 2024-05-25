@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -47,6 +47,10 @@
 [ext_resource path="res://addons/stable_horde_client/stable_horde_workers.gd" type="Script" id=45]
 [ext_resource path="res://Workers.gd" type="Script" id=46]
 [ext_resource path="res://theme/assets/iconpark/worker.svg" type="Texture" id=47]
+[ext_resource path="res://theme/assets/iconpark/play.svg" type="Texture" id=48]
+[ext_resource path="res://theme/assets/iconpark/toxins.svg" type="Texture" id=49]
+[ext_resource path="res://theme/assets/iconpark/circles-seven.svg" type="Texture" id=50]
+[ext_resource path="res://src/Special.tscn" type="PackedScene" id=51]
 
 [sub_resource type="StreamTexture" id=9]
 flags = 4
@@ -345,6 +349,7 @@ size_flags_vertical = 3
 custom_styles/panel = ExtResource( 39 )
 
 [node name="Prompt" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
+visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
@@ -366,6 +371,7 @@ unique_name_in_owner = true
 margin_right = 320.0
 margin_bottom = 262.0
 size_flags_horizontal = 3
+highlight_all_occurrences = true
 smooth_scrolling = true
 wrap_enabled = true
 caret_blink = true
@@ -392,14 +398,14 @@ size_flags_vertical = 3
 script = ExtResource( 32 )
 
 [node name="HSeparator" type="HSeparator" parent="Margin/Panel/Display/Panels/Controls/Prompt/NegPromptHBC"]
-margin_top = 125.0
 margin_right = 320.0
-margin_bottom = 129.0
+margin_bottom = 4.0
 
 [node name="NegativePromptLine" type="TextEdit" parent="Margin/Panel/Display/Panels/Controls/Prompt/NegPromptHBC"]
 unique_name_in_owner = true
+margin_top = 8.0
 margin_right = 320.0
-margin_bottom = 121.0
+margin_bottom = 129.0
 rect_min_size = Vector2( 0, 41 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -427,17 +433,19 @@ margin_right = 320.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 120, 32 )
 text = "Generate"
+icon = ExtResource( 48 )
 
 [node name="CancelButton" type="Button" parent="Margin/Panel/Display/Panels/Controls/Prompt/Buttons"]
 unique_name_in_owner = true
 visible = false
-margin_left = 8.0
-margin_right = 128.0
-margin_bottom = 41.251
+margin_top = 68.0
+margin_right = 320.0
+margin_bottom = 100.0
 rect_min_size = Vector2( 120, 32 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_styles/disabled = SubResource( 2 )
 text = "Cancel"
+icon = ExtResource( 49 )
 
 [node name="img2img" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
@@ -508,7 +516,6 @@ text = "Image is control"
 
 [node name="Basic" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
-visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
@@ -1110,8 +1117,10 @@ script = ExtResource( 25 )
 [node name="Advanced" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
 visible = false
-margin_right = 300.0
-margin_bottom = 346.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 330.0
+margin_bottom = 386.0
 rect_min_size = Vector2( 320, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1119,74 +1128,79 @@ custom_constants/separation = 8
 
 [node name="Width" parent="Margin/Panel/Display/Panels/Controls/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_bottom = 30.0
+margin_right = 320.0
+margin_bottom = 36.0
 config_setting = "width"
 
 [node name="Height" parent="Margin/Panel/Display/Panels/Controls/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_top = 38.0
-margin_bottom = 68.0
+margin_top = 44.0
+margin_right = 320.0
+margin_bottom = 80.0
 config_setting = "height"
 
 [node name="StepsSlider" parent="Margin/Panel/Display/Panels/Controls/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_top = 76.0
-margin_bottom = 106.0
+margin_top = 88.0
+margin_right = 320.0
+margin_bottom = 124.0
 config_setting = "steps"
 
 [node name="ConfigSlider" parent="Margin/Panel/Display/Panels/Controls/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_top = 114.0
-margin_bottom = 144.0
+margin_top = 132.0
+margin_right = 320.0
+margin_bottom = 168.0
 config_setting = "cfg_scale"
 
 [node name="ClipSkipSlider" parent="Margin/Panel/Display/Panels/Controls/Advanced" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-margin_top = 152.0
-margin_bottom = 182.0
+margin_top = 176.0
+margin_right = 320.0
+margin_bottom = 212.0
 config_setting = "clip_skip"
 
 [node name="SamplerMethodLabel" type="Label" parent="Margin/Panel/Display/Panels/Controls/Advanced"]
-margin_top = 190.0
-margin_right = 300.0
-margin_bottom = 210.0
+margin_top = 220.0
+margin_right = 320.0
+margin_bottom = 240.0
 custom_fonts/font = ExtResource( 40 )
 text = "Sampling method"
 autowrap = true
 
 [node name="SamplerMethod" type="OptionButton" parent="Margin/Panel/Display/Panels/Controls/Advanced"]
 unique_name_in_owner = true
-margin_top = 218.0
-margin_right = 300.0
-margin_bottom = 246.0
+margin_top = 248.0
+margin_right = 320.0
+margin_bottom = 276.0
 text = "k_lms"
 items = [ "k_lms", null, false, 0, null, "k_heun", null, false, 1, null, "k_euler", null, false, 2, null, "k_euler_a", null, false, 3, null, "k_dpm_2", null, false, 4, null, "k_dpm_2_a", null, false, 5, null, "k_dpm_fast", null, false, 6, null, "k_dpm_adaptive", null, false, 7, null, "k_dpmpp_2s_a", null, false, 8, null, "k_dpmpp_2m", null, false, 9, null, "k_dpmpp_sde", null, false, 10, null, "dpmsolver", null, false, 11, null, "lcm", null, false, 12, null ]
 selected = 0
 
 [node name="SeedLabel" type="Label" parent="Margin/Panel/Display/Panels/Controls/Advanced"]
-margin_top = 254.0
-margin_right = 300.0
-margin_bottom = 274.0
+margin_top = 284.0
+margin_right = 320.0
+margin_bottom = 304.0
 custom_fonts/font = ExtResource( 40 )
 text = "Seed (blank to randomize)"
 autowrap = true
 
 [node name="Seed" type="LineEdit" parent="Margin/Panel/Display/Panels/Controls/Advanced"]
 unique_name_in_owner = true
-margin_top = 282.0
-margin_right = 300.0
-margin_bottom = 310.0
+margin_top = 312.0
+margin_right = 320.0
+margin_bottom = 340.0
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="HBC" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Advanced"]
-margin_top = 318.0
-margin_right = 300.0
-margin_bottom = 346.0
+margin_top = 348.0
+margin_right = 320.0
+margin_bottom = 376.0
 
 [node name="Karras" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Advanced/HBC"]
 unique_name_in_owner = true
-margin_right = 148.0
+margin_right = 158.0
 margin_bottom = 28.0
 size_flags_horizontal = 3
 pressed = true
@@ -1194,12 +1208,16 @@ text = "Karras"
 
 [node name="HiResFix" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Advanced/HBC"]
 unique_name_in_owner = true
-margin_left = 152.0
-margin_right = 300.0
+margin_left = 162.0
+margin_right = 320.0
 margin_bottom = 28.0
 size_flags_horizontal = 3
 pressed = true
 text = "HiResFix"
+
+[node name="Special" parent="Margin/Panel/Display/Panels/Controls" instance=ExtResource( 51 )]
+visible = false
+margin_bottom = 400.0
 
 [node name="Options" type="MarginContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
@@ -1207,13 +1225,13 @@ visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
-margin_bottom = 378.0
+margin_bottom = 450.0
 rect_min_size = Vector2( 320, 0 )
 script = ExtResource( 11 )
 
 [node name="VBC" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options"]
 margin_right = 320.0
-margin_bottom = 404.0
+margin_bottom = 440.0
 custom_constants/separation = 8
 
 [node name="VBCRight" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options/VBC"]
@@ -1269,7 +1287,7 @@ selection_enabled = true
 [node name="VBCLeft" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options/VBC"]
 margin_top = 103.0
 margin_right = 320.0
-margin_bottom = 368.0
+margin_bottom = 440.0
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
@@ -1336,33 +1354,40 @@ margin_left = 261.0
 margin_right = 320.0
 margin_bottom = 28.0
 
-[node name="RememberPrompt" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
+[node name="UseGodotBrowse" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
 margin_top = 129.0
 margin_right = 320.0
 margin_bottom = 157.0
+text = "Use Godot Browse"
+
+[node name="RememberPrompt" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
+unique_name_in_owner = true
+margin_top = 165.0
+margin_right = 320.0
+margin_bottom = 193.0
 text = "Remember Prompt"
 
 [node name="LargerValues" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 165.0
+margin_top = 201.0
 margin_right = 320.0
-margin_bottom = 193.0
+margin_bottom = 229.0
 text = "Larger Values"
 
 [node name="AllowDowngrade" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 165.0
+margin_top = 237.0
 margin_right = 320.0
-margin_bottom = 193.0
+margin_bottom = 265.0
 pressed = true
 text = "Allow Downgrade"
 
 [node name="LoadSeedFromDisk" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 201.0
+margin_top = 273.0
 margin_right = 320.0
-margin_bottom = 229.0
+margin_bottom = 301.0
 text = "Recover Saved Seeds"
 
 [node name="Shared" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
@@ -1375,9 +1400,9 @@ text = "Share Images"
 
 [node name="WipeCache" type="Button" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
-margin_top = 237.0
+margin_top = 309.0
 margin_right = 320.0
-margin_bottom = 265.0
+margin_bottom = 337.0
 text = "Wipe CivitAI Cache"
 
 [node name="Information" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
@@ -1464,6 +1489,7 @@ margin_right = 300.0
 margin_bottom = 350.0
 
 [node name="Workers" type="MarginContainer" parent="Margin/Panel/Display/Panels/Controls"]
+visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
@@ -1616,14 +1642,14 @@ margin_right = 1568.0
 margin_bottom = 868.0
 
 [node name="Config" type="PanelContainer" parent="Margin/Panel/Footer"]
-margin_right = 178.0
+margin_right = 212.0
 margin_bottom = 42.0
 size_flags_vertical = 8
 
 [node name="Buttons" type="HBoxContainer" parent="Margin/Panel/Footer/Config"]
 margin_left = 6.0
 margin_top = 6.0
-margin_right = 172.0
+margin_right = 206.0
 margin_bottom = 36.0
 size_flags_vertical = 4
 
@@ -1682,9 +1708,20 @@ icon = ExtResource( 35 )
 icon_align = 1
 expand_icon = true
 
+[node name="Special" type="Button" parent="Margin/Panel/Footer/Config/Buttons"]
+margin_left = 170.0
+margin_right = 200.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+toggle_mode = true
+group = SubResource( 10 )
+icon = ExtResource( 50 )
+icon_align = 1
+expand_icon = true
+
 [node name="About" type="PanelContainer" parent="Margin/Panel/Footer"]
-margin_left = 182.0
-margin_right = 258.0
+margin_left = 216.0
+margin_right = 292.0
 margin_bottom = 42.0
 size_flags_vertical = 8
 
@@ -1717,7 +1754,7 @@ icon_align = 1
 expand_icon = true
 
 [node name="Progress" type="MarginContainer" parent="Margin/Panel/Footer"]
-margin_left = 262.0
+margin_left = 296.0
 margin_right = 1568.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
@@ -1725,7 +1762,7 @@ size_flags_horizontal = 3
 [node name="GenerationsProcessing" type="ProgressBar" parent="Margin/Panel/Footer/Progress"]
 unique_name_in_owner = true
 modulate = Color( 1, 1, 1, 0.392157 )
-margin_right = 1306.0
+margin_right = 1272.0
 margin_bottom = 42.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -1736,7 +1773,7 @@ max_value = 20.0
 
 [node name="GenerationsDone" type="ProgressBar" parent="Margin/Panel/Footer/Progress"]
 unique_name_in_owner = true
-margin_right = 1306.0
+margin_right = 1272.0
 margin_bottom = 42.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -1746,7 +1783,7 @@ custom_styles/bg = SubResource( 17 )
 max_value = 20.0
 
 [node name="Margin" type="MarginContainer" parent="Margin/Panel/Footer/Progress"]
-margin_right = 1306.0
+margin_right = 1272.0
 margin_bottom = 42.0
 custom_constants/margin_right = 8
 custom_constants/margin_top = 2
@@ -1756,15 +1793,36 @@ custom_constants/margin_bottom = 2
 [node name="Labels" type="HBoxContainer" parent="Margin/Panel/Footer/Progress/Margin"]
 margin_left = 8.0
 margin_top = 2.0
-margin_right = 1298.0
+margin_right = 1264.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="GenerateFooterButton" type="Button" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
+unique_name_in_owner = true
+margin_right = 30.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 30, 30 )
+icon = ExtResource( 48 )
+icon_align = 1
+expand_icon = true
+
+[node name="CancelFooterButton" type="Button" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
+unique_name_in_owner = true
+visible = false
+margin_left = 34.0
+margin_right = 64.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 30, 30 )
+icon = ExtResource( 49 )
+icon_align = 1
+expand_icon = true
+
 [node name="KudosText" type="RichTextLabel" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
 unique_name_in_owner = true
+margin_left = 34.0
 margin_top = 8.0
-margin_right = 96.0
+margin_right = 130.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 96, 18 )
 size_flags_horizontal = 0
@@ -1776,9 +1834,9 @@ fit_content_height = true
 scroll_active = false
 
 [node name="VBC" type="VBoxContainer" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
-margin_left = 100.0
+margin_left = 134.0
 margin_top = 8.0
-margin_right = 1290.0
+margin_right = 1256.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1786,7 +1844,7 @@ custom_constants/separation = 0
 
 [node name="StatusText" type="RichTextLabel" parent="Margin/Panel/Footer/Progress/Margin/Labels/VBC"]
 unique_name_in_owner = true
-margin_right = 1190.0
+margin_right = 1122.0
 margin_bottom = 21.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_horizontal = 3

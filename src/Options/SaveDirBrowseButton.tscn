@@ -17,5 +17,15 @@ script = ExtResource( 1 )
 title = "Image Save Directory"
 initial_path = "user://"
 
+[node name="FileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+margin_right = 307.0
+margin_bottom = 156.0
+rect_min_size = Vector2( 800, 640 )
+window_title = "Open a Directory"
+mode = 2
+access = 2
+
 [connection signal="pressed" from="." to="." method="_on_SaveDirBrowseButton_pressed"]
 [connection signal="folder_selected" from="SaveDirBrowseNativeDialogSelectFolder" to="." method="_on_SaveDirBrowseNativeDialogSelectFolder_folder_selected"]
+[connection signal="dir_selected" from="FileDialog" to="." method="_on_FileDialog_dir_selected"]

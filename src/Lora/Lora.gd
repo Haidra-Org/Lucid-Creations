@@ -95,6 +95,8 @@ func replace_loras(loras: Array) -> void:
 		)
 		if not is_version:
 			lora["id"] = lora_reference_node.get_latest_version(lora["name"])
+			if lora["id"] == 'N/A':
+				continue
 			lora["is_version"] = true
 			lora["lora_id"] = lora_reference_node.get_lora_info(lora["id"], true)["id"]
 	update_selected_loras_label()

@@ -76,6 +76,7 @@ func _ready():
 		ParamBus.connect("models_changed",self,"_on_models_changed")
 # warning-ignore:return_value_discarded
 	EventBus.connect("kudos_calculated", self, "_on_kudos_calculated")
+# warning-ignore:return_value_discarded
 	ParamBus.connect("params_changed",self,"_on_params_changed")
 
 func set_value(value) -> void:

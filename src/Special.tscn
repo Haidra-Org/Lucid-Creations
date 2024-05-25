@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://theme/fonts/noto/type/type_body_strong.tres" type="DynamicFont" id=1]
+[ext_resource path="res://src/Special.gd" type="Script" id=3]
+
+[node name="Special" type="VBoxContainer"]
+unique_name_in_owner = true
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 330.0
+margin_bottom = 340.0
+rect_min_size = Vector2( 320, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 8
+script = ExtResource( 3 )
+
+[node name="WorkflowLabel" type="Label" parent="."]
+margin_right = 320.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 1 )
+text = "Workflow"
+autowrap = true
+
+[node name="Workflow" type="OptionButton" parent="."]
+unique_name_in_owner = true
+margin_top = 28.0
+margin_right = 320.0
+margin_bottom = 56.0
+text = "auto-detect"
+items = [ "auto-detect", null, false, 0, null, "qr_code", null, false, 1, null ]
+selected = 0
+
+[node name="ExtraTextsLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+margin_top = 64.0
+margin_right = 320.0
+margin_bottom = 84.0
+custom_fonts/font = ExtResource( 1 )
+text = "Extra Texts (* are optional)"
+autowrap = true
+
+[node name="ExtraTexts" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+margin_top = 64.0
+margin_right = 320.0
+margin_bottom = 64.0
+
+[connection signal="item_selected" from="Workflow" to="." method="_on_Workflow_item_selected"]

@@ -12,6 +12,7 @@ onready var stable_horde_login = $"%StableHordeLogin"
 onready var load_seed_from_disk = $"%LoadSeedFromDisk"
 onready var wipe_cache = $"%WipeCache"
 onready var allow_downgrade = $"%AllowDowngrade"
+onready var use_godot_browse = $"%UseGodotBrowse"
 
 func _ready():
 	remember_prompt.pressed = globals.config.get_value("Options", "remember_prompt", false)
@@ -22,6 +23,8 @@ func _ready():
 	allow_downgrade.connect("toggled",self,"_on_allow_downgrade_pressed")
 	load_seed_from_disk.pressed = globals.config.get_value("Options", "load_seed_from_disk", false)
 	load_seed_from_disk.connect("toggled",self,"_on_load_seed_from_disk_pressed")
+	use_godot_browse.pressed = globals.config.get_value("Options", "use_godot_browse", false)
+	use_godot_browse.connect("toggled",self,"_on_use_godot_browse_pressed")
 	shared.pressed = globals.config.get_value("Options", "shared", true)
 	shared.connect("toggled",self,"_on_shared_pressed")
 	# warning-ignore:return_value_discarded
@@ -62,6 +65,9 @@ func _on_allow_downgrade_pressed(pressed: bool) -> void:
 
 func _on_load_seed_from_disk_pressed(pressed: bool) -> void:
 	globals.set_setting("load_seed_from_disk", pressed, "Options")
+
+func _on_use_godot_browse_pressed(pressed: bool) -> void:
+	globals.set_setting("use_godot_browse", pressed, "Options")
 
 func _on_shared_pressed(pressed: bool) -> void:
 	globals.set_setting("shared", pressed, "Options")

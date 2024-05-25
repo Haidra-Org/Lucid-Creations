@@ -1,7 +1,7 @@
 extends Node
 
 # warning-ignore:unused_signal
-signal node_hovered(node)
+signal node_hovered(node, hovertext)
 # warning-ignore:unused_signal
 signal node_unhovered(node)
 # warning-ignore:unused_signal
@@ -26,9 +26,13 @@ signal kudos_calculated(kudos)
 signal generation_completed
 # warning-ignore:unused_signal
 signal cache_wipe_requested
+# warning-ignore:unused_signal
+signal generation_started
+# warning-ignore:unused_signal
+signal generation_cancelled
 
-func _on_node_hovered(node: Control):
-	emit_signal("node_hovered", node)
+func _on_node_hovered(node: Control, hovertext = null):
+	emit_signal("node_hovered", node, hovertext)
 
 func _on_node_unhovered(node: Control):
 	emit_signal("node_unhovered", node)

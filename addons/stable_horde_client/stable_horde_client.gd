@@ -34,6 +34,11 @@ enum ControlTypes {
 	hough
 }
 
+enum Workflows {
+	auto_detect = 0
+	qr_code
+}
+
 enum OngoingRequestOperations {
 	CHECK
 	GET
@@ -103,6 +108,8 @@ export(bool) var replacement_filter := true
 export(Array) var workers := []
 export(bool) var worker_blacklist := false
 export(bool) var allow_downgrade := false
+export(String, "auto-detect", "qr_code") var workflow := "auto-detect"
+export(Array) var extra_texts = []
 
 var all_image_textures := []
 var latest_image_textures := []
@@ -144,6 +151,10 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		imgen_params["loras"] = _get_loras_payload()
 	if tis.size() > 0:
 		imgen_params["tis"] = _get_tis_payload()
+	if workflow != 'auto-detect':
+		imgen_params["workflow"] = workflow
+	if extra_texts != null and extra_texts.size() > 0:
+		imgen_params["extra_texts"] = extra_texts
 	for param in replacement_params:
 		imgen_params[param] = replacement_params[param]
 	var submit_dict = {
@@ -164,7 +175,10 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 #			"dc0704ab-5b42-4c65-8471-561be16ad696", #portal
 #		], # debug
 	}
-#	print_debug(submit_dict)
+	if false: # Debug
+		print_debug(submit_dict)
+		push_warning("Aborting due to debug")
+		return
 	if source_image:
 		submit_dict["source_image"] = get_img2img_b64(source_image)
 		submit_dict["params"]["denoising_strength"] = denoising_strength
