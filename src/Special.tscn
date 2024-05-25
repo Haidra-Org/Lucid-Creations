@@ -38,7 +38,7 @@ margin_top = 64.0
 margin_right = 320.0
 margin_bottom = 84.0
 custom_fonts/font = ExtResource( 1 )
-text = "Extra Texts (* are optional)"
+text = "Extra Texts (* are mandatory)"
 autowrap = true
 
 [node name="ExtraTexts" type="VBoxContainer" parent="."]

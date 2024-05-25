@@ -10,7 +10,7 @@ func _ready():
 func intiate_extra_text(reference_string: String, _is_optional: bool, description = null):
 	is_optional = _is_optional	
 	reference.text = reference_string
-	if is_optional:
+	if not is_optional:
 		reference.text += '*'
 	text.text = globals.config.get_value("ExtraTexts", reference_string, '')
 	if not description:
