@@ -28,6 +28,7 @@ onready var config_slider := $"%ConfigSlider"
 onready var clip_skip_slider := $"%ClipSkipSlider"
 onready var steps_slider := $"%StepsSlider"
 onready var generate_button := $"%GenerateButton"
+onready var generate_footer_button = $"%GenerateFooterButton"
 onready var sampler_method : OptionButton = $"%SamplerMethod"
 onready var karras := $"%Karras"
 onready var hires_fix = $"%HiResFix"
@@ -51,9 +52,7 @@ onready var kudos_text = $"%KudosText"
 onready var generations_processing = $"%GenerationsProcessing"
 onready var generations_done = $"%GenerationsDone"
 onready var cancel_button = $"%CancelButton"
-# Tab Buttons
-onready var controls_basic := $"%Basic"
-onready var control_advanced := $"%Advanced"
+onready var cancel_footer_button = $"%CancelFooterButton"
 # Prompts
 onready var _tween = $"%Tween"
 onready var prompt_cc = $"%PromptCC"
@@ -117,8 +116,10 @@ func _ready():
 	load_from_disk.connect("gensettings_loaded", self, "_on_load_from_disk_gensettings_loaded")
 	# warning-ignore:return_value_discarded
 	generate_button.connect("pressed",self,"_on_GenerateButton_pressed")
+	generate_footer_button.connect("pressed",self,"_on_GenerateButton_pressed")
 	# warning-ignore:return_value_discarded
 	cancel_button.connect("pressed",self,"_on_CancelButton_pressed")
+	cancel_footer_button.connect("pressed",self,"_on_CancelButton_pressed")
 	# warning-ignore:return_value_discarded
 	model.connect("prompt_inject_requested",self,"_on_prompt_inject")
 	# warning-ignore:return_value_discarded
@@ -229,7 +230,9 @@ func _on_GenerateButton_pressed():
 #	return
 	## END DEBUG
 	generate_button.visible = false
+	generate_footer_button.visible = false
 	cancel_button.visible = true
+	cancel_footer_button.visible = true
 	prompt_cover.visible = true
 	progress_text.visible = true
 	prompt_cc.collapse()
@@ -237,11 +240,13 @@ func _on_GenerateButton_pressed():
 	stable_horde_client.generate()
 	globals.set_setting("saved_prompt", prompt_line_edit.text, "Options")
 	globals.set_setting("saved_negative_prompt", negative_prompt_line_edit.text, "Options")
+	EventBus.emit_signal("generation_started")
 
 
 func _on_CancelButton_pressed():
 	progress_text.text = "Cancelling request..."
 	stable_horde_client.cancel_request()
+	EventBus.emit_signal("generation_cancelled")
 
 func _on_images_generated(completed_payload: Dictionary):
 	_reset_input()
@@ -459,7 +464,9 @@ func _reset_input() -> void:
 #	generations_processing.value = 0
 #	generations_done.value = 0
 	generate_button.visible = true
+	generate_footer_button.visible = true
 	cancel_button.visible = false
+	cancel_footer_button.visible = false
 	progress_text.visible = false
 	prompt_cover.visible = false
 	progress_text.text = "Request initiating..."
@@ -538,6 +545,10 @@ func _connect_hover_signals() -> void:
 		$"%WorkerAutoComplete",
 		$"%ShowAllWorkers",
 		$"%AllowDowngrade",
+		$"%GenerateButton",
+		$"%GenerateFooterButton",
+		$"%CancelButton",
+		$"%CancelFooterButton",
 	]:
 		node.connect("mouse_entered", EventBus, "_on_node_hovered", [node])
 		node.connect("mouse_exited", EventBus, "_on_node_unhovered", [node])

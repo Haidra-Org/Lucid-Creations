@@ -26,6 +26,8 @@ signal kudos_calculated(kudos)
 signal generation_completed
 # warning-ignore:unused_signal
 signal cache_wipe_requested
+signal generation_started
+signal generation_cancelled
 
 func _on_node_hovered(node: Control):
 	emit_signal("node_hovered", node)

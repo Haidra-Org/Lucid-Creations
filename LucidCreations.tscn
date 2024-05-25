@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://StableHordeClient.gd" type="Script" id=1]
 [ext_resource path="res://addons/stable_horde_client/stable_horde_client.gd" type="Script" id=2]
@@ -47,6 +47,8 @@
 [ext_resource path="res://addons/stable_horde_client/stable_horde_workers.gd" type="Script" id=45]
 [ext_resource path="res://Workers.gd" type="Script" id=46]
 [ext_resource path="res://theme/assets/iconpark/worker.svg" type="Texture" id=47]
+[ext_resource path="res://theme/assets/iconpark/play.svg" type="Texture" id=48]
+[ext_resource path="res://theme/assets/iconpark/toxins.svg" type="Texture" id=49]
 
 [sub_resource type="StreamTexture" id=9]
 flags = 4
@@ -366,6 +368,7 @@ unique_name_in_owner = true
 margin_right = 320.0
 margin_bottom = 262.0
 size_flags_horizontal = 3
+highlight_all_occurrences = true
 smooth_scrolling = true
 wrap_enabled = true
 caret_blink = true
@@ -427,17 +430,19 @@ margin_right = 320.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 120, 32 )
 text = "Generate"
+icon = ExtResource( 48 )
 
 [node name="CancelButton" type="Button" parent="Margin/Panel/Display/Panels/Controls/Prompt/Buttons"]
 unique_name_in_owner = true
 visible = false
-margin_left = 8.0
-margin_right = 128.0
-margin_bottom = 41.251
+margin_top = 68.0
+margin_right = 320.0
+margin_bottom = 100.0
 rect_min_size = Vector2( 120, 32 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_styles/disabled = SubResource( 2 )
 text = "Cancel"
+icon = ExtResource( 49 )
 
 [node name="img2img" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
@@ -1769,10 +1774,31 @@ margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="GenerateFooterButton" type="Button" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
+unique_name_in_owner = true
+margin_right = 30.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 30, 30 )
+icon = ExtResource( 48 )
+icon_align = 1
+expand_icon = true
+
+[node name="CancelFooterButton" type="Button" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
+unique_name_in_owner = true
+visible = false
+margin_left = 34.0
+margin_right = 64.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 30, 30 )
+icon = ExtResource( 49 )
+icon_align = 1
+expand_icon = true
+
 [node name="KudosText" type="RichTextLabel" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
 unique_name_in_owner = true
+margin_left = 34.0
 margin_top = 8.0
-margin_right = 96.0
+margin_right = 130.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 96, 18 )
 size_flags_horizontal = 0
@@ -1784,7 +1810,7 @@ fit_content_height = true
 scroll_active = false
 
 [node name="VBC" type="VBoxContainer" parent="Margin/Panel/Footer/Progress/Margin/Labels"]
-margin_left = 100.0
+margin_left = 134.0
 margin_top = 8.0
 margin_right = 1290.0
 margin_bottom = 29.0
@@ -1794,7 +1820,7 @@ custom_constants/separation = 0
 
 [node name="StatusText" type="RichTextLabel" parent="Margin/Panel/Footer/Progress/Margin/Labels/VBC"]
 unique_name_in_owner = true
-margin_right = 1190.0
+margin_right = 1156.0
 margin_bottom = 21.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_horizontal = 3

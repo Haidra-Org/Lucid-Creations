@@ -12,7 +12,6 @@ const ANIM_ANCHOR := ["anchor_left", "anchor_right"]
 var thread: Thread
 
 onready var tween := Tween.new()
-
 # the `panel` container we will control
 onready var controls: Control = $"%Controls"
 
@@ -24,7 +23,6 @@ onready var button_panels: Button = $Display/Panels
 
 # cycle background every generation
 onready var background: TextureRect = $"../.."
-onready var generate_button: Button = $"%GenerateButton"
 
 # auto adjustment for the text
 onready var text_edit_list := [
@@ -49,7 +47,7 @@ func _ready() -> void:
 			_show_panel(true, button.name)
 	
 	# to change background and hide panels
-	generate_button.connect("button_up", self, "_generating")
+	EventBus.connect("generation_started", self, "_generating")
 	
 	# adjust text edit height
 	for node in text_edit_list:

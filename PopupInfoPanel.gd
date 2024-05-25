@@ -1,5 +1,7 @@
 extends PopupPanel
 
+const GENERATE_BUTTON_TEXT = "Requests the image generation from the AI Horde servers."
+const CANCEL_BUTTON_TEXT = "Cancel the ongoing generation from the AI Horde servers and retrieves all images already generated."
 const DESCRIPTIONS = {
 	"NegativePrompt": "When enabled, will display the negative prompt line you can edit",
 	"Amount": "The amount of images to generate with this prompt",
@@ -49,6 +51,12 @@ const DESCRIPTIONS = {
 	"Advanced": "Advanced: Extra controls for image generation.",
 	"Options": "Options: Customize the Lucid Creations application.",
 	"Information": "Information: Learn about the Lucid Creations application.",
+	# Generate/Cancel
+	"GenerateButton": GENERATE_BUTTON_TEXT,
+	"GenerateFooterButton": GENERATE_BUTTON_TEXT,
+	"CancelButton": CANCEL_BUTTON_TEXT,
+	"CancelFooterButton": CANCEL_BUTTON_TEXT,
+	
 }
 
 const META_DESCRIPTIONS = {
