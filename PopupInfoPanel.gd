@@ -49,6 +49,7 @@ const DESCRIPTIONS = {
 	"Basic": "Basic: Controls for image generation.",
 	"Workers": "Workers: Allows you to control which workers will serve this request.",
 	"Advanced": "Advanced: Extra controls for image generation.",
+	"Special": "Special: Controls for unique generation options.",
 	"Options": "Options: Customize the Lucid Creations application.",
 	"Information": "Information: Learn about the Lucid Creations application.",
 	# Generate/Cancel
@@ -89,8 +90,8 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	EventBus.connect("rtl_meta_unhovered",self, "_on_rtl_meta_unhovered")
 
-func _on_node_hovered(node: Control) -> void:
-	if not DESCRIPTIONS.has(node.name):
+func _on_node_hovered(node: Control, hovertext = null) -> void:
+	if not DESCRIPTIONS.has(node.name) and not hovertext:
 		return
 	info.rect_size = Vector2(0,0)
 	current_hovered_node = node
@@ -98,8 +99,11 @@ func _on_node_hovered(node: Control) -> void:
 	if rect_global_position.x > get_viewport().size.x:
 		rect_global_position.x = get_viewport().size.x - current_hovered_node.rect_size.x
 	if rect_global_position.y + info.rect_size.y > get_viewport().size.y:
-		rect_global_position.y = get_viewport().size.y - info.rect_size.y - 10 
-	info.text = DESCRIPTIONS[node.name]
+		rect_global_position.y = get_viewport().size.y - info.rect_size.y - 10
+	if hovertext: 
+		info.text = hovertext
+	else:
+		info.text = DESCRIPTIONS[node.name]
 	visible = true
 	rect_size = info.rect_size
 
