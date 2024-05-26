@@ -318,6 +318,8 @@ size_flags_vertical = 3
 
 [node name="Grid" type="GridContainer" parent="Margin/Panel/Display/Gallery/GridScroll"]
 unique_name_in_owner = true
+margin_right = 1568.0
+margin_bottom = 818.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9
@@ -347,7 +349,6 @@ size_flags_vertical = 3
 custom_styles/panel = ExtResource( 39 )
 
 [node name="Prompt" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
-visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
@@ -514,6 +515,7 @@ text = "Image is control"
 
 [node name="Basic" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
+visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0

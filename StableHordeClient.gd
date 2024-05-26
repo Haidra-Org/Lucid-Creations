@@ -458,6 +458,8 @@ func _check_html5() -> void:
 #	controls_left.add_child(status_text)
 	status_text.text = "Warning: Saving disabled in browser version due to sandboxing. Please download the local executable to save your generations!"
 	status_text.modulate = Color(1,1,0)
+	globals.set_setting("use_godot_browse", true, "Options")
+	options.use_godot_browse.pressed = true
 
 func _reset_input() -> void:
 	_tween.interpolate_property(generations_processing, 'value', generations_processing.value, 0, 1, Tween.TRANS_SINE, Tween.EASE_IN)
