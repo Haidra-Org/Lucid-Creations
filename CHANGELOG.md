@@ -1,5 +1,9 @@
 # Changelog
 
+## [v2.6.5](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.6.5) (2024-05-26)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.6.4...v2.6.5)
+
 ## [v2.6.4](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.6.4) (2024-05-26)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.6.3...v2.6.4)
