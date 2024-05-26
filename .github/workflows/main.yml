@@ -4,7 +4,17 @@ on:
   push:
     branches:
       - main
-
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Release version type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   version_and_release:
@@ -21,7 +31,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        bump_version_scheme: norelease
+        bump_version_scheme: ${{ github.event_name == 'push' && 'norelease' || inputs.release }}
         use_github_release_notes: true
       # Always include the checkout step so that
       # your project is available for Godot to export
