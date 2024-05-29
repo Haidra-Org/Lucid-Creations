@@ -319,7 +319,7 @@ func _on_viewport_resized() -> void:
 
 func _sets_size_without_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_EXPAND_FILL
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls.rect_size.x) * 0.84
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls.rect_size.x) * 1.1
 	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
 #	grid_scroll.rect_min_size.y = get_viewport().size.y - image_info.rect_size.y - 100
 	grid_scroll.rect_min_size.y = 0
@@ -329,7 +329,7 @@ func _sets_size_without_display_focus() -> void:
 
 func _sets_size_with_display_focus() -> void:
 	grid_scroll.size_flags_vertical = SIZE_FILL
-	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls.rect_size.x) * 0.84
+	grid_scroll.rect_min_size.x = (get_viewport().size.x - controls.rect_size.x) * 1.1
 	grid_scroll.rect_size.x = grid_scroll.rect_min_size.x
 	grid_scroll.rect_min_size.y = 150
 	for tr in grid.get_children():
