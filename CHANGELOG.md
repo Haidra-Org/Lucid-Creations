@@ -1,5 +1,14 @@
 # Changelog
 
+## [v2.6.6](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.6.6) (2024-05-29)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.6.5...v2.6.6)
+
+**Closed issues:**
+
+- ControlNet "Select image" button broken on macOS [\#126](https://github.com/Haidra-Org/Lucid-Creations/issues/126)
+- LC cannot connect to the AI Horde it seems. It says 'AI horde request timed out'. [\#125](https://github.com/Haidra-Org/Lucid-Creations/issues/125)
+
 ## [v2.6.5](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.6.5) (2024-05-26)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.6.4...v2.6.5)
