@@ -88,6 +88,8 @@ func _show_model_details(model_name: String) -> void:
 	if model_name == "Any model":
 		model_info_label.bbcode_text = """This option will cause each image in your request to be fulfilled by workers running any model.
 As such, the result tend to be quite random as the image can be sent to something specialized which requires more specific triggers."""
+	elif not stable_horde_models.model_reference.is_model(model_name):
+		model_info_label.bbcode_text = """This is a custom model served by this worker. We do not have any details about it at this time."""
 	else:
 		var model_reference := get_model_reference(model_name)
 		stable_horde_model_showcase.get_model_showcase(model_reference)
@@ -182,12 +184,12 @@ func _on_model_selected(model_name: String) -> void:
 func _get_selected_models() -> Array:
 	var model_defs = []
 	for model_name in selected_models_list:
-		if model_name == "SDXL_beta::stability.ai#6901":
+		if not stable_horde_models.model_reference.is_model(model_name):
 			model_defs.append({
-				"name": "SDXL_beta::stability.ai#6901",
-				"baseline": "stable_diffusion_xl",
-				"type": "SDXL",
-				"version": "beta",
+				"name": model_name,
+				"baseline": "stable_diffusion",
+				"type": "unknown",
+				"version": "custom",
 			})
 		else:
 			model_defs.append(get_model_reference(model_name))
@@ -210,11 +212,9 @@ func _update_selected_models_label() -> void:
 	for index in range(selected_models_list.size()):
 		var model_text = "[url={model_hover}]{model_name}[/url] ([url={model_trigger}]T[/url])([url={model_remove}]X[/url])"
 		var model_name = selected_models_list[index]
-		# This might happen for example when we added a NSFW lora
-		# but then disabled NSFW which refreshed loras to only show SFW
-		if not stable_horde_models.model_reference.is_model(model_name) and model_name != "SDXL_beta::stability.ai#6901":
-			indexes_to_remove.append(index)
-			continue
+#		if not stable_horde_models.model_reference.is_model(model_name) and model_name != "SDXL_beta::stability.ai#6901":
+#			indexes_to_remove.append(index)
+#			continue
 		if stable_horde_models.model_reference.get_model_info(model_name).get("trigger",[]).size() == 0:
 			model_text = "[url={model_hover}]{model_name}[/url] ([url={model_remove}]X[/url])"
 		var lora_fmt = {
