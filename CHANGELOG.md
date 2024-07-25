@@ -1,5 +1,17 @@
 # Changelog
 
+## [v2.7.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.7.0) (2024-07-25)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.6.7...v2.7.0)
+
+**Closed issues:**
+
+- Native dialogs plugin doesnt work on android [\#113](https://github.com/Haidra-Org/Lucid-Creations/issues/113)
+
+**Merged pull requests:**
+
+- feat: images with transparent background [\#133](https://github.com/Haidra-Org/Lucid-Creations/pull/133) ([db0](https://github.com/db0))
+
 ## [v2.6.7](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.6.7) (2024-05-30)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.6.6...v2.6.7)
