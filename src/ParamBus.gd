@@ -65,6 +65,7 @@ var gen_seed_node: LineEdit
 var post_processing_node: PostProcessingSelection
 var karras_node: CheckButton
 var hires_fix_node: CheckButton
+var transparent_node: CheckButton
 var nsfw_node: CheckButton
 var censor_nsfw_node: CheckButton
 var trusted_workers_node: CheckButton
@@ -92,6 +93,7 @@ func setup(
 	_post_processing_node: PostProcessingSelection,
 	_karras_node: CheckButton,
 	_hires_fix_node: CheckButton,
+	_transparent_node: CheckButton,
 	_nsfw_node: CheckButton,
 	_censor_nsfw_node: CheckButton,
 	_trusted_workers_node: CheckButton,
@@ -118,6 +120,7 @@ func setup(
 	post_processing_node = _post_processing_node
 	karras_node = _karras_node
 	hires_fix_node = _hires_fix_node
+	transparent_node = _transparent_node
 	nsfw_node = _nsfw_node
 	censor_nsfw_node = _censor_nsfw_node
 	trusted_workers_node = _trusted_workers_node

@@ -352,14 +352,14 @@ custom_styles/panel = ExtResource( 39 )
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
-margin_bottom = 340.0
+margin_bottom = 400.0
 rect_min_size = Vector2( 320, 0 )
 size_flags_vertical = 3
 
 [node name="PromptCC" type="MarginContainer" parent="Margin/Panel/Display/Panels/Controls/Prompt"]
 unique_name_in_owner = true
 margin_right = 320.0
-margin_bottom = 262.0
+margin_bottom = 322.0
 rect_min_size = Vector2( 41, 41 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -368,7 +368,7 @@ script = ExtResource( 31 )
 [node name="PromptLine" type="TextEdit" parent="Margin/Panel/Display/Panels/Controls/Prompt/PromptCC"]
 unique_name_in_owner = true
 margin_right = 320.0
-margin_bottom = 262.0
+margin_bottom = 322.0
 size_flags_horizontal = 3
 highlight_all_occurrences = true
 smooth_scrolling = true
@@ -380,7 +380,7 @@ caret_blink_speed = 0.5
 unique_name_in_owner = true
 visible = false
 margin_right = 320.0
-margin_bottom = 262.0
+margin_bottom = 322.0
 color = Color( 0.12, 0.12, 0.12, 0.392157 )
 
 [node name="Tween" type="Tween" parent="Margin/Panel/Display/Panels/Controls/Prompt/PromptCC"]
@@ -414,9 +414,9 @@ caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="Buttons" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Prompt"]
-margin_top = 266.0
+margin_top = 326.0
 margin_right = 320.0
-margin_bottom = 330.0
+margin_bottom = 390.0
 
 [node name="NegativePrompt" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Prompt/Buttons"]
 unique_name_in_owner = true
@@ -515,7 +515,6 @@ text = "Image is control"
 
 [node name="Basic" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
-visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
@@ -1120,7 +1119,7 @@ visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
-margin_bottom = 386.0
+margin_bottom = 422.0
 rect_min_size = Vector2( 320, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1214,6 +1213,18 @@ margin_bottom = 28.0
 size_flags_horizontal = 3
 pressed = true
 text = "HiResFix"
+
+[node name="HBC2" type="HBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Advanced"]
+margin_top = 384.0
+margin_right = 320.0
+margin_bottom = 412.0
+
+[node name="Transparent" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Advanced/HBC2"]
+unique_name_in_owner = true
+margin_right = 320.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+text = "Transparent"
 
 [node name="Special" parent="Margin/Panel/Display/Panels/Controls" instance=ExtResource( 51 )]
 visible = false
