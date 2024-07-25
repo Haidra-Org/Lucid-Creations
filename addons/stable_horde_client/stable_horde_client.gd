@@ -108,6 +108,7 @@ export(bool) var replacement_filter := true
 export(Array) var workers := []
 export(bool) var worker_blacklist := false
 export(bool) var allow_downgrade := false
+export(bool) var transparent := false
 export(String, "auto-detect", "qr_code") var workflow := "auto-detect"
 export(Array) var extra_texts = []
 
@@ -144,6 +145,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"seed": gen_seed,
 		"post_processing": post_processing,
 		"clip_skip": clip_skip,
+		"transparent": transparent,
 	}
 	if control_type != 'none':
 		imgen_params["control_type"] = control_type

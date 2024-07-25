@@ -32,6 +32,7 @@ onready var generate_footer_button = $"%GenerateFooterButton"
 onready var sampler_method : OptionButton = $"%SamplerMethod"
 onready var karras := $"%Karras"
 onready var hires_fix = $"%HiResFix"
+onready var transparent = $"%Transparent"
 onready var grid_scroll = $"%GridScroll"
 onready var display_focus = $"%DisplayFocus"
 onready var focused_image = $"%FocusedImage"
@@ -157,6 +158,7 @@ func _ready():
 		slider_config.set_value(stable_horde_client.get(slider_config.config_setting))
 	karras.pressed = stable_horde_client.karras
 	hires_fix.pressed = stable_horde_client.hires_fix
+	transparent.pressed = stable_horde_client.transparent
 	negative_prompt.pressed = globals.config.get_value("Options", "negative_prompt", false)
 	nsfw.pressed = stable_horde_client.nsfw
 	censor_nsfw.pressed = stable_horde_client.censor_nsfw
@@ -194,6 +196,7 @@ func _ready():
 		pp,
 		karras,
 		hires_fix,
+		transparent,
 		nsfw,
 		censor_nsfw,
 		trusted_workers,
@@ -528,6 +531,7 @@ func _connect_hover_signals() -> void:
 		seed_edit,
 		karras,
 		hires_fix,
+		transparent,
 		denoising_strength,
 		$"%PP",
 		$"%RememberPrompt",
@@ -692,6 +696,8 @@ func _accept_settings() -> void:
 	globals.set_setting("karras", karras.pressed)
 	stable_horde_client.set("hires_fix", hires_fix.pressed)
 	globals.set_setting("hires_fix", hires_fix.pressed)
+	stable_horde_client.set("transparent", transparent.pressed)
+	globals.set_setting("transparent", transparent.pressed)
 	stable_horde_client.set("nsfw", nsfw.pressed)
 	globals.set_setting("nsfw", nsfw.pressed)
 	stable_horde_client.set("censor_nsfw", censor_nsfw.pressed)
@@ -732,6 +738,7 @@ func _on_load_from_disk_gensettings_loaded(settings) -> void:
 			sampler_method.select(idx)
 	karras.pressed = settings.get("karras", true)
 	hires_fix.pressed = settings.get("hires_fix", false)
+	transparent.pressed = settings.get("transparent", false)
 	if globals.config.get_value("Options", "load_seed_from_disk", false):
 		seed_edit.text = settings["seed"]
 	if _set_prompt(settings["prompt"], true) == false:
