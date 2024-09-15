@@ -3,7 +3,7 @@ extends StableHordeHTTPRequest
 
 signal reference_retrieved(models_list)
 
-export(String) var compvis_refence_url := "https://raw.githubusercontent.com/db0/AI-Horde-image-model-reference/main/stable_diffusion.json"
+export(String) var compvis_refence_url := "https://raw.githubusercontent.com/db0/AI-Horde-image-model-reference/flux/stable_diffusion.json"
 export(String) var diffusers_refence_url := "https://raw.githubusercontent.com/db0/AI-Horde-image-model-reference/main/diffusers.json"
 
 var model_reference := {}

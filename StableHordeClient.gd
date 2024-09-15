@@ -554,6 +554,7 @@ func _connect_hover_signals() -> void:
 		$"%WorkerAutoComplete",
 		$"%ShowAllWorkers",
 		$"%AllowDowngrade",
+		$"%ExtraSlowWorkers",
 		$"%GenerateButton",
 		$"%GenerateFooterButton",
 		$"%CancelButton",
@@ -706,6 +707,7 @@ func _accept_settings() -> void:
 	globals.set_setting("trusted_workers", trusted_workers.pressed)
 	stable_horde_client.set("shared", globals.config.get_value("Options", "share", true))
 	stable_horde_client.set("allow_downgrade", globals.config.get_value("Options", "allow_downgrade", true))
+	stable_horde_client.set("extra_slow_workers", globals.config.get_value("Options", "extra_slow_workers", true))
 	stable_horde_client.set("gen_seed", seed_edit.text)
 	stable_horde_client.set("post_processing", globals.config.get_value("Parameters", "post_processing", stable_horde_client.post_processing))
 	stable_horde_client.set("lora", globals.config.get_value("Parameters", "loras", stable_horde_client.lora))

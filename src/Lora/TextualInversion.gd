@@ -314,6 +314,8 @@ func check_baseline_compatibility(ti_name) -> int:
 		"SD 1.5": "stable diffusion 1",
 		"SD 2.1 768": "stable diffusion 2",
 		"SD 2.1 512": "stable diffusion 2",
+		"Flux.1 D": "flux_1",
+		"Flux.1 S": "flux_1",
 		"Other": null,
 	}
 	var ti_baseline = ti_to_model_baseline_map[ti_reference_node.get_ti_info(ti_name)["base_model"]]

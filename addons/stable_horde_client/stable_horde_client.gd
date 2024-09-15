@@ -108,6 +108,7 @@ export(bool) var replacement_filter := true
 export(Array) var workers := []
 export(bool) var worker_blacklist := false
 export(bool) var allow_downgrade := false
+export(bool) var extra_slow_workers := false
 export(bool) var transparent := false
 export(String, "auto-detect", "qr_code") var workflow := "auto-detect"
 export(Array) var extra_texts = []
@@ -172,6 +173,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"workers": workers,
 		"worker_blacklist": worker_blacklist,
 		"allow_downgrade": allow_downgrade,
+		"extra_slow_workers": extra_slow_workers,
 		"replacement_filter": replacement_filter
 #		"workers": [
 #			"dc0704ab-5b42-4c65-8471-561be16ad696", #portal
