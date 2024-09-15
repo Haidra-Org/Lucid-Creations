@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.8.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.8.0) (2024-09-15)
+
+[Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.7.0...v2.8.0)
+
+**Merged pull requests:**
+
+- feat: Adds support for extra slow workers and flux [\#134](https://github.com/Haidra-Org/Lucid-Creations/pull/134) ([db0](https://github.com/db0))
+
 ## [v2.7.0](https://github.com/Haidra-Org/Lucid-Creations/tree/v2.7.0) (2024-07-25)
 
 [Full Changelog](https://github.com/Haidra-Org/Lucid-Creations/compare/v2.6.7...v2.7.0)
