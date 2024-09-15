@@ -43,6 +43,7 @@ const DESCRIPTIONS = {
 	"WorkerAutoComplete": "Specify workers to use for this generation. Use the toggle below to specify using them as an allowlist or a blocklist. When models are selected, only workers which can generate any of those models will be shown.",
 	"ShowAllWorkers": "Press this button to display and select available workers for your selected model.",
 	"AllowDowngrade": "When enabled and your account doesn't have enough kudos to generate the image, it will be downgraded in resolution and steps, so that it does not need upfront kudos, instead of failing.",
+	"ExtraSlowWorkers": "When enabled, the horde will also allow your request to be picked up by workers which have self-labeled as extra slow and might take up to 3 times as usual to complete the request. Use this option if you're not in a rush for the images.",
 	"UseGodotBrowse": "When enabled instead of using your OS' native browse dialog, it will use Godot Engine's built-in node.",
 	# Control Buttons
 	"Prompt": "Prompt: This tab allows you to specify the prompt which will generate the image",

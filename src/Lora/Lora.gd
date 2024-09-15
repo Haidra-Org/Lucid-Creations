@@ -338,6 +338,8 @@ func check_baseline_compatibility(version_id: String) -> int:
 		"SD 1.5": "stable diffusion 1",
 		"SD 2.1 768": "stable diffusion 2",
 		"SD 2.1 512": "stable diffusion 2",
+		"Flux.1 D": "flux_1",
+		"Flux.1 S": "flux_1",
 		"Other": null,
 	}
 	var lora_details := lora_reference_node.get_lora_info(version_id, true)

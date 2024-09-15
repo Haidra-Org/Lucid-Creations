@@ -349,6 +349,7 @@ size_flags_vertical = 3
 custom_styles/panel = ExtResource( 39 )
 
 [node name="Prompt" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
+visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
@@ -515,6 +516,7 @@ text = "Image is control"
 
 [node name="Basic" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
+visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
@@ -1232,17 +1234,16 @@ margin_bottom = 400.0
 
 [node name="Options" type="MarginContainer" parent="Margin/Panel/Display/Panels/Controls"]
 unique_name_in_owner = true
-visible = false
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 330.0
-margin_bottom = 450.0
+margin_bottom = 486.0
 rect_min_size = Vector2( 320, 0 )
 script = ExtResource( 11 )
 
 [node name="VBC" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options"]
 margin_right = 320.0
-margin_bottom = 440.0
+margin_bottom = 476.0
 custom_constants/separation = 8
 
 [node name="VBCRight" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options/VBC"]
@@ -1298,7 +1299,7 @@ selection_enabled = true
 [node name="VBCLeft" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Options/VBC"]
 margin_top = 103.0
 margin_right = 320.0
-margin_bottom = 440.0
+margin_bottom = 476.0
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
@@ -1401,19 +1402,26 @@ margin_right = 320.0
 margin_bottom = 301.0
 text = "Recover Saved Seeds"
 
-[node name="Shared" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
-unique_name_in_owner = true
-visible = false
-margin_top = 325.0
-margin_right = 507.0
-margin_bottom = 385.251
-text = "Share Images"
-
-[node name="WipeCache" type="Button" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
+[node name="ExtraSlowWorkers" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
 unique_name_in_owner = true
 margin_top = 309.0
 margin_right = 320.0
 margin_bottom = 337.0
+text = "Extra Slow Workers"
+
+[node name="Shared" type="CheckButton" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
+unique_name_in_owner = true
+visible = false
+margin_top = 309.0
+margin_right = 320.0
+margin_bottom = 337.0
+text = "Share Images"
+
+[node name="WipeCache" type="Button" parent="Margin/Panel/Display/Panels/Controls/Options/VBC/VBCLeft"]
+unique_name_in_owner = true
+margin_top = 345.0
+margin_right = 320.0
+margin_bottom = 373.0
 text = "Wipe CivitAI Cache"
 
 [node name="Information" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls"]
